@@ -1,0 +1,75 @@
+image:
+  - file: "picture/UV-RU.jpg"
+    id: uv_image
+    resize: 480x480
+    type: RGB565 
+    
+  - file: "picture/sun-UV.png"
+    id: sun_uv
+    resize: 100x100
+    type: RGB565 
+    
+sensor:
+  - platform: homeassistant
+    id: uv_index
+    entity_id: $sensor_uv_index
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: uv_index_text
+            text: 
+              format: " %.0f UV"
+              args: ["id(uv_index).state"]
+
+        - lvgl.indicator.update:
+            id: uv_meter
+            value: !lambda |- 
+              return x;
+
+
+lvgl:
+  pages:
+# Вывод на экран 
+    - id: UV_page
+      width: 100%
+      bg_color: 0x000000
+      bg_opa: cover
+      widgets:
+        - image:
+            align: CENTER
+            src: uv_image 
+        - image:
+            align: CENTER
+            src: sun_uv 
+            bg_image_opa: 100%   
+            
+        - meter:
+            height: 150
+            width: 150
+            x: -5
+            y: -5
+            border_width: 0
+            bg_opa: TRANSP
+            align: center
+            scales:
+              - indicators:
+                  - line:
+                      id: uv_meter
+                      width: 4
+                      color: 0xFF0000
+                      r_mod: 20
+                      value: 0
+                angle_range: 280
+                rotation: 130
+                range_from: 0
+                range_to: 13
+                ticks:
+                  count: 0
+            widgets:
+              - label:
+                  id: uv_index_text
+                  text: "--"
+                  align: CENTER
+                  y: 45
+
+                  

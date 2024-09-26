@@ -1,0 +1,446 @@
+substitutions:
+  ceiling_light_multiple_outline: "\U000F18DE"
+  shower: "󰦠"
+  chandelier: "󱞓"
+
+  lightning_bolt_circle: "󰠠" #F0820
+  window_open_variant: "󱇜" #F11DC
+  nas: "󰣳" #F08F3
+  fridge_outline: "󰊏" #F028F
+  lightbulb: "󰌵"
+  
+font:
+  - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+    id: holl48
+    size: 48
+    bpp: 4
+    glyphs: [
+      $lightning_bolt_circle,
+      $window_open_variant,
+      $nas,
+      $fridge_outline
+    ]      
+
+  - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+    id: holl70
+    size: 70
+    bpp: 4
+    glyphs: [
+      $chandelier,
+      $shower
+    ]
+
+  - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+    id: holl130
+    size: 130
+    bpp: 4
+    glyphs: [
+      $ceiling_light_multiple_outline
+      ]   
+
+
+
+script:
+  - id: time_update_holl
+    then:
+      - lvgl.label.update: 
+          id: display_time_holl
+          text: !lambda |-
+            static char time_buf[17];
+            auto now = id(sntp_time).now();            
+            snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
+            return time_buf; 
+      - lvgl.label.update:
+          id: display_date_holl
+          text: !lambda |-
+            static char time_buf[17];
+            auto now = id(sntp_time).now();            
+            snprintf(time_buf, sizeof(time_buf), "%02d.%02d.%02d", now.day_of_month, now.month, now.year-2000);
+            return time_buf; 
+
+time:
+  - platform: sntp
+    on_time_sync:
+      - script.execute: time_update_holl
+    on_time:
+      - minutes: '*'
+        seconds: 0
+        then:
+          - script.execute: time_update_holl
+          
+#-------------------------------------------
+# Binary sensor
+#-------------------------------------------
+binary_sensor:
+
+#-------------------------------------------
+# Ванна
+#-------------------------------------------
+  - platform: homeassistant
+    name: bin_in_shower
+    entity_id: light.in_shower
+    publish_initial_state: true
+    internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_in_shower
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_in_shower
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_in_shower
+        text_color: 0xB6B6B6
+
+  - platform: homeassistant
+    name: bin_in_shower
+    entity_id: light.shower
+    publish_initial_state: true
+    internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_shower
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_shower
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_shower
+        text_color: 0xB6B6B6
+#-------------------------------------------
+# Холл
+#-------------------------------------------            
+  - platform: homeassistant
+    name: bin_holl_led_1
+    entity_id: light.holl_led_1
+    publish_initial_state: true
+    internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_holl_led_1
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_holl_led_1
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_holl_led_1
+        text_color: 0xB6B6B6
+
+  - platform: homeassistant
+    name: bin_holl_led_2
+    entity_id: light.holl_led_2
+    publish_initial_state: true
+    internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_holl_led_2
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_holl_led_2
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_holl_led_2
+        text_color: 0xB6B6B6
+
+#-------------------------------------------
+# Подвал
+#-------------------------------------------
+  - platform: homeassistant
+    name: bin_laba
+    entity_id: light.laba
+    publish_initial_state: true
+    internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_laba
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_laba
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_laba
+        text_color: 0xB6B6B6
+
+  - platform: homeassistant
+    name: bin_kladovka
+    entity_id: light.kladovka
+    publish_initial_state: true
+    internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_kladovka
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_kladovka
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_kladovka
+        text_color: 0xB6B6B6
+
+  - platform: homeassistant
+    name: bin_garderob
+    entity_id: light.garderob
+    publish_initial_state: true
+    internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_garderob
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_garderob
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_garderob
+        text_color: 0xB6B6B6
+
+  - platform: homeassistant
+    name: bin_server
+    entity_id: light.server
+    publish_initial_state: true
+    internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_server
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_server
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_server
+        text_color: 0xB6B6B6
+
+  - platform: homeassistant
+    name: bin_lg_tv
+    entity_id: button.kitchen_power_lg
+    publish_initial_state: true
+    internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_lg_tv
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_lg_tv
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_lg_tv
+        text_color: 0xB6B6B6
+        
+lvgl:
+  pages:   
+    - id: holl_page
+      width: 100%
+      bg_color: 0x000000
+      bg_opa: cover
+      widgets:
+        - image:
+            align: CENTER
+            src: $background_holl
+        - button:
+            x: 5
+            y: 5
+            width: 230
+            height: 210
+            checkable: true
+            id: b_holl_led_1
+            bg_opa: 35%
+            widgets:
+              - label:
+                  text_font: holl130
+                  align: center
+                  text: $ceiling_light_multiple_outline
+                  id: w_holl_led_1
+              - label:
+                  text_font: SEG36
+                  id: display_time_holl
+                  align: top_mid
+                  text: "--:--"
+                  long_mode: dot
+              - label:
+                  text_font: roboto36
+                  align: bottom_mid
+                  text: "Холл 1л"
+                  long_mode: dot  
+            on_click:
+              - homeassistant.service:
+                  service: light.toggle
+                  data:
+                    entity_id: light.holl_led_1
+        - button:
+            x: 240
+            y: 5
+            width: 230
+            height: 210
+            checkable: true
+            id: b_holl_led_2
+            bg_opa: 35%
+            widgets:
+              - label:
+                  text_font: holl130
+                  align: center
+                  text: $ceiling_light_multiple_outline
+                  id: w_holl_led_2
+              - label:
+                  text_font: SEG36
+                  id: display_date_holl
+                  align: top_mid
+                  text: "--.--.--"
+                  long_mode: dot
+              - label:
+                  text_font: roboto36
+                  align: bottom_mid
+                  text: "Холл 2л"
+                  long_mode: dot    
+            on_click:
+              - homeassistant.service:
+                  service: light.toggle
+                  data:
+                    entity_id: light.holl_led_2
+        - button:
+            x: 0
+            y: 230
+            width: 230
+            height: 100
+            checkable: true
+            id: b_shower
+            bg_opa: 35%
+            widgets:
+              - label:
+                  text_font: holl70
+                  align: center
+                  text: $shower
+                  id: w_shower
+            on_click:
+              - homeassistant.service:
+                  service: light.toggle
+                  data:
+                    entity_id: light.shower
+
+        - button:
+            x: 245
+            y: 230
+            width: 230
+            height: 100
+            checkable: true
+            id: b_in_shower
+            bg_opa: 35%
+            widgets:
+              - label:
+                  text_font: holl70
+                  align: center
+                  text: $chandelier
+                  id: w_in_shower
+            on_click:
+              - homeassistant.service:
+                  service: light.toggle
+                  data:
+                    entity_id: light.in_shower
+
+        - button:
+            x: 5
+            y: 340
+            checkable: true
+            id: b_laba
+            bg_opa: 35%
+            widgets:
+              - label:
+                  text_font: holl48
+                  align: center
+                  text: $lightning_bolt_circle
+                  id: w_laba
+            on_click:
+              - homeassistant.service:
+                  service: light.toggle
+                  data:
+                    entity_id: light.laba
+
+        - button:
+            x: 125
+            y: 340
+            checkable: true
+            id: b_garderob
+            bg_opa: 35%
+            widgets:
+              - label:
+                  text_font: holl48
+                  align: center
+                  text: $window_open_variant
+                  id: w_garderob
+            on_click:
+              - homeassistant.service:
+                  service: light.toggle
+                  data:
+                    entity_id: light.garderob
+
+        - button:
+            x: 245
+            y: 340
+            checkable: true
+            id: b_server
+            bg_opa: 35%
+            widgets:
+              - label:
+                  text_font: holl48
+                  align: center
+                  text: $nas
+                  id:  w_server
+            on_click:
+              - homeassistant.service:
+                  service: light.toggle
+                  data:
+                    entity_id: light.server
+
+        - button:
+            x: 365
+            y: 340
+            checkable: true
+            id: b_kladovka
+            bg_opa: 35%
+            widgets:
+              - label:
+                  text_font: holl48
+                  align: center
+                  text: $fridge_outline
+                  id: w_kladovka
+            on_click:
+              - homeassistant.service:
+                  service: light.toggle
+                  data:
+                    entity_id: light.kladovka
+
+        

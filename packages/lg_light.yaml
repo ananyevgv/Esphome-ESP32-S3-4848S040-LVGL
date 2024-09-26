@@ -1,0 +1,488 @@
+substitutions:
+#Первая строчка пульт
+  power: "\U000F0425"
+  input: "\U000F02FA"
+  menu_open: "\U000F0BAB"
+  home_outline: "\U000F06A1"
+
+# 2-3 строка пульта  
+  plus: "\U000F0415"
+  minus: "\U000F0374"
+
+  menu_up: "\U000F0360"
+  menu_down: "\U000F035D"
+  menu_left: "\U000F035E"
+  menu_right: "\U000F035F"
+  checkbox: "\U000F0133"
+
+# Четвертая строчка пульта
+  play: "\U000F040A"
+  pause: "\U000F03E4"
+  stop: "\U000F04DB"
+  record: "\U000F044A"
+
+#image:
+ # - file: "picture/lg.png"
+#    id: lg_image
+  #  resize: 480x480
+  #  type: RGB565 
+    
+font:
+  - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+    id: LG48
+    size: 48
+    bpp: 4
+    glyphs: [
+      $power,
+      $input,
+      $menu_open,
+      $home_outline,
+      $plus,
+      $minus,
+      $menu_up,
+      $menu_down,
+      $menu_left,
+      $menu_right,
+      $checkbox,
+      $play,
+      $pause,
+      $stop,
+      $record
+    ]   
+
+remote_transmitter:
+  pin: 
+    number: GPIO1
+    drive_strength: 40mA 
+  carrier_duty_percent: 50%
+
+button:
+#Первая строчка пульта
+  - platform: template
+    name: "${name} Power LG"
+    id: power_lg
+    icon: mdi:power #F0425
+    on_press:
+      - remote_transmitter.transmit_lg:
+         data: 0x20DF08F7
+         nbits: 32
+  - platform: template
+    name: "${name} Input LG"
+    id: input_lg
+    icon:  mdi:import #F02FA
+    on_press:
+      - remote_transmitter.transmit_lg:
+         data: 0x20DFD02F
+         nbits: 32
+  - platform: template
+    name: "${name} Home LG"
+    id: home_lg
+    icon: mdi:home-outline #F06A1
+    on_press:
+      - remote_transmitter.transmit_lg:
+         data: 0x20DF3EC1
+         nbits: 32
+  - platform: template
+    name: "${name} MyApp LG"
+    id: myapp_lg
+    icon: mdi:menu-open #F0BAB
+    on_press:
+      - remote_transmitter.transmit_lg:
+         data: 0x20DF42BD
+         nbits: 32
+
+
+# 2-3 строка пульта
+  - platform: template
+    name: "${name} VolUp LG"
+    id: volup_lg
+    icon: mdi:plus #F0415
+    on_press:
+      - remote_transmitter.transmit_lg:
+         data: 0x20DF40BF
+         nbits: 32 
+  - platform: template
+    name: "${name} VolDwn LG"
+    id: voldwn_lg
+    icon: mdi:minus # F0374
+    on_press:
+      - remote_transmitter.transmit_lg:
+         data: 0x20DFC03F
+         nbits: 32         
+  - platform: template
+    name: "${name} ChUp LG"
+    id: chup_lg
+    icon: mdi:plus #F0415
+    on_press:
+      - remote_transmitter.transmit_lg:
+         data: 0x20DF00FF
+         nbits: 32 
+  - platform: template
+    name: "${name} ChDwn LG"
+    id: chdwn_lg
+    icon: mdi:minus # F0374
+    on_press:
+      - remote_transmitter.transmit_lg:
+         data: 0x20DF807F
+         nbits: 32   
+  - platform: template
+    name: "${name} Up LG"
+    id: up_lg
+    icon: mdi:menu-up # F0360
+    on_press:
+      - remote_transmitter.transmit_lg:
+         data: 0x20DF02FD
+         nbits: 32  
+  - platform: template
+    name: "${name} Down LG"
+    id: down_lg
+    icon: mdi:menu-down #F035D
+    on_press:
+      - remote_transmitter.transmit_lg:
+         data: 0x20DF827D
+         nbits: 32 
+  - platform: template
+    name: "${name} Left LG"
+    id: left_lg
+    icon: mdi:menu-left # F035E
+    on_press:
+      - remote_transmitter.transmit_lg:
+         data: 0x20DFE01F
+         nbits: 32    
+  - platform: template
+    name: "${name} Right LG"
+    id: right_lg
+    icon: mdi:menu-right # F035F
+    on_press:
+      - remote_transmitter.transmit_lg:
+         data: 0x20DF609F
+         nbits: 32       
+  - platform: template
+    name: "${name} OK LG"
+    id: ok_lg
+    icon: mdi:checkbox-marked-circle #F0133
+    on_press:
+      - remote_transmitter.transmit_lg:
+         data: 0x20DF22DD
+         nbits: 32        
+         
+# Четвертая строчка пульта
+  - platform: template
+    name: "${name} Play LG"
+    id: play_lg
+    icon: mdi:play #F040A
+    on_press:
+      - remote_transmitter.transmit_lg:
+         data: 0x20DF0DF2
+         nbits: 32
+  - platform: template
+    name: "${name} Pause LG"
+    id: pause_lg
+    icon: mdi:pause #F03E4
+    on_press:
+      - remote_transmitter.transmit_lg:
+         data: 0x20DF5DA2
+         nbits: 32 
+  - platform: template
+    name: "${name} Stop LG"
+    id: stop_lg
+    icon: mdi:stop #F04DB
+    on_press:
+      - remote_transmitter.transmit_lg:
+         data: 0x20DF8D72
+         nbits: 32
+  - platform: template
+    name: "${name} Rec LG"
+    id: rec_lg
+    icon: mdi:record # F044A
+    on_press:
+      - remote_transmitter.transmit_lg:
+         data: 0x20DFBD42 
+         nbits: 32    
+    
+lvgl:
+  pages:
+# Вывод на экран пульта TV LG
+    - id: lg_remoute
+      width: 100%
+      bg_color: 0x000000
+      bg_opa: cover
+      widgets:
+        - image:
+            align: CENTER
+            src: $background_lg #lg_image
+        - button:
+            x: 5
+            y: 5
+            id: power_btn
+            bg_opa: 35%
+            text_color: 0xFF0000
+            widgets:
+              - label:
+                  text_font: LG48
+                  text: $power
+                  align: CENTER
+            on_click:
+              - button.press: power_lg
+        - button:
+            x: 125
+            y: 5
+            id: input_btn
+            bg_opa: 35%
+            widgets:
+              - label:
+                  text_font: LG48
+                  text: $input
+                  align: CENTER
+            on_click:
+              - button.press: input_lg
+        - button:
+            x: 245
+            y: 5
+            id: home_btn
+            bg_opa: 35%
+            widgets:
+              - label:
+                  text_font: LG48
+                  text: $home_outline
+                  align: CENTER
+            on_click:
+              - button.press: home_lg 
+              
+        - button:
+            x: 365
+            y: 5
+            id: myapp_btn
+            bg_opa: 35%
+            widgets:
+              - label:
+                  text_font: LG48
+                  text: $menu_open
+                  align: CENTER
+            on_click:
+              - button.press: myapp_lg
+
+
+#################################################################  
+        - button:
+            x: 5
+            y: 115
+            height: 210
+            id: Vol_btn
+            bg_opa: 35%
+            widgets:
+              - button:
+                  bg_color: 0xFF0000
+                  align: CENTER
+                  width: 100
+                  height: 70
+                  y: -60
+                  checkable: false
+                  widgets:
+                    - label:
+                        text_font: roboto24
+                        text: "+"
+                        align: CENTER
+                  on_click:
+                    - button.press: volup_lg
+
+              - label:
+                   text_font: roboto24
+                   text: "Vol"
+                   align: CENTER
+                   y: 0
+                        
+              - button:
+                  align: CENTER
+                  width: 100
+                  height: 70
+                  y: 60
+                  checkable: false
+                  bg_color: 0x0000FF
+                  widgets:
+                    - label:
+                        text_font: roboto24
+                        text: "-"
+                        align: CENTER
+                  on_click:
+                    - button.press: voldwn_lg
+                    
+#################################################################  
+        - button:
+            x: 125
+            y: 115
+            height: 210
+            width: 230
+            id: jstic_btn
+            bg_opa: 35%
+            widgets:
+              - button:
+                  align: CENTER
+                  width: 160
+                  height: 40
+                  y: -85
+                  checkable: false
+                  widgets:
+                    - label:
+                        text_font: LG48
+                        text: $menu_up
+                        align: CENTER
+                  on_click:
+                    - button.press: up_lg
+              - button:
+                  align: CENTER
+                  width: 40
+                  height: 160
+                  x: -95
+                  checkable: false
+                  widgets:
+                    - label:
+                        text_font: LG48
+                        text: $menu_left
+                        align: CENTER
+                  on_click:
+                    - button.press: left_lg
+
+                        
+              - button:
+                  align: CENTER
+                  width: 160
+                  height: 40
+                  y: 85
+                  checkable: false
+                  widgets:
+                    - label:
+                        text_font: LG48
+                        text: $menu_down
+                        align: CENTER
+                  on_click:
+                    - button.press: down_lg   
+                    
+              - button:
+                  align: CENTER
+                  width: 40
+                  height: 160
+                  x: 95
+                  checkable: false
+                  widgets:
+                    - label:
+                        text_font: LG48
+                        text: $menu_right
+                        align: CENTER
+                  on_click:
+                    - button.press: right_lg
+                    
+              - button:
+                  align: CENTER
+                  checkable: false
+                  widgets:
+                    - label:
+                        text_font: LG48
+                        text: $checkbox
+                        align: CENTER
+                  on_click:
+                    - button.press: ok_lg   
+           
+           
+#################################################################    
+           
+        - button:
+            x: 365
+            y: 115
+            height: 210
+            id: CH_btn
+            bg_opa: 35%
+            widgets:
+              - button:
+                  bg_color: 0xFF0000
+                  align: CENTER
+                  width: 100
+                  height: 70
+                  y: -60
+                  checkable: false
+                  widgets:
+                    - label:
+                        text_font: roboto24
+                        text: "+"
+                        align: CENTER
+                  on_click:
+                    - button.press: chup_lg
+
+              - label:
+                   text_font: roboto24
+                   text: "CH"
+                   align: CENTER
+                   y: 0
+                        
+              - button:
+                  align: CENTER
+                  width: 100
+                  height: 70
+                  y: 60
+                  checkable: false
+                  bg_color: 0x0000FF
+                  widgets:
+                    - label:
+                        text_font: roboto24
+                        text: "-"
+                        align: CENTER
+                  on_click:
+                    - button.press: chdwn_lg
+           
+#################################################################  
+        - button:
+            x: 5
+            y: 340
+            id: play_btn
+            bg_opa: 35%
+            widgets:
+              - label:
+                  text_font: LG48
+                  text: $play
+                  align: CENTER
+            on_click:
+              - button.press: play_lg
+        - button:
+            x: 125
+            y: 340
+            id: stop_btn
+            bg_opa: 35%
+            widgets:
+              - label:
+                  text_font: LG48
+                  text: $stop
+                  align: CENTER
+            on_click:
+              - button.press: stop_lg
+        - button:
+            x: 245
+            y: 340
+            id: pause_btn
+            bg_opa: 35%
+            widgets:
+              - label:
+                  text_font: LG48
+                  text: $pause
+                  align: CENTER
+            on_click:
+              - button.press: pause_lg 
+              
+        - button:
+            x: 365
+            y: 340
+            id: rec_btn
+            text_color: 0xFF0000
+            bg_opa: 35%
+            widgets:
+              - label:
+                  text_font: LG48
+                  text: $record
+                  align: CENTER
+            on_click:
+              - button.press: rec_lg
+
+
+
+
+              
+              
