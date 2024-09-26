@@ -100,10 +100,10 @@ packages:
   wifi: !include packages/wifi.yaml
 
 # Раставить страницы в желаемой очередности, barometr можно использовать 1 вариант
-  kitchen: !include packages/kitchen_light.yaml # 30 844
-  holl: !include packages/holl_light.yaml # 29 420
   weather: !include packages/weather_anime.yaml # выбрать один из двух weather #jpg:3 689 528 байт без 2 603 377 байт
   # weather: !include packages/weather_light.yaml # выбрать один из двух weather
+  kitchen: !include packages/kitchen_light.yaml # 30 844
+  holl: !include packages/holl_light.yaml # 29 420
   lg: !include packages/lg_light.yaml  #495 288
  # clock: !include packages/clock_page.yaml
   #barometr: !include packages/barometr_page.yaml # выбрать один из двух barometr
@@ -139,6 +139,7 @@ font:
     # gfonts://family[@weight]
     size: 36
     bpp: 4     
+
   - file: "gfonts://Roboto"
     id: roboto24
     glyphs: |-
@@ -146,9 +147,14 @@ font:
     # gfonts://family[@weight]
     size: 24
     bpp: 4  
+
   - file: "font/DSEG7ModernMini-Bold.ttf"
     id: SEG36
+    glyphs: |-
+      :.-0123456789'
     size: 36
+
+    bpp: 4  
   - file: "gfonts://Roboto"
     id: menu24
     size: 24
