@@ -6,13 +6,13 @@ substitutions:
  
 # Указываем ID сенсоров в HA
 
-  sensor_uv_index: sensor.kurchatova_uv_index
-  sensor_geomagnetic: sensor.kurchatova_geomagnetic_field
-  sensor_temperature: sensor.kurchatova_apparent_temperature
-  sensor_humidity: sensor.kurchatova_humidity
-  sensor_pressure: sensor.kurchatova_pressure
+  sensor_uv_index: sensor.yar_uv_index
+  sensor_geomagnetic: sensor.yar_geomagnetic_field
+  sensor_temperature: sensor.yar_apparent_temperature
+  sensor_humidity: sensor.yar_humidity
+  sensor_pressure: sensor.yar_pressure
   sensor_co2: sensor.holl_co2
-  sensor_weather: weather.kurchatova
+  sensor_weather: weather.yar
   sensor_iaq: sensor.holl_iaq
   sensor_lux: sensor.holl_lux
 
