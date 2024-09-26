@@ -7,5 +7,4 @@ https://github.com/albert-canfield/HA-panel-esphome
 
 
 
-[https://github.com/albert-canfield/HA-panel-esphome
-](https://community.home-assistant.io/t/guition-4-480x480-esp32-s3-4848s040-smart-display-with-lvgl/729271)
+https://community.home-assistant.io/t/guition-4-480x480-esp32-s3-4848s040-smart-display-with-lvgl/729271
