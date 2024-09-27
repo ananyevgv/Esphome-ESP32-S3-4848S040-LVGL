@@ -23,7 +23,9 @@ packages:
   slider4v: !include packages/slider-4v.yaml универсальный
   slider4g: !include packages/slider-4g.yaml универсальный (в процессе)
   slider4b: !include packages/slider-4b.yaml универсальный (в процессе)
+
 ##############################################################
+  boiler: !include packages/boiler.yaml Упраление котлом BAXI (в процессе)
   kitchen: !include packages/kitchen_light.yaml # 30 844
   holl: !include packages/holl_light.yaml # 29 420
   lg: !include packages/lg_light.yaml  #495 288
