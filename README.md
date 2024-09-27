@@ -12,7 +12,7 @@ packages:
   weather: !include packages/weather_anime.yaml # выбрать один из двух weather 
   weather: !include packages/weather_light.yaml # выбрать один из двух weather
 
-# Универсальные необходимо выбрать свои сущности и иконки длч их
+# Универсальные необходимо выбрать свои сущности и иконки для их
   button4: !include packages/button-4.yaml универсальный 
   button8: !include packages/button-8.yaml универсальный 
   button10: !include packages/button-10.yaml универсальный 
