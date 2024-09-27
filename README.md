@@ -19,7 +19,7 @@ packages:
   button10: !include packages/button-10.yaml универсальный 
   button12: !include packages/button-12.yaml универсальный 
   button16: !include packages/button-16.yaml универсальный 
-  slider4v: !include packages/slider-4v.yaml универсальный (в процессе)
+  slider4v: !include packages/slider-4v.yaml универсальный
   slider4g: !include packages/slider-4g.yaml универсальный (в процессе)
 ##############################################################
   kitchen: !include packages/kitchen_light.yaml # 30 844
