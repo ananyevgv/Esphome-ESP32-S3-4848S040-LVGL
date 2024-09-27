@@ -10,6 +10,7 @@ kitchen-lighting.yaml указываем свои сенсоры, первона
 Раставиляем страницы в желаемой очередности, barometr и  weather можно использовать 1 экземпляр
 ```yaml
 packages:
+# Обязательная страница
   weather: !include packages/weather_anime.yaml # выбрать один из двух weather 
   weather: !include packages/weather_light.yaml # выбрать один из двух weather
 
