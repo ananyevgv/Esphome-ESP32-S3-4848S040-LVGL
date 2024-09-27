@@ -102,10 +102,10 @@ packages:
 # Раставить страницы в желаемой очередности, barometr можно использовать 1 вариант
   weather: !include packages/weather_anime.yaml # выбрать один из двух weather #jpg:3 689 528 байт без 2 603 377 байт
   # weather: !include packages/weather_light.yaml # выбрать один из двух weather
-  # button4: !include packages/button-8.yaml
+  # button4: !include packages/button-4.yaml
   # button8: !include packages/button-8.yaml
-  # button10: !include packages/button-8.yaml
-  # button16: !include packages/button-8.yaml
+  # button10: !include packages/button-10.yaml
+  # button16: !include packages/button-16.yaml
   kitchen: !include packages/kitchen_light.yaml # 30 844
   holl: !include packages/holl_light.yaml # 29 420
   lg: !include packages/lg_light.yaml  #495 288
