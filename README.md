@@ -6,7 +6,7 @@
 
 packages:
 
-  weather: !include packages/weather_anime.yaml # выбрать один из двух weather #jpg:3 689 528 байт без 2 603 377 байт
+  weather: !include packages/weather_anime.yaml # выбрать один из двух weather 
   weather: !include packages/weather_light.yaml # выбрать один из двух weather
   button4: !include packages/button-4.yaml универсальный (указать в файле свои названия, свичи, выбрать иконки)
   button8: !include packages/button-8.yaml (указать в файле свои названия, свичи, выбрать иконки)
