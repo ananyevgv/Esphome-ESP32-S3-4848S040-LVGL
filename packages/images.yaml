@@ -1,4 +1,4 @@
- # FOG ANIMATION
+  # FOG ANIMATION
 - file: 'picture/weather/fog/fog0.png'
   type: RGB565
   id: fog0
