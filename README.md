@@ -3,9 +3,8 @@
 
 
 # Раставить страницы в желаемой очередности, barometr и  weather можно использовать 1 вариант
-
+```yaml
 packages:
-
   weather: !include packages/weather_anime.yaml # выбрать один из двух weather 
   weather: !include packages/weather_light.yaml # выбрать один из двух weather
   button4: !include packages/button-4.yaml универсальный (указать в файле свои названия, свичи, выбрать иконки)
@@ -24,7 +23,7 @@ packages:
   geomag: !include packages/geomag_page.yaml
   UV: !include packages/UV_page.yaml
   humm: !include packages/humm-page.yaml
-  
+```
 
 |  1                                                         | 2                                                         | 
 |------------------------------------------------------------|-----------------------------------------------------------|
