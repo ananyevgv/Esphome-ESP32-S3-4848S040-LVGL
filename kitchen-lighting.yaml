@@ -41,6 +41,8 @@ substitutions:
   background_button12: back6
   background_button16: back6
   background_slider4v: back6
+  background_slider4g: back6
+  background_slider4b: back6
 
   lightbulb: "󰌵"
 #-------------------------------------------
