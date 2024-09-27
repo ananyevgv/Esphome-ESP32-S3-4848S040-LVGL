@@ -564,7 +564,7 @@ lvgl:
               - button:
                   checkable: true
                   id: b_button12_2_0
-                  grid_cell_row_pos: 2
+                  grid_cell_row_pos: 0
                   grid_cell_column_pos: 0
                   grid_cell_x_align: STRETCH
                   grid_cell_y_align: STRETCH
@@ -584,7 +584,7 @@ lvgl:
               - button:
                   checkable: true
                   id: b_button12_2_1
-                  grid_cell_row_pos: 2
+                  grid_cell_row_pos: 0
                   grid_cell_column_pos: 1
                   grid_cell_x_align: STRETCH
                   grid_cell_y_align: STRETCH
@@ -604,7 +604,7 @@ lvgl:
               - button:
                   checkable: true
                   id: b_button12_2_2
-                  grid_cell_row_pos: 2
+                  grid_cell_row_pos: 0
                   grid_cell_column_pos: 2
                   grid_cell_x_align: STRETCH
                   grid_cell_y_align: STRETCH
@@ -624,7 +624,7 @@ lvgl:
               - button:
                   checkable: true
                   id: b_button12_2_3
-                  grid_cell_row_pos: 2
+                  grid_cell_row_pos: 0
                   grid_cell_column_pos: 3
                   grid_cell_x_align: STRETCH
                   grid_cell_y_align: STRETCH
