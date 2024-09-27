@@ -11,11 +11,11 @@ kitchen-lighting.yaml указываем свои сенсоры, первона
 packages:
   weather: !include packages/weather_anime.yaml # выбрать один из двух weather 
   weather: !include packages/weather_light.yaml # выбрать один из двух weather
-  button4: !include packages/button-4.yaml универсальный (указать в файле свои названия, свичи, выбрать иконки)
-  button8: !include packages/button-8.yaml универсальный (указать в файле свои названия, свичи, выбрать иконки)
-  button10: !include packages/button-10.yaml универсальный (указать в файле свои названия, свичи, выбрать иконки)
-  button12: !include packages/button-12.yaml универсальный (указать в файле свои названия, свичи, выбрать иконки)
-  button16: !include packages/button-16.yaml универсальный (указать в файле свои названия, свичи, выбрать иконки)
+  button4: !include packages/button-4.yaml универсальный (в процессе)
+  button8: !include packages/button-8.yaml универсальный (в процессе)
+  button10: !include packages/button-10.yaml универсальный (в процессе)
+  button12: !include packages/button-12.yaml универсальный (в процессе)
+  button16: !include packages/button-16.yaml универсальный (в процессе)
   slider4v: !include packages/slider-4v.yaml универсальный (в процессе)
   slider4g: !include packages/slider-4g.yaml универсальный (в процессе)
   kitchen: !include packages/kitchen_light.yaml # 30 844
