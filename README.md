@@ -1,7 +1,7 @@
 # Esphome-ESP32-S3-4848S040-LVGL 
-|                                                            |                                                           | 
+|  1                                                         | 2                                                         | 
 |------------------------------------------------------------|-----------------------------------------------------------|
-|  !(https://github.com/ananyevgv/Esphome-ESP32-S3-4848S040-LVGL/blob/main/img/weather_anime.jpg) |  !(https://github.com/ananyevgv/Esphome-ESP32-S3-4848S040-LVGL/blob/main/img/weather.jpg) | 
+|  ![1](https://github.com/ananyevgv/Esphome-ESP32-S3-4848S040-LVGL/blob/main/img/weather_anime.jpg) | ![2](https://github.com/ananyevgv/Esphome-ESP32-S3-4848S040-LVGL/blob/main/img/weather.jpg) | 
 
 
 
