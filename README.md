@@ -16,14 +16,14 @@ packages:
 
 # Универсальные необходимо выбрать свои сущности и иконки для их
   button4: !include packages/button-4.yaml универсальный
-  button6: !include packages/button-6.yaml универсальный (в процессе)
+  button6: !include packages/button-6.yaml универсальный 
   button8: !include packages/button-8.yaml универсальный 
   button10: !include packages/button-10.yaml универсальный 
   button12: !include packages/button-12.yaml универсальный 
   button16: !include packages/button-16.yaml универсальный 
-  slider4v: !include packages/slider-4v.yaml универсальный
-  slider4g: !include packages/slider-4g.yaml универсальный (в процессе)
-  slider4b: !include packages/slider-4b.yaml универсальный (в процессе)
+  slider4v: !include packages/slider-4v.yaml универсальный #Четыре вертикальных слайдера
+  slider4g: !include packages/slider-4g.yaml универсальный #Четыре горизонтальных слайдера
+  slider4b: !include packages/slider-4b.yaml универсальный #Четыре вертикальных кнопка-слайдера (в процессе)
 
 ##############################################################
   boiler: !include packages/boiler.yaml Упраление котлом BAXI (в процессе)
