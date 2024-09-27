@@ -34,7 +34,12 @@ substitutions:
   background_kitchen: back6
   background_holl: back6
   background_lg: back6
-   
+  background_button4: back6
+  background_button8: back6
+  background_button10: back6
+  background_button12: back6
+  background_button16: back6
+  background_slider4v: back6
 
   lightbulb: "󰌵"
 #-------------------------------------------
