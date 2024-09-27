@@ -1,0 +1,324 @@
+substitutions:
+  icons4_0_0: "\U000F18DE" # ceiling_light_multiple_outline
+  icons4_0_1: "󱊺" #string_lights
+
+  
+  icons4_1_0: "󰯪" #alarm_light_on
+  icons4_1_1: "󱠝" #countertop_outline
+
+  
+
+# Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
+  button4_icon_0_0: $icons4_0_0
+  button4_entity_0_0: light.holl_led_0
+  button4_text_0_0: "Кухня низ"
+  
+  button4_icon_0_1: $icons4_0_1
+  button4_entity_0_1: light.holl_led_1
+  button4_text_0_1: "Кухня верх"
+  
+  
+# Кнопки 1 ряд
+  button4_icon_1_0: $icons4_1_0
+  button4_entity_1_0: light.holl_led_4
+  button4_text_1_0: "Холл низ"
+  
+  button4_icon_1_1: $icons4_1_1
+  button4_entity_1_1: light.holl_led_5
+  button4_text_1_1: "Холл верх"
+
+
+font:
+  - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+    id: button4_130
+    size: 130
+    bpp: 4
+    glyphs: [
+      $button4_icon_0_0,
+      $button4_icon_0_1,
+      $button4_icon_1_0,
+      $button4_icon_1_1
+      ]   
+      
+script:
+  - id: time_update_button4
+    then:
+      - lvgl.label.update: 
+          id: display_time_button4
+          text: !lambda |-
+            static char time_buf[17];
+            auto now = id(sntp_time).now();            
+            snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
+            return time_buf; 
+      - lvgl.label.update:
+          id: display_date_button4
+          text: !lambda |-
+            static char time_buf[17];
+            auto now = id(sntp_time).now();            
+            snprintf(time_buf, sizeof(time_buf), "%02d.%02d.%02d", now.day_of_month, now.month, now.year-2000);
+            return time_buf; 
+
+time:
+  - platform: sntp
+    on_time_sync:
+      - script.execute: time_update_button4
+    on_time:
+      - minutes: '*'
+        seconds: 0
+        then:
+          - script.execute: time_update_button4
+          
+#-------------------------------------------
+# Binary sensor
+#-------------------------------------------
+binary_sensor:
+#-------------------------------------------
+# 0 Ряд
+#-------------------------------------------
+  - platform: homeassistant
+    name: bin_button4_icon_0_0
+    entity_id: $button4_entity_0_0
+    publish_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_button4_0_0
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_button4_0_0
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_button4_0_0
+        text_color: 0xB6B6B6
+####################################
+  - platform: homeassistant
+    name: bin_button4_icon_0_1
+    entity_id: $button4_entity_0_1
+    publish_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_button4_0_1
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_button4_0_1
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_button4_0_1
+        text_color: 0xB6B6B6
+
+
+
+#-------------------------------------------
+# 1 Ряд
+#-------------------------------------------
+  - platform: homeassistant
+    name: bin_button4_icon_1_0
+    entity_id: $button4_entity_1_0
+    publish_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_button4_1_0
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_button4_1_0
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_button4_1_0
+        text_color: 0xB6B6B6
+####################################
+  - platform: homeassistant
+    name: bin_button4_icon_1_1
+    entity_id: $button4_entity_1_1
+    publish_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_button4_1_1
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_button4_1_1
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_button4_1_1
+        text_color: 0xB6B6B6
+####################################
+
+
+
+
+#-------------------------------------------
+# LVGL
+#-------------------------------------------
+lvgl:
+  pages:
+    - id: button4_page     
+      width: 100%
+      bg_color: 0x000000
+      bg_opa: cover
+      widgets:
+        - image:
+            align: CENTER
+            src: $background_button4
+        - obj:
+            bg_opa: TRANSP
+            border_opa: TRANSP
+            width: 480
+            height: 230
+            align: TOP_LEFT
+            x: 0
+            y: 0
+            layout:
+              pad_row: 10
+              pad_column: 10
+              type: GRID
+              grid_columns: [FR(1), FR(1)]
+              grid_rows: [FR(1)]
+            widgets:
+            ########################
+              - button:
+                  checkable: true
+                  id: b_button4_0_0
+                  grid_cell_row_pos: 0
+                  grid_cell_column_pos: 0
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: button4_130
+                        align: center
+                        text: $button4_icon_0_0
+                        id: w_button4_0_0
+                    - label:
+                        text_font: SEG36
+                        id: display_time_button4
+                        align: top_mid
+                        text: "--:--"
+                        long_mode: dot
+                    - label:
+                        text_font: roboto36
+                        align: bottom_mid
+                        text: $button4_text_0_0
+                        long_mode: dot  
+                  on_click:
+                    - homeassistant.service:
+                        service: light.toggle
+                        data:
+                          entity_id: $button4_entity_0_0
+
+              - button:
+                  checkable: true
+                  id: b_button4_0_1
+                  grid_cell_row_pos: 0
+                  grid_cell_column_pos: 0
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: button4_130
+                        align: center
+                        text: $button4_icon_0_1
+                        id: w_button4_0_1
+                    - label:
+                        text_font: SEG36
+                        id: display_date_button4
+                        align: top_mid
+                        text: "--.--.--"
+                        long_mode: dot
+                    - label:
+                        text_font: roboto36
+                        align: bottom_mid
+                        text: $button4_text_0_1
+                        long_mode: dot  
+                  on_click:
+                    - homeassistant.service:
+                        service: light.toggle
+                        data:
+                          entity_id: $button4_entity_0_1
+            
+####################################################################################################
+        - obj:
+            bg_opa: TRANSP
+            border_opa: TRANSP
+            width: 480
+            height: 230
+            align: TOP_LEFT
+            x: 0
+            y: 230
+            layout:
+              pad_row: 10
+              pad_column: 10
+              type: GRID
+              grid_columns: [FR(1), FR(1)]
+              grid_rows: [FR(1)]
+            widgets:
+            ########################
+              - button:
+                  checkable: true
+                  id: b_button4_1_0
+                  grid_cell_row_pos: 0
+                  grid_cell_column_pos: 0
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: button4_130
+                        align: center
+                        text: $button4_icon_1_0
+                        id: w_button4_1_0
+                    - label:
+                        text_font: roboto36
+                        align: bottom_mid
+                        text: $button4_text_1_0
+                        long_mode: dot  
+                  on_click:
+                    - homeassistant.service:
+                        service: light.toggle
+                        data:
+                          entity_id: $button4_entity_1_0
+
+              - button:
+                  checkable: true
+                  id: b_button4_1_1
+                  grid_cell_row_pos: 0
+                  grid_cell_column_pos: 0
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: button4_130
+                        align: center
+                        text: $button4_icon_1_1
+                        id: w_button4_1_1
+                    - label:
+                        text_font: roboto36
+                        align: bottom_mid
+                        text: $button4_text_1_1
+                        long_mode: dot  
+                  on_click:
+                    - homeassistant.service:
+                        service: light.toggle
+                        data:
+                          entity_id: $button4_entity_1_1
+                        
