@@ -471,7 +471,7 @@ lvgl:
             height: 230
             align: CENTER
             x: 0
-            y: 0
+            y: 230
             layout:
               pad_row: 20
               pad_column: 30
@@ -525,7 +525,7 @@ lvgl:
             height: 230
             align: CENTER
             x: 0
-            y: 230
+            y: 345
             layout:
               pad_row: 20
               pad_column: 30
