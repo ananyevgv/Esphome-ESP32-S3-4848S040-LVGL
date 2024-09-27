@@ -23,7 +23,7 @@ packages:
   button16: !include packages/button-16.yaml универсальный 
   slider4v: !include packages/slider-4v.yaml универсальный #Четыре вертикальных слайдера
   slider4g: !include packages/slider-4g.yaml универсальный #Четыре горизонтальных слайдера
-  slider4b: !include packages/slider-4b.yaml универсальный #Четыре вертикальных кнопка-слайдера (в процессе)
+  slider4b: !include packages/slider-4b.yaml универсальный #Четыре вертикальных кнопки-слайдера (в процессе)
 
 ##############################################################
   boiler: !include packages/boiler.yaml Упраление котлом BAXI (в процессе)
