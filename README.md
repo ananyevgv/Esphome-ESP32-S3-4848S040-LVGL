@@ -2,7 +2,7 @@
 
 
 
-Раставить страницы в желаемой очередности, barometr и  weather можно использовать 1 вариант
+Раставить страницы в желаемой очередности, barometr и  weather можно использовать 1 экземпляр
 ```yaml
 packages:
   weather: !include packages/weather_anime.yaml # выбрать один из двух weather 
