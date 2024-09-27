@@ -196,7 +196,7 @@ lvgl:
                   width: 40
                   height: 200
                   pad_all: 0
-                  min_value: 40
+                  min_value: 0
                   max_value: 100
                   radius: 5px
                   knob:
@@ -204,8 +204,8 @@ lvgl:
                     radius: 2px
                     pad_left: -3px
                     pad_right: -3px
-                    pad_top: -18px
-                    pad_bottom: -18px
+                    pad_top: -8px
+                    pad_bottom: -8px
                   indicator:
                     radius: 0px
                     bg_color: color_blue
@@ -229,7 +229,7 @@ lvgl:
                   width: 40
                   height: 200
                   pad_all: 0
-                  min_value: 40
+                  min_value: 0
                   max_value: 100
                   radius: 5px
                   knob:
@@ -237,8 +237,8 @@ lvgl:
                     radius: 2px
                     pad_left: -3px
                     pad_right: -3px
-                    pad_top: -18px
-                    pad_bottom: -18px
+                    pad_top: -8px
+                    pad_bottom: -8px
                   indicator:
                     radius: 0px
                     bg_color: color_blue
@@ -261,7 +261,7 @@ lvgl:
                   width: 40
                   height: 200
                   pad_all: 0
-                  min_value: 40
+                  min_value: 0
                   max_value: 100
                   radius: 5px
                   knob:
@@ -269,8 +269,8 @@ lvgl:
                     radius: 2px
                     pad_left: -3px
                     pad_right: -3px
-                    pad_top: -18px
-                    pad_bottom: -18px
+                    pad_top: -8px
+                    pad_bottom: -8px
                   indicator:
                     radius: 0px
                     bg_color: color_blue
@@ -293,7 +293,7 @@ lvgl:
                   width: 40
                   height: 200
                   pad_all: 0
-                  min_value: 40
+                  min_value: 0
                   max_value: 100
                   radius: 5px
                   knob:
@@ -301,8 +301,8 @@ lvgl:
                     radius: 2px
                     pad_left: -3px
                     pad_right: -3px
-                    pad_top: -18px
-                    pad_bottom: -18px
+                    pad_top: -8px
+                    pad_bottom: -8px
                   indicator:
                     radius: 0px
                     bg_color: color_blue
