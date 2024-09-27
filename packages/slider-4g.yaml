@@ -13,7 +13,7 @@ substitutions:
   slider4g_entity_0_1: light.holl_led_1
   
   slider4g_icon_0_2: $icons_sl4g_0_2
-  _entity_0_2: light.holl_led_2
+  slider4g_entity_0_2: light.holl_led_2
 
   slider4g_icon_0_3: $icons_sl4g_0_3
   slider4g_entity_0_3: light.holl_led_3

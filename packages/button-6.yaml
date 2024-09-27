@@ -370,8 +370,8 @@ lvgl:
               - button:
                   checkable: true
                   id: b_button6_1_2
-                  grid_cell_row_pos: 0
-                  grid_cell_column_pos: 2
+                  grid_cell_row_pos: 1
+                  grid_cell_column_pos: 0
                   grid_cell_x_align: STRETCH
                   grid_cell_y_align: STRETCH
                   bg_opa: 35%
@@ -390,8 +390,8 @@ lvgl:
               - button:
                   checkable: true
                   id: b_button6_1_3
-                  grid_cell_row_pos: 0
-                  grid_cell_column_pos: 3
+                  grid_cell_row_pos: 1
+                  grid_cell_column_pos: 1
                   grid_cell_x_align: STRETCH
                   grid_cell_y_align: STRETCH
                   bg_opa: 35%
