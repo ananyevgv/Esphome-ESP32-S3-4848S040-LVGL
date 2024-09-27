@@ -1,0 +1,755 @@
+substitutions:
+  icons10_0_0: "\U000F18DE" # ceiling_light_multiple_outline
+  icons10_0_1: "󱊺" #string_lights
+
+  
+  icons10_1_0: "󰯪" #alarm_light_on
+  icons10_1_1: "󱠝" #countertop_outline
+  icons10_1_2: "󰟴" #television
+  icons10_1_3: "󰦠" #shower:
+  
+  icons10_2_0: "󱞓" #chandelier
+  icons10_2_1: "󰠠" #lightning_bolt_circle
+  icons10_2_2: "󱇜" #window_open_variant
+  icons10_2_3: "󰣳" #nas
+  
+  icons10_3_0: "󰊏" #fridge_outline
+  icons10_3_1: "󰌵" #lightbulb
+  icons10_3_2: "\U000F0BAB" #menu_open
+  icons10_3_3: "\U000F06A1" #home_outline
+
+# Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
+  button10_icon_0_0: $icons10_0_0
+  button10_entity_0_0: light.holl_led_0
+  button10_text_0_0: "Кухня низ"
+  
+  button10_icon_0_1: $icons10_0_1
+  button10_entity_0_1: light.holl_led_1
+  button10_text_0_1: "Кухня верх"
+  
+  
+# Кнопки 1 ряд
+  button10_icon_1_0: $icons10_1_0
+  button10_entity_1_0: light.holl_led_4
+
+  button10_icon_1_1: $icons10_1_1
+  button10_entity_1_1: light.holl_led_5
+  
+  button10_icon_1_2: $icons10_1_2
+  button10_entity_1_2: light.holl_led_6
+
+  button10_icon_1_3: $icons10_1_3
+  button10_entity_1_3: light.holl_led_7
+
+# Кнопки 2 ряд
+  button10_icon_2_0: $icons10_2_0
+  button10_entity_2_0: light.holl_led_8
+
+  button10_icon_2_1: $icons10_2_1
+  button10_entity_2_1: light.holl_led_9
+  
+  button10_icon_2_2: $icons10_2_2
+  button10_entity_2_2: light.holl_led_10
+
+  button10_icon_2_3: $icons10_2_3
+  button10_entity_2_3: light.holl_led_11
+  
+# Кнопки 3 ряд
+  button10_icon_3_0: $icons10_3_0
+  button10_entity_3_0: light.holl_led_12
+
+  button10_icon_3_1: $icons10_3_1
+  button10_entity_3_1: light.holl_led_13
+  
+  button10_icon_3_2: $icons10_3_2
+  button10_entity_3_2: light.holl_led_14
+
+  button10_icon_3_3: $icons10_3_3
+  button10_entity_3_3: light.holl_led_15
+  
+font:
+  - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+    id: button10_48
+    size: 48
+    bpp: 4
+    glyphs: [
+      $button10_icon_1_0,
+      $button10_icon_1_1,
+      $button10_icon_1_2,
+      $button10_icon_1_3,
+      $button10_icon_2_0,
+      $button10_icon_2_1,
+      $button10_icon_2_2,
+      $button10_icon_2_3,
+      $button10_icon_3_0,
+      $button10_icon_3_1,
+      $button10_icon_3_2,
+      $button10_icon_3_3
+    ]      
+  - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+    id: button10_130
+    size: 130
+    bpp: 4
+    glyphs: [
+      $button10_icon_0_0,
+      $button10_icon_0_1
+      ] 
+  
+script:
+  - id: time_update_button10
+    then:
+      - lvgl.label.update: 
+          id: display_time_button10
+          text: !lambda |-
+            static char time_buf[17];
+            auto now = id(sntp_time).now();            
+            snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
+            return time_buf; 
+      - lvgl.label.update:
+          id: display_date_button10
+          text: !lambda |-
+            static char time_buf[17];
+            auto now = id(sntp_time).now();            
+            snprintf(time_buf, sizeof(time_buf), "%02d.%02d.%02d", now.day_of_month, now.month, now.year-2000);
+            return time_buf; 
+
+time:
+  - platform: sntp
+    on_time_sync:
+      - script.execute: time_update_button10
+    on_time:
+      - minutes: '*'
+        seconds: 0
+        then:
+          - script.execute: time_update_button10
+          
+#-------------------------------------------
+# Binary sensor
+#-------------------------------------------
+binary_sensor:
+#-------------------------------------------
+# 0 Ряд
+#-------------------------------------------
+  - platform: homeassistant
+    name: bin_button10_icon_0_0
+    entity_id: $button10_entity_0_0
+    publish_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_button10_0_0
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_button10_0_0
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_button10_0_0
+        text_color: 0xB6B6B6
+####################################
+  - platform: homeassistant
+    name: bin_button10_icon_0_1
+    entity_id: $button10_entity_0_1
+    publish_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_button10_0_1
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_button10_0_1
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_button10_0_1
+        text_color: 0xB6B6B6
+
+
+
+#-------------------------------------------
+# 1 Ряд
+#-------------------------------------------
+  - platform: homeassistant
+    name: bin_button10_icon_1_0
+    entity_id: $button10_entity_1_0
+    publish_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_button10_1_0
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_button10_1_0
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_button10_1_0
+        text_color: 0xB6B6B6
+####################################
+  - platform: homeassistant
+    name: bin_button10_icon_1_1
+    entity_id: $button10_entity_1_1
+    publish_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_button10_1_1
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_button10_1_1
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_button10_1_1
+        text_color: 0xB6B6B6
+####################################
+  - platform: homeassistant
+    name: bin_button10_icon_1_2
+    entity_id: $button10_entity_1_2
+    publish_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_button10_1_2
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_button10_1_2
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_button10_1_2
+        text_color: 0xB6B6B6
+####################################
+  - platform: homeassistant
+    name: bin_button10_icon_1_3
+    entity_id: $button10_entity_1_3
+    publish_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_button10_1_3
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_button10_1_3
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_button10_1_3
+        text_color: 0xB6B6B6
+
+#-------------------------------------------
+# 2 Ряд
+#-------------------------------------------
+  - platform: homeassistant
+    name: bin_button10_icon_2_0
+    entity_id: $button10_entity_2_0
+    publish_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_button10_2_0
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_button10_2_0
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_button10_2_0
+        text_color: 0xB6B6B6
+####################################
+  - platform: homeassistant
+    name: bin_button10_icon_2_1
+    entity_id: $button10_entity_2_1
+    publish_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_button10_2_1
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_button10_2_1
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_button10_2_1
+        text_color: 0xB6B6B6
+####################################
+  - platform: homeassistant
+    name: bin_button10_icon_2_2
+    entity_id: $button10_entity_2_2
+    publish_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_button10_2_2
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_button10_2_2
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_button10_2_2
+        text_color: 0xB6B6B6
+####################################
+  - platform: homeassistant
+    name: bin_button10_icon_2_3
+    entity_id: $button10_entity_2_3
+    publish_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_button10_2_3
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_button10_2_3
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_button10_2_3
+        text_color: 0xB6B6B6
+
+
+#-------------------------------------------
+# 3 Ряд
+#-------------------------------------------
+  - platform: homeassistant
+    name: bin_button10_icon_3_0
+    entity_id: $button10_entity_3_0
+    publish_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_button10_3_0
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_button10_3_0
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_button10_3_0
+        text_color: 0xB6B6B6
+####################################
+  - platform: homeassistant
+    name: bin_button10_icon_3_1
+    entity_id: $button10_entity_0_1
+    publish_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_button10_3_1
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_button10_3_1
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_button10_3_1
+        text_color: 0xB6B6B6
+####################################
+  - platform: homeassistant
+    name: bin_button10_icon_3_2
+    entity_id: $button10_entity_3_2
+    publish_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_button10_3_2
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_button10_3_2
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_button10_3_2
+        text_color: 0xB6B6B6
+####################################
+  - platform: homeassistant
+    name: bin_button10_icon_3_3
+    entity_id: $button10_entity_3_3
+    publish_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_button10_3_3
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_button10_3_3
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_button10_3_3
+        text_color: 0xB6B6B6
+
+
+
+#-------------------------------------------
+# LVGL
+#-------------------------------------------
+lvgl:
+  pages:
+    - id: button10_page     
+      width: 100%
+      bg_color: 0x000000
+      bg_opa: cover
+      widgets:
+        - image:
+            align: CENTER
+            src: $background_button10
+        - obj:
+            bg_opa: TRANSP
+            border_opa: TRANSP
+            width: 480
+            height: 230
+            align: CENTER
+            x: 0
+            y: 0
+            layout:
+              pad_row: 20
+              pad_column: 30
+              type: GRID
+              grid_columns: [FR(1), FR(1)]
+              grid_rows: [FR(1)]
+            widgets:
+            ########################
+              - button:
+                  checkable: true
+                  id: b_button10_0_0
+                  grid_cell_row_pos: 0
+                  grid_cell_column_pos: 0
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: button10_130
+                        align: center
+                        text: $button10_icon_0_0
+                        id: w_button10_0_0
+                    - label:
+                        text_font: SEG36
+                        id: display_time_button10
+                        align: top_mid
+                        text: "--:--"
+                        long_mode: dot
+                    - label:
+                        text_font: roboto36
+                        align: bottom_mid
+                        text: $button10_text_0_0
+                        long_mode: dot  
+                  on_click:
+                    - homeassistant.service:
+                        service: light.toggle
+                        data:
+                          entity_id: $button10_entity_0_0
+
+              - button:
+                  checkable: true
+                  id: b_button10_0_1
+                  grid_cell_row_pos: 0
+                  grid_cell_column_pos: 1
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: button10_130
+                        align: center
+                        text: $button10_icon_0_1
+                        id: w_button10_0_1
+                    - label:
+                        text_font: SEG36
+                        id: display_date_button10
+                        align: top_mid
+                        text: "--.--.--"
+                        long_mode: dot
+                    - label:
+                        text_font: roboto36
+                        align: bottom_mid
+                        text: $button10_text_0_1
+                        long_mode: dot  
+                  on_click:
+                    - homeassistant.service:
+                        service: light.toggle
+                        data:
+                          entity_id: $button10_entity_0_1
+            
+####################################################################################################
+        - obj:
+            bg_opa: TRANSP
+            border_opa: TRANSP
+            width: 480
+            height: 230
+            align: CENTER
+            x: 0
+            y: 230
+            layout:
+              pad_row: 20
+              pad_column: 30
+              type: GRID
+              grid_columns: [FR(1), FR(1), FR(1), FR(1)]
+              grid_rows: [FR(1), FR(1)]
+            widgets:
+            ########################
+     
+            ########################
+              - button:
+                  checkable: true
+                  id: b_button10_1_0
+                  grid_cell_row_pos: 0
+                  grid_cell_column_pos: 0
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: button10_48
+                        align: center
+                        text: $button10_icon_1_0
+                        id: w_button10_1_0
+                  on_click:
+                    homeassistant.service:
+                      service: light.toggle
+                      data:
+                        entity_id: $button10_entity_1_0        
+                    
+              - button:
+                  checkable: true
+                  id: b_button10_1_1
+                  grid_cell_row_pos: 0
+                  grid_cell_column_pos: 1
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: button10_48
+                        align: center
+                        text: $button10_icon_1_1
+                        id: w_button10_1_1
+                  on_click:
+                    homeassistant.service:
+                      service: light.toggle
+                      data:
+                        entity_id: $button10_entity_1_1   
+            
+              - button:
+                  checkable: true
+                  id: b_button10_1_2
+                  grid_cell_row_pos: 0
+                  grid_cell_column_pos: 2
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: button10_48
+                        align: center
+                        text: $button10_icon_1_2
+                        id: w_button10_1_2
+                  on_click:
+                    homeassistant.service:
+                      service: light.toggle
+                      data:
+                        entity_id: $button10_entity_1_2  
+            
+              - button:
+                  checkable: true
+                  id: b_button10_1_3
+                  grid_cell_row_pos: 0
+                  grid_cell_column_pos: 3
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: button10_48
+                        align: center
+                        text: $button10_icon_1_3
+                        id: w_button10_1_3
+                  on_click:
+                    homeassistant.service:
+                      service: light.toggle
+                      data:
+                        entity_id: $button10_entity_1_3     
+                        
+            ########################
+              - button:
+                  checkable: true
+                  id: b_button10_2_0
+                  grid_cell_row_pos: 1
+                  grid_cell_column_pos: 0
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: button10_48
+                        align: center
+                        text: $button10_icon_2_0
+                        id: w_button10_2_0
+                  on_click:
+                    homeassistant.service:
+                      service: light.toggle
+                      data:
+                        entity_id: $button10_entity_2_0        
+                    
+              - button:
+                  checkable: true
+                  id: b_button10_2_1
+                  grid_cell_row_pos: 1
+                  grid_cell_column_pos: 1
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: button10_48
+                        align: center
+                        text: $button10_icon_2_1
+                        id: w_button10_2_1
+                  on_click:
+                    homeassistant.service:
+                      service: light.toggle
+                      data:
+                        entity_id: $button10_entity_2_1   
+            
+              - button:
+                  checkable: true
+                  id: b_button10_2_2
+                  grid_cell_row_pos: 1
+                  grid_cell_column_pos: 2
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: button10_48
+                        align: center
+                        text: $button10_icon_2_2
+                        id: w_button10_2_2
+                  on_click:
+                    homeassistant.service:
+                      service: light.toggle
+                      data:
+                        entity_id: $button10_entity_2_2  
+            
+              - button:
+                  checkable: true
+                  id: b_button10_2_3
+                  grid_cell_row_pos: 1
+                  grid_cell_column_pos: 3
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: button10_48
+                        align: center
+                        text: $button10_icon_2_3
+                        id: w_button10_2_3
+                  on_click:
+                    homeassistant.service:
+                      service: light.toggle
+                      data:
+                        entity_id: $button10_entity_2_3  
+            
+            
+            ########################
+              - button:
+                  checkable: true
+                  id: b_button10_3_0
+                  grid_cell_row_pos: 2
+                  grid_cell_column_pos: 0
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: button10_48
+                        align: center
+                        text: $button10_icon_3_0
+                        id: w_button10_3_0
+                  on_click:
+                    homeassistant.service:
+                      service: light.toggle
+                      data:
+                        entity_id: $button10_entity_3_0        
+                    
+              - button:
+                  checkable: true
+                  id: b_button10_3_1
+                  grid_cell_row_pos: 2
+                  grid_cell_column_pos: 1
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: button10_48
+                        align: center
+                        text: $button10_icon_3_1
+                        id: w_button10_3_1
+                  on_click:
+                    homeassistant.service:
+                      service: light.toggle
+                      data:
+                        entity_id: $button10_entity_3_1   
+            
+              - button:
+                  checkable: true
+                  id: b_button10_3_2
+                  grid_cell_row_pos: 2
+                  grid_cell_column_pos: 2
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: button10_48
+                        align: center
+                        text: $button10_icon_3_2
+                        id: w_button10_3_2
+                  on_click:
+                    homeassistant.service:
+                      service: light.toggle
+                      data:
+                        entity_id: $button10_entity_3_2  
+            
+              - button:
+                  checkable: true
+                  id: b_button10_3_3
+                  grid_cell_row_pos: 2
+                  grid_cell_column_pos: 3
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: button10_48
+                        align: center
+                        text: $button10_icon_3_3
+                        id: w_button10_3_3
+                  on_click:
+                    homeassistant.service:
+                      service: light.toggle
+                      data:
+                        entity_id: $button10_entity_3_3  
+            
+            
+            
+            
+ 
