@@ -1,6 +1,6 @@
 # Esphome-ESP32-S3-4848S040-LVGL  (module)
 
-#TO-DO draw filled triangle in LVGL
+# TO-DO draw filled triangle in LVGL
 
 kitchen-lighting.yaml указываем свои сенсоры, первоначальную страницу, фон для страниц 
 
