@@ -105,7 +105,10 @@ packages:
   # button4: !include packages/button-4.yaml
   # button8: !include packages/button-8.yaml
   # button10: !include packages/button-10.yaml
+  # button12: !include packages/button-12.yaml
   # button16: !include packages/button-16.yaml
+  # slider4v: !include packages/slider-4v.yaml
+  # slider4g: !include packages/slider-4g.yaml
   kitchen: !include packages/kitchen_light.yaml # 30 844
   holl: !include packages/holl_light.yaml # 29 420
   lg: !include packages/lg_light.yaml  #495 288
