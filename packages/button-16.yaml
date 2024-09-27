@@ -455,12 +455,12 @@ lvgl:
             border_opa: TRANSP
             width: 480
             height: 460
-            align: CENTER
+            align: TOP_LEFT
             x: 0
             y: 0
             layout:
-              pad_row: 20
-              pad_column: 30
+              pad_row: 10
+              pad_column: 10
               type: GRID
               grid_columns: [FR(1), FR(1), FR(1), FR(1)]
               grid_rows: [FR(1), FR(1), FR(1), FR(1)]
@@ -471,6 +471,8 @@ lvgl:
                   id: b_button16_0_0
                   grid_cell_row_pos: 0
                   grid_cell_column_pos: 0
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
                   bg_opa: 35%
                   widgets:
                     - label:
@@ -489,6 +491,8 @@ lvgl:
                   id: b_button16_0_1
                   grid_cell_row_pos: 0
                   grid_cell_column_pos: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
                   bg_opa: 35%
                   widgets:
                     - label:
@@ -507,6 +511,8 @@ lvgl:
                   id: b_button16_0_2
                   grid_cell_row_pos: 0
                   grid_cell_column_pos: 2
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
                   bg_opa: 35%
                   widgets:
                     - label:
@@ -525,6 +531,8 @@ lvgl:
                   id: b_button16_0_3
                   grid_cell_row_pos: 0
                   grid_cell_column_pos: 3
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
                   bg_opa: 35%
                   widgets:
                     - label:
@@ -544,6 +552,8 @@ lvgl:
                   id: b_button16_1_0
                   grid_cell_row_pos: 1
                   grid_cell_column_pos: 0
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
                   bg_opa: 35%
                   widgets:
                     - label:
@@ -562,6 +572,8 @@ lvgl:
                   id: b_button16_1_1
                   grid_cell_row_pos: 1
                   grid_cell_column_pos: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
                   bg_opa: 35%
                   widgets:
                     - label:
@@ -580,6 +592,8 @@ lvgl:
                   id: b_button16_1_2
                   grid_cell_row_pos: 1
                   grid_cell_column_pos: 2
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
                   bg_opa: 35%
                   widgets:
                     - label:
@@ -598,6 +612,8 @@ lvgl:
                   id: b_button16_1_3
                   grid_cell_row_pos: 1
                   grid_cell_column_pos: 3
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
                   bg_opa: 35%
                   widgets:
                     - label:
@@ -617,6 +633,8 @@ lvgl:
                   id: b_button16_2_0
                   grid_cell_row_pos: 2
                   grid_cell_column_pos: 0
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
                   bg_opa: 35%
                   widgets:
                     - label:
@@ -635,6 +653,8 @@ lvgl:
                   id: b_button16_2_1
                   grid_cell_row_pos: 2
                   grid_cell_column_pos: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
                   bg_opa: 35%
                   widgets:
                     - label:
@@ -653,6 +673,8 @@ lvgl:
                   id: b_button16_2_2
                   grid_cell_row_pos: 2
                   grid_cell_column_pos: 2
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
                   bg_opa: 35%
                   widgets:
                     - label:
@@ -671,6 +693,8 @@ lvgl:
                   id: b_button16_2_3
                   grid_cell_row_pos: 2
                   grid_cell_column_pos: 3
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
                   bg_opa: 35%
                   widgets:
                     - label:
@@ -691,6 +715,8 @@ lvgl:
                   id: b_button16_3_0
                   grid_cell_row_pos: 3
                   grid_cell_column_pos: 0
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
                   bg_opa: 35%
                   widgets:
                     - label:
@@ -709,6 +735,8 @@ lvgl:
                   id: b_button16_3_1
                   grid_cell_row_pos: 3
                   grid_cell_column_pos: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
                   bg_opa: 35%
                   widgets:
                     - label:
@@ -727,6 +755,8 @@ lvgl:
                   id: b_button16_3_2
                   grid_cell_row_pos: 3
                   grid_cell_column_pos: 2
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
                   bg_opa: 35%
                   widgets:
                     - label:
@@ -745,6 +775,8 @@ lvgl:
                   id: b_button16_3_3
                   grid_cell_row_pos: 3
                   grid_cell_column_pos: 3
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
                   bg_opa: 35%
                   widgets:
                     - label:
