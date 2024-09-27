@@ -40,4 +40,5 @@ https://community.home-assistant.io/t/guition-4-480x480-esp32-s3-4848s040-smart-
 
 https://github.com/albert-canfield/HA-panel-esphome
 
+# Weather_anime позаимствован от сюда, картинки там же
 https://github.com/alaltitov/display
