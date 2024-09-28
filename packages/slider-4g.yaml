@@ -1,3 +1,21 @@
+#########################
+#     #                 #
+# b_0 #    s_0          #
+#     #                 #
+#########################
+#     #                 #
+# b_1 #    s_1          #
+#     #                 #
+#########################
+#     #                 #
+# b_2 #    s_2          #
+#     #                 #
+#########################
+#     #                 #
+# b_3 #    s_3          #
+#     #                 #
+#########################
+
 substitutions:
   icons_sl4g_0_0: "\U000F18DE" # ceiling_light_multiple_outline
   icons_sl4g_0_1: "󱊺" #string_lights
@@ -205,10 +223,10 @@ lvgl:
                   knob:
                     bg_color: 0xffffff
                     radius: 2px
-                    pad_left: -3px
-                    pad_right: -3px
-                    pad_top: -18px
-                    pad_bottom: -18px
+                    pad_left: -50px
+                    pad_right: -35px
+                    pad_top: -5px
+                    pad_bottom: -5px
                   indicator:
                     radius: 0px
                     bg_color: color_blue
@@ -238,10 +256,10 @@ lvgl:
                   knob:
                     bg_color: 0xffffff
                     radius: 2px
-                    pad_left: -3px
-                    pad_right: -3px
-                    pad_top: -8px
-                    pad_bottom: -8px
+                    pad_left: -50px
+                    pad_right: -35px
+                    pad_top: -5px
+                    pad_bottom: -5px
                   indicator:
                     radius: 0px
                     bg_color: color_blue
@@ -270,10 +288,10 @@ lvgl:
                   knob:
                     bg_color: 0xffffff
                     radius: 2px
-                    pad_left: -3px
-                    pad_right: -3px
-                    pad_top: -8px
-                    pad_bottom: -8px
+                    pad_left: -50px
+                    pad_right: -35px
+                    pad_top: -5px
+                    pad_bottom: -5px
                   indicator:
                     radius: 0px
                     bg_color: color_blue
@@ -302,10 +320,10 @@ lvgl:
                   knob:
                     bg_color: 0xffffff
                     radius: 2px
-                    pad_left: -3px
-                    pad_right: -3px
-                    pad_top: -8px
-                    pad_bottom: -8px
+                    pad_left: -50px
+                    pad_right: -35px
+                    pad_top: -5px
+                    pad_bottom: -5px
                   indicator:
                     radius: 0px
                     bg_color: color_blue
