@@ -1,3 +1,19 @@
+#########################
+#     #     #     #     #
+#     #     #     #     #
+#     #     #     #     #
+#     #     #     #     #
+# s_0 # s_1 # s_2 # s_3 #
+#     #     #     #     #
+#     #     #     #     #
+#     #     #     #     #
+#     #     #     #     #
+#########################
+#     #     #     #     #
+# b_0 # b_1 # b_2 # b_3 #
+#     #     #     #     #
+#########################
+
 substitutions:
   icons_sl4v_0_0: "\U000F18DE" # ceiling_light_multiple_outline
   icons_sl4v_0_1: "󱊺" #string_lights
@@ -192,9 +208,9 @@ lvgl:
                   grid_cell_x_align: STRETCH
                   grid_cell_y_align: STRETCH
                   align: top_right
-                  x: 10
-                  width: 40
-                  height: 200
+                  #x: 10
+                  #width: 40
+                  #height: 200
                   pad_all: 0
                   min_value: 0
                   max_value: 100
@@ -202,10 +218,10 @@ lvgl:
                   knob:
                     bg_color: 0xffffff
                     radius: 2px
-                    pad_left: -3px
-                    pad_right: -3px
-                    pad_top: -8px
-                    pad_bottom: -8px
+                    pad_left: -5px
+                    pad_right: -5px
+                    pad_top: -35px
+                    pad_bottom: -50px
                   indicator:
                     radius: 0px
                     bg_color: color_blue
@@ -225,9 +241,9 @@ lvgl:
                   grid_cell_x_align: STRETCH
                   grid_cell_y_align: STRETCH
                   align: top_right
-                  x: 10
-                  width: 40
-                  height: 200
+                 # x: 10
+                 #width: 40
+                 # height: 200
                   pad_all: 0
                   min_value: 0
                   max_value: 100
@@ -235,10 +251,10 @@ lvgl:
                   knob:
                     bg_color: 0xffffff
                     radius: 2px
-                    pad_left: -3px
-                    pad_right: -3px
-                    pad_top: -8px
-                    pad_bottom: -8px
+                    pad_left: -5px
+                    pad_right: -5px
+                    pad_top: -35px
+                    pad_bottom: -50px
                   indicator:
                     radius: 0px
                     bg_color: color_blue
@@ -257,9 +273,9 @@ lvgl:
                   grid_cell_x_align: STRETCH
                   grid_cell_y_align: STRETCH
                   align: top_right
-                  x: 10
-                  width: 40
-                  height: 200
+                  #x: 10
+                  #width: 40
+                  #height: 200
                   pad_all: 0
                   min_value: 0
                   max_value: 100
@@ -267,10 +283,10 @@ lvgl:
                   knob:
                     bg_color: 0xffffff
                     radius: 2px
-                    pad_left: -3px
-                    pad_right: -3px
-                    pad_top: -8px
-                    pad_bottom: -8px
+                    pad_left: -5px
+                    pad_right: -5px
+                    pad_top: -35px
+                    pad_bottom: -50px
                   indicator:
                     radius: 0px
                     bg_color: color_blue
@@ -289,9 +305,9 @@ lvgl:
                   grid_cell_x_align: STRETCH
                   grid_cell_y_align: STRETCH
                   align: top_right
-                  x: 10
-                  width: 40
-                  height: 200
+                  #x: 10
+                  #width: 40
+                  #height: 200
                   pad_all: 0
                   min_value: 0
                   max_value: 100
@@ -299,10 +315,10 @@ lvgl:
                   knob:
                     bg_color: 0xffffff
                     radius: 2px
-                    pad_left: -3px
-                    pad_right: -3px
-                    pad_top: -8px
-                    pad_bottom: -8px
+                    pad_left: -5px
+                    pad_right: -5px
+                    pad_top: -35px
+                    pad_bottom: -50px
                   indicator:
                     radius: 0px
                     bg_color: color_blue
