@@ -121,9 +121,9 @@ time:
   - platform: sntp
     on_time_sync:
     - lambda: !lambda |-
-        id(pressure_3h).publish_state(id(bme680_p).state);
-        id(pressure_2h).publish_state(id(bme680_p).state);
-        id(pressure_1h).publish_state(id(bme680_p).state);
+        id(pressure_3h).publish_state(id(bme680_p).state * 0.75);
+        id(pressure_2h).publish_state(id(bme680_p).state * 0.75);
+        id(pressure_1h).publish_state(id(bme680_p).state * 0.75);
   
     on_time:
       - hours: '*'
