@@ -11,9 +11,22 @@ substitutions:
   co2:                "\U0000e913" # co2
   tvoc:               "\U0000e914" # air quality
   temperature:        "\U0000e915" # temperature
-  illumination:       "\U0000e916" # lux
-  logo:               "\U0000e919" # logo
+  pressure:           "\U0000e9a6" # meter
   monitor_dashboard: "\U000F0A07"
+
+
+
+  molecule_co2: "\U000F07E4"
+  gauge: "\U000F029A"
+  water_percent: "\U000F058E"
+  house_temp: "\U000F0F55"
+  temp: "\U000F050F"
+  monitor_dashboard: "\U000F0A07"
+
+
+
+
+
 
 # ------------------------------------------- #
 # ---------- GLOBALS VARIABLES -------------- #
@@ -82,8 +95,7 @@ font:
       $wifi_25,
       $wifi_50,
       $wifi_75,
-      $wifi_100,
-      $logo
+      $wifi_100
       ]
     
   - file: "font/Icons.ttf"
@@ -96,8 +108,7 @@ font:
       $co2,
       $tvoc,
       $temperature,
-      $illumination
-
+      $pressure
       ]
        
 time:
@@ -154,12 +165,16 @@ sensor:
         - lvgl.label.update:
             id: wifi_status
             text_color: !lambda |-
-              if (id(wifi_signal_percent).state > 0) {
-              return lv_color_hex(0x00FF00);
+              uint8_t wifi_color = (id(wifi_signal_percent).state);
+              switch (wifi_color) {
+                case 0 ... 25: return lv_color_hex(0xFF0000);
+                case 26 ... 50: return lv_color_hex(0xFF8000);
+                case 51 ... 75: return lv_color_hex(0xFFFF00);
+                case 76 ... 100: return lv_color_hex(0x00FF00);
+                default: return lv_color_hex(0x333333);
               }
-              return lv_color_hex(0x333333);
             text: !lambda |-
-              uint16_t wifi_var = (id(wifi_signal_percent).state);
+              uint8_t wifi_var = (id(wifi_signal_percent).state);
               switch (wifi_var) {
                 case 0 ... 25: return std::string("${wifi_25}");
                 case 26 ... 50: return std::string("${wifi_50}");
@@ -177,11 +192,25 @@ sensor:
       then:
         - lvgl.label.update:
             id: weather_anime_temperature_outdor
-            text:
+            text: 
+            #  format: "$molecule_co2 %.0f ppm"
               format: "%.0f°"
               args: [id(anime_temperature_outdor).state]
-
-
+              
+            text_color: !lambda |-
+              int8_t out_var = (id(anime_temperature_outdor).state);
+              switch (out_var) {
+                case -50 ... -26: return lv_color_hex(0x9670d6);
+                case -25 ... -11: return lv_color_hex(0x4867aa);
+                case -10 ... 0: return lv_color_hex(0x2fc0ff);
+                case 1 ... 10: return lv_color_hex(0x00E6E6);
+                case 11 ... 20: return lv_color_hex(0x4DFFE1);
+                case 21 ... 30: return lv_color_hex(0x00ff00);
+                case 31 ... 40: return lv_color_hex(0xe7c12c);
+                case 41 ... 50: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }
+              
   # Temperature Home Sensor
   - platform: homeassistant
     id: anime_temperature
@@ -193,7 +222,16 @@ sensor:
             text:
               format: "%.1f °C"
               args: [id(anime_temperature).state]
-
+            text_color: !lambda |-
+              uint8_t temp_var = (id(anime_temperature).state);
+              switch (temp_var) {
+                case 1 ... 10: return lv_color_hex(0x4867aa);
+                case 11 ... 21: return lv_color_hex(0x2fc0ff);
+                case 22 ... 25: return lv_color_hex(0x00ff00);
+                case 26 ... 30: return lv_color_hex(0xe7c12c);
+                case 31 ... 40: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }
 
   # Humidity Home Sensor
   - platform: homeassistant
@@ -206,6 +244,17 @@ sensor:
             text:
               format: "%.1f %%" 
               args: [id(anime_humidity).state]
+            text_color: !lambda |-
+              uint8_t humm_var = (id(anime_humidity).state);
+              switch (humm_var) {
+                case 0 ... 30: return lv_color_hex(0x00ff00);
+                case 31 ... 50: return lv_color_hex(0xe7c12c);
+                case 51 ... 60: return lv_color_hex(0x00ff00);
+                case 61 ... 70: return lv_color_hex(0xe7c12c);
+                case 71 ... 100: return lv_color_hex(0x2fc0ff);
+                default: return lv_color_hex(0x333333);
+              }
+
 
 # CO2 Home Sensor 
   - platform: homeassistant
@@ -218,19 +267,39 @@ sensor:
             text:
               format: "%.0f ppm"
               args: [id(anime_co2).state]
+            text_color: !lambda |-
+              uint16_t vco2 = (id(anime_co2).state);
+              switch (vco2) {
+                case 0 ... 600: return lv_color_hex(0x00ff00);
+                case 601 ... 1000: return lv_color_hex(0x80FF95);
+                case 1001 ... 1500: return lv_color_hex(0xe7c12c);
+                case 1501 ... 2000: return lv_color_hex(0xf07c40);
+                case 2001 ... 4000: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }
 
-
-  # Illumination Home Sensor
+  # Pressure Home Sensor
   - platform: homeassistant
-    id: anime_lux
-    entity_id: $sensor_lux # Change the entity from your Home Assistant
+    id: anime_pressure
+    entity_id: $sensor_pressure # Change the entity from your Home Assistant
     on_value:
       then:
         - lvgl.label.update:
-            id: weather_anime_lux
+            id: weather_anime_pressure
             text:
               format: "%.0f mmHg"
-              args: [id(anime_lux).state]
+              args: [id(anime_pressure).state]
+            text_color: !lambda |-
+              uint16_t vp = (id(anime_pressure).state);
+              switch (vp) {
+                case 710 ... 730: return lv_color_hex(0xff0000);
+                case 731 ... 740: return lv_color_hex(0xf07c40);
+                case 741 ... 760: return lv_color_hex(0x00ff00);
+                case 761 ... 770: return lv_color_hex(0xf07c40);
+                case 771 ... 780: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }
+
 
 text_sensor:
   # Sun horizon sensor from Home Assistant #
@@ -331,69 +400,6 @@ text_sensor:
             id: weather_anime_iaq
             text: !lambda |- 
               return x;
-
-
-#  - platform: template
-  #  id: color_temperature
-  #  lambda: |-
-#        text: !lambda |-
-  #            uint16_t temp_var = (id(anime_temperature).state);
-   #           switch (temp_var) {
-    #            case 0 ... 25: return std::string("${wifi_25}");
-     #           case 26 ... 50: return std::string("${wifi_50}");
-      #          case 51 ... 75: return std::string("${wifi_75}");
-       #         case 76 ... 100: return std::string("${wifi_100}");
-        #        default: return std::string("${wifi_100}");
-         #     }
-         
-    #on_value:
-     # then:
-       # - lvgl.label.update:
-        #    id: weather_anime_temperature_icon
-         #   text_color: !lambda return id(color_temperature).state.c_str();
-       # - lvgl.label.update:
-        #    id: weather_anime_temperature
-         #   text_color: !lambda return id(color_temperature).state.c_str();
-
-         
-
-# ----------------------------------------- #
-# -------------- COLORS ------------------- #
-# ----------------------------------------- #
-
-color:
-  - id: color_black
-    hex: 0d0d0d
-  - id: color_dark_gray
-    hex: 333333
-  - id: color_gray
-    hex: 666666
-  - id: color_white
-    hex: f2f0eb
-  - id: color_red
-    hex: ff0000
-  - id: color_crimson
-    hex: f5075c
-  - id: color_blue
-    hex: 2fc0ff
-  - id: color_yellow
-    hex: e7c12c
-  - id: color_amber
-    hex: f4a900
-  - id: color_mint
-    hex: 39d19c
-  - id: color_green
-    hex: 00ff00
-  - id: color_orange
-    hex: f07c40
-  - id: color_deep_orange
-    hex: ff6600
-  - id: color_violet
-    hex: 9670d6
-  - id: color_dark_blue
-    hex: 4867aa
-
-
 
 lvgl:
   pages:
@@ -631,7 +637,7 @@ lvgl:
                   id: weather_anime_temperature_outdor
                   text_font: roboto36
                   text_color: color_white
-                  text: " "
+                  text: "--"
 
         - label:
             id: climate_description
@@ -674,7 +680,7 @@ lvgl:
             align: LEFT_MID
             text_font: roboto24
             text_color: color_white
-            text: " "
+            text: "--.- "
 
         # Home humidity icon
         - label:
@@ -693,7 +699,7 @@ lvgl:
             align: LEFT_MID
             text_font: roboto24
             text_color: color_white
-            text: " "
+            text: "--.- "
 
         # Home co2 icon
         - label:
@@ -712,7 +718,7 @@ lvgl:
             align: LEFT_MID
             text_font: roboto24
             text_color: color_white
-            text: " "
+            text: "----"
 
         # Home iaq icon
         - label:
@@ -723,7 +729,7 @@ lvgl:
             text_font: icons_36
             text_color: color_mint
             text: "${tvoc}"
-        # Home tvoc state
+        # Home iaq state
         - label:
             id: weather_anime_iaq
             x: 80
@@ -732,25 +738,25 @@ lvgl:
             long_mode: DOT
             text_font: roboto24
             text_color: color_white
-            text: " "
+            text: "---"
 
-        # Home lux icon
+        # Home pressure icon
         - label:
             x: 30
             y: 180
             align: LEFT_MID
             text_font: icons_36
             text_color: color_yellow
-            text: "${illumination}"
-        # Home lux state
+            text: "${pressure}"
+        # Home pressure state
         - label:
-            id: weather_anime_lux
+            id: weather_anime_pressure
             x: 80
             y: 180
             align: LEFT_MID
             text_font: roboto24
             text_color: color_white
-            text: " "
+            text: "---"
 # Страницы
         - obj:
             bg_opa: TRANSP

@@ -1,0 +1,435 @@
+substitutions:
+  molecule_co2: "\U000F07E4"
+  gauge: "\U000F029A"
+  water_percent: "\U000F058E"
+  house_temp: "\U000F0F55"
+  temp: "\U000F050F"
+  monitor_dashboard: "\U000F0A07"
+  #weather icons
+  cloudy: "\U000F0590"
+  cloudyalert: "\U000F0F2F"
+  cloudyarrowright: "\U000F0E6E"
+  fog: "\U000F0591"
+  hail: "\U000F0592"
+  hazy: "\U000F0F30"
+  hurricane: "\U000F0898"
+  lightning: "\U000F0593"
+  lightningrainy: "\U000F067E"
+  night: "\U000F0594"
+  nightpartlycloudy: "\U000F0F31"
+  partlycloudy: "\U000F0595"
+  partlylightning: "\U000F0F32"
+  partlyrainy: "\U000F0F33"
+  partlysnowy: "\U000F0F34"
+  partlysnowyrainy: "\U000F0F35"
+  pouring: "\U000F0596"
+  rainy: "\U000F0597"
+  snowy: "\U000F0598"
+  snowyheavy: "\U000F0F36"
+  snowyrainy: "\U000F067F"
+  sunny: "\U000F0599"
+  sunnyalert: "\U000F0F37"
+  sunnyoff: "\U000F14E4"
+  sunset: "\U000F059A"
+  sunsetdown: "\U000F059B"
+  sunsetup: "\U000F059C"
+  tornado: "\U000F0F38"
+  windy: "\U000F059D"
+  windyvariant: "\U000F059E"
+  happyface: "\U000F01F5"
+  
+
+font:
+  - file: "gfonts://Roboto"
+    id: weather_icons
+    size: 110
+    bpp: 4
+    extras:
+      - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+        glyphs: [
+          $cloudy,
+          $cloudyalert,
+          $cloudyarrowright,
+          $fog,
+          $hail,
+          $hazy,
+          $hurricane,
+          $lightning,
+          $lightningrainy,
+          $night,
+          $nightpartlycloudy,
+          $partlycloudy,
+          $partlylightning,
+          $partlyrainy,
+          $partlysnowy,
+          $partlysnowyrainy,
+          $pouring,
+          $rainy,
+          $snowy,
+          $snowyheavy,
+          $snowyrainy,
+          $sunny,
+          $sunnyalert,
+          $sunnyoff,
+          $sunset,
+          $sunsetdown,
+          $sunsetup,
+          $tornado,
+          $windy,
+          $windyvariant,    
+          $happyface
+        ]
+  - file: "gfonts://Roboto"
+    id: roboto90
+    size: 90
+    bpp: 4    
+    
+  - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+    id: weather48
+    size: 48
+    bpp: 4
+    glyphs: [
+      $monitor_dashboard
+    ]    
+
+  - file: "gfonts://Roboto"
+    id: weather24
+    size: 24
+    bpp: 4
+    extras:
+      - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+        glyphs: [
+          $molecule_co2,
+          $gauge,
+          $water_percent,
+          $house_temp,
+          $temp
+          ]
+
+sensor:
+  - platform: homeassistant
+    id: holl_temp_sensor
+    entity_id: $sensor_temperature
+    on_value:
+      then:
+         - lvgl.label.update:
+            id: display_holl_temp
+            text: 
+              format: "$house_temp %.1f °C"
+              args: ["id(holl_temp_sensor).state"]
+            text_color: !lambda |-
+              uint8_t temp_var = (id(holl_temp_sensor).state);
+              switch (temp_var) {
+                case 1 ... 10: return lv_color_hex(0x4867aa);
+                case 11 ... 21: return lv_color_hex(0x2fc0ff);
+                case 22 ... 25: return lv_color_hex(0x00ff00);
+                case 26 ... 30: return lv_color_hex(0xe7c12c);
+                case 31 ... 40: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }
+
+  - platform: homeassistant
+    id: holl_humidity_sensor
+    entity_id: $sensor_humidity
+    on_value:
+      then:
+         - lvgl.label.update:
+            id: display_humidity
+            text: 
+              format: "$water_percent %.1f %%"
+              args: ["id(holl_humidity_sensor).state"]
+            text_color: !lambda |-
+              uint8_t humm_var = (id(holl_humidity_sensor).state);
+              switch (humm_var) {
+                case 0 ... 30: return lv_color_hex(0x00ff00);
+                case 31 ... 50: return lv_color_hex(0xe7c12c);
+                case 51 ... 60: return lv_color_hex(0x00ff00);
+                case 61 ... 70: return lv_color_hex(0xe7c12c);
+                case 71 ... 100: return lv_color_hex(0x2fc0ff);
+                default: return lv_color_hex(0x333333);
+              }
+              
+  - platform: homeassistant
+    id: holl_pressure_sensor
+    entity_id: $sensor_pressure
+    on_value:
+      then:
+         - lvgl.label.update:
+            id: display_pressure
+            text: 
+              format: "$gauge %.0f mmHg"
+              args: ["id(holl_pressure_sensor).state"]
+            text_color: !lambda |-
+              uint16_t vp = (id(holl_pressure_sensor).state);
+              switch (vp) {
+                case 710 ... 730: return lv_color_hex(0xff0000);
+                case 731 ... 740: return lv_color_hex(0xf07c40);
+                case 741 ... 760: return lv_color_hex(0x00ff00);
+                case 761 ... 770: return lv_color_hex(0xf07c40);
+                case 771 ... 780: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }
+              
+  - platform: homeassistant
+    id: holl_co2_sensor
+    entity_id: $sensor_co2
+    on_value:
+      then:
+         - lvgl.label.update:
+            id: display_co2
+            text: 
+              format: "$molecule_co2 %.0f ppm"
+              args: ["id(holl_co2_sensor).state"]
+            text_color: !lambda |-
+              uint16_t vco2 = (id(holl_co2_sensor).state);
+              switch (vco2) {
+                case 0 ... 600: return lv_color_hex(0x00ff00);
+                case 601 ... 1000: return lv_color_hex(0x80FF95);
+                case 1001 ... 1500: return lv_color_hex(0xe7c12c);
+                case 1501 ... 2000: return lv_color_hex(0xf07c40);
+                case 2001 ... 4000: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }
+
+#-------------------------------------------
+# TEXT SENSOR
+#-------------------------------------------
+text_sensor:
+  - platform: homeassistant
+    id: ha_weather_cond
+    entity_id: $sensor_weather
+    filters:
+      - to_upper
+    on_value:
+      then:
+       # - lvgl.label.update:
+        #    id: display_weather
+        #    text: !lambda return id(ha_weather_cond).state.c_str();
+        - text_sensor.template.publish:
+            id: weather_condition_icon
+            state: !lambda return id(ha_weather_cond).state.c_str();
+
+  - platform: template
+    id: weather_condition_icon
+    lambda: |-
+      std::string state = id(ha_weather_cond).state.c_str();
+      if (state == "RAINY") { return std::string("$rainy"); }
+      else if (state == "CLOUDY") { return std::string("$cloudy"); }
+      else if (state == "PARTLYCLOUDY") { return std::string("$partlycloudy"); }
+      else if (state == "SUNNY") { return std::string("$sunny"); }
+      else if (state == "FOG") { return std::string("$fog"); }
+      else if (state == "HAIL") { return std::string("$hail"); }
+      else if (state == "HAZY") { return std::string("$hazy"); }
+      else if (state == "LIGHTNING") { return std::string("$lightning"); }
+      else if (state == "LIGHTNINGRAINY") { return std::string("$lightningrainy"); }
+      else if (state == "CLEAR-NIGHT") { return std::string("$night"); }
+      else if (state == "NIGHTPARTLYCLOUDY") { return std::string("$nightpartlycloudy"); }
+      else if (state == "PARTLYRAINY") { return std::string("$partlyrainy"); }
+      else if (state == "PARTLYLIGHTNING") { return std::string("$partlylightning"); }
+      else if (state == "PARTLYSNOWY") { return std::string("$partlysnowy"); }
+      else if (state == "PARTLYSNOWYRAINY") { return std::string("$partlysnowyrainy"); }
+      else if (state == "POURING") { return std::string("$pouring"); }
+      else if (state == "SNOWY") { return std::string("$snowy"); }
+      else if (state == "SNOWYHEAVY") { return std::string("$snowyheavy"); }
+      else if (state == "SUNSET") { return std::string("$sunset"); }
+      else if (state == "TORNADO") { return std::string("$tornado"); }
+      else if (state == "WINDY") { return std::string("$windy"); }
+      else if (state == "HURRICANE") { return std::string("$hurricane"); }
+      return std::string("$happyface");
+      
+    on_value:
+      then:
+        - logger.log: id(weather_condition_icon).state.c_str()
+        - lvgl.label.update:
+            id: display_weather_icon
+            text: !lambda return id(weather_condition_icon).state.c_str();
+            text_color: !lambda |-
+              std::string state = id(ha_weather_cond).state.c_str();
+              if (state == "RAINY") { return lv_color_hex(0xD3D3D3); }
+              else if (state == "CLOUDY") { return lv_color_hex(0xA9A9A9); }
+              else if (state == "PARTLYCLOUDY") { return lv_color_hex(0xF0F8FF); }
+              else if (state == "SUNNY") { return lv_color_hex(0xFFFF33); }
+              else if (state == "FOG") { return lv_color_hex(0xFFFFFF); }
+              else if (state == "HAIL") { return lv_color_hex(0xB3FFFF); }
+              else if (state == "HAZY") { return lv_color_hex(0xB2BEB5); }
+              else if (state == "LIGHTNING") { return lv_color_hex(0xFFCCFF); }
+              else if (state == "LIGHTNINGRAINY") { return lv_color_hex(0xC44DFF); }
+              else if (state == "CLEAR-NIGHT") { return lv_color_hex(0xBFAFB2); }
+              else if (state == "NIGHTPARTLYCLOUDY") { return lv_color_hex(0xBFAFB2); }
+              else if (state == "PARTLYRAINY") { return lv_color_hex(0xB300B3); }
+              else if (state == "PARTLYLIGHTNING") { return lv_color_hex(0x40004D); }
+              else if (state == "PARTLYSNOWY") { return lv_color_hex(0xF2F3F4); }
+              else if (state == "PARTLYSNOWYRAINY") { return lv_color_hex(0xF8F8FF); }
+              else if (state == "POURING") { return lv_color_hex(0x4DE1FF); }
+              else if (state == "SNOWY") { return lv_color_hex(0xFFFFFF); }
+              else if (state == "SNOWYHEAVY") { return lv_color_hex(0xFFFFFF); }
+              else if (state == "SUNSET") { return lv_color_hex(0xFFFFCC); }
+              else if (state == "TORNADO") { return lv_color_hex(0x0000B3); }
+              else if (state == "WINDY") { return lv_color_hex(0xB3FFFF); }
+              else if (state == "HURRICANE") { return lv_color_hex(0x0000B3); }
+              return lv_color_hex(0x333333);
+
+
+  - platform: homeassistant
+    id: ha_weather_temp
+    entity_id: $sensor_weather
+    attribute: temperature
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: display_temp
+            text: 
+              format: "\U000F050F %s °C"
+              args: ["id(ha_weather_temp).state.c_str()"]  
+ 
+#-------------------------------------------
+# SCRIPT
+#-------------------------------------------
+script:
+  - id: time_update_weather
+    then:
+      - lvgl.label.update: 
+          id: display_time_weather
+          text: !lambda |-
+            static char time_buf[17];
+            auto now = id(sntp_time).now();            
+            snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
+            return time_buf; 
+      - lvgl.label.update:
+          id: display_date_weather
+          text: !lambda |-
+            static char time_buf[17];
+            auto now = id(sntp_time).now();            
+            snprintf(time_buf, sizeof(time_buf), "%02d.%02d.%02d", now.day_of_month, now.month, now.year-2000);
+            return time_buf; 
+
+time:
+  - platform: sntp
+    on_time_sync:
+      - script.execute: time_update_weather
+    on_time:
+      - minutes: '*'
+        seconds: 0
+        then:
+          - script.execute: time_update_weather
+
+
+lvgl:
+  pages:
+    - id: weather
+      widgets:
+        - image:
+            align: CENTER
+            src: $background_weather
+        - label:
+            align: CENTER
+            id: display_weather_icon
+            text: $happyface
+            text_color: 0xFFFFFF
+            bg_opa: TRANSP
+            text_font: weather_icons
+            y: -160
+            x: -75
+        - label:
+            align: CENTER
+            id: display_date_weather
+            text: date
+            text_font: roboto36
+            text_color: 0xFFFFFF
+            y: -80
+            x: -75
+        - label:
+            align: CENTER
+            id: display_time_weather
+            text: clock
+            text_font: roboto90
+            text_color: 0xFFFFFF
+            y: -15
+            x: -75
+
+        - label:
+            align: CENTER
+            id: display_co2
+            text: CO
+            text_font: weather24
+            text_color: 0xFFFFFF
+            y: 40
+            x: -75
+
+        - label:
+            align: CENTER
+            id: display_pressure
+            text: pressure
+            text_font: weather24
+            text_color: 0xFFFFFF
+            y: 70
+            x: -75
+        - label:
+            align: CENTER
+            id: display_humidity
+            text: humidity
+            text_font: weather24
+            text_color: 0xFFFFFF
+            y: 100
+            x: -75
+        - label:
+            align: CENTER
+            id: display_holl_temp
+            text: holl temp
+            text_font: weather24
+            text_color: 0xFFFFFF
+            y: 130
+            x: -75
+            
+        - label:
+            align: CENTER
+            id: display_temp
+            text: temp
+            text_font: weather24
+            text_color: 0xFFFFFF
+            y: 170
+            x: -75
+
+        - obj: # a properly placed coontainer object for all these controls
+            align: CENTER
+            width: 150
+            height: 480
+            bg_opa: 0%
+            border_opa: TRANSP
+            pad_all: 5
+            x: 164
+            y: 0
+            widgets:
+              - slider:
+                  id: dimmer_slider
+                  width: 30
+                  height: 220
+                  x: 55
+                  y: 60
+                  min_value: 30
+                  max_value: 100
+                  value: 50
+                  on_release:
+                    #- light.toggle 
+                    - light.turn_on:
+                        id: backlight                
+                        brightness: !lambda |-
+                          return (x / 100);
+
+              - button:
+                  id: b_backlight
+                  align: CENTER
+                  width: 80
+                  height: 80
+                  #x: 0
+                  y: 120
+                  checkable: true
+                  widgets:
+                    - label:
+                        text_font: weather48
+                        text: $monitor_dashboard
+                        align: CENTER
+                        id: w_backlight
+                  on_click:
+                    - light.toggle:
+                        id: backlight                
