@@ -12,7 +12,7 @@ kitchen-lighting.yaml указываем свои сенсоры, первона
 packages:
 # Обязательная страница (в планах сделать еще одну, чисто меню. Завязаны с подсветкой дисплея)
   weather: !include packages/weather_anime.yaml # выбрать один из двух weather 
-  weather: !include packages/weather_light.yaml # выбрать один из двух weather 
+  weather: !include packages/weather.yaml # выбрать один из двух weather 
 
 # Универсальные необходимо выбрать свои сущности и иконки для их
   button4: !include packages/button-4.yaml универсальный
