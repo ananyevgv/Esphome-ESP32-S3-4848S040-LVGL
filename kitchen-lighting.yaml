@@ -6,18 +6,18 @@ substitutions:
  
 # Указываем ID сенсоров в HA
 
-  sensor_uv_index: sensor.yar_uv_index
-  sensor_geomagnetic: sensor.yar_geomagnetic_field
-  sensor_temperature: sensor.yar_apparent_temperature
-  sensor_humidity: sensor.yar_humidity
-  sensor_pressure: sensor.yar_pressure
+  sensor_uv_index: sensor.iaroslavskaia_uv_index
+  sensor_geomagnetic: sensor.iaroslavskaia_geomagnetic_field
+  sensor_temperature: sensor.kitchen_t
+  sensor_humidity: sensor.kitchen_humidity
+  sensor_pressure: sensor.iaroslavskaia_pressure
   sensor_co2: sensor.holl_co2
-  sensor_weather: weather.yar
-  sensor_iaq: sensor.holl_iaq
-  sensor_lux: sensor.holl_lux
+  sensor_weather: weather.iaroslavskaia
+  sensor_iaq: sensor.holl_iaq_classification
+  sensor_lux: sensor.holl_p
 
 # Icon page setting_page
-  page_home: weather_anime
+  page_home: weather #weather_anime
 
   botton_icon0: "󱠝" #countertop_outline
   botton_page0: kitchen_page
@@ -52,10 +52,13 @@ esphome:
   name: "${name}"
   comment: "${device_description}"
   platformio_options:
+
     board_build.flash_mode: dio
-#    board_upload.maximum_ram_size: 327680
- #   board_upload.maximum_size: 16777216
- #   board_build.partitions: "/config/esphome/custom_partitions.csv"
+    build_flags: "-DBOARD_HAS_PSRAM"
+    board_build.arduino.memory_type: qio_opi
+    board_build.psram_type: opi
+    board_upload.maximum_size: 16777216
+    board_upload.maximum_ram_size: 524288
 
   on_boot:
     - light.turn_on: backlight
@@ -81,6 +84,11 @@ esp32:
       CONFIG_ESP32S3_DATA_CACHE_LINE_64B: "y"
       CONFIG_SPIRAM_FETCH_INSTRUCTIONS: y
       CONFIG_SPIRAM_RODATA: y
+     # CONFIG_ESP32_S3_BOX_BOARD: "y"
+    #components:
+    #  - name: esp32_s3_box_3_board
+    #    source: github://jesserockz/esp32-s3-box-3-board@main
+     #   refresh: 0s
 #-------------------------------------------
 # Logger #32 356 байт
 #-------------------------------------------
@@ -101,6 +109,42 @@ psram:
   mode: octal
   speed: 80MHz
 
+# ----------------------------------------- #
+# -------------- COLORS ------------------- #
+# ----------------------------------------- #
+color:
+  - id: color_black
+    hex: 0d0d0d
+  - id: color_dark_gray
+    hex: 333333
+  - id: color_gray
+    hex: 666666
+  - id: color_white
+    hex: f2f0eb
+  - id: color_red
+    hex: ff0000
+  - id: color_crimson
+    hex: f5075c
+  - id: color_blue
+    hex: 2fc0ff
+  - id: color_yellow
+    hex: e7c12c
+  - id: color_amber
+    hex: f4a900
+  - id: color_mint
+    hex: 39d19c
+  - id: color_green
+    hex: 00ff00
+  - id: color_orange
+    hex: f07c40
+  - id: color_deep_orange
+    hex: ff6600
+  - id: color_violet
+    hex: 9670d6
+  - id: color_dark_blue
+    hex: 4867aa
+
+
 #-------------------------------------------
 # Packages
 #-------------------------------------------
@@ -108,21 +152,25 @@ packages:
   wifi: !include packages/wifi.yaml
 
 # Раставить страницы в желаемой очередности, barometr можно использовать 1 вариант
-  weather: !include packages/weather_anime.yaml # выбрать один из двух weather #jpg:3 689 528 байт без 2 603 377 байт
-  # weather: !include packages/weather_light.yaml # выбрать один из двух weather
-  # button4: !include packages/button-4.yaml
-  # button8: !include packages/button-8.yaml
-  # button10: !include packages/button-10.yaml
-  # button12: !include packages/button-12.yaml
-  # button16: !include packages/button-16.yaml
-  # slider4v: !include packages/slider-4v.yaml
-  # slider4g: !include packages/slider-4g.yaml
+  #weather: !include packages/weather_anime.yaml # выбрать один из двух weather #jpg:3 689 528 байт без 2 603 377 байт
+  weather: !include packages/weather.yaml # выбрать один из двух weather
+
+  #button4: !include packages/button-4.yaml
+  button6: !include packages/button-6.yaml
+  #button8: !include packages/button-8.yaml
+  #button10: !include packages/button-10.yaml
+  #button12: !include packages/button-12.yaml
+  #button16: !include packages/button-16.yaml
+  slider4v: !include packages/slider-4v.yaml
+  slider4g: !include packages/slider-4g.yaml
+  #slider4b: !include packages/slider-4b.yaml
   kitchen: !include packages/kitchen_light.yaml # 30 844
   holl: !include packages/holl_light.yaml # 29 420
+  #boiler: !include packages/boiler.yaml
   lg: !include packages/lg_light.yaml  #495 288
  # clock: !include packages/clock_page.yaml
-  #barometr: !include packages/barometr_page.yaml # выбрать один из двух barometr
-  #barometr: !include packages/barometr_bme680_page.yaml  # выбрать один из двух barometr
+ # barometr: !include packages/barometr_page.yaml # выбрать один из двух barometr
+ # barometr: !include packages/barometr_bme680_page.yaml  # выбрать один из двух barometr
  # geomag: !include packages/geomag_page.yaml
  # UV: !include packages/UV_page.yaml
   #humm: !include packages/humm-page.yaml
@@ -158,7 +206,7 @@ font:
   - file: "gfonts://Roboto"
     id: roboto24
     glyphs: |-
-      !"%()+=,-_.:³°₂μ0123456789АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧЩЬЫЪЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ абвгдеёжзийклмнопрстуфхцчщьыъэюяabcdefghijklmnopqrstuvwxyz'
+      !"%()+=,-_.:³°₂μ0123456789АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ абвгдеёжзийклмнопрстуфхцчшщьыъэюяabcdefghijklmnopqrstuvwxyz'
     # gfonts://family[@weight]
     size: 24
     bpp: 4  
@@ -380,11 +428,7 @@ time:
   - platform: sntp
     id: sntp_time
     timezone: UTC-3 #Europe/Moscow
-    #servers: !secret sntp
-    servers:
-     - 0.pool.ntp.org
-     - 1.pool.ntp.org
-     - 2.pool.ntp.org
+    servers: !secret sntp
    # on_time_sync:
    #   - script.execute: time_update_weather
    #   - script.execute: time_update_holl
