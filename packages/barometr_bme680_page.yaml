@@ -4,7 +4,7 @@
 image:
   - file: "picture/barometr.jpg"
     id: barometr_image
-    resize: 450x450
+    resize: 480x480
     type: RGB565
     
 #-------------------------------------------
@@ -36,11 +36,11 @@ sensor:
         - lvgl.indicator.update:
             id: barometr_hand
             value: !lambda |- 
-              return x * 0.75;
+              return x;
         - lvgl.indicator.update:
             id: barometr_hand_z
             value: !lambda |- 
-              return x * 0.75;
+              return x;
     humidity:
       name: "${name} H"
       id: bme680_h
@@ -121,9 +121,9 @@ time:
   - platform: sntp
     on_time_sync:
     - lambda: !lambda |-
-        id(pressure_3h).publish_state(id(bme680_p).state * 0.75);
-        id(pressure_2h).publish_state(id(bme680_p).state * 0.75);
-        id(pressure_1h).publish_state(id(bme680_p).state * 0.75);
+        id(pressure_3h).publish_state(id(bme680_p).state);
+        id(pressure_2h).publish_state(id(bme680_p).state);
+        id(pressure_1h).publish_state(id(bme680_p).state);
   
     on_time:
       - hours: '*'
@@ -133,36 +133,37 @@ time:
           lambda: !lambda |-
             id(pressure_3h).publish_state(id(pressure_2h).state);
             id(pressure_2h).publish_state(id(pressure_1h).state);
-            id(pressure_1h).publish_state(id(bme680_p).state * 0.75);     
+            id(pressure_1h).publish_state(id(bme680_p).state);     
+
+#-------------------------------------------
+# LVGL
 #-------------------------------------------
 lvgl:
   pages:
-    - id: barometr_page
-     # layout: flex
-     # flex_flow: COLUMN_WRAP
+    - id: barometr_page    
       width: 100%
       bg_color: 0x000000
       bg_opa: cover
-      pad_all: 5 
+      scrollbar_mode: "OFF"
       widgets:
-        - obj: # barometer container
-            height: 450
+        - image:
+            align: CENTER
+            src: barometr_image
+        - obj:
+            bg_opa: TRANSP
+            border_opa: TRANSP
             width: 480
-            border_side: none
-            bg_color: 0x000000
+            height: 480
+            align: CENTER
+            scrollbar_mode: "OFF"
+            scrollable: false
             widgets:
-              - image:
-                  align: CENTER
-                  src: barometr_image
-                  id: im_barometr
-                  radius: 20
-                  clip_corner: true
-
+            #######################
               - meter:
                   border_side: none
-                  height: 450
-                  width: 450
-                  align: center
+                  height: 480
+                  width: 480
+                  align: CENTER
                   bg_opa: TRANSP
                   text_color: 0xFFFFFF
                   scales:
@@ -174,8 +175,8 @@ lvgl:
                             r_mod: -15
                       rotation: 120
                       angle_range: 300 # Угол между началом и концом
-                      range_from: 690 # Минимальное значение
-                      range_to: 810  # Максимальное значение
+                      range_from: 920 #690 # Минимальное значение
+                      range_to: 1080 #810  # Максимальное значение
                       ticks: 
                         count: 0 
                         
@@ -187,19 +188,11 @@ lvgl:
                             r_mod: -150
                       rotation: 300
                       angle_range: 300 # Угол между началом и концом
-                      range_from: 690 # Минимальное значение
-                      range_to: 810     
+                      range_from: 920 #690 # Минимальное значение
+                      range_to: 1080 #810  # Максимальное значение
                       ticks: 
                         count: 0
 
-              - meter:
-                  border_side: none
-                  height: 450
-                  width: 450
-                  align: center
-                  bg_opa: TRANSP
-                  text_color: 0xFFFFFF
-                  scales:
                     - indicators:
                         - line:
                             id: barometr_hand
@@ -208,8 +201,8 @@ lvgl:
                             r_mod: -15
                       rotation: 120
                       angle_range: 300 # Угол между началом и концом
-                      range_from: 690 # Минимальное значение
-                      range_to: 810  # Максимальное значение
+                      range_from: 920 #690 # Минимальное значение
+                      range_to: 1080 #810  # Максимальное значение
                       ticks: 
                         count: 0 
 
@@ -221,32 +214,32 @@ lvgl:
                             r_mod: -150
                       rotation: 300
                       angle_range: 300 # Угол между началом и концом
-                      range_from: 690 # Минимальное значение
-                      range_to: 810    
+                      range_from: 920 #690 # Минимальное значение
+                      range_to: 1080 #810  # Максимальное значение
+                      ticks: 
+                        count: 0
+      
+              - meter:
+                  border_side: none
+                  height: 100
+                  width: 100
+                  y: 180
+                  align: CENTER
+                  bg_opa: TRANSP
+                  text_color: 0xFFFFFF
+                  scales:
+                    - indicators:
+                        - line:
+                            id: temperatura_hand
+                            width: 3
+                            color: 0xFF0000 # red 0xE0E0E0 #white
+                            r_mod: 30
+                      rotation: 180
+                      angle_range: 180 # Угол между началом и концом
+                      range_from: -10 # Минимальное значение
+                      range_to: 50  # Максимальное значение
                       ticks: 
                         count: 0 
-                  widgets:
-                    - meter:
-                        x: 155
-                        y: 325
-                        height: 100
-                        width: 100
-                        bg_opa: 0%
-                        border_side: none
-                        text_color: 0xFFFFFF
-                        scales:
-                          - indicators:
-                            - line:
-                                id: temperatura_hand
-                                width: 3
-                                color: 0xFF0000 # red 0xE0E0E0 #white
-                                r_mod: 30
-                            rotation: 180
-                            angle_range: 180 # Угол между началом и концом
-                            range_from: -10 # Минимальное значение
-                            range_to: 50  # Максимальное значение
-                            ticks: 
-                              count: 0 
 
               - led:
                   align: CENTER
