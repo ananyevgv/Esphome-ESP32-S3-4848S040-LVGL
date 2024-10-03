@@ -208,6 +208,26 @@ binary_sensor:
         id: w_kitchen_lighting_3
         text_color: 0xB6B6B6
 
+  - platform: homeassistant
+    name: bin_lg_tv
+    entity_id: button.kitchen_power_lg
+    publish_initial_state: true
+    internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_lg_tv
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_lg_tv
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_lg_tv
+        text_color: 0xB6B6B6
+        
 lvgl:
   pages:
     - id: kitchen_page     
