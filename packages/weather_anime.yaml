@@ -1,19 +1,18 @@
 image: !include images.yaml
 
 substitutions:
-  lock:               "\U000F033E" # security, alarm
+  lock:               "\U000F033E" # security, alarm 
   ha:                 "\U0000e90b" # home assistant
-  wifi_25:            "\U0000e91e" # wifi signal from 25% to 1%
-  wifi_50:            "\U0000e91f" # wifi signal from 50% to 25%
-  wifi_75:            "\U0000e910" # wifi signal from 75% to 50%
-  wifi_100:           "\U0000e911" # wifi signal from 100% to 75% or disable
+  wifi_25:            "\U0000e91e" # wifi signal from 25% to 1% F092F
+  wifi_50:            "\U0000e91f" # wifi signal from 50% to 25% F091F
+  wifi_75:            "\U0000e910" # wifi signal from 75% to 50% F0922
+  wifi_100:           "\U0000e911" # wifi signal from 100% to 75% or disable F0925 F0928
   humidity:           "\U0000e912" # humidity
   co2:                "\U0000e913" # co2
   tvoc:               "\U0000e914" # air quality
   temperature:        "\U0000e915" # temperature
   pressure:           "\U0000e9a6" # meter
-  monitor_dashboard: "\U000F0A07"
-
+  monitor_dashboard:  "\U000F0A07"
 
 
   molecule_co2: "\U000F07E4"
@@ -21,10 +20,6 @@ substitutions:
   water_percent: "\U000F058E"
   house_temp: "\U000F0F55"
   temp: "\U000F050F"
-  monitor_dashboard: "\U000F0A07"
-
-
-
 
 
 
@@ -39,38 +34,18 @@ globals:
     initial_value: "false"
 
 
-api:
-  on_client_connected:
-    - if:
-        condition:
-          lambda: 'return (0 == client_info.find("Home Assistant "));'
-        then:
-          - lvgl.label.update: 
-              id: ha_status
-              text_color: color_blue
-
-  on_client_disconnected:
-    - if:
-        condition:
-          lambda: 'return (0 == client_info.find("Home Assistant "));'
-        then:
-          - lvgl.label.update: 
-              id: ha_status
-              text_color: color_dark_gray
-              
 font:
   - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
     id: icons_48
     size: 48
     bpp: 4
     glyphs: [
-      $lock,
       $botton_icon0,
       $botton_icon1,
       $botton_icon2,
       $monitor_dashboard
     ]    
-
+    
   - file: "gfonts://Roboto"
     id: nunito72
     glyphs: |-
@@ -99,7 +74,7 @@ font:
       ]
     
   - file: "font/Icons.ttf"
-    id: icons_36
+    id: icons_45
     size: 45
     bpp: 4
     glyphs: [
@@ -153,36 +128,6 @@ script:
 # ------------------------------------------- #
 
 sensor:
-  # WI-FI Signal
-  - platform: wifi_signal
-    id: wifi_signal_percent
-    update_interval: 30s
-    filters:
-      - lambda: return min(max(2 * (x + 100.0), 0.0), 100.0);
-    unit_of_measurement: "%"
-    on_value: 
-      then:
-        - lvgl.label.update:
-            id: wifi_status
-            text_color: !lambda |-
-              uint8_t wifi_color = (id(wifi_signal_percent).state);
-              switch (wifi_color) {
-                case 0 ... 25: return lv_color_hex(0xFF0000);
-                case 26 ... 50: return lv_color_hex(0xFF8000);
-                case 51 ... 75: return lv_color_hex(0xFFFF00);
-                case 76 ... 100: return lv_color_hex(0x00FF00);
-                default: return lv_color_hex(0x333333);
-              }
-            text: !lambda |-
-              uint8_t wifi_var = (id(wifi_signal_percent).state);
-              switch (wifi_var) {
-                case 0 ... 25: return std::string("${wifi_25}");
-                case 26 ... 50: return std::string("${wifi_50}");
-                case 51 ... 75: return std::string("${wifi_75}");
-                case 76 ... 100: return std::string("${wifi_100}");
-                default: return std::string("${wifi_100}");
-              }
-            
   # Weather temperature
   - platform: homeassistant
     id: anime_temperature_outdor
@@ -194,7 +139,7 @@ sensor:
             id: weather_anime_temperature_outdor
             text: 
             #  format: "$molecule_co2 %.0f ppm"
-              format: "%.0f°"
+              format: "%.0f °C"
               args: [id(anime_temperature_outdor).state]
               
             text_color: !lambda |-
@@ -669,7 +614,7 @@ lvgl:
             x: 30
             y: 20
             align: LEFT_MID
-            text_font: icons_36
+            text_font: icons_45
             text_color: color_green
             text: "${temperature}"
         # Home temperature state
@@ -688,7 +633,7 @@ lvgl:
             x: 30
             y: 60
             align: LEFT_MID
-            text_font: icons_36
+            text_font: icons_45
             text_color: color_dark_blue
             text: "${humidity}"
         # Home humidity state
@@ -707,7 +652,7 @@ lvgl:
             x: 30
             y: 100
             align: LEFT_MID
-            text_font: icons_36
+            text_font: icons_45
             text_color: color_deep_orange
             text: "${co2}"
         # Home co2 state
@@ -726,7 +671,7 @@ lvgl:
             x: 30
             y: 140
             align: LEFT_MID
-            text_font: icons_36
+            text_font: icons_45
             text_color: color_mint
             text: "${tvoc}"
         # Home iaq state
@@ -745,7 +690,7 @@ lvgl:
             x: 30
             y: 180
             align: LEFT_MID
-            text_font: icons_36
+            text_font: icons_45
             text_color: color_yellow
             text: "${pressure}"
         # Home pressure state
@@ -936,6 +881,3 @@ lvgl:
                       - lvgl.label.update:
                           id: child_protection_status
                           text_color: color_dark_gray
-                          
-
-                          
