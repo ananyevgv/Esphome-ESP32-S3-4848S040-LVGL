@@ -13,11 +13,13 @@ substitutions:
   sensor_pressure: sensor.iaroslavskaia_pressure
   sensor_co2: sensor.holl_co2
   sensor_weather: weather.iaroslavskaia
-  sensor_iaq: sensor.holl_iaq_classification
+  sensor_iaq: sensor.holl_iaq
+  sensor_iaq_c: sensor.holl_iaq_classification
+  sensor_voc: sensor.holl_voc
   sensor_lux: sensor.holl_p
 
 # Icon page setting_page
-  page_home: weather #weather_anime
+  page_home: weather #_anime
 
   botton_icon0: "󱠝" #countertop_outline
   botton_page0: kitchen_page
@@ -152,26 +154,26 @@ packages:
   wifi: !include packages/wifi.yaml
 
 # Раставить страницы в желаемой очередности, barometr можно использовать 1 вариант
-  #weather: !include packages/weather_anime.yaml # выбрать один из двух weather #jpg:3 689 528 байт без 2 603 377 байт
+ #weather: !include packages/weather_anime.yaml # выбрать один из двух weather #jpg:3 689 528 байт без 2 603 377 байт
   weather: !include packages/weather.yaml # выбрать один из двух weather
 
   #button4: !include packages/button-4.yaml
-  button6: !include packages/button-6.yaml
+  #button6: !include packages/button-6.yaml
   #button8: !include packages/button-8.yaml
   #button10: !include packages/button-10.yaml
   #button12: !include packages/button-12.yaml
   #button16: !include packages/button-16.yaml
-  slider4v: !include packages/slider-4v.yaml
-  slider4g: !include packages/slider-4g.yaml
+  #slider4v: !include packages/slider-4v.yaml
+  #slider4g: !include packages/slider-4g.yaml
   #slider4b: !include packages/slider-4b.yaml
   kitchen: !include packages/kitchen_light.yaml # 30 844
   holl: !include packages/holl_light.yaml # 29 420
   #boiler: !include packages/boiler.yaml
   lg: !include packages/lg_light.yaml  #495 288
  # clock: !include packages/clock_page.yaml
- # barometr: !include packages/barometr_page.yaml # выбрать один из двух barometr
- # barometr: !include packages/barometr_bme680_page.yaml  # выбрать один из двух barometr
- # geomag: !include packages/geomag_page.yaml
+  #barometr: !include packages/barometr_page.yaml # выбрать один из двух barometr
+  barometr: !include packages/barometr_bme680_page.yaml  # выбрать один из двух barometr
+  geomag: !include packages/geomag.yaml
  # UV: !include packages/UV_page.yaml
   #humm: !include packages/humm-page.yaml
 
@@ -412,14 +414,15 @@ display:
         - 7         #b4
         - 15        #b5   
 
+
 #-------------------------------------------
 # WEB 51 112 bytes
 #-------------------------------------------
-#web_server:
-#  port: 80  
-#  auth:
-#    username: !secret web_user
-#    password: !secret web_pass
+web_server:
+  port: 80  
+  auth:
+    username: !secret web_user
+    password: !secret web_pass
 
 #-------------------------------------------
 # TIME
