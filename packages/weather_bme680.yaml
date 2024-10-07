@@ -251,49 +251,6 @@ sensor:
               }       
 
            
-  - platform: homeassistant
-    id: holl_temp_sensor
-    entity_id: $sensor_temperature
-    on_value:
-      then:
-         - lvgl.label.update:
-            id: display_holl_temp
-            text: 
-              format: "$house_temp %.1f °C"
-              args: ["id(holl_temp_sensor).state"]
-            text_color: !lambda |-
-              uint8_t temp_var = (id(holl_temp_sensor).state);
-              switch (temp_var) {
-                case 1 ... 10: return lv_color_hex(0x4867aa);
-                case 11 ... 21: return lv_color_hex(0x2fc0ff);
-                case 22 ... 25: return lv_color_hex(0x00ff00);
-                case 26 ... 30: return lv_color_hex(0xe7c12c);
-                case 31 ... 40: return lv_color_hex(0xff0000);
-                default: return lv_color_hex(0x333333);
-              }
-
-  - platform: homeassistant
-    id: holl_humidity_sensor
-    entity_id: $sensor_humidity
-    on_value:
-      then:
-         - lvgl.label.update:
-            id: display_humidity
-            text: 
-              format: "$water_percent %.1f %%"
-              args: ["id(holl_humidity_sensor).state"]
-            text_color: !lambda |-
-              uint8_t humm_var = (id(holl_humidity_sensor).state);
-              switch (humm_var) {
-                case 0 ... 30: return lv_color_hex(0x00ff00);
-                case 31 ... 50: return lv_color_hex(0xe7c12c);
-                case 51 ... 60: return lv_color_hex(0x00ff00);
-                case 61 ... 70: return lv_color_hex(0xe7c12c);
-                case 71 ... 100: return lv_color_hex(0x2fc0ff);
-                default: return lv_color_hex(0x333333);
-              }
-
-
 
   - platform: homeassistant
     id: geomagnetic_sensor
@@ -337,104 +294,7 @@ sensor:
                 case 11: return lv_color_hex(0xff0000);
                 default: return lv_color_hex(0x333333);
               }         
-# Климат в доме
-  - platform: homeassistant
-    id: holl_pressure_sensor
-    entity_id: $sensor_pressure
-    on_value:
-      then:
-         - lvgl.label.update:
-            id: display_pressure
-            text: 
-              format: "$gauge %.0f mmHg"
-              args: ["id(holl_pressure_sensor).state"]
-            text_color: !lambda |-
-              uint16_t vp = (id(holl_pressure_sensor).state);
-              switch (vp) {
-                case 710 ... 730: return lv_color_hex(0xff0000);
-                case 731 ... 740: return lv_color_hex(0xf07c40);
-                case 741 ... 760: return lv_color_hex(0x00ff00);
-                case 761 ... 770: return lv_color_hex(0xf07c40);
-                case 771 ... 780: return lv_color_hex(0xff0000);
-                default: return lv_color_hex(0x333333);
-              }
-              
-  - platform: homeassistant
-    id: holl_co2_sensor
-    entity_id: $sensor_co2
-    on_value:
-      then:
-         - lvgl.label.update:
-            id: display_co2
-            text: 
-              format: "$molecule_co2 %.0f ppm"
-              args: ["id(holl_co2_sensor).state"]
-            text_color: !lambda |-
-              uint16_t vco2 = (id(holl_co2_sensor).state);
-              switch (vco2) {
-                case 0 ... 600: return lv_color_hex(0x00ff00);
-                case 601 ... 1000: return lv_color_hex(0x80FF95);
-                case 1001 ... 1500: return lv_color_hex(0xe7c12c);
-                case 1501 ... 2000: return lv_color_hex(0xf07c40);
-                case 2001 ... 4000: return lv_color_hex(0xff0000);
-                default: return lv_color_hex(0x333333);
-              }
 
-  - platform: homeassistant
-    id: holl_iaq_sensor
-    entity_id: $sensor_iaq
-    on_value:
-      then:
-         - lvgl.label.update:
-            id: display_iaq
-            text: 
-              format: "$checkbox_marked %.0f ppm"
-              args: ["id(holl_iaq_sensor).state"]
-            text_color: !lambda |-
-              uint16_t viaq = (id(holl_iaq_sensor).state);
-              switch (viaq) {
-                case 0 ... 100: return lv_color_hex(0x00ff00);
-                case 101 ... 150: return lv_color_hex(0x99FF99);
-                case 151 ... 200: return lv_color_hex(0xe7c12c);
-                case 201 ... 250: return lv_color_hex(0xFFBB33);
-                case 251 ... 300: return lv_color_hex(0xff6600);
-                case 301 ... 500: return lv_color_hex(0xff0000);
-                default: return lv_color_hex(0x333333);
-              }
-         - lvgl.label.update:
-            id: display_iaq_c              
-            text_color: !lambda |-
-              uint16_t iaq_c = (id(holl_iaq_sensor).state);
-              switch (iaq_c) {
-                case 0 ... 100: return lv_color_hex(0x00ff00);
-                case 101 ... 150: return lv_color_hex(0x99FF99);
-                case 151 ... 200: return lv_color_hex(0xe7c12c);
-                case 201 ... 250: return lv_color_hex(0xFFBB33);
-                case 251 ... 300: return lv_color_hex(0xff6600);
-                case 301 ... 500: return lv_color_hex(0xff0000);
-                default: return lv_color_hex(0x333333);
-              }            
-  - platform: homeassistant
-    id: holl_voc_sensor
-    entity_id: $sensor_voc
-    on_value:
-      then:
-         - lvgl.label.update:
-            id: display_voc
-            text: 
-              format: "$molecule %.0f ppm"
-              args: ["id(holl_voc_sensor).state"]
-            text_color: !lambda |-
-              uint16_t vvoc = (id(holl_voc_sensor).state);
-              switch (vvoc) {
-                case 0 ... 100: return lv_color_hex(0x00ff00);
-                case 101 ... 150: return lv_color_hex(0x99FF99);
-                case 151 ... 200: return lv_color_hex(0xe7c12c);
-                case 201 ... 250: return lv_color_hex(0xFFBB33);
-                case 251 ... 300: return lv_color_hex(0xff6600);
-                case 301 ... 500: return lv_color_hex(0xff0000);
-                default: return lv_color_hex(0x333333);
-              }
           
 # Пыльца          
   - platform: homeassistant
@@ -722,6 +582,8 @@ lvgl:
             y: 100
             x: 250
             
+            
+            
 # Климат в доме     
         - label:
             align: LEFT_MID
@@ -748,7 +610,7 @@ lvgl:
             text_font: weather24
             text_color: 0x808080
             y: 40
-            x: 90
+            x: 120
             
 # Качество воздуха           
         - label:
@@ -792,6 +654,8 @@ lvgl:
             y: 190
             x: 10
 
+
+         
 # Пыльца на улице   
         - label:
             align: LEFT_MID

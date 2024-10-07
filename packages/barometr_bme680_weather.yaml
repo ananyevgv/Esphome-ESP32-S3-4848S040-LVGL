@@ -1,0 +1,332 @@
+#-------------------------------------------
+# IMAGE
+#-------------------------------------------
+image:
+  - file: "picture/barometr.jpg"
+    id: barometr_image
+    resize: 480x480
+    type: RGB565
+    
+#-------------------------------------------
+# SENSOR
+#-------------------------------------------
+sensor:
+  - platform: bme680
+    address: 0x77
+    temperature:
+      name: "${name} T"
+      id: bme680_t
+      filters:
+      - filter_out: NAN
+      - calibrate_linear:
+        - 0.0 -> 0.0
+        - 26.7 -> 24.7
+      on_value:
+        - lvgl.indicator.update:
+            id: temperatura_hand
+            value: !lambda |- 
+              return x;
+        - lvgl.label.update:
+            id: display_holl_temp
+            text: 
+              format: "$house_temp %.1f °C"
+              args: ["id(bme680_t).state"]
+            text_color: !lambda |-
+              uint8_t temp_var = (id(bme680_t).state);
+              switch (temp_var) {
+                case 1 ... 10: return lv_color_hex(0x4867aa);
+                case 11 ... 21: return lv_color_hex(0x2fc0ff);
+                case 22 ... 25: return lv_color_hex(0x00ff00);
+                case 26 ... 30: return lv_color_hex(0xe7c12c);
+                case 31 ... 40: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }
+              
+    pressure:
+      filters:
+      - filter_out: NAN
+      name: "${name} P"
+      id: bme680_p
+      on_value:
+        - lvgl.indicator.update:
+            id: barometr_hand
+            value: !lambda |- 
+              return x;
+        - lvgl.indicator.update:
+            id: barometr_hand_z
+            value: !lambda |- 
+              return x;
+        - lvgl.label.update:
+            id: display_pressure
+            text: 
+              format: "$gauge %.0f mmHg"
+              args: ["id(bme680_p).state  * 0.75"]
+            text_color: !lambda |-
+              uint16_t vp = (id(bme680_p).state * 0.75);
+              switch (vp) {
+                case 710 ... 730: return lv_color_hex(0xff0000);
+                case 731 ... 740: return lv_color_hex(0xf07c40);
+                case 741 ... 760: return lv_color_hex(0x00ff00);
+                case 761 ... 770: return lv_color_hex(0xf07c40);
+                case 771 ... 780: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              } 
+              
+    humidity:
+      name: "${name} H"
+      id: bme680_h
+      filters:
+      - filter_out: NAN
+      - calibrate_linear:
+        - 0.0 -> 0.0
+        - 52 -> 54.7
+      on_value:
+        - lvgl.label.update:
+            id: display_humidity
+            text: 
+              format: "$water_percent %.1f %%"
+              args: ["id(bme680_h).state"]
+            text_color: !lambda |-
+              uint8_t humm_var = (id(bme680_h).state);
+              switch (humm_var) {
+                case 0 ... 30: return lv_color_hex(0x00ff00);
+                case 31 ... 50: return lv_color_hex(0xe7c12c);
+                case 51 ... 60: return lv_color_hex(0x00ff00);
+                case 61 ... 70: return lv_color_hex(0xe7c12c);
+                case 71 ... 100: return lv_color_hex(0x2fc0ff);
+                default: return lv_color_hex(0x333333);
+              }
+    gas_resistance:
+      name: "BME680 Gas Resistance"
+      id: bme680_r
+    update_interval: 60s
+  - platform: template
+    name: "BME680 Indoor Air Quality"
+    id: bme680_iaq
+    icon: "mdi:gauge"
+    # calculation: comp_gas = log(R_gas[ohm]) + 0.04 log(Ohm)/%rh * hum[%rh]
+    lambda: |-
+      return log(id(bme680_r).state) + 0.04 *  id(bme680_h).state;
+    state_class: "measurement"
+    on_value:
+      then:
+         - lvgl.label.update:
+            id: display_iaq
+            text: 
+              format: "$checkbox_marked %.0f ppm"
+              args: ["id(bme680_iaq).state"]
+            text_color: !lambda |-
+              uint16_t viaq = (id(bme680_iaq).state);
+              switch (viaq) {
+                case 0 ... 100: return lv_color_hex(0x00ff00);
+                case 101 ... 150: return lv_color_hex(0x99FF99);
+                case 151 ... 200: return lv_color_hex(0xe7c12c);
+                case 201 ... 250: return lv_color_hex(0xFFBB33);
+                case 251 ... 300: return lv_color_hex(0xff6600);
+                case 301 ... 500: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }
+         - lvgl.label.update:
+            id: display_iaq_c              
+            text_color: !lambda |-
+              uint16_t iaq_c = (id(bme680_iaq).state);
+              switch (iaq_c) {
+                case 0 ... 100: return lv_color_hex(0x00ff00);
+                case 101 ... 150: return lv_color_hex(0x99FF99);
+                case 151 ... 200: return lv_color_hex(0xe7c12c);
+                case 201 ... 250: return lv_color_hex(0xFFBB33);
+                case 251 ... 300: return lv_color_hex(0xff6600);
+                case 301 ... 500: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }      
+
+  - platform: template # Pressure 1h
+    name: "${name} pressure old 1h"
+    id: pressure_1h
+    update_interval: never
+    device_class: pressure
+
+
+  - platform: template # Pressure 2h
+    name: "${name} pressure old 2h"
+    id: pressure_2h
+    update_interval: never
+    device_class: pressure
+
+
+  - platform: template # Pressure 3h
+    name: "${name} pressure old 3h"
+    id: pressure_3h
+    update_interval: never
+    device_class: pressure
+    on_value:
+      - lvgl.indicator.update:
+          id: barometr_hand_3h
+          value: !lambda |- 
+            return x;
+      - lvgl.indicator.update:
+          id: barometr_hand_3hz
+          value: !lambda |- 
+            return x;
+            
+            
+#-------------------------------------------
+# TEXT SENSOR
+#-------------------------------------------
+text_sensor:
+  - platform: template
+    name: "${name} IAQ Classification"
+    icon: "mdi:checkbox-marked-circle-outline"
+    lambda: |-
+      uint16_t var = (id(bme680_iaq).state);
+      switch (var) {
+        case 0 ... 50: return std::string("Отлично");
+        case 51 ... 100: return std::string("Хорошо");
+        case 101 ... 150: return std::string("Слегка загрязненный");
+        case 151 ... 200: return std::string("Умеренно загрязненный");
+        case 201 ... 250: return std::string("Слегка загрязненный");
+        case 251 ... 300: return std::string("Загрязненный");
+        case 301 ... 350: return std::string("Сильно загрязненный");
+        case 351 ... 500: return std::string("Черезвычайно загрязненный"); 
+        default: return std::string("error");
+      }
+    on_value:
+      then:
+         - lvgl.label.update:
+            id: display_iaq_c
+            text: !lambda |- 
+              return x;
+   
+            
+#-------------------------------------------
+# TIME
+#-------------------------------------------
+time:
+  - platform: sntp
+    on_time_sync:
+    - lambda: !lambda |-
+        id(pressure_3h).publish_state(id(bme680_p).state);
+        id(pressure_2h).publish_state(id(bme680_p).state);
+        id(pressure_1h).publish_state(id(bme680_p).state);
+  
+    on_time:
+      - hours: '*'
+        minutes: 50
+        seconds: 0
+        then:
+          lambda: !lambda |-
+            id(pressure_3h).publish_state(id(pressure_2h).state);
+            id(pressure_2h).publish_state(id(pressure_1h).state);
+            id(pressure_1h).publish_state(id(bme680_p).state);     
+
+#-------------------------------------------
+# LVGL
+#-------------------------------------------
+lvgl:
+  pages:
+    - id: barometr_page    
+      width: 100%
+      bg_color: 0x000000
+      bg_opa: cover
+      scrollbar_mode: "OFF"
+      widgets:
+        - image:
+            align: CENTER
+            src: barometr_image
+        - obj:
+            bg_opa: TRANSP
+            border_opa: TRANSP
+            width: 480
+            height: 480
+            align: CENTER
+            scrollbar_mode: "OFF"
+            scrollable: false
+            widgets:
+            #######################
+              - meter:
+                  border_side: none
+                  height: 480
+                  width: 480
+                  align: CENTER
+                  bg_opa: TRANSP
+                  text_color: 0xFFFFFF
+                  scales:
+                    - indicators:
+                        - line:
+                            id: barometr_hand_3h
+                            width: 3
+                            color: 0xE0E0E0 #white
+                            r_mod: -15
+                      rotation: 120
+                      angle_range: 300 # Угол между началом и концом
+                      range_from: 920 #690 # Минимальное значение
+                      range_to: 1080 #810  # Максимальное значение
+                      ticks: 
+                        count: 0 
+                        
+                    - indicators:
+                        - line:
+                            id: barometr_hand_3hz
+                            width: 7
+                            color: 0xE0E0E0 #white
+                            r_mod: -150
+                      rotation: 300
+                      angle_range: 300 # Угол между началом и концом
+                      range_from: 920 #690 # Минимальное значение
+                      range_to: 1080 #810  # Максимальное значение
+                      ticks: 
+                        count: 0
+
+                    - indicators:
+                        - line:
+                            id: barometr_hand
+                            width: 3
+                            color: 0xFF0000 # red 0xE0E0E0 #white
+                            r_mod: -15
+                      rotation: 120
+                      angle_range: 300 # Угол между началом и концом
+                      range_from: 920 #690 # Минимальное значение
+                      range_to: 1080 #810  # Максимальное значение
+                      ticks: 
+                        count: 0 
+
+                    - indicators:
+                        - line:
+                            id: barometr_hand_z
+                            width: 7
+                            color: 0xFF0000 # red 0xE0E0E0 #white
+                            r_mod: -150
+                      rotation: 300
+                      angle_range: 300 # Угол между началом и концом
+                      range_from: 920 #690 # Минимальное значение
+                      range_to: 1080 #810  # Максимальное значение
+                      ticks: 
+                        count: 0
+      
+              - meter:
+                  border_side: none
+                  height: 100
+                  width: 100
+                  y: 180
+                  align: CENTER
+                  bg_opa: TRANSP
+                  text_color: 0xFFFFFF
+                  scales:
+                    - indicators:
+                        - line:
+                            id: temperatura_hand
+                            width: 3
+                            color: 0xFF0000 # red 0xE0E0E0 #white
+                            r_mod: 30
+                      rotation: 180
+                      angle_range: 180 # Угол между началом и концом
+                      range_from: -10 # Минимальное значение
+                      range_to: 50  # Максимальное значение
+                      ticks: 
+                        count: 0 
+
+              - led:
+                  align: CENTER
+                  color: 0xFF0000
+                  width: 15
+                  height: 15
