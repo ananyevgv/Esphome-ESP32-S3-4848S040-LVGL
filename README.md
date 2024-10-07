@@ -51,6 +51,8 @@ packages:
 
 https://aliexpress.ru/item/1005006335587633.html
 
+https://github.com/Limych/ha-gismeteo
+
 https://community.home-assistant.io/t/guition-4-480x480-esp32-s3-4848s040-smart-display-with-lvgl/729271
 
 https://github.com/albert-canfield/HA-panel-esphome
