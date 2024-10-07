@@ -18,6 +18,14 @@ substitutions:
   monitor_dashboard:  "\U000F0A07"
   lock_open:          "\U000F0340"
   lock_outline:       "\U000F0341"
+  checkbox_marked:    "\U000F0134"
+  molecule:           "\U000F0BAC"
+  
+  sun_wireless:       "\U000F17FE"
+  earth:              "\U000F01E7"
+  flower_pollen:      "\U000F1885"
+  grass:              "\U000F1510"
+  tree_outline:       "\U000F0E69"
   
   #weather icons
   cloudy:             "\U000F0590"
@@ -51,8 +59,11 @@ substitutions:
   windy:              "\U000F059D"
   windyvariant:       "\U000F059E"
   happyface:          "\U000F01F5"
+  lan_disconnect:     "\U000F0319"
   
-
+#-------------------------------------------
+# FONT
+#-------------------------------------------
 font:
   - file: "gfonts://Roboto"
     id: weather_icons
@@ -91,23 +102,41 @@ font:
           $tornado,
           $windy,
           $windyvariant,    
-          $happyface
+          $happyface,
+          $lan_disconnect
         ]
         
-  - file: "gfonts://Roboto"
-    id: roboto90
-    size: 90
-    bpp: 4    
+  - file: "font/DSEG7ModernMini-Bold.ttf"
+    id: SEG50
+    glyphs: |-
+      :-0123456789'
+    size: 50
+    bpp: 4  
     
   - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
-    id: weather48
+    id: icons_48
     size: 48
     bpp: 4
     glyphs: [
+      $botton_icon0,
+      $botton_icon1,
+      $botton_icon2,
       $monitor_dashboard,
       $lock_open,
       $lock_outline
-    ]    
+    ]   
+    
+  - file: "gfonts://Roboto"
+    id: weather36
+    size: 36
+    bpp: 4
+    extras:
+      - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+        glyphs: [
+          $earth,
+          $windy,
+          $sun_wireless
+          ]
 
   - file: "gfonts://Roboto"
     id: weather24
@@ -117,10 +146,16 @@ font:
       - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
         glyphs: [
           $molecule_co2,
+          $checkbox_marked,
+          $molecule,
           $gauge,
           $water_percent,
           $house_temp,
-          $temp
+          $temp,
+          $flower_pollen,
+          $grass,
+          $windy,
+          $tree_outline
           ]
           
   - file: "font/Icons.ttf"
@@ -135,23 +170,17 @@ font:
       $wifi_100
       ]
       
-  - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
-    id: icons_48
-    size: 48
-    bpp: 4
-    glyphs: [
-      $botton_icon0,
-      $botton_icon1,
-      $botton_icon2,
-      $monitor_dashboard
-    ]     
-    
+#-------------------------------------------
+# GLOBAL
+#-------------------------------------------    
 globals:
   - id: child_protection
     type: bool
     restore_value: true
     initial_value: "false"    
-    
+#-------------------------------------------
+# SENSOR
+#------------------------------------------- 
 sensor:
   - platform: homeassistant
     id: ha_weather_temp
@@ -171,13 +200,57 @@ sensor:
                 case -25 ... -11: return lv_color_hex(0x4867aa);
                 case -10 ... 0: return lv_color_hex(0x2fc0ff);
                 case 1 ... 10: return lv_color_hex(0x00E6E6);
-                case 11 ... 20: return lv_color_hex(0x4DFFE1);
+                case 11 ... 20: return lv_color_hex(0x00ddb8);
                 case 21 ... 30: return lv_color_hex(0x00ff00);
                 case 31 ... 40: return lv_color_hex(0xe7c12c);
                 case 41 ... 50: return lv_color_hex(0xff0000);
                 default: return lv_color_hex(0x333333);
               }
+
+  - platform: homeassistant
+    id: ha_weather_hum
+    entity_id: $sensor_weather
+    attribute: humidity
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: display_hum
+            text: 
+              format: "%.0f %%"
+              args: ["id(ha_weather_hum).state"]  
+            text_color: !lambda |-
+              uint8_t hum_var = (id(ha_weather_hum).state);
+              switch (hum_var) {
+                case 0 ... 30: return lv_color_hex(0x00ff00);
+                case 31 ... 50: return lv_color_hex(0xe7c12c);
+                case 51 ... 60: return lv_color_hex(0x00ff00);
+                case 61 ... 70: return lv_color_hex(0xe7c12c);
+                case 71 ... 100: return lv_color_hex(0x2fc0ff);
+                default: return lv_color_hex(0x333333);
+              }       
               
+  - platform: homeassistant
+    id: wind_speed_sensor
+    entity_id: $sensor_wind_speed
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: display_wind_speed
+            text: 
+              format: "$windy %.0f m/s"
+              args: ["id(wind_speed_sensor).state"]  
+            text_color: !lambda |-
+              uint16_t ws_var = (id(wind_speed_sensor).state *10);
+              switch (ws_var) {
+                case 0 ... 50: return lv_color_hex(0x00ff00);
+                case 60 ... 70: return lv_color_hex(0xe7c12c);
+                case 80 ... 150: return lv_color_hex(0x00ff00);
+                case 160 ... 290: return lv_color_hex(0xe7c12c);
+                case 300 ... 1000: return lv_color_hex(0x2fc0ff);
+                default: return lv_color_hex(0x333333);
+              }       
+
+           
   - platform: homeassistant
     id: holl_temp_sensor
     entity_id: $sensor_temperature
@@ -221,6 +294,50 @@ sensor:
               }
 
 
+
+  - platform: homeassistant
+    id: geomagnetic_sensor
+    entity_id: $sensor_geomagnetic
+    on_value:
+      then:
+         - lvgl.label.update:
+            id: display_geomagnetic
+            text: 
+              format: "$earth %.0f"
+              args: ["id(geomagnetic_sensor).state"]
+            text_color: !lambda |-
+              uint8_t geo_var = (id(geomagnetic_sensor).state);
+              switch (geo_var) {
+                case 0 ... 4: return lv_color_hex(0x00ff00);
+                case 5: return lv_color_hex(0x99FF99);
+                case 6: return lv_color_hex(0xe7c12c);
+                case 7: return lv_color_hex(0xFFBB33);
+                case 8: return lv_color_hex(0xff6600);
+                case 9: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }
+ 
+  - platform: homeassistant
+    id: UV_sensor
+    entity_id: $sensor_uv_index
+    on_value:
+      then:
+         - lvgl.label.update:
+            id: display_UV
+            text: 
+              format: "$sun_wireless %.0f"
+              args: ["id(UV_sensor).state"]
+            text_color: !lambda |-
+              uint8_t uv_var = (id(UV_sensor).state);
+              switch (uv_var) {
+                case 0 ... 2: return lv_color_hex(0x00ff00);
+                case 3 ... 5: return lv_color_hex(0x99FF99);
+                case 6 ... 7: return lv_color_hex(0xe7c12c);
+                case 8 ... 10: return lv_color_hex(0xff6600);
+                case 11: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }         
+# Климат в доме
   - platform: homeassistant
     id: holl_pressure_sensor
     entity_id: $sensor_pressure
@@ -271,7 +388,7 @@ sensor:
          - lvgl.label.update:
             id: display_iaq
             text: 
-              format: "$molecule_co2 %.0f ppm"
+              format: "$checkbox_marked %.0f ppm"
               args: ["id(holl_iaq_sensor).state"]
             text_color: !lambda |-
               uint16_t viaq = (id(holl_iaq_sensor).state);
@@ -284,7 +401,19 @@ sensor:
                 case 301 ... 500: return lv_color_hex(0xff0000);
                 default: return lv_color_hex(0x333333);
               }
-            
+         - lvgl.label.update:
+            id: display_iaq_c              
+            text_color: !lambda |-
+              uint16_t iaq_c = (id(holl_iaq_sensor).state);
+              switch (iaq_c) {
+                case 0 ... 100: return lv_color_hex(0x00ff00);
+                case 101 ... 150: return lv_color_hex(0x99FF99);
+                case 151 ... 200: return lv_color_hex(0xe7c12c);
+                case 201 ... 250: return lv_color_hex(0xFFBB33);
+                case 251 ... 300: return lv_color_hex(0xff6600);
+                case 301 ... 500: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }            
   - platform: homeassistant
     id: holl_voc_sensor
     entity_id: $sensor_voc
@@ -293,7 +422,7 @@ sensor:
          - lvgl.label.update:
             id: display_voc
             text: 
-              format: "$molecule_co2 %.0f ppm"
+              format: "$molecule %.0f ppm"
               args: ["id(holl_voc_sensor).state"]
             text_color: !lambda |-
               uint16_t vvoc = (id(holl_voc_sensor).state);
@@ -306,7 +435,71 @@ sensor:
                 case 301 ... 500: return lv_color_hex(0xff0000);
                 default: return lv_color_hex(0x333333);
               }
+          
+# Пыльца          
+  - platform: homeassistant
+    id: birch_sensor
+    entity_id: $sensor_birch
+    on_value:
+      then:
+         - lvgl.label.update:
+            id: display_birch
+            text: 
+              format: "$tree_outline %.0f "
+              args: ["id(birch_sensor).state"]
+            text_color: !lambda |-
+              uint16_t vbirch = (id(birch_sensor).state);
+              switch (vbirch) {
+                case 0 ... 1: return lv_color_hex(0x00ff00);
+                case 2: return lv_color_hex(0xe7c12c);
+                case 3: return lv_color_hex(0xFFBB33);
+                case 4: return lv_color_hex(0xff6600);
+                case 5: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              } 
               
+              
+  - platform: homeassistant
+    id: grass_sensor
+    entity_id: $sensor_grass
+    on_value:
+      then:
+         - lvgl.label.update:
+            id: display_grass
+            text: 
+              format: "$grass %.0f"
+              args: ["id(grass_sensor).state"]
+            text_color: !lambda |-
+              uint16_t vgrass = (id(grass_sensor).state);
+              switch (vgrass) {
+                case 0 ... 1: return lv_color_hex(0x00ff00);
+                case 2: return lv_color_hex(0xe7c12c);
+                case 3: return lv_color_hex(0xFFBB33);
+                case 4: return lv_color_hex(0xff6600);
+                case 5: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }   
+              
+  - platform: homeassistant
+    id: ragweed_sensor
+    entity_id: $sensor_ragweed
+    on_value:
+      then:
+         - lvgl.label.update:
+            id: display_ragweed
+            text: 
+              format: "$flower_pollen %.0f"
+              args: ["id(ragweed_sensor).state"]
+            text_color: !lambda |-
+              uint16_t vragweed = (id(ragweed_sensor).state);
+              switch (vragweed) {
+                case 0 ... 1: return lv_color_hex(0x00ff00);
+                case 2: return lv_color_hex(0xe7c12c);
+                case 3: return lv_color_hex(0xFFBB33);
+                case 4: return lv_color_hex(0xff6600);
+                case 5: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }  
 #-------------------------------------------
 # TEXT SENSOR
 #-------------------------------------------
@@ -340,6 +533,7 @@ text_sensor:
         - "TORNADO -> $tornado" 
         - "WINDY -> $windy"
         - "HURRICANE -> $hurricane" 
+        - "UNAVAILABLE -> $lan_disconnect" 
     on_value:
       then:
         - lvgl.label.update:
@@ -381,17 +575,6 @@ text_sensor:
             id: display_iaq_c
             text: !lambda |- 
               return x;
-            text_color: !lambda |-
-              uint16_t viaq = (id(holl_iaq_sensor).state);
-              switch (viaq) {
-                case 0 ... 100: return lv_color_hex(0x00ff00);
-                case 101 ... 150: return lv_color_hex(0x99FF99);
-                case 151 ... 200: return lv_color_hex(0xe7c12c);
-                case 201 ... 250: return lv_color_hex(0xFFBB33);
-                case 251 ... 300: return lv_color_hex(0xff6600);
-                case 301 ... 500: return lv_color_hex(0xff0000);
-                default: return lv_color_hex(0x333333);
-              }
  
 #-------------------------------------------
 # SCRIPT
@@ -406,6 +589,9 @@ script:
             auto now = id(sntp_time).now();            
             snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
             return time_buf; 
+          text_color: !lambda |-
+            return lv_color_hex(0xFFFFFF);
+
       - lvgl.label.update:
           id: display_date_weather
           text: !lambda |-
@@ -413,7 +599,11 @@ script:
             auto now = id(sntp_time).now();            
             snprintf(time_buf, sizeof(time_buf), "%02d.%02d.%02d", now.day_of_month, now.month, now.year-2000);
             return time_buf; 
-
+          text_color: !lambda |-
+            return lv_color_hex(0xFFFFFF);
+#-------------------------------------------
+# TIME
+#-------------------------------------------       
 time:
   - platform: sntp
     on_time_sync:
@@ -424,7 +614,9 @@ time:
         then:
           - script.execute: time_update_weather
 
-
+#-------------------------------------------
+# LVGL
+#-------------------------------------------
 lvgl:
   pages:
     - id: weather
@@ -461,23 +653,26 @@ lvgl:
             text_font: weather_icons
             y: -160
             x: -75
+            
+# Дата время
         - label:
             align: CENTER
             id: display_date_weather
-            text: date
+            text: __.__.__
             text_font: roboto36
-            text_color: 0xFFFFFF
+            text_color: 0x808080
             y: -80
             x: -75
         - label:
             align: CENTER
             id: display_time_weather
-            text: clock
-            text_font: roboto90
-            text_color: 0xFFFFFF
+            text: 88:88
+            text_font: SEG50
+            text_color: 0x808080
             y: -15
             x: -75
-
+            
+# Прогноз погоды
         - label:
             align: TOP_LEFT
             id: display_temp
@@ -487,6 +682,47 @@ lvgl:
             y: 20
             x: 20
             
+        - label:
+            align: TOP_LEFT
+            id: display_hum
+            text: -- %
+            text_font: roboto36
+            text_color: 0xFFFFFF
+            y: 60
+            x: 20    
+            
+        - label:
+            align: TOP_LEFT
+            id: display_wind_speed
+            text: -- m/s
+            text_font: weather36
+            text_color: 0xFFFFFF
+            y: 20
+            x: 250         
+           
+           
+           
+        - label:
+            align: TOP_LEFT
+            id: display_UV
+            text: -- 
+            text_font: weather36
+            text_color: 0xFFFFFF
+            y: 60
+            x: 250
+            
+        - label:
+            align: TOP_LEFT
+            id: display_geomagnetic
+            text: --
+            text_font: weather36
+            text_color: 0xFFFFFF
+            y: 100
+            x: 250
+            
+            
+            
+# Климат в доме     
         - label:
             align: LEFT_MID
             id: display_holl_temp
@@ -511,25 +747,32 @@ lvgl:
             text: --- mmHg
             text_font: weather24
             text_color: 0xFFFFFF
-            y: 100
-            x: 10
+            y: 40
+            x: 90
             
+# Качество воздуха           
         - label:
             align: LEFT_MID
             id: display_iaq_c
             text: Качество воздуха
             text_font: roboto24
             text_color: 0xFFFFFF
-            y: 130
+            y: 100
             x: 10
-            
+        - line:
+            points:
+             - 0, 355
+             - 240, 355
+            line_width: 3
+            line_color: 0xffffff
+            line_rounded: false             
         - label:
             align: LEFT_MID
             id: display_co2
             text: --- ppm
             text_font: weather24
             text_color: 0xFFFFFF
-            y: 160
+            y: 130
             x: 10
 
         - label:
@@ -539,7 +782,7 @@ lvgl:
             text_font: weather24
             text_color: 0xFFFFFF
             y: 160
-            x: 150
+            x: 10
 
         - label:
             align: LEFT_MID
@@ -549,7 +792,32 @@ lvgl:
             text_color: 0xFFFFFF
             y: 190
             x: 10
-            
+         
+# Пыльца на улице   
+        - label:
+            align: LEFT_MID
+            id: display_birch
+            text: --
+            text_font: weather24
+            text_color: 0xFFFFFF
+            y: 130
+            x: 150
+        - label:
+            align: LEFT_MID
+            id: display_grass
+            text: --
+            text_font: weather24
+            text_color: 0xFFFFFF
+            y: 160
+            x: 150
+        - label:
+            align: LEFT_MID
+            id: display_ragweed
+            text: --
+            text_font: weather24
+            text_color: 0xFFFFFF
+            y: 190
+            x: 150
 # Страницы
         - obj:
             bg_opa: TRANSP
@@ -557,7 +825,7 @@ lvgl:
             width: 110
             height: 270
             align: CENTER
-            x: 60 #+120
+            x: 70 #+120
             y: 80
             layout:
               pad_row: 20
@@ -641,8 +909,8 @@ lvgl:
             bg_opa: 0%
             border_opa: TRANSP
             pad_all: 5
-            x: 164
-            y: 40
+            x: 174
+            y: 40 
             widgets:
               - slider:
                   id: dimmer_slider
@@ -670,7 +938,7 @@ lvgl:
                   checkable: true
                   widgets:
                     - label:
-                        text_font: weather48
+                        text_font: icons_48
                         text: $monitor_dashboard
                         align: CENTER
                         id: w_backlight
@@ -692,7 +960,7 @@ lvgl:
             
         # CHILD PROTECTION WIDGET
         - button:
-            x: -40
+            x: -30
             y: 40
             width: 70
             height: 70
@@ -703,7 +971,7 @@ lvgl:
               - label:
                   id: child_protection_status
                   align: CENTER
-                  text_font: weather48
+                  text_font: icons_48
                   text_color: color_gray
                   text: "${lock_open}"
             on_long_press:
