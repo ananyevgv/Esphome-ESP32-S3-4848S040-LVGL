@@ -17,7 +17,12 @@ substitutions:
   sensor_iaq_c: sensor.holl_iaq_classification
   sensor_voc: sensor.holl_voc
   sensor_lux: sensor.holl_p
-
+  sensor_wind_speed: sensor.iaroslavskaia_wind_speed
+  sensor_birch: sensor.iaroslavskaia_birch_pollen_index
+  sensor_grass: sensor.iaroslavskaia_grass_pollen_index
+  sensor_ragweed: sensor.iaroslavskaia_ragweed_pollen_index
+  sensor_wind_bearing: sensor.iaroslavskaia_wind_bearing_2
+  
 # Icon page setting_page
   page_home: weather #_anime
 
@@ -154,9 +159,10 @@ packages:
   wifi: !include packages/wifi.yaml
 
 # Раставить страницы в желаемой очередности, barometr можно использовать 1 вариант
- #weather: !include packages/weather_anime.yaml # выбрать один из двух weather #jpg:3 689 528 байт без 2 603 377 байт
-  weather: !include packages/weather.yaml # выбрать один из двух weather
-
+ #weather: !include packages/weather_anime.yaml # выбрать один из трех weather #jpg:3 689 528 байт без 2 603 377 байт
+  weather: !include packages/weather.yaml # выбрать один из трех weather
+  #weather: !include packages/weather_bme680.yaml # выбрать один из трех обязателен barometr_bme680_weather.yaml
+  
   #button4: !include packages/button-4.yaml
   #button6: !include packages/button-6.yaml
   #button8: !include packages/button-8.yaml
@@ -171,8 +177,11 @@ packages:
   #boiler: !include packages/boiler.yaml
   lg: !include packages/lg_light.yaml  #495 288
  # clock: !include packages/clock_page.yaml
-  #barometr: !include packages/barometr_page.yaml # выбрать один из двух barometr
-  barometr: !include packages/barometr_bme680_page.yaml  # выбрать один из двух barometr
+
+  #barometr: !include packages/barometr_page.yaml # выбрать один из трех barometr
+  barometr: !include packages/barometr_bme680_page.yaml  # выбрать один из трех barometr
+  #barometr: !include packages/barometr_bme680_weather.yaml  # выбрать один из трех barometr  обязателен weather_bme680.yaml
+
   geomag: !include packages/geomag.yaml
  # UV: !include packages/UV_page.yaml
   #humm: !include packages/humm-page.yaml
@@ -200,7 +209,7 @@ font:
   - file: "gfonts://Roboto"
     id: roboto36
     glyphs: |-
-      !"%()+=,-_.:³°₂μ0123456789АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧЩЬЫЪЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ абвгдеёжзийклмнопрстуфхцчщьыъэюяabcdefghijklmnopqrstuvwxyz'
+      !"%()+=,-_.:³°₂/μ0123456789АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧЩЬЫЪЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ абвгдеёжзийклмнопрстуфхцчщьыъэюяabcdefghijklmnopqrstuvwxyz'
     # gfonts://family[@weight]
     size: 36
     bpp: 4     
