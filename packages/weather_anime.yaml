@@ -1,6 +1,7 @@
 image: !include images.yaml
 
 substitutions:
+  page_home: weather_anime
   lock:               "\U000F033E" # security, alarm 
   ha:                 "\U0000e90b" # home assistant
   wifi_25:            "\U0000e91e" # wifi signal from 25% to 1% F092F
@@ -11,17 +12,21 @@ substitutions:
   co2:                "\U0000e913" # co2
   tvoc:               "\U0000e914" # air quality
   temperature:        "\U0000e915" # temperature
-  pressure:           "\U0000e9a6" # meter
+  pressure:           "\U000F029A" # gauge
   monitor_dashboard:  "\U000F0A07"
+  lock_open:          "\U000F0340"
+  lock_outline:       "\U000F0341"
 
-
-  molecule_co2: "\U000F07E4"
-  gauge: "\U000F029A"
-  water_percent: "\U000F058E"
-  house_temp: "\U000F0F55"
-  temp: "\U000F050F"
-
-
+  molecule_co2:       "\U000F07E4"
+  water_percent:      "\U000F058E"
+  house_temp:         "\U000F0F55"
+  temp:               "\U000F050F"
+  windy:              "\U000F059D"
+  sun_wireless:       "\U000F17FE"
+  earth:              "\U000F01E7"
+  flower_pollen:      "\U000F1885"
+  grass:              "\U000F1510"
+  tree_outline:       "\U000F0E69"
 
 # ------------------------------------------- #
 # ---------- GLOBALS VARIABLES -------------- #
@@ -43,7 +48,9 @@ font:
       $botton_icon0,
       $botton_icon1,
       $botton_icon2,
-      $monitor_dashboard
+      $monitor_dashboard,
+      $lock_open,
+      $lock_outline
     ]    
     
   - file: "gfonts://Roboto"
@@ -60,7 +67,16 @@ font:
     size: 50
     bpp: 4  
  
- 
+  - file: "gfonts://Roboto"
+    id: weather36
+    size: 36
+    bpp: 4
+    extras:
+      - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+        glyphs: [
+          $windy
+          ]
+          
   - file: "font/Icons.ttf"
     id: icons_24
     size: 24
@@ -80,10 +96,14 @@ font:
     extras:
       - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
         glyphs: [
-          $pressure
+          $pressure,
+          $earth,
+          $sun_wireless,
+          $flower_pollen,
+          $grass,
+          $tree_outline
           ]  
     glyphs: [
-      $lock,
       $humidity,
       $co2,
       $tvoc,
@@ -142,7 +162,6 @@ sensor:
         - lvgl.label.update:
             id: weather_anime_temperature_outdor
             text: 
-            #  format: "$molecule_co2 %.0f ppm"
               format: "%.0f °C"
               args: [id(anime_temperature_outdor).state]
               
@@ -160,6 +179,157 @@ sensor:
                 default: return lv_color_hex(0x333333);
               }
               
+  - platform: homeassistant
+    id: ha_weather_hum
+    entity_id: $sensor_weather
+    attribute: humidity
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: weather_anime_humidity_outdor
+            text: 
+              format: "%.0f %%"
+              args: ["id(ha_weather_hum).state"]  
+            text_color: !lambda |-
+              uint8_t hum_var = (id(ha_weather_hum).state);
+              switch (hum_var) {
+                case 0 ... 30: return lv_color_hex(0x00ff00);
+                case 31 ... 50: return lv_color_hex(0xe7c12c);
+                case 51 ... 60: return lv_color_hex(0x00ff00);
+                case 61 ... 70: return lv_color_hex(0xe7c12c);
+                case 71 ... 100: return lv_color_hex(0x2fc0ff);
+                default: return lv_color_hex(0x333333);
+              }       
+              
+  - platform: homeassistant
+    id: ha_weather_wind_speed
+    entity_id: $sensor_wind_speed
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: weather_anime_wind_speed
+            text: 
+              format: "$windy %.0f m/s"
+              args: ["id(ha_weather_wind_speed).state"]  
+            text_color: !lambda |-
+              uint16_t ws_var = (id(ha_weather_wind_speed).state *10);
+              switch (ws_var) {
+                case 0 ... 50: return lv_color_hex(0x00ff00);
+                case 60 ... 70: return lv_color_hex(0xe7c12c);
+                case 80 ... 150: return lv_color_hex(0x00ff00);
+                case 160 ... 290: return lv_color_hex(0xe7c12c);
+                case 300 ... 1000: return lv_color_hex(0x2fc0ff);
+                default: return lv_color_hex(0x333333);
+              }       
+
+  - platform: homeassistant
+    id: geomagnetic_sensor
+    entity_id: $sensor_geomagnetic
+    on_value:
+      then:
+         - lvgl.label.update:
+            id: display_geomagnetic
+            text: 
+              format: "%.0f"
+              args: ["id(geomagnetic_sensor).state"]
+            text_color: !lambda |-
+              uint8_t geo_var = (id(geomagnetic_sensor).state);
+              switch (geo_var) {
+                case 0 ... 4: return lv_color_hex(0x00ff00);
+                case 5: return lv_color_hex(0x99FF99);
+                case 6: return lv_color_hex(0xe7c12c);
+                case 7: return lv_color_hex(0xFFBB33);
+                case 8: return lv_color_hex(0xff6600);
+                case 9: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }
+ 
+  - platform: homeassistant
+    id: UV_sensor
+    entity_id: $sensor_uv_index
+    on_value:
+      then:
+         - lvgl.label.update:
+            id: display_UV
+            text: 
+              format: "%.0f"
+              args: ["id(UV_sensor).state"]
+            text_color: !lambda |-
+              uint8_t uv_var = (id(UV_sensor).state);
+              switch (uv_var) {
+                case 0 ... 2: return lv_color_hex(0x00ff00);
+                case 3 ... 5: return lv_color_hex(0x99FF99);
+                case 6 ... 7: return lv_color_hex(0xe7c12c);
+                case 8 ... 10: return lv_color_hex(0xff6600);
+                case 11: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              } 
+
+# Пыльца          
+  - platform: homeassistant
+    id: birch_sensor
+    entity_id: $sensor_birch
+    on_value:
+      then:
+         - lvgl.label.update:
+            id: display_birch
+            text: 
+              format: "%.0f "
+              args: ["id(birch_sensor).state"]
+            text_color: !lambda |-
+              uint16_t vbirch = (id(birch_sensor).state);
+              switch (vbirch) {
+                case 0 ... 1: return lv_color_hex(0x00ff00);
+                case 2: return lv_color_hex(0xe7c12c);
+                case 3: return lv_color_hex(0xFFBB33);
+                case 4: return lv_color_hex(0xff6600);
+                case 5: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              } 
+              
+              
+  - platform: homeassistant
+    id: grass_sensor
+    entity_id: $sensor_grass
+    on_value:
+      then:
+         - lvgl.label.update:
+            id: display_grass
+            text: 
+              format: "%.0f"
+              args: ["id(grass_sensor).state"]
+            text_color: !lambda |-
+              uint16_t vgrass = (id(grass_sensor).state);
+              switch (vgrass) {
+                case 0 ... 1: return lv_color_hex(0x00ff00);
+                case 2: return lv_color_hex(0xe7c12c);
+                case 3: return lv_color_hex(0xFFBB33);
+                case 4: return lv_color_hex(0xff6600);
+                case 5: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }   
+              
+  - platform: homeassistant
+    id: ragweed_sensor
+    entity_id: $sensor_ragweed
+    on_value:
+      then:
+         - lvgl.label.update:
+            id: display_ragweed
+            text: 
+              format: "%.0f"
+              args: ["id(ragweed_sensor).state"]
+            text_color: !lambda |-
+              uint16_t vragweed = (id(ragweed_sensor).state);
+              switch (vragweed) {
+                case 0 ... 1: return lv_color_hex(0x00ff00);
+                case 2: return lv_color_hex(0xe7c12c);
+                case 3: return lv_color_hex(0xFFBB33);
+                case 4: return lv_color_hex(0xff6600);
+                case 5: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }  
+
   # Temperature Home Sensor
   - platform: homeassistant
     id: anime_temperature
@@ -571,22 +741,34 @@ lvgl:
             src: [ cloudy0, cloudy1, cloudy2, cloudy3, cloudy2, cloudy1 ]
             duration: 600ms
 
-        # WEATHER TEMPERATURE
-        - button:
-            width: 100
-            height: 36
-            x: 20
-            y: 30
-            bg_opa: TRANSP
-            shadow_opa: TRANSP
+
+        - label:
             align: TOP_LEFT
-            widgets:          
-              - label:
-                  align: CENTER
-                  id: weather_anime_temperature_outdor
-                  text_font: roboto36
-                  text_color: color_white
-                  text: "--"
+            id: weather_anime_temperature_outdor
+            text: -- °C
+            text_font: roboto36
+            text_color: 0x808080
+            x: 20    
+            y: 10
+            
+        - label:
+            align: TOP_LEFT
+            id: weather_anime_humidity_outdor
+            text: -- %
+            text_font: roboto36
+            text_color: 0x808080
+            x: 120 
+            y: 10
+            
+        - label:
+            align: TOP_LEFT
+            id: weather_anime_wind_speed
+            text: -- m/s
+            text_font: weather36
+            text_color: 0x808080
+            x: 20     
+            y: 50
+
 
         - label:
             id: climate_description
@@ -604,13 +786,7 @@ lvgl:
             line_width: 2
             line_color: color_dark_gray
             line_rounded: true
-        - line:
-            points:
-              - 20, 454
-              - 225, 454
-            line_width: 2
-            line_color: color_dark_gray
-            line_rounded: true
+
 
         # Home temperature icon
         - label:
@@ -628,7 +804,7 @@ lvgl:
             y: 20
             align: LEFT_MID
             text_font: roboto24
-            text_color: color_white
+            text_color: 0x808080
             text: "--.- "
 
         # Home humidity icon
@@ -647,7 +823,7 @@ lvgl:
             y: 60
             align: LEFT_MID
             text_font: roboto24
-            text_color: color_white
+            text_color: 0x808080
             text: "--.- "
 
         # Home co2 icon
@@ -666,7 +842,7 @@ lvgl:
             y: 100
             align: LEFT_MID
             text_font: roboto24
-            text_color: color_white
+            text_color: 0x808080
             text: "----"
 
         # Home iaq icon
@@ -686,7 +862,7 @@ lvgl:
             align: LEFT_MID
             long_mode: DOT
             text_font: roboto24
-            text_color: color_white
+            text_color: 0x808080
             text: "---"
 
         # Home pressure icon
@@ -704,8 +880,102 @@ lvgl:
             y: 180
             align: LEFT_MID
             text_font: roboto24
-            text_color: color_white
+            text_color: 0x808080
             text: "---"
+            
+# Второй ряд     
+        # Home UV icon
+        - label:
+            x: 150
+            y: 20
+            align: LEFT_MID
+            text_font: icons_45
+            text_color: color_yellow
+            text: "${sun_wireless}"
+        # Home UV state
+        - label:
+            align: LEFT_MID
+            id: display_UV
+            text: --
+            text_font: roboto24
+            text_color: 0x808080
+            x: 200
+            y: 20
+            
+        # Home geomagnetic icon
+        - label:
+            x: 150
+            y: 60
+            align: LEFT_MID
+            text_font: icons_45
+            text_color: color_blue
+            text: "${earth}"
+        # Home geomagnetic state  
+        - label:
+            align: LEFT_MID
+            id: display_geomagnetic
+            text: --
+            text_font: roboto24
+            text_color: 0x808080
+            x: 200
+            y: 60
+            
+# Пыльца на улице   
+        # Home birch icon
+        - label:
+            x: 150
+            y: 100
+            align: LEFT_MID
+            text_font: icons_45
+            text_color: color_green
+            text: "${tree_outline}"
+        # Home birch state 
+        - label:
+            align: LEFT_MID
+            id: display_birch
+            text: --
+            text_font: roboto24
+            text_color: 0x808080
+            x: 200
+            y: 100
+
+        # Home grass icon
+        - label:
+            x: 150
+            y: 140
+            align: LEFT_MID
+            text_font: icons_45
+            text_color: color_green
+            text: "${grass}"
+        # Home grass state 
+        - label:
+            align: LEFT_MID
+            id: display_grass
+            text: --
+            text_font: roboto24
+            text_color: 0x808080
+            x: 200
+            y: 140
+
+        # Home ragweed icon
+        - label:
+            x: 150
+            y: 180
+            align: LEFT_MID
+            text_font: icons_45
+            text_color: color_green
+            text: "${flower_pollen}"
+        # Home ragweed state 
+        - label:
+            align: LEFT_MID
+            id: display_ragweed
+            text: --
+            text_font: roboto24
+            text_color: 0x808080
+            x: 200 
+            y: 180
+ 
+            
 # Страницы
         - obj:
             bg_opa: TRANSP
@@ -865,7 +1135,7 @@ lvgl:
                   align: CENTER
                   text_font: icons_48
                   text_color: color_gray
-                  text: "${lock}"
+                  text: "${lock_open}"
             on_long_press:
               then:
                 - if:
@@ -878,6 +1148,7 @@ lvgl:
                       - lvgl.widget.hide: top_layer
                       - lvgl.label.update:
                           id: child_protection_status
+                          text: "${lock_outline}"
                           text_color: color_green
                     else:
                       - lambda: |-
@@ -886,4 +1157,5 @@ lvgl:
                       - lvgl.widget.show: top_layer
                       - lvgl.label.update:
                           id: child_protection_status
+                          text: "${lock_open}"
                           text_color: color_dark_gray
