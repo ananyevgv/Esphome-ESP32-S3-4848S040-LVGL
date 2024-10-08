@@ -77,13 +77,17 @@ font:
     id: icons_45
     size: 45
     bpp: 4
+    extras:
+      - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+        glyphs: [
+          $pressure
+          ]  
     glyphs: [
       $lock,
       $humidity,
       $co2,
       $tvoc,
-      $temperature,
-      $pressure
+      $temperature
       ]
        
 time:
@@ -871,6 +875,7 @@ lvgl:
                       - lambda: |-
                           id(child_protection) = !id(child_protection); 
                       - lvgl.widget.show: child_protection_placeholder
+                      - lvgl.widget.hide: top_layer
                       - lvgl.label.update:
                           id: child_protection_status
                           text_color: color_green
@@ -878,6 +883,7 @@ lvgl:
                       - lambda: |-
                           id(child_protection) = !id(child_protection); 
                       - lvgl.widget.hide: child_protection_placeholder
+                      - lvgl.widget.show: top_layer
                       - lvgl.label.update:
                           id: child_protection_status
                           text_color: color_dark_gray

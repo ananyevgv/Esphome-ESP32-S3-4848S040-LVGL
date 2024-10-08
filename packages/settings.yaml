@@ -1,0 +1,345 @@
+  # PAGE SETTINGS
+  - id: settings_page
+    bg_color: color_black
+    widgets:
+      - obj:
+          bg_opa: TRANSP
+          border_opa: TRANSP
+          shadow_opa: TRANSP
+          pad_all: 0
+          width: 480
+          height: 420
+          align: TOP_MID
+          layout:
+            pad_column: 0
+            pad_row: 0
+            type: GRID
+            grid_columns: [FR(50), FR(15), FR(20), FR(15)]
+            grid_rows: [FR(1), FR(1), FR(1), FR(1)]
+          widgets:
+            - button:
+                bg_opa: TRANSP
+                border_opa: TRANSP
+                shadow_opa: TRANSP
+                pad_all: 0
+                grid_cell_column_pos: 0
+                grid_cell_row_pos: 0
+                grid_cell_x_align: STRETCH
+                grid_cell_y_align: STRETCH
+                grid_cell_column_span: 1
+                grid_cell_row_span: 1
+                widgets:
+                  - label:
+                      id: display_backlight_label
+                      x: 40
+                      align: LEFT_MID
+                      text_font: nunito_20
+                      text_color: color_dark_gray
+                      text: "Backlight"
+            - button:
+                bg_opa: TRANSP
+                border_opa: TRANSP
+                shadow_opa: TRANSP
+                pad_all: 0
+                grid_cell_column_pos: 1
+                grid_cell_row_pos: 0
+                grid_cell_x_align: STRETCH
+                grid_cell_y_align: STRETCH
+                grid_cell_column_span: 3
+                grid_cell_row_span: 1
+                widgets:
+                  - slider:
+                      id: display_backlight_brightness_slider
+                      radius: 10
+                      bg_color: color_gray
+                      align: CENTER
+                      width: 180
+                      height: 30
+                      min_value: 35
+                      max_value: 100
+                      value: 100
+                      indicator:
+                        bg_color: color_amber
+                        radius: 10
+                      knob:
+                        bg_opa: TRANSP
+                      on_release:
+                        then:
+                          - light.turn_on:
+                              id: display_backlight
+                              brightness: !lambda return int(x)/ 100.0;
+            - button:
+                bg_opa: TRANSP
+                border_opa: TRANSP
+                shadow_opa: TRANSP
+                pad_all: 0
+                grid_cell_column_pos: 0
+                grid_cell_row_pos: 1
+                grid_cell_x_align: STRETCH
+                grid_cell_y_align: STRETCH
+                grid_cell_column_span: 1
+                grid_cell_row_span: 1
+                widgets:
+                  - label:
+                      id: display_timeout_label
+                      x: 40
+                      align: LEFT_MID
+                      text_font: nunito_20
+                      text_color: color_dark_gray
+                      text: "Sleep mode (sec)"
+            - button:
+                bg_opa: TRANSP
+                border_opa: TRANSP
+                shadow_opa: TRANSP
+                pad_all: 0
+                grid_cell_column_pos: 1
+                grid_cell_row_pos: 1
+                grid_cell_x_align: STRETCH
+                grid_cell_y_align: STRETCH
+                grid_cell_column_span: 3
+                grid_cell_row_span: 1
+                widgets:
+                  - roller:
+                      id: display_timeout_roller
+                      width: 180
+                      align: CENTER
+                      bg_opa: TRANSP
+                      border_opa: TRANSP
+                      shadow_opa: TRANSP
+                      text_font: nunito_18
+                      text_line_space: 4
+                      selected:
+                        bg_opa: TRANSP
+                        text_font: nunito_24
+                        text_color: color_amber
+                      selected_index: !lambda return id(display_timeout_global);
+                      options:
+                        - 60
+                        - 120
+                        - 180
+                        - 300
+                        - 600
+                      visible_row_count: 2
+                      on_value:
+                          then:
+                            - number.set:
+                                id: display_timeout
+                                value: !lambda |-
+                                  static const int backlight_time[] = {60, 120, 180, 300, 600};
+                                  return backlight_time[x];
+                            - globals.set:
+                                id: display_timeout_global
+                                value: !lambda return x;
+
+            - button:
+                bg_opa: TRANSP
+                border_opa: TRANSP
+                shadow_opa: TRANSP
+                pad_all: 0
+                grid_cell_column_pos: 0
+                grid_cell_row_pos: 2
+                grid_cell_x_align: STRETCH
+                grid_cell_y_align: STRETCH
+                grid_cell_column_span: 1
+                grid_cell_row_span: 1
+                widgets:
+                  - label:
+                      id: sensors_buzzer_label
+                      x: 40
+                      align: LEFT_MID
+                      text_font: nunito_20
+                      text_color: color_dark_gray
+                      text: "Buzzer of sensors"
+            - button:
+                bg_opa: TRANSP
+                border_opa: TRANSP
+                shadow_opa: TRANSP
+                pad_all: 0
+                grid_cell_column_pos: 1
+                grid_cell_row_pos: 2
+                grid_cell_x_align: STRETCH
+                grid_cell_y_align: STRETCH
+                grid_cell_column_span: 3
+                grid_cell_row_span: 1
+                widgets:
+                  - switch:
+                      id: sensors_buzzer_switch
+                      bg_color: color_dark_gray
+                      align: CENTER
+                      indicator:
+                        checked:
+                          bg_color: color_amber
+                      knob:
+                        bg_color: color_black
+                      on_value:
+                        - globals.set:
+                            id: sensors_buzzer
+                            value: !lambda return x;
+                        - if:
+                            condition:
+                              lambda: return id(sensors_buzzer);
+                            then:
+                              - lvgl.label.update:
+                                  id: alarm_status
+                                  text_color: color_green
+                                  text: "${alarm_on}"
+                            else:
+                              - lvgl.label.update:
+                                  id: alarm_status
+                                  text_color: color_dark_gray
+                                  text: "${alarm_off}"
+
+            - button:
+                bg_opa: TRANSP
+                border_opa: TRANSP
+                shadow_opa: TRANSP
+                pad_all: 0
+                grid_cell_column_pos: 0
+                grid_cell_row_pos: 3
+                grid_cell_x_align: STRETCH
+                grid_cell_y_align: STRETCH
+                grid_cell_column_span: 1
+                grid_cell_row_span: 1
+                widgets:
+                  - label:
+                      id: language_select_label
+                      x: 40
+                      align: LEFT_MID
+                      text_font: nunito_20
+                      text_color: color_dark_gray
+                      text: "Select language"
+            - button:
+                bg_opa: TRANSP
+                border_opa: TRANSP
+                shadow_opa: TRANSP
+                pad_all: 0
+                grid_cell_column_pos: 1
+                grid_cell_row_pos: 3
+                grid_cell_x_align: STRETCH
+                grid_cell_y_align: STRETCH
+                grid_cell_column_span: 1
+                grid_cell_row_span: 1
+                widgets:
+                  - label:
+                      align: RIGHT_MID
+                      text_font: nunito_20
+                      text_color: color_dark_gray
+                      text: "EN"
+            - button:
+                bg_opa: TRANSP
+                border_opa: TRANSP
+                shadow_opa: TRANSP
+                pad_all: 0
+                grid_cell_column_pos: 2
+                grid_cell_row_pos: 3
+                grid_cell_x_align: STRETCH
+                grid_cell_y_align: STRETCH
+                grid_cell_column_span: 1
+                grid_cell_row_span: 1
+                widgets:
+                  - switch:
+                      id: language_select_switch
+                      bg_color: color_dark_gray
+                      align: CENTER
+                      indicator:
+                        checked:
+                          bg_color: color_amber
+                      knob:
+                        bg_color: color_black
+                      on_value:
+                        - globals.set:
+                            id: language_select
+                            value: !lambda return x;
+                        - script.execute: language_select_script
+            - button:
+                bg_opa: TRANSP
+                border_opa: TRANSP
+                shadow_opa: TRANSP
+                pad_all: 0
+                grid_cell_column_pos: 3
+                grid_cell_row_pos: 3
+                grid_cell_x_align: STRETCH
+                grid_cell_y_align: STRETCH
+                grid_cell_column_span: 1
+                grid_cell_row_span: 1
+                widgets:
+                  - label:
+                      align: LEFT_MID
+                      text_font: nunito_20
+                      text_color: color_dark_gray
+                      text: "RU"
+
+      - line:
+          points:
+            - 30, 105
+            - 450, 105
+          line_width: 2
+          line_color: color_dark_gray
+          line_rounded: true
+
+      - line:
+          points:
+            - 30, 210
+            - 450, 210
+          line_width: 2
+          line_color: color_dark_gray
+          line_rounded: true
+
+      - line:
+          points:
+            - 30, 315
+            - 450, 315
+          line_width: 2
+          line_color: color_dark_gray
+          line_rounded: true
+
+      - button:
+          x: 15
+          y: -15
+          bg_opa: TRANSP
+          shadow_opa: TRANSP
+          align: BOTTOM_LEFT
+          widgets:
+            - label:
+                text_font: montserrat_22
+                text_color: color_dark_gray
+                text: "\uF015"
+          on_press:
+            then:
+              - lvgl.page.show: 
+                  id: page_home
+                  animation: OUT_RIGHT
+                  time: 300ms
+
+top_layer:
+  widgets:
+    - button:
+        id: boot_screen
+        bg_color: color_black
+        shadow_opa: TRANSP
+        width: 100%
+        height: 100%
+        widgets:
+          - label:
+              x: -5
+              y: 0
+              align: TOP_MID
+              text_font: icons_logo
+              text_color: 0xb3b3b3
+              text: "${logo}"
+          - label:
+              id: boot_label
+              align: CENTER
+              y: 100
+              text_font: nunito_20
+              text_color: color_gray
+              text: "Connecting to wi-fi..."
+          - bar:
+              id: boot_bar
+              y: 72
+              width: 360
+              value: 20
+              align: CENTER
+              min_value: 1
+              max_value: 100
+              animated: true

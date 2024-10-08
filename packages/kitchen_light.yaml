@@ -1,12 +1,18 @@
 substitutions:
-  ceiling_light_multiple_outline: "\U000F18DE"
-  string_lights: "󱊺"
-  television_ambient_light: "󱍖"
-  light_flood_down: "󱦇"
-  alarm_light_on: "󰯪"
-  countertop_outline: "󱠝"
-  television: "󰟴" #F07F4
-  
+  ceiling_light_multiple_outline:    "\U000F18DE"
+  string_lights:                     "󱊺"
+  television_ambient_light:          "󱍖"
+  light_flood_down:                  "󱦇"
+  alarm_light_on:                    "󰯪"
+  countertop_outline:                "󱠝"
+  television:                        "󰟴" #F07F4
+  cctv:                              "\U000F07AE"
+  coach_lamp:                        "\U000F1020"  
+  door:                              "\U000F081A"
+
+#-------------------------------------------
+# FONT
+#-------------------------------------------  
 font:
   - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
     id: kitchen130
@@ -26,9 +32,15 @@ font:
       $alarm_light_on,
       $countertop_outline,
       $light_flood_down,
-      $television
+      $television,
+      $cctv,                          
+      $coach_lamp,                   
+      $door                     
     ]      
-    
+
+#-------------------------------------------
+# SCRIPT
+#-------------------------------------------    
 script:
   - id: time_update_kitchen
     then:
@@ -46,7 +58,9 @@ script:
             auto now = id(sntp_time).now();            
             snprintf(time_buf, sizeof(time_buf), "%02d.%02d.%02d", now.day_of_month, now.month, now.year-2000);
             return time_buf; 
-
+#-------------------------------------------
+# TIME
+#-------------------------------------------
 time:
   - platform: sntp
     on_time_sync:
@@ -207,27 +221,73 @@ binary_sensor:
       lvgl.widget.update:
         id: w_kitchen_lighting_3
         text_color: 0xB6B6B6
-
+        
+        
+###############################################################
   - platform: homeassistant
-    name: bin_lg_tv
-    entity_id: button.kitchen_power_lg
+    name: bin_vhod_light
+    entity_id: light.vhod
     publish_initial_state: true
     internal: true
     on_state:
       then:
         lvgl.widget.update:
-          id: b_lg_tv
+          id: b_vhod_light
           state:
             checked: !lambda return x;
     on_press:
       lvgl.widget.update:
-        id: w_lg_tv
+        id: w_vhod_light
         text_color: 0xFFFF00
     on_release:
       lvgl.widget.update:
-        id: w_lg_tv
+        id: w_vhod_light
         text_color: 0xB6B6B6
         
+  - platform: homeassistant
+    name: bin_vihod_light
+    entity_id: light.vihod
+    publish_initial_state: true
+    internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_vihod_light
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_vihod_light
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_vihod_light
+        text_color: 0xB6B6B6
+        
+  - platform: homeassistant
+    name: bin_cam
+    entity_id: light.cam
+    publish_initial_state: true
+    internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_cam
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_cam
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_cam
+        text_color: 0xB6B6B6        
+
+
+#-------------------------------------------
+# LVGL
+#-------------------------------------------        
 lvgl:
   pages:
     - id: kitchen_page     
@@ -374,43 +434,37 @@ lvgl:
             x: 5
             y: 340
             checkable: true
-            id: b_kitchen_lighting
+            id: b_vhod_light
             bg_opa: 35%
             widgets:
               - label:
                   text_font: kitchen48
                   align: center
-                  text: $alarm_light_on
-                  id: w_kitchen_lighting
-            on_press:
-              - homeassistant.action:
-                  action: script.kitchen_lighting_on
-                  data: {}
-          #  on_release:
-            #  - homeassistant.action:
-              #    action: script.kitchen_lighting_off
-             #     data: {}
+                  text: $coach_lamp
+                  id: w_vhod_light
+            on_click:
+              - homeassistant.service:
+                  service: light.toggle
+                  data:
+                    entity_id: light.vhod
 
         - button:
             x: 125
             y: 340
             checkable: true
-            id: b_kitchen_light
+            id: b_vihod_light
             bg_opa: 35%
             widgets:
               - label:
                   text_font: kitchen48
                   align: center
-                  text: $countertop_outline
-                  id: w_kitchen_light
-            on_press:
-              - homeassistant.action:
-                  action: script.kitchen_light_on
-                  data: {}
-            on_release:
-              - homeassistant.action:
-                  action: script.kitchen_light_off
-                  data: {} 
+                  text: $door
+                  id: w_vihod_light
+            on_click:
+              - homeassistant.service:
+                  service: light.toggle
+                  data:
+                    entity_id: light.vihod
         - button:
             x: 245
             y: 340
@@ -432,16 +486,17 @@ lvgl:
             x: 365
             y: 340
             checkable: true
-            id: b_lg_tv
+            id: b_cam
             bg_opa: 35%
             widgets:
               - label:
                   text_font: kitchen48
                   align: center
-                  text: $television
-                  id: w_lg_tv
+                  text: $cctv
+                  id: w_cam
             on_click:
               - homeassistant.service:
-                  service: button.press
+                  service: light.toggle
                   data:
-                    entity_id: button.kitchen_power_lg
+                    entity_id: light.cam
+                    

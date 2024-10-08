@@ -194,8 +194,8 @@ lvgl:
             x: 0
             y: 0
             layout:
-              pad_row: 10
-              pad_column: 10
+              pad_row: 20
+              pad_column: 20
               type: GRID
               grid_columns: [FR(1), FR(1), FR(1), FR(1)]
               grid_rows: [FR(3), FR(1)]

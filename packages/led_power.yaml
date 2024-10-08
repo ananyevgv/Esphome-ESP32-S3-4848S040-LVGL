@@ -1,0 +1,84 @@
+substitutions:
+  energy_method: left
+
+number:
+  - platform: template
+    name: ${name} Power Supply
+    min_value: 0.0
+    max_value: 10.0
+    step: 0.5
+    optimistic: true
+    id: power_supply
+    initial_value: 0.5
+    mode: slider
+    entity_category: config
+    restore_value: true
+    unit_of_measurement: A
+
+sensor:
+  # Current
+  - platform: template
+    name: ${name} Current
+    id: current
+    lambda: |-
+      const float led = 20.0 / 255.0; // 20мА per Led
+      #ifdef USE_ESP32
+      float current = 80.0; // NodeMCU Esp 32 - 80mA
+      #else
+      float current = 60.0; // Wemos Esp 8266 - 60mA
+      #endif
+    
+      for (int i = 0; i < ${num_leds}; i++)
+      {
+        auto c = ((light::AddressableLight *) id(neopixel_led)->get_output())->get(i);
+        current += c.get_red() * led;
+        current += c.get_green() * led;
+        current += c.get_blue() * led;
+        /*
+        current += c.get_red() * mA / 255;
+        current += c.get_green() * mA / 255;
+        current += c.get_blue() * mA / 255;
+        current += c.get_white() * mA / 255;
+        */
+      }
+    
+      current = current / 1000; // A - 1000mA
+      if (id(power_supply).state > 0.0 && current > id(power_supply).state)
+      {
+        current = id(power_supply).state;
+      }
+    
+      return current;
+    unit_of_measurement: A
+    device_class: current
+    state_class: measurement
+    accuracy_decimals: 2
+    update_interval: ${update_interval}
+
+
+  # Power
+  - platform: template
+    name: ${name} Power
+    id: power
+    lambda: |-
+      return id(current).state * 5; // A * 5V
+    unit_of_measurement: W
+    device_class: power
+    state_class: measurement
+    accuracy_decimals: 1
+    update_interval: ${update_interval}
+
+
+  # Energy Today Usage
+  - platform: total_daily_energy
+    name: "${name} Energy"
+    power_id: power
+    filters:
+      # Multiplication factor from W to kW is 0.001
+      - multiply: 0.001
+    unit_of_measurement: kWh
+    # icon: mdi:calendar-clock
+    device_class: energy
+    state_class: total_increasing
+    method: ${energy_method}
+
