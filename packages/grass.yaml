@@ -18,7 +18,7 @@ sensor:
         - lvgl.label.update:
             id: grass_text
             text: 
-              format: " %.0f"
+              format: "%.0f"
               args: ["id(grass_index).state"]
 
         - lvgl.indicator.update:
