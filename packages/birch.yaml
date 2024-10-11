@@ -18,7 +18,7 @@ sensor:
         - lvgl.label.update:
             id: birch_text
             text: 
-              format: " %.0f UV"
+              format: "%.0f"
               args: ["id(birch_index).state"]
 
         - lvgl.indicator.update:
@@ -153,7 +153,7 @@ lvgl:
            height: 25         
         - label:
             id: birch_text
-            text: "--"
+            text: "-"
             text_color: color_violet
             align: CENTER
             y: 65
