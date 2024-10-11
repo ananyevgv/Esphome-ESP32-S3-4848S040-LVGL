@@ -24,7 +24,6 @@ substitutions:
   sensor_wind_bearing: sensor.iaroslavskaia_wind_bearing_2
   
 # Icon page setting_page
-  page_home: weather #_anime
 
   botton_icon0: "󱠝" #countertop_outline
   botton_page0: kitchen_page
@@ -159,7 +158,7 @@ packages:
   wifi: !include packages/wifi.yaml
 
 # Раставить страницы в желаемой очередности, barometr можно использовать 1 вариант
- #weather: !include packages/weather_anime.yaml # выбрать один из трех weather #jpg:3 689 528 байт без 2 603 377 байт
+  #weather: !include packages/weather_anime.yaml # выбрать один из трех weather #jpg:3 689 528 байт без 2 603 377 байт
   weather: !include packages/weather.yaml # выбрать один из трех weather
   #weather: !include packages/weather_bme680.yaml # выбрать один из трех обязателен barometr_bme680_weather.yaml
   
@@ -179,11 +178,14 @@ packages:
  # clock: !include packages/clock_page.yaml
 
   #barometr: !include packages/barometr_page.yaml # выбрать один из трех barometr
-  barometr: !include packages/barometr_bme680_page.yaml  # выбрать один из трех barometr
+  #barometr: !include packages/barometr_bme680_page.yaml  # выбрать один из трех barometr
   #barometr: !include packages/barometr_bme680_weather.yaml  # выбрать один из трех barometr  обязателен weather_bme680.yaml
-
+  birch: !include packages/birch.yaml
+  #grass: !include packages/grass.yaml
   geomag: !include packages/geomag.yaml
- # UV: !include packages/UV_page.yaml
+  #geomag: !include packages/geomag-page.yaml # Фоновый рисунок
+  #UV: !include packages/UV.yaml
+  #UV: !include packages/UV-page.yaml # Фоновый рисунок
   #humm: !include packages/humm-page.yaml
 
 #-------------------------------------------
