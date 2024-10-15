@@ -238,7 +238,7 @@ sensor:
         - lvgl.label.update:
             id: display_wind_speed
             text: 
-              format: "$windy %.0f m/s"
+              format: "$windy %.0f"
               args: ["id(wind_speed_sensor).state"]  
             text_color: !lambda |-
               uint16_t ws_var = (id(wind_speed_sensor).state *10);
@@ -707,7 +707,7 @@ lvgl:
             widgets:   
               - label:
                   id: display_wind_speed
-                  text: -- m/s
+                  text: --
                   text_font: weather36
                   text_color: 0x808080
                   align: LEFT_MID
@@ -870,7 +870,7 @@ lvgl:
               
         - button:
             y: 190
-            x: 150
+            x: 120
             align: LEFT_MID
             bg_opa: TRANSP
             shadow_opa: TRANSP
