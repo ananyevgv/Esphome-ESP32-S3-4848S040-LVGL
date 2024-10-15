@@ -6,22 +6,22 @@ substitutions:
  
 # Указываем ID сенсоров в HA
 
-  sensor_uv_index: sensor.iaroslavskaia_uv_index
-  sensor_geomagnetic: sensor.iaroslavskaia_geomagnetic_field
+  sensor_uv_index: sensor.yar_uv_index
+  sensor_geomagnetic: sensor.yar_geomagnetic_field
   sensor_temperature: sensor.kitchen_t
   sensor_humidity: sensor.kitchen_humidity
-  sensor_pressure: sensor.iaroslavskaia_pressure
+  sensor_pressure: sensor.yar_pressure
   sensor_co2: sensor.holl_co2
-  sensor_weather: weather.iaroslavskaia
+  sensor_weather: weather.yar
   sensor_iaq: sensor.holl_iaq
   sensor_iaq_c: sensor.holl_iaq_classification
   sensor_voc: sensor.holl_voc
   sensor_lux: sensor.holl_p
-  sensor_wind_speed: sensor.iaroslavskaia_wind_speed
-  sensor_birch: sensor.iaroslavskaia_birch_pollen_index
-  sensor_grass: sensor.iaroslavskaia_grass_pollen_index
-  sensor_ragweed: sensor.iaroslavskaia_ragweed_pollen_index
-  sensor_wind_bearing: sensor.iaroslavskaia_wind_bearing_2
+  sensor_wind_speed: sensor.yar_wind_speed
+  sensor_birch: sensor.yar_birch_pollen_index
+  sensor_grass: sensor.yar_grass_pollen_index
+  sensor_ragweed: sensor.yar_ragweed_pollen_index
+  sensor_wind_bearing: sensor.yar_wind_bearing_2
   
 # Icon page setting_page
 
@@ -177,17 +177,54 @@ packages:
   lg: !include packages/lg_light.yaml  #495 288
  # clock: !include packages/clock_page.yaml
 
+  barometr: !include packages/barometr.yaml # выбрать один из трех barometr
   #barometr: !include packages/barometr_page.yaml # выбрать один из трех barometr
   #barometr: !include packages/barometr_bme680_page.yaml  # выбрать один из трех barometr
   #barometr: !include packages/barometr_bme680_weather.yaml  # выбрать один из трех barometr  обязателен weather_bme680.yaml
-  birch: !include packages/birch.yaml
-  #grass: !include packages/grass.yaml
+
   geomag: !include packages/geomag.yaml
   #geomag: !include packages/geomag-page.yaml # Фоновый рисунок
-  #UV: !include packages/UV.yaml
+  UV: !include packages/UV.yaml
+  wind: !include packages/wind.yaml 
+
+  birch: !include packages/birch.yaml
+  grass: !include packages/grass.yaml
+  ragweed: !include packages/ragweed.yaml
+
   #UV: !include packages/UV-page.yaml # Фоновый рисунок
   #humm: !include packages/humm-page.yaml
 
+#-------------------------------------------
+# TIME
+#-------------------------------------------
+time:
+  - platform: sntp
+    id: sntp_time
+    timezone: UTC-3 #Europe/Moscow
+    servers: !secret sntp
+   # on_time_sync:
+   #   - script.execute: time_update_weather
+   #   - script.execute: time_update_holl
+    #  - script.execute: time_update_kitchen
+     # - script.execute: time_update_clock  
+     # - script.execute: time_sync_barometr
+    on_time:
+      - minutes: 25
+        seconds: 0
+        then:
+          - switch.turn_on: switch_antiburn
+      - minutes: 55
+        seconds: 0
+        then:
+          - switch.turn_off: switch_antiburn
+     # - script.execute: time_update_barometr
+    #  - minutes: '*'
+     #   seconds: 0
+    #    then:
+     #     - script.execute: time_update_weather
+      #    - script.execute: time_update_holl
+      #    - script.execute: time_update_kitchen
+      #    - script.execute: time_update_clock
 #-------------------------------------------
 # IMAGE
 #-------------------------------------------
@@ -435,36 +472,6 @@ web_server:
     username: !secret web_user
     password: !secret web_pass
 
-#-------------------------------------------
-# TIME
-#-------------------------------------------
-time:
-  - platform: sntp
-    id: sntp_time
-    timezone: UTC-3 #Europe/Moscow
-    servers: !secret sntp
-   # on_time_sync:
-   #   - script.execute: time_update_weather
-   #   - script.execute: time_update_holl
-    #  - script.execute: time_update_kitchen
-     # - script.execute: time_update_clock  
-    on_time:
-      - minutes: 25
-        seconds: 0
-        then:
-          - switch.turn_on: switch_antiburn
-      - minutes: 55
-        seconds: 0
-        then:
-          - switch.turn_off: switch_antiburn
-
-    #  - minutes: '*'
-     #   seconds: 0
-    #    then:
-     #     - script.execute: time_update_weather
-      #    - script.execute: time_update_holl
-      #    - script.execute: time_update_kitchen
-      #    - script.execute: time_update_clock
         
 #-------------------------------------------   
 # LVGL
