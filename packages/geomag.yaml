@@ -25,6 +25,31 @@ sensor:
             id: geomagnetic_meter
             value: !lambda |- 
               return x;
+              
+#-------------------------------------------
+# TEXT SENSOR
+#-------------------------------------------
+text_sensor:             
+  - platform: template
+    id: geomag_class
+    lambda: |-
+      uint8_t vgeomag= (id(geomagnetic).state);
+        switch (vgeomag) {
+          case 0 ... 4: return std::string("небольшие возмущения");
+          case 5: return std::string("слабая буря");
+          case 6: return std::string("умеренная буря");
+          case 7: return std::string("сильная буря");
+          case 8: return std::string("шторм");
+          case 9: return std::string("экстремальный шторм");
+          default: return std::string("n/a");
+        }
+    on_value:
+      then:
+         - lvgl.label.update:
+            id: display_geomag_class
+            text: !lambda |- 
+              return x;            
+
 #-------------------------------------------
 # LVGL
 #-------------------------------------------  
@@ -184,8 +209,17 @@ lvgl:
             indicator:
               arc_width: 3
               arc_color: 0x000000
-               
-
+        - label:
+            text_color: color_white
+            text: Геомагнитная активность
+            text_font: roboto36
+            align: TOP_MID 
+        - label:
+            id: display_geomag_class
+            text_color: color_white
+            text_font: roboto36
+            align: TOP_MID 
+            y: 50
         - image:
             align: CENTER
             src: magnit

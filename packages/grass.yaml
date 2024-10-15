@@ -25,6 +25,29 @@ sensor:
             id: grass_meter
             value: !lambda |- 
               return x;
+              
+#-------------------------------------------
+# TEXT SENSOR
+#-------------------------------------------
+text_sensor:             
+  - platform: template
+    id: grass_class
+    lambda: |-
+      uint8_t vgrass= (id(grass_index).state);
+        switch (vgrass) {
+          case 0 ... 2: return std::string("Низкое содержание");
+          case 3: return std::string("Умеренное содержание");
+          case 4: return std::string("Высокое содержание");
+          case 5: return std::string("Очень высокое содержание");
+          default: return std::string("n/a");
+        }
+    on_value:
+      then:
+         - lvgl.label.update:
+            id: display_grass_class
+            text: !lambda |- 
+              return x;   
+              
 #-------------------------------------------
 # LVGL
 #-------------------------------------------
@@ -169,7 +192,17 @@ lvgl:
             indicator:
               arc_width: 3
               arc_color: 0x000000
-               
+        - label:
+            id: display_grass_class
+            text_color: color_white
+            text_font: roboto36
+            align: TOP_MID 
+        - label:
+            text_color: color_white
+            text: пыльцы трав
+            text_font: roboto36
+            align: TOP_MID 
+            y: 50
         - image:
             align: CENTER
             src: grass_img

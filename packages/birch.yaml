@@ -25,6 +25,29 @@ sensor:
             id: birch_meter
             value: !lambda |- 
               return x;
+              
+#-------------------------------------------
+# TEXT SENSOR
+#-------------------------------------------
+text_sensor:             
+  - platform: template
+    id: birch_class
+    lambda: |-
+      uint8_t vbirch= (id(birch_index).state);
+        switch (vbirch) {
+          case 0 ... 2: return std::string("Низкое содержание");
+          case 3: return std::string("Умеренное содержание");
+          case 4: return std::string("Высокое содержание");
+          case 5: return std::string("Очень высокое содержание");
+          default: return std::string("n/a");
+        }
+    on_value:
+      then:
+         - lvgl.label.update:
+            id: display_birch_class
+            text: !lambda |- 
+              return x;            
+ 
 #-------------------------------------------
 # LVGL
 #-------------------------------------------
@@ -169,7 +192,20 @@ lvgl:
             indicator:
               arc_width: 3
               arc_color: 0x000000
-               
+              
+        - label:
+            id: display_birch_class
+            text_color: color_white
+            text_font: roboto36
+            align: TOP_MID 
+
+        - label:
+            text_color: color_white
+            text: пыльцы березы
+            text_font: roboto36
+            align: TOP_MID 
+            y: 50
+            
         - image:
             align: CENTER
             src: birch_img

@@ -18,13 +18,38 @@ sensor:
         - lvgl.label.update:
             id: uv_index_text
             text: 
-              format: " %.0f UV"
+              format: " %.0f"
               args: ["id(uv_index).state"]
 
         - lvgl.indicator.update:
             id: uv_meter
             value: !lambda |- 
               return x;
+
+#-------------------------------------------
+# TEXT SENSOR
+#-------------------------------------------
+text_sensor:             
+  - platform: template
+    id: uv_class
+    lambda: |-
+      uint8_t vuv= (id(uv_index).state);
+        switch (vuv) {
+          case 0 ... 2: return std::string("низкий");
+          case 3 ... 5: return std::string("умеренный");
+          case 6 ... 7: return std::string("высокий");
+          case 8 ... 10: return std::string("очень высокий");
+          case 11 ... 13: return std::string("экстремальный");
+          default: return std::string("n/a");
+        }
+    on_value:
+      then:
+         - lvgl.label.update:
+            id: display_uv_class
+            text: !lambda |- 
+              return x;            
+
+
 #-------------------------------------------
 # LVGL
 #-------------------------------------------
@@ -169,7 +194,17 @@ lvgl:
             indicator:
               arc_width: 3
               arc_color: 0x000000
-               
+        - label:
+            text_color: color_white
+            text: Уровень ультрафиолета
+            text_font: roboto36
+            align: TOP_MID 
+        - label:
+            id: display_uv_class
+            text_color: color_white
+            text_font: roboto36
+            align: TOP_MID 
+            y: 50
         - image:
             align: CENTER
             src: sun_uv
