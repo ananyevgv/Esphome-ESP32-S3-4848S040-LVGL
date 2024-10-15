@@ -1,28 +1,28 @@
 #-------------------------------------------
 # IMAGE
 #-------------------------------------------
-image:
-  - file: "picture/birch.jpg"
-    id: birch_img
-    resize: 60x60
-    type: RGB565 
+#image:
+#  - file: "picture/barometr.jpg"
+  #  id: barometr_img
+  #  resize: 60x60
+  #  type: RGB565 
 #-------------------------------------------
 # SENSOR
 #-------------------------------------------    
 sensor:
   - platform: homeassistant
-    id: birch_index
-    entity_id: $sensor_birch
+    id: barometr_pressure
+    entity_id: $sensor_pressure
     on_value:
       then:
         - lvgl.label.update:
-            id: birch_text
+            id: barometr_text
             text: 
               format: " %.0f"
-              args: ["id(birch_index).state"]
+              args: ["id(barometr_pressure).state"]
 
         - lvgl.indicator.update:
-            id: birch_meter
+            id: barometr_meter
             value: !lambda |- 
               return x;
 #-------------------------------------------
@@ -31,20 +31,20 @@ sensor:
 lvgl:
   pages:
 # Вывод на экран 
-    - id: birch_page
+    - id: barometr_page
       #width: 100%
       bg_color: 0x000000
       #opa: cover
       scrollbar_mode: "OFF"
       scrollable: false
       widgets:
-        # Зеленый
+        # Красный
         - line:
             points:
               - 170, 170
               - -70, 410
             line_width: 200
-            line_color: 0x00ff00
+            line_color: 0xF50F34
             line_rounded: false 
         # Желтый
         - line:
@@ -54,28 +54,28 @@ lvgl:
             line_width: 250
             line_color:  0xe7c12c
             line_rounded: false  
-        # Оранжевый
+        # Зеленый
         - line:
             points:
               - 170, 110
               - 480, -80
             line_width: 300
-            line_color: 0xffa500
+            line_color: 0x00ff00 
             line_rounded: false 
-        # Красный
+        # Желтый
         - line:
             points:
               - 330, 295
               - 482, 0 #+5 -5
             line_width: 220
-            line_color: 0xF50F34
+            line_color: 0xe7c12c
             line_rounded: false 
-         # Фиолетовый
+        # Красный
         - line:
             points:
               - 360, 220
               - 390, 480
-            line_color: 0xA63DC2 
+            line_color: 0xF50F34
             line_width: 240
             line_rounded: false
          # Белый
@@ -102,12 +102,12 @@ lvgl:
             align: center
             scales:
               - ticks: 
-                  count: 11
-                  width: 2
+                  count: 101
+                  width: 1
                   length: 10
                   color: 0x000000
                   major:
-                    stride: 2
+                    stride: 10
                     width: 3
                     length: 20
                     color: 0x000000
@@ -124,22 +124,22 @@ lvgl:
             scales:
               - indicators:
                   - line:
-                      id: birch_meter
+                      id: barometr_meter
                       width: 4
                       color: 0xFF0000
                       r_mod: -15
-                      value: 0
+                      #value: 0
                 angle_range: 270
                 rotation: 135
-                range_from: 0
-                range_to: 5
+                range_from: 700
+                range_to: 800
                 ticks: 
-                  count: 6
+                  count: 101
                   width: 0
                   length: 0
                   color: 0x000000
                   major:
-                    stride: 1
+                    stride: 10
                     width: 0
                     length: 0
                     color: 0x000000
@@ -152,12 +152,31 @@ lvgl:
            width: 40
            height: 25         
         - label:
-            id: birch_text
+            id: barometr_text
             text: "--"
             text_color: color_violet
             align: CENTER
             y: 65
-                  
+            
+        - label:
+            text: $rainy
+            text_color: color_blue
+            text_font: weather_icons
+            align:  LEFT_MID
+            y: 120
+        - label:
+            text:  $cloudy
+            text_color: color_white
+            text_font: weather_icons
+            align: TOP_MID  
+            y: -10
+        - label:
+            y: 120
+            text: $sunny
+            text_color: color_yellow
+            text_font: weather_icons
+            align: RIGHT_MID
+            
         - spinner:
             width: 245
             height: 245
@@ -170,9 +189,9 @@ lvgl:
               arc_width: 3
               arc_color: 0x000000
                
-        - image:
-            align: CENTER
-            src: birch_img
-            y: 180
-            bg_color: 0xFFFFFF
-            bg_image_opa: 100% 
+     #   - image:
+      #      align: CENTER
+      #      src: barometr_img
+       #     y: 180
+       #     bg_color: 0xFFFFFF
+       #     bg_image_opa: 100% 
