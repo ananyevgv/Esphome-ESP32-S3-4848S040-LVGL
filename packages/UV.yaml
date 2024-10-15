@@ -25,23 +25,22 @@ sensor:
             id: uv_meter
             value: !lambda |- 
               return x;
-
+        - lambda: |-
+            uint8_t vuv= (id(uv_index).state);
+              switch (vuv) {
+                case 0 ... 2: return id(uv_class).publish_state("низкий");
+                case 3 ... 5: return id(uv_class).publish_state("умеренный");
+                case 6 ... 7: return id(uv_class).publish_state("высокий");
+                case 8 ... 10: return id(uv_class).publish_state("очень высокий");
+                case 11 ... 13: return id(uv_class).publish_state("экстремальный");
+                default: return id(uv_class).publish_state("n/a");
+              }
 #-------------------------------------------
 # TEXT SENSOR
 #-------------------------------------------
 text_sensor:             
   - platform: template
     id: uv_class
-    lambda: |-
-      uint8_t vuv= (id(uv_index).state);
-        switch (vuv) {
-          case 0 ... 2: return std::string("низкий");
-          case 3 ... 5: return std::string("умеренный");
-          case 6 ... 7: return std::string("высокий");
-          case 8 ... 10: return std::string("очень высокий");
-          case 11 ... 13: return std::string("экстремальный");
-          default: return std::string("n/a");
-        }
     on_value:
       then:
          - lvgl.label.update:

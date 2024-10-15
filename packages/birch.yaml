@@ -25,22 +25,21 @@ sensor:
             id: birch_meter
             value: !lambda |- 
               return x;
-              
+        - lambda: |-
+            uint8_t vbirch= (id(birch_index).state);
+              switch (vbirch) {
+                case 0 ... 2: return id(birch_class).publish_state("Низкое содержание");
+                case 3: return id(birch_class).publish_state("Умеренное содержание");
+                case 4: return id(birch_class).publish_state("Высокое содержание");
+                case 5: return id(birch_class).publish_state("Очень высокое содержание");
+                default: return id(birch_class).publish_state("n/a");
+              }   
 #-------------------------------------------
 # TEXT SENSOR
 #-------------------------------------------
 text_sensor:             
   - platform: template
     id: birch_class
-    lambda: |-
-      uint8_t vbirch= (id(birch_index).state);
-        switch (vbirch) {
-          case 0 ... 2: return std::string("Низкое содержание");
-          case 3: return std::string("Умеренное содержание");
-          case 4: return std::string("Высокое содержание");
-          case 5: return std::string("Очень высокое содержание");
-          default: return std::string("n/a");
-        }
     on_value:
       then:
          - lvgl.label.update:

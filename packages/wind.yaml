@@ -25,7 +25,24 @@ sensor:
             id: wind_meter
             value: !lambda |- 
               return x;
-
+        - lambda: |-
+            uint8_t vwind= (id(wind_sped).state);
+              switch (vwind) {
+                case 0: return id(wind_class).publish_state("Штиль"); 
+                case 1: return id(wind_class).publish_state("Тихий");
+                case 2 ... 3: return id(wind_class).publish_state("Лёгкий");
+                case 4 ... 5: return id(wind_class).publish_state("Слабый");
+                case 6 ... 7: return id(wind_class).publish_state("Умеренный");
+                case 8 ... 10: return id(wind_class).publish_state("Свежий");
+                case 11 ... 13: return id(wind_class).publish_state("Сильный");
+                case 14 ... 17: return id(wind_class).publish_state("Крепкий"); 
+                case 18 ... 20: return id(wind_class).publish_state("Очень крепкий");
+                case 21 ... 24: return id(wind_class).publish_state("Шторм");
+                case 25 ... 28: return id(wind_class).publish_state("Сильный шторм");
+                case 29 ... 32: return id(wind_class).publish_state("Жестокий шторм");
+                case 33 ... 100: return id(wind_class).publish_state("Ураган");
+                default: return id(wind_class).publish_state("n/a");
+              }
     
 #-------------------------------------------
 # TEXT SENSOR
@@ -54,24 +71,6 @@ text_sensor:
 
   - platform: template
     id: wind_class
-    lambda: |-
-      uint8_t vwind= (id(wind_sped).state);
-        switch (vwind) {
-          case 0: return std::string("Штиль");
-          case 1: return std::string("Тихий");
-          case 2 ... 3: return std::string("Лёгкий");
-          case 4 ... 5: return std::string("Слабый");
-          case 6 ... 7: return std::string("Умеренный");
-          case 8 ... 10: return std::string("Свежий");
-          case 11 ... 13: return std::string("Сильный");
-          case 14 ... 17: return std::string("Крепкий"); 
-          case 18 ... 20: return std::string("Очень крепкий");
-          case 21 ... 24: return std::string("Шторм");
-          case 25 ... 28: return std::string("Сильный шторм");
-          case 29 ... 32: return std::string("Жестокий шторм");
-          case 33 ... 100: return std::string("Ураган");
-          default: return std::string("n/a");
-        }
     on_value:
       then:
          - lvgl.label.update:

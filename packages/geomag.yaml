@@ -25,24 +25,23 @@ sensor:
             id: geomagnetic_meter
             value: !lambda |- 
               return x;
-              
+        - lambda: |-
+            uint8_t vgeomag= (id(geomagnetic).state);
+              switch (vgeomag) {
+                case 0 ... 4: return id(geomag_class).publish_state("небольшие возмущения");
+                case 5: return id(geomag_class).publish_state("слабая буря");
+                case 6: return id(geomag_class).publish_state("умеренная буря");
+                case 7: return id(geomag_class).publish_state("сильная буря");
+                case 8: return id(geomag_class).publish_state("шторм");
+                case 9: return id(geomag_class).publish_state("экстремальный шторм");
+                default: return id(geomag_class).publish_state("n/a");
+              }
 #-------------------------------------------
 # TEXT SENSOR
 #-------------------------------------------
 text_sensor:             
   - platform: template
     id: geomag_class
-    lambda: |-
-      uint8_t vgeomag= (id(geomagnetic).state);
-        switch (vgeomag) {
-          case 0 ... 4: return std::string("небольшие возмущения");
-          case 5: return std::string("слабая буря");
-          case 6: return std::string("умеренная буря");
-          case 7: return std::string("сильная буря");
-          case 8: return std::string("шторм");
-          case 9: return std::string("экстремальный шторм");
-          default: return std::string("n/a");
-        }
     on_value:
       then:
          - lvgl.label.update:
