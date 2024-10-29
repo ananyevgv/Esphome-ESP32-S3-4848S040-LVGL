@@ -1,4 +1,5 @@
 substitutions:
+  page_home: weather
   ha:                 "\U0000e90b" # home assistant
   wifi_25:            "\U0000e91e" # wifi signal from 25% to 1% F092F
   wifi_50:            "\U0000e91f" # wifi signal from 50% to 25% F091F
@@ -466,6 +467,7 @@ script:
 #-------------------------------------------       
 time:
   - platform: sntp
+    servers: !secret sntp
     on_time_sync:
       - script.execute: time_update_weather
     on_time:
@@ -552,48 +554,82 @@ lvgl:
             text_color: 0x808080
             y: 60
             x: 20    
-            
-        - label:
-            align: TOP_LEFT
-            id: display_wind_speed
-            text: -- m/s
-            text_font: weather36
-            text_color: 0x808080
+
+
+        - button:
             y: 20
-            x: 250         
-           
-           
-           
-        - label:
+            x: 250 
             align: TOP_LEFT
-            id: display_UV
-            text: -- 
-            text_font: weather36
-            text_color: 0x808080
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 170
+            height: 40
+            widgets:   
+              - label:
+                  id: display_wind_speed
+                  text: --
+                  text_font: weather36
+                  text_color: 0x808080
+                  align: LEFT_MID
+            on_press:
+              lvgl.page.show: wind_page  # pfvtybnm          
+
+           
+        - button:
             y: 60
             x: 250
-            
-        - label:
             align: TOP_LEFT
-            id: display_geomagnetic
-            text: --
-            text_font: weather36
-            text_color: 0x808080
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 100
+            height: 40
+            widgets:   
+              - label:
+                  id: display_UV
+                  text: -- 
+                  text_font: weather36
+                  text_color: 0x808080
+                  align: LEFT_MID
+            on_press:
+              lvgl.page.show: UV_page
+            
+        - button:
             y: 100
             x: 250
-            
-            
-            
+            align: TOP_LEFT
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 100
+            height: 40
+            widgets:
+              - label:
+                  id: display_geomagnetic
+                  text: --
+                  text_font: weather36
+                  text_color: 0x808080
+                  align: LEFT_MID
+            on_press:
+              lvgl.page.show: geomag
+              
+              
 # Климат в доме     
-        - label:
-            align: LEFT_MID
-            id: display_holl_temp
-            text: --.- °C
-            text_font: weather24
-            text_color: 0x808080
+        - button:
             y: 40
-            x: 10
-            
+            align: LEFT_MID
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 180
+            height: 40
+            widgets:  
+              - label:
+                  align: LEFT_MID
+                  id: display_holl_temp
+                  text: --.- °C
+                  text_font: weather24
+                  text_color: 0x808080
+            on_press:
+              lvgl.page.show: thermostat_page
+
         - label:
             align: LEFT_MID
             id: display_humidity
@@ -602,16 +638,24 @@ lvgl:
             text_color: 0x808080
             y: 40
             x: 150
-            
-        - label:
-            align: CENTER
-            id: display_pressure
-            text: --- mmHg
-            text_font: weather24
-            text_color: 0x808080
+        - button:
             y: 70
-            x: -120
-            
+            x: 30
+            align: LEFT_MID
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 180
+            height: 40
+            widgets:  
+              - label:
+                  align: LEFT_MID
+                  id: display_pressure
+                  text: --- mmHg
+                  text_font: weather24
+                  text_color: 0x808080
+            on_press:
+              lvgl.page.show: barometr_page
+              
 # Качество воздуха           
         - label:
             align: LEFT_MID
@@ -654,33 +698,62 @@ lvgl:
             y: 190
             x: 10
 
-
-         
 # Пыльца на улице   
-        - label:
-            align: LEFT_MID
-            id: display_birch
-            text: --
-            text_font: weather24
-            text_color: 0x808080
+        - button:
             y: 130
-            x: 150
-        - label:
+            x: 120
             align: LEFT_MID
-            id: display_grass
-            text: --
-            text_font: weather24
-            text_color: 0x808080
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 180
+            height: 40
+            widgets:  
+              - label:
+                  align: LEFT_MID
+                  id: display_birch
+                  text: --
+                  text_font: weather24
+                  text_color: 0x808080
+            on_press:
+              lvgl.page.show: birch_page
+
+
+        - button:
             y: 160
-            x: 150
-        - label:
+            x: 120
             align: LEFT_MID
-            id: display_ragweed
-            text: --
-            text_font: weather24
-            text_color: 0x808080
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 180
+            height: 40
+            widgets:  
+              - label:
+                  align: LEFT_MID
+                  id: display_grass
+                  text: --
+                  text_font: weather24
+                  text_color: 0x808080
+            on_press:
+              lvgl.page.show: grass_page
+              
+        - button:
             y: 190
-            x: 150
+            x: 120
+            align: LEFT_MID
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 180
+            height: 40
+            widgets:  
+              - label:
+                  align: LEFT_MID
+                  id: display_ragweed
+                  text: --
+                  text_font: weather24
+                  text_color: 0x808080
+            on_press:
+              lvgl.page.show: ragweed_page
+              
 # Страницы
         - obj:
             bg_opa: TRANSP
@@ -860,6 +933,3 @@ lvgl:
                           id: child_protection_status
                           text: "${lock_open}"
                           text_color: color_dark_gray
-
-                          
-                        
