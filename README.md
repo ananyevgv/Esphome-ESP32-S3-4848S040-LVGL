@@ -33,11 +33,11 @@ packages:
   termostat: !include packages/termostat.yaml
  # clock: !include packages/clock_page.yaml
 
-# выбрать один из четырех barometr
-  barometr: !include packages/barometr.yaml # выбрать один из четырех barometr
-  #barometr: !include packages/barometr_page.yaml # выбрать один из четырех barometr
-  #barometr: !include packages/barometr_bme680_page.yaml  # выбрать один из четырех barometr
-  #barometr: !include packages/barometr_bme680_weather.yaml  # выбрать один из четырех barometr  обязателен weather_bme680.yaml
+# выбрать один из трех barometr
+  barometr: !include packages/barometr.yaml # выбрать один из трех barometr
+  #barometr: !include packages/barometr_page.yaml # выбрать один из трех barometr
+  #barometr: !include packages/barometr_bme680_page.yaml  # выбрать один из трех barometr
+ 
 
   geomag: !include packages/geomag.yaml
   #geomag: !include packages/geomag-page.yaml # Фоновый рисунок
