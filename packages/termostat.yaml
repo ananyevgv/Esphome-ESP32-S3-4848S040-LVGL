@@ -4,10 +4,11 @@ substitutions:
   home_account:       "\U000F0826"
   bag_suitcase:       "\U000F158B"
   hiking:             "\U000F0D7F"
+  bed:                "\U000F02E3"
   
   room: kitchen
   thermostat_entity_switch: ${room}_switch_thermostat
-  thermostat_entity_sensor: sensor.temperature
+  thermostat_entity_sensor: sensor.kurchatova_temperature
   
 #-------------------------------------------
 # FONT
@@ -32,7 +33,8 @@ font:
         glyphs: [
           $home_account,
           $bag_suitcase,
-          $hiking
+          $hiking,
+          $bed
           ]
     
 #-------------------------------------------
@@ -109,8 +111,11 @@ climate:
     preset:
       - name: Home
         default_target_temperature_low: 24 °C
-      - name: Away
+      - name: AWAY
         default_target_temperature_low: 15 °C
+      - name:  SLEEP
+        default_target_temperature_low: 19 °C
+       
     heat_action:
       - switch.turn_on: $thermostat_entity_switch
       
@@ -429,4 +434,26 @@ lvgl:
                 on_press:
                   - climate.control:
                       id:  ${room}_thermostat
-                      custom_preset: "Away"
+                      custom_preset: "AWAY"
+                      
+            - button:
+                y: -20
+                width: 70
+                height: 70
+                bg_color: color_green
+                border_color: color_gray
+                border_width: 5
+                shadow_opa: TRANSP
+                radius: 35
+                align: BOTTOM_LEFT
+                widgets:
+                  - label:
+                      y: -2
+                      align: CENTER
+                      text_font: termostat48
+                      text_color: color_gray
+                      text: "${bed}"
+                on_press:
+                  - climate.control:
+                      id:  ${room}_thermostat
+                      custom_preset: "SLEEP"
