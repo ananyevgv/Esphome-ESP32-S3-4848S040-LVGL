@@ -10,32 +10,45 @@ kitchen-lighting.yaml указываем свои сенсоры, первона
 Раставиляем страницы в желаемой очередности, barometr и  weather можно использовать 1 экземпляр
 ```yaml
 packages:
-# Обязательная страница (в планах сделать еще одну, чисто меню. Завязаны с подсветкой дисплея)
-  weather: !include packages/weather_anime.yaml # выбрать один из двух weather 
-  weather: !include packages/weather.yaml # выбрать один из двух weather 
+# Раставить страницы в желаемой очередности, weather  и barometr можно использовать 1 вариант
+  #weather: !include packages/weather_anime.yaml # выбрать один из трех weather #jpg:3 689 528 байт без 2 603 377 байт
+  weather: !include packages/weather.yaml # выбрать один из трех weather
+  #weather: !include packages/weather_bme680.yaml # выбрать один из трех обязателен barometr_bme680_weather.yaml
 
 # Универсальные необходимо выбрать свои сущности и иконки для их
-  button4: !include packages/button-4.yaml универсальный
-  button6: !include packages/button-6.yaml универсальный 
-  button8: !include packages/button-8.yaml универсальный 
-  button10: !include packages/button-10.yaml универсальный 
-  button12: !include packages/button-12.yaml универсальный 
-  button16: !include packages/button-16.yaml универсальный 
-  slider4v: !include packages/slider-4v.yaml универсальный #Четыре вертикальных слайдера
-  slider4g: !include packages/slider-4g.yaml универсальный #Четыре горизонтальных слайдера
+  #button4: !include packages/button-4.yaml
+  #button6: !include packages/button-6.yaml
+  #button8: !include packages/button-8.yaml
+  #button10: !include packages/button-10.yaml
+  #button12: !include packages/button-12.yaml
+  #button16: !include packages/button-16.yaml
+  #slider4v: !include packages/slider-4v.yaml
+  #slider4g: !include packages/slider-4g.yaml
+  #slider4b: !include packages/slider-4b.yaml
 
-
-##############################################################
-  boiler: !include packages/boiler.yaml Упраление котлом BAXI (в процессе)
   kitchen: !include packages/kitchen_light.yaml # 30 844
   holl: !include packages/holl_light.yaml # 29 420
+  boiler: !include packages/boiler.yaml
   lg: !include packages/lg_light.yaml  #495 288
-  clock: !include packages/clock_page.yaml
-  barometr: !include packages/barometr_page.yaml # выбрать один из двух barometr
-  barometr: !include packages/barometr_bme680_page.yaml  # выбрать один из двух barometr
-  geomag: !include packages/geomag_page.yaml
-  UV: !include packages/UV_page.yaml
-  humm: !include packages/humm-page.yaml
+  termostat: !include packages/termostat.yaml
+ # clock: !include packages/clock_page.yaml
+
+# выбрать один из четырех barometr
+  barometr: !include packages/barometr.yaml # выбрать один из четырех barometr
+  #barometr: !include packages/barometr_page.yaml # выбрать один из четырех barometr
+  #barometr: !include packages/barometr_bme680_page.yaml  # выбрать один из четырех barometr
+  #barometr: !include packages/barometr_bme680_weather.yaml  # выбрать один из четырех barometr  обязателен weather_bme680.yaml
+
+  geomag: !include packages/geomag.yaml
+  #geomag: !include packages/geomag-page.yaml # Фоновый рисунок
+  UV: !include packages/UV.yaml
+  #UV: !include packages/UV-page.yaml # Фоновый рисунок
+  wind: !include packages/wind.yaml 
+
+  birch: !include packages/birch.yaml
+  grass: !include packages/grass.yaml
+  ragweed: !include packages/ragweed.yaml
+
 ```
 
 |  1                                                         | 2                                                         | 
