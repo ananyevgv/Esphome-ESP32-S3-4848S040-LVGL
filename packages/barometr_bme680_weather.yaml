@@ -41,7 +41,20 @@ sensor:
                 case 31 ... 40: return lv_color_hex(0xff0000);
                 default: return lv_color_hex(0x333333);
               }
-              
+
+###################################################              
+# Вывод на термостат, убрать ели нет термостата
+        - lvgl.arc.update:
+            id: arc_sensor_temp
+            value: !lambda |- 
+              return x;
+        - lvgl.label.update:
+            id: sensor_temperature_thermostat
+            text:
+              format: "%0.1f"
+              args: ["x"] 
+###################################################         
+
     pressure:
       filters:
       - filter_out: NAN
@@ -203,6 +216,7 @@ text_sensor:
 #-------------------------------------------
 time:
   - platform: sntp
+    servers: !secret sntp
     on_time_sync:
     - lambda: !lambda |-
         id(pressure_3h).publish_state(id(bme680_p).state);
