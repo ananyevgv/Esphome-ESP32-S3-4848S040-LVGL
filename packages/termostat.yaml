@@ -8,7 +8,7 @@ substitutions:
   
   room: kitchen
   thermostat_entity_switch: ${room}_switch_thermostat
-  thermostat_entity_sensor: sensor.kurchatova_temperature
+  thermostat_entity_sensor: sensor.temperature
   
 #-------------------------------------------
 # FONT
