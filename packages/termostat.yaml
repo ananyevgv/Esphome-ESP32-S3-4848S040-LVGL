@@ -20,7 +20,7 @@ font:
       -.0123456789'
     size: 84
     bpp: 4
-  - file: "fonts/Icons.ttf"
+  - file: "font/Icons.ttf"
     id: termostat48
     size: 48
     bpp: 4
