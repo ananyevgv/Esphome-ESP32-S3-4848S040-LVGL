@@ -192,7 +192,7 @@ lvgl:
             bg_opa: TRANSP
             border_opa: TRANSP
             width: 480
-            height: 230
+            height: 460
             align: TOP_LEFT
             x: 0
             y: 0
@@ -200,17 +200,19 @@ lvgl:
               pad_row: 10
               pad_column: 10
               type: GRID
-              grid_columns: [FR(1), FR(1)]
-              grid_rows: [FR(1)]
+              grid_columns: [FR(1), FR(1), FR(1), FR(1)]
+              grid_rows: [FR(1), FR(1), FR(1), FR(1)]
             widgets:
             ########################
               - button:
                   checkable: true
                   id: b_button4_0_0
-                  grid_cell_row_pos: 0
-                  grid_cell_column_pos: 0
+                  grid_cell_row_pos: 0 #Позиция ряд
+                  grid_cell_column_pos: 0 #Позиция колонка
                   grid_cell_x_align: STRETCH
                   grid_cell_y_align: STRETCH
+                  grid_cell_row_span: 2 #Занять ячеек в ряде
+                  grid_cell_column_span: 2 #Занять ячеек в колонке
                   bg_opa: 35%
                   widgets:
                     - label:
@@ -238,10 +240,12 @@ lvgl:
               - button:
                   checkable: true
                   id: b_button4_0_1
-                  grid_cell_row_pos: 0
-                  grid_cell_column_pos: 1
+                  grid_cell_row_pos: 0 #Позиция ряд
+                  grid_cell_column_pos: 2 #Позиция колонка
                   grid_cell_x_align: STRETCH
                   grid_cell_y_align: STRETCH
+                  grid_cell_row_span: 2 #Занять ячеек в ряде
+                  grid_cell_column_span: 2 #Занять ячеек в колонке
                   bg_opa: 35%
                   widgets:
                     - label:
@@ -266,30 +270,16 @@ lvgl:
                         data:
                           entity_id: $button4_entity_0_1
             
-####################################################################################################
-        - obj:
-            bg_opa: TRANSP
-            border_opa: TRANSP
-            width: 480
-            height: 230
-            align: TOP_LEFT
-            x: 0
-            y: 230
-            layout:
-              pad_row: 10
-              pad_column: 10
-              type: GRID
-              grid_columns: [FR(1), FR(1)]
-              grid_rows: [FR(1)]
-            widgets:
             ########################
               - button:
                   checkable: true
                   id: b_button4_1_0
-                  grid_cell_row_pos: 0
-                  grid_cell_column_pos: 1
+                  grid_cell_row_pos: 2 #Позиция ряд
+                  grid_cell_column_pos: 0 #Позиция колонка
                   grid_cell_x_align: STRETCH
                   grid_cell_y_align: STRETCH
+                  grid_cell_row_span: 2 #Занять ячеек в ряде
+                  grid_cell_column_span: 2 #Занять ячеек в колонке
                   bg_opa: 35%
                   widgets:
                     - label:
@@ -311,10 +301,12 @@ lvgl:
               - button:
                   checkable: true
                   id: b_button4_1_1
-                  grid_cell_row_pos: 0
-                  grid_cell_column_pos: 0
+                  grid_cell_row_pos: 2 #Позиция ряд
+                  grid_cell_column_pos: 2 #Позиция колонка
                   grid_cell_x_align: STRETCH
                   grid_cell_y_align: STRETCH
+                  grid_cell_row_span: 2 #Занять ячеек в ряде
+                  grid_cell_column_span: 2 #Занять ячеек в колонке
                   bg_opa: 35%
                   widgets:
                     - label:
