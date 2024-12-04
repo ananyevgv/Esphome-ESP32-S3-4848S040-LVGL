@@ -1,14 +1,18 @@
 substitutions:
   page_home: weather
+  setting:            "\U0000e900" # setting
+  term:               "\U0000e901" # термостат
+  camera:             "\U0000e903" # камеры
   ha:                 "\U0000e90b" # home assistant
-  wifi_25:            "\U0000e91e" # wifi signal from 25% to 1% F092F
-  wifi_50:            "\U0000e91f" # wifi signal from 50% to 25% F091F
-  wifi_75:            "\U0000e910" # wifi signal from 75% to 50% F0922
-  wifi_100:           "\U0000e911" # wifi signal from 100% to 75% or disable F0925 F0928
+  wifi_25:            "\U0000e90e" # wifi signal from 25% to 1% F090E
+  wifi_50:            "\U0000e90f" # wifi signal from 50% to 25% F090F
+  wifi_75:            "\U0000e910" # wifi signal from 75% to 50% F0910
+  wifi_100:           "\U0000e911" # wifi signal from 100% to 75% or disable F0911
   humidity:           "\U0000e912" # humidity
   co2:                "\U0000e913" # co2
   tvoc:               "\U0000e914" # air quality
   temperature:        "\U0000e915" # temperature
+  vacuum:             "\U0000e918" # пылесос
   pressure:           "\U0000e9a6" # meter
 
   molecule_co2:       "\U000F07E4"
@@ -61,7 +65,9 @@ substitutions:
   windyvariant:       "\U000F059E"
   happyface:          "\U000F01F5"
   lan_disconnect:     "\U000F0319"
-  
+
+
+
 #-------------------------------------------
 # FONT
 #-------------------------------------------
@@ -110,7 +116,7 @@ font:
   - file: "font/DSEG7ModernMini-Bold.ttf"
     id: SEG50
     glyphs: |-
-      :-0123456789'
+      :-0123456789
     size: 50
     bpp: 4  
     
@@ -122,11 +128,14 @@ font:
       $botton_icon0,
       $botton_icon1,
       $botton_icon2,
+      $botton_icon3,
+      $botton_icon4,
+      $botton_icon5,
       $monitor_dashboard,
       $lock_open,
       $lock_outline
     ]   
-    
+
   - file: "gfonts://Roboto"
     id: weather36
     size: 36
@@ -163,8 +172,13 @@ font:
     id: icons_24
     size: 24
     bpp: 4
+    ignore_missing_glyphs: true
     glyphs: [
       $ha,
+      $setting,
+      $term,
+      $camera,
+      $vacuum,
       $wifi_25,
       $wifi_50,
       $wifi_75,
@@ -193,7 +207,7 @@ sensor:
             id: display_temp
             text: 
               format: "%.0f °C"
-              args: ["id(ha_weather_temp).state"]  
+              args: ["round(id(ha_weather_temp).state)"]  
             text_color: !lambda |-
               int8_t out_var = (id(ha_weather_temp).state);
               switch (out_var) {
@@ -605,16 +619,16 @@ script:
 #-------------------------------------------
 # TIME
 #-------------------------------------------       
-time:
-  - platform: sntp
-    servers: !secret sntp
-    on_time_sync:
-      - script.execute: time_update_weather
-    on_time:
-      - minutes: '*'
-        seconds: 0
-        then:
-          - script.execute: time_update_weather
+#time:
+#  - platform: sntp
+#    servers: !secret sntp
+#    on_time_sync:
+#      - script.execute: time_update_weather
+#    on_time:
+#      - minutes: '*'
+#        seconds: 0
+#        then:
+#          - script.execute: time_update_weather
 
 #-------------------------------------------
 # LVGL
@@ -908,21 +922,21 @@ lvgl:
         - obj:
             bg_opa: TRANSP
             border_opa: TRANSP
-            width: 110
+            width: 240 #110
             height: 270
             align: CENTER
-            x: 70 #+120
+            x: 130 #70 
             y: 80
             layout:
               pad_row: 20
-              pad_column: 30
+              pad_column: 20
               type: GRID
-              grid_columns: [FR(1)]
+              grid_columns: [FR(1), FR(1)]
               grid_rows: [FR(1), FR(1), FR(1)]
             widgets:
               - button:
                   bg_color: color_black
-                  shadow_color: color_crimson
+                  shadow_color: $collor_page0
                   shadow_spread: 2
                   shadow_width: 25
                   shadow_opa: 100%
@@ -934,7 +948,7 @@ lvgl:
                     - label:
                         align: CENTER
                         text_font: icons_48
-                        text_color: color_crimson
+                        text_color: $collor_page0
                         text: $botton_icon0
                   on_press:
                     then:
@@ -945,7 +959,7 @@ lvgl:
 
               - button:
                   bg_color: color_black
-                  shadow_color: color_blue
+                  shadow_color: $collor_page1
                   shadow_spread: 2
                   shadow_width: 25
                   shadow_opa: 100%
@@ -957,7 +971,7 @@ lvgl:
                     - label:
                         align: CENTER
                         text_font: icons_48
-                        text_color: color_blue
+                        text_color: $collor_page1
                         text: $botton_icon1
                   on_press:
                     then:
@@ -967,7 +981,7 @@ lvgl:
                           time: 300ms
               - button:
                   bg_color: color_black
-                  shadow_color: color_yellow
+                  shadow_color: $collor_page2
                   shadow_spread: 2
                   shadow_width: 25
                   shadow_opa: 100%
@@ -979,7 +993,7 @@ lvgl:
                     - label:
                         align: CENTER
                         text_font: icons_48
-                        text_color: color_yellow
+                        text_color: $collor_page2
                         text: $botton_icon2
                   on_press:
                     then:
@@ -987,52 +1001,76 @@ lvgl:
                           id: $botton_page2
                           animation: OUT_RIGHT
                           time: 300ms
-
-        - obj: # a properly placed coontainer object for all these controls
-            align: CENTER
-            width: 150
-            height: 400
-            bg_opa: 0%
-            border_opa: TRANSP
-            pad_all: 5
-            x: 174
-            y: 40 
-            widgets:
-              - slider:
-                  id: dimmer_slider
-                  width: 30
-                  height: 200
-                  x: 55
-                  y: 60
-                  min_value: 30
-                  max_value: 100
-                  value: 50
-                  on_release:
-                    #- light.toggle 
-                    - light.turn_on:
-                        id: backlight                
-                        brightness: !lambda |-
-                          return (x / 100);
-
+                          
               - button:
-                  id: b_backlight
-                  align: CENTER
-                  width: 80
-                  height: 80
-                  #x: 0
-                  y: 120
-                  checkable: true
+                  bg_color: color_black
+                  shadow_color: $collor_page3
+                  shadow_spread: 2
+                  shadow_width: 25
+                  shadow_opa: 100%
+                  grid_cell_column_pos: 1
+                  grid_cell_row_pos: 0
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
                   widgets:
                     - label:
-                        text_font: icons_48
-                        text: $monitor_dashboard
                         align: CENTER
-                        id: w_backlight
-                  on_click:
-                    - light.toggle:
-                        id: backlight  
-         
-         
+                        text_font: icons_48
+                        text_color: $collor_page3
+                        text: $botton_icon3
+                  on_press:
+                    then:
+                      - lvgl.page.show: 
+                          id: $botton_page3
+                          animation: OUT_RIGHT
+                          time: 300ms
+
+              - button:
+                  bg_color: color_black
+                  shadow_color: $collor_page4
+                  shadow_spread: 2
+                  shadow_width: 25
+                  shadow_opa: 100%
+                  grid_cell_column_pos: 1
+                  grid_cell_row_pos: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  widgets:
+                    - label:
+                        align: CENTER
+                        text_font: icons_48
+                        text_color: $collor_page4
+                        text: $botton_icon4
+                  on_press:
+                    then:
+                      - lvgl.page.show: 
+                          id: $botton_page4
+                          animation: OUT_RIGHT
+                          time: 300ms
+
+              - button:
+                  bg_color: color_black
+                  shadow_color: $collor_page5
+                  shadow_spread: 2
+                  shadow_width: 25
+                  shadow_opa: 100%
+                  grid_cell_column_pos: 1
+                  grid_cell_row_pos: 2
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  widgets:
+                    - label:
+                        align: CENTER
+                        text_font: icons_48
+                        text_color: $collor_page5
+                        text: $botton_icon5
+                  on_press:
+                    then:
+                      - lvgl.page.show: 
+                          id: $botton_page5
+                          animation: OUT_RIGHT
+                          time: 300ms
+                          
         # Child protection placeholder
         - button:
             id: child_protection_placeholder
