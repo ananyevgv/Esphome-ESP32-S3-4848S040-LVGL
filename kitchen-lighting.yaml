@@ -3,37 +3,51 @@ substitutions:
   name: kitchen-lighting
   last_name: boiler
   device_description: "Выключатель кухня"
- 
+  characters: " !#%'()+=,-_.:³°/μ0123456789АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧЩЬЫЪЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZабвгдеёжзийклмнопрстуфхцчщьыъэюяabcdefghijklmnopqrstuvwxyz"
+  number_characters: " :.-0123456789"
 # Указываем ID сенсоров в HA
 
-  sensor_uv_index: sensor.yar_uv_index
-  sensor_geomagnetic: sensor.yar_geomagnetic_field
+  sensor_uv_index: sensor.iaroslavskaia_uv_index
+  sensor_geomagnetic: sensor.iaroslavskaia_geomagnetic_field
   sensor_temperature: sensor.kitchen_t
   sensor_humidity: sensor.kitchen_humidity
-  sensor_pressure: sensor.yar_pressure
+  sensor_pressure: sensor.iaroslavskaia_pressure
   sensor_co2: sensor.holl_co2
-  sensor_weather: weather.yar
+  sensor_weather: weather.iaroslavskaia
   sensor_iaq: sensor.holl_iaq
   sensor_iaq_c: sensor.holl_iaq_classification
   sensor_voc: sensor.holl_voc
   sensor_lux: sensor.holl_p
-  sensor_wind_speed: sensor.yar_wind_speed
-  sensor_birch: sensor.yar_birch_pollen_index
-  sensor_grass: sensor.yar_grass_pollen_index
-  sensor_ragweed: sensor.yar_ragweed_pollen_index
-  sensor_wind_bearing: sensor.yar_wind_bearing_2
-  
-# Icon page setting_page
+  sensor_wind_speed: sensor.iaroslavskaia_wind_speed
+  sensor_birch: sensor.iaroslavskaia_birch_pollen_index
+  sensor_grass: sensor.iaroslavskaia_grass_pollen_index
+  sensor_ragweed: sensor.iaroslavskaia_ragweed_pollen_index
+  sensor_wind_bearing: sensor.iaroslavskaia_wind_bearing_2
 
+# Icon page setting_page
   botton_icon0: "󱠝" #countertop_outline
   botton_page0: kitchen_page
-
+  collor_page0: color_crimson
+  
   botton_icon1: "\U000F0FD0" #bed-queen
   botton_page1: holl_page
-
+  collor_page1: color_blue
 
   botton_icon2: "\U000F0454" # remote
   botton_page2: lg_remoute
+  collor_page2: color_mint
+
+  botton_icon3: "\U000F0F54" # 
+  botton_page3: thermostat_page
+  collor_page3: color_green
+  
+  botton_icon4: "\U000F19A2" # 
+  botton_page4: lg_remoute
+  collor_page4: color_yellow
+
+  botton_icon5: "\U000F08BB" # 
+  botton_page5: settings_page
+  collor_page5: color_orange
 
   background_boot: back6
   background_weather: back6
@@ -49,7 +63,6 @@ substitutions:
   background_slider4v: back6
   background_slider4g: back6
   background_slider4b: back6
-
   lightbulb: "󰌵"
 #-------------------------------------------
 # ESPHOME PLATFORM SETTINGS
@@ -155,7 +168,7 @@ color:
 # Packages
 #-------------------------------------------
 packages:
-  wifi: !include packages/wifi.yaml
+  wifi: !include packages/wifi-lvgl.yaml
 
 # Раставить страницы в желаемой очередности, barometr можно использовать 1 вариант
   #weather: !include packages/weather_anime.yaml # выбрать один из трех weather #jpg:3 689 528 байт без 2 603 377 байт
@@ -177,8 +190,8 @@ packages:
   lg: !include packages/lg_light.yaml  #495 288
  # clock: !include packages/clock_page.yaml
 
-  barometr: !include packages/barometr.yaml # выбрать один из трех barometr
-  #barometr: !include packages/barometr_page.yaml # выбрать один из трех barometr
+  #barometr: !include packages/barometr.yaml # выбрать один из трех barometr
+  barometr: !include packages/barometr_page.yaml # выбрать один из трех barometr
   #barometr: !include packages/barometr_bme680_page.yaml  # выбрать один из трех barometr
   #barometr: !include packages/barometr_bme680_weather.yaml  # выбрать один из трех barometr  обязателен weather_bme680.yaml
 
@@ -192,7 +205,9 @@ packages:
   ragweed: !include packages/ragweed.yaml
 
   #UV: !include packages/UV-page.yaml # Фоновый рисунок
-  #humm: !include packages/humm-page.yaml
+  humm: !include packages/humm.yaml
+  termostat: !include packages/termostat.yaml
+  settings: !include packages/settings.yaml
 
 #-------------------------------------------
 # TIME
@@ -202,12 +217,12 @@ time:
     id: sntp_time
     timezone: UTC-3 #Europe/Moscow
     servers: !secret sntp
-   # on_time_sync:
-   #   - script.execute: time_update_weather
-   #   - script.execute: time_update_holl
-    #  - script.execute: time_update_kitchen
+    on_time_sync:
+      - script.execute: time_update_weather
+      - script.execute: time_update_holl
+      - script.execute: time_update_kitchen
      # - script.execute: time_update_clock  
-     # - script.execute: time_sync_barometr
+      - script.execute: time_sync_barometr
     on_time:
       - minutes: 25
         seconds: 0
@@ -217,13 +232,13 @@ time:
         seconds: 0
         then:
           - switch.turn_off: switch_antiburn
-     # - script.execute: time_update_barometr
-    #  - minutes: '*'
-     #   seconds: 0
-    #    then:
-     #     - script.execute: time_update_weather
-      #    - script.execute: time_update_holl
-      #    - script.execute: time_update_kitchen
+          - script.execute: time_update_barometr
+      - minutes: '*'
+        seconds: 0
+        then:
+          - script.execute: time_update_weather
+          - script.execute: time_update_holl
+          - script.execute: time_update_kitchen
       #    - script.execute: time_update_clock
 #-------------------------------------------
 # IMAGE
@@ -247,24 +262,20 @@ image:
 font:   
   - file: "gfonts://Roboto"
     id: roboto36
-    glyphs: |-
-      !"%()+=,-_.:³°₂/μ0123456789АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧЩЬЫЪЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ абвгдеёжзийклмнопрстуфхцчщьыъэюяabcdefghijklmnopqrstuvwxyz'
-    # gfonts://family[@weight]
+    glyphs: ${characters}
     size: 36
     bpp: 4     
 
   - file: "gfonts://Roboto"
     id: roboto24
-    glyphs: |-
-      !"%()+=,-_.:³°₂μ0123456789АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ абвгдеёжзийклмнопрстуфхцчшщьыъэюяabcdefghijklmnopqrstuvwxyz'
-    # gfonts://family[@weight]
+    glyphs: ${characters}
     size: 24
     bpp: 4  
 
   - file: "font/DSEG7ModernMini-Bold.ttf"
     id: SEG36
-    glyphs: |-
-      :.-0123456789'
+    glyphs: ${number_characters}
+ #     :.-0123456789
     size: 36
 
     bpp: 4  
@@ -329,6 +340,7 @@ switch:
 button:
   - platform: restart
     name: "${name} restart"
+    id: restart_button
   - platform: template
     name: "${name} Next page"
     on_press:
@@ -353,20 +365,10 @@ light:
     output: GPIO38
     name: Backlight
     id: backlight
-    on_turn_on:
-      lvgl.widget.update:
-        id: w_backlight
-        text_color: 0xFFFF00
-    on_turn_off:
-      - lvgl.widget.update:
-          id: w_backlight
-          text_color: 0xB6B6B6
-      - lvgl.pause:
+
+
+
     on_state:
-      - lvgl.widget.update:
-          id: b_backlight
-          state:
-            checked: !lambda return id(backlight);
       - lvgl.slider.update:
           id: dimmer_slider
           value: !lambda return id(backlight).remote_values.get_brightness() * 100;
@@ -383,7 +385,7 @@ number:
     initial_value: 45
     restore_value: true
     min_value: 10
-    max_value: 180
+    max_value: 600
     step: 5
     mode: box
  
@@ -467,10 +469,12 @@ display:
 # WEB 51 112 bytes
 #-------------------------------------------
 web_server:
-  port: 80  
+  port: 80
+  version: 3
+  local: true
   auth:
     username: !secret web_user
-    password: !secret web_pass
+    password: !secret web_pass  
 
         
 #-------------------------------------------   
@@ -509,7 +513,39 @@ lvgl:
       text_color: 0xFFFFFF
       width: 100%
       height: 30
-
+###############################
+    - id: home_style
+      text_color: 0xD5D5D5
+      bg_opa: TRANSP
+      radius: 5
+      border_color: 0xE9E9E9
+      border_width: 0
+      #border_opa:
+      pad_all: 0
+      shadow_width: 0
+      shadow_opa: TRANSP
+    - id: card
+      text_color: 0xD5D5D5
+      bg_color: 0x222222
+      bg_opa: COVER
+      radius: 20
+      outline_width: 0
+      border_width: 0
+      #border_opa:
+      pad_all: 0
+    - id: tab_theme
+      border_width: 0
+      border_color: 0x0077b3
+      border_opa: TRANSP
+      bg_color: 0x2F8CD8
+      bg_grad_color: 0x005782                  
+      bg_grad_dir: VER
+      pad_all: 0                  
+      width: 100%
+      height: 50
+      text_font: roboto24
+      text_align: CENTER
+###############################
   theme:
     button:
       text_font: menu24
