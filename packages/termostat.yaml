@@ -150,13 +150,13 @@ climate:
             id: ${room}_target_temperature
             text:
               format: "%.0f."
-              args: ["trunc(id(${room}_thermostat).target_temperature)"]
+              args: ["trunc(id(${room}_thermostat).target_temperature)"] # выводим целую часть установленной температуры, для вывода значения целиком поменять на ["id(${room}_thermostat).target_temperature)"]
 
         - lvgl.label.update:
             id: ${room}_target_temperature_fraction
             text:
               format: "%0.0f"
-              args: ["trunc(fmod((id(${room}_thermostat).target_temperature) , 1.0) * 10.0)"] 
+              args: ["trunc(fmod((id(${room}_thermostat).target_temperature) , 1.0) * 10.0)"] # выводим дробную часть установленной температуры
 
 #-------------------------------------------
 # SENSOR
