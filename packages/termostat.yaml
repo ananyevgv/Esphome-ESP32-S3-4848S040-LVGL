@@ -55,42 +55,14 @@ switch:
       }
     turn_on_action:
       - climate.control:
-          id:  ${room}_thermostat
+          id: ${room}_thermostat
           mode: "HEAT"
-      - lvgl.label.update:
-          id: ${room}_target_temperature
-          text_color: color_black
-      - lvgl.label.update:
-          id: ${room}_target_temperature_fraction
-          text_color: color_black
-      - lvgl.label.update:
-          id: target_temperature_measurement
-          text_color: color_black
-      - lvgl.label.update:
-          id: heating_status
-          text_color: color_deep_orange
-          text: "Обогрев"
     turn_off_action:
       - climate.control:
           id:  ${room}_thermostat
           mode: "OFF"
-      - lvgl.label.update:
-          id: ${room}_target_temperature
-          text_color: color_white
-      - lvgl.label.update:
-          id: ${room}_target_temperature_fraction
-          text_color: color_white   
-      - lvgl.label.update:
-          id: target_temperature_measurement
-          text_color: color_white  
-      - lvgl.label.update:
-          id: heating_status
-          text_color: color_white
-          text: "Выкл"
-      - lvgl.label.update:
-          id: heating_icon
-          text: "${heating}"
-          text_color: color_white
+
+
           
 #-------------------------------------------
 # CLIMATE
@@ -134,11 +106,7 @@ climate:
           
     off_mode:
       - switch.turn_off: $thermostat_entity_switch
-   #   - lvgl.label.update:
-     #     id: heating_icon
-       #   text: "${heating}"
-       #   text_color: color_white
-          
+
     on_state: 
       then:
         - lvgl.arc.update:
@@ -157,7 +125,42 @@ climate:
             text:
               format: "%0.0f"
               args: ["trunc(fmod((id(${room}_thermostat).target_temperature) , 1.0) * 10.0)"] # выводим дробную часть установленной температуры
-
+              
+        - if: 
+            condition:
+              lambda: return (x.mode != CLIMATE_MODE_OFF);
+            then:
+              - lvgl.label.update:
+                  id: ${room}_target_temperature
+                  text_color: color_black
+              - lvgl.label.update:
+                  id: ${room}_target_temperature_fraction
+                  text_color: color_black
+              - lvgl.label.update:
+                  id: target_temperature_measurement
+                  text_color: color_black
+              - lvgl.label.update:
+                  id: heating_status
+                  text_color: color_deep_orange
+                  text: "Обогрев"
+            else: 
+              - lvgl.label.update:
+                  id: ${room}_target_temperature
+                  text_color: color_white
+              - lvgl.label.update:
+                  id: ${room}_target_temperature_fraction
+                  text_color: color_white   
+              - lvgl.label.update:
+                  id: target_temperature_measurement
+                  text_color: color_white  
+              - lvgl.label.update:
+                  id: heating_status
+                  text_color: color_white
+                  text: "Выкл"
+              - lvgl.label.update:
+                  id: heating_icon
+                  text: "${heating}"
+                  text_color: color_white
 #-------------------------------------------
 # SENSOR
 #-------------------------------------------
@@ -181,7 +184,7 @@ sensor:
 lvgl:
   pages:
 # Вывод на экран 
-  - id: page_thermostat
+  - id: thermostat_page
     widgets:
       - obj:
         #  bg_opa: TRANSP
@@ -328,7 +331,7 @@ lvgl:
                     
                 on_click:
                   - switch.toggle:
-                      id: climate_toggle 
+                      id: climate_toggle
  
             - label:
                 id: sensor_temperature_thermostat_icon
@@ -457,3 +460,4 @@ lvgl:
                   - climate.control:
                       id:  ${room}_thermostat
                       custom_preset: "SLEEP"
+
