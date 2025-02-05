@@ -111,7 +111,7 @@ font:
       ]
        
 time:
-  - platform: sntp
+  - id: !extend sntp_time
     on_time_sync:
       - script.execute: time_update_weather_anime
     on_time:
