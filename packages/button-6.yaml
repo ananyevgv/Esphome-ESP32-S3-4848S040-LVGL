@@ -88,7 +88,7 @@ script:
             return time_buf; 
 
 time:
-  - platform: sntp
+  - id: !extend sntp_time
     on_time_sync:
       - script.execute: time_update_button6
     on_time:
