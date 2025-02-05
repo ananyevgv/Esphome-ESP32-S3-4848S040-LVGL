@@ -62,7 +62,7 @@ script:
 # TIME
 #-------------------------------------------
 time:
-  - platform: sntp
+  - id: !extend sntp_time
     on_time_sync:
       - script.execute: time_update_kitchen
     on_time:
