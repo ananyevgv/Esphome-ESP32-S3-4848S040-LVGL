@@ -217,12 +217,12 @@ time:
     id: sntp_time
     timezone: UTC-3 #Europe/Moscow
     servers: !secret sntp
-    on_time_sync:
-      - script.execute: time_update_weather
-      - script.execute: time_update_holl
-      - script.execute: time_update_kitchen
+#    on_time_sync:
+ #     - script.execute: time_update_weather
+ #     - script.execute: time_update_holl
+ #     - script.execute: time_update_kitchen
      # - script.execute: time_update_clock  
-      - script.execute: time_sync_barometr
+ #     - script.execute: time_sync_barometr
     on_time:
       - minutes: 25
         seconds: 0
@@ -232,13 +232,13 @@ time:
         seconds: 0
         then:
           - switch.turn_off: switch_antiburn
-          - script.execute: time_update_barometr
-      - minutes: '*'
-        seconds: 0
-        then:
-          - script.execute: time_update_weather
-          - script.execute: time_update_holl
-          - script.execute: time_update_kitchen
+    #      - script.execute: time_update_barometr
+    #  - minutes: '*'
+    #    seconds: 0
+    #    then:
+    #      - script.execute: time_update_weather
+       #   - script.execute: time_update_holl
+       #   - script.execute: time_update_kitchen
       #    - script.execute: time_update_clock
 #-------------------------------------------
 # IMAGE
