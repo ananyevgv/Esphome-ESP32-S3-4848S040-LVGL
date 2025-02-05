@@ -215,8 +215,7 @@ text_sensor:
 # TIME
 #-------------------------------------------
 time:
-  - platform: sntp
-    servers: !secret sntp
+  - id: !extend sntp_time
     on_time_sync:
     - lambda: !lambda |-
         id(pressure_3h).publish_state(id(bme680_p).state);
