@@ -19,6 +19,7 @@ packages:
   button4: !include
     file: packages/display/button-4.yaml
     vars:
+      background_button4: back6
       # !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
       button4_icon_0_0: "\U000F18DE" # ceiling_light_multiple_outline
       button4_icon_0_1: "󱊺" #string_lights
@@ -37,6 +38,7 @@ packages:
   button6: !include
     file: packages/display/button-6.yaml
     vars:
+        background_button6: back6
       # Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
         button6_icon_0_0: "\U000F18DE" # ceiling_light_multiple_outline
         button6_entity_0_0: light.holl_led_0
