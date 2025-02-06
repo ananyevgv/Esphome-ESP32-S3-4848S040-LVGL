@@ -13,41 +13,7 @@
 #   2_0     #   2_1     #
 #           #           #
 #########################
-substitutions:
-  icons6_0_0: "\U000F18DE" # ceiling_light_multiple_outline
-  icons6_0_1: "󱊺" #string_lights
-  
-  icons6_1_0: "󱞓" #chandelier
-  icons6_1_1: "󰠠" #lightning_bolt_circle
-  icons6_1_2: "󱇜" #window_open_variant
-  icons6_1_3: "󰣳" #nas
-  
 
-# Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
-  button6_icon_0_0: $icons6_0_0
-  button6_entity_0_0: light.holl_led_0
-  button6_text_0_0: "Кухня низ"
-  
-  button6_icon_0_1: $icons6_0_1
-  button6_entity_0_1: light.holl_led_1
-  button6_text_0_1: "Кухня верх"
-  
-  
-# Кнопки 1 ряд
-  button6_icon_1_0: $icons6_1_0
-  button6_entity_1_0: light.holl_led_4
-
-  button6_icon_1_1: $icons6_1_1
-  button6_entity_1_1: light.holl_led_5
-  
-
-  button6_icon_1_2: $icons6_1_2
-  button6_entity_1_2: light.holl_led_6
-
-  button6_icon_1_3: $icons6_1_3
-  button6_entity_1_3: light.holl_led_7
-  
-  
 font:
   - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
     id: button6_48
