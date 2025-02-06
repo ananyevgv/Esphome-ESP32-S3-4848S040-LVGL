@@ -34,7 +34,34 @@ packages:
       button4_text_0_1: "Кухня верх"
       button4_text_1_0: "Холл низ"
       button4_text_1_1: "Холл верх"
-  #button6: !include packages/button-6.yaml
+  button6: !include
+    file: packages/display/button-6.yaml
+    vars:
+      # Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
+        button6_icon_0_0: "\U000F18DE" # ceiling_light_multiple_outline
+        button6_entity_0_0: light.holl_led_0
+        button6_text_0_0: "Кухня низ"
+        
+        button6_icon_0_1: "󱊺" #string_lights
+        button6_entity_0_1: light.holl_led_1
+        button6_text_0_1: "Кухня верх"
+        
+        
+      # Кнопки 1 ряд
+        button6_icon_1_0: "󱞓" #chandelier
+        button6_entity_1_0: light.holl_led_4
+      
+        button6_icon_1_1: "󰠠" #lightning_bolt_circle
+        button6_entity_1_1: light.holl_led_5
+        
+      
+        button6_icon_1_2: "󱇜" #window_open_variant
+        button6_entity_1_2: light.holl_led_6
+      
+        button6_icon_1_3: "󰣳" #nas
+        button6_entity_1_3: light.holl_led_7
+  
+  
   #button8: !include packages/button-8.yaml
   #button10: !include packages/button-10.yaml
   #button12: !include packages/button-12.yaml
