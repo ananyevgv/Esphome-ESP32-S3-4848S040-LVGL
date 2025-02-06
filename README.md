@@ -16,7 +16,24 @@ packages:
   #weather: !include packages/weather_bme680.yaml # выбрать один из трех обязателен barometr_bme680_weather.yaml
 
 # Универсальные необходимо выбрать свои сущности и иконки для их
-  #button4: !include packages/button-4.yaml
+  button4: !include
+    file: packages/display/button-4.yaml
+    vars:
+      # !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
+      button4_icon_0_0: "\U000F18DE" # ceiling_light_multiple_outline
+      button4_icon_0_1: "󱊺" #string_lights
+      button4_icon_1_0: "󰯪" #alarm_light_on
+      button4_icon_1_1: "󱠝" #countertop_outline
+
+      button4_entity_0_0: light.holl_led_0
+      button4_entity_0_1: light.holl_led_1
+      button4_entity_1_0: light.holl_led_2
+      button4_entity_1_1: light.holl_led_3
+
+      button4_text_0_0: "Кухня низ"
+      button4_text_0_1: "Кухня верх"
+      button4_text_1_0: "Холл низ"
+      button4_text_1_1: "Холл верх"
   #button6: !include packages/button-6.yaml
   #button8: !include packages/button-8.yaml
   #button10: !include packages/button-10.yaml
