@@ -1,26 +1,4 @@
-substitutions:
-  icons_sl4b_0_0: "\U000F18DE" # ceiling_light_multiple_outline
-  icons_sl4b_0_1: "󱊺" #string_lights
-  icons_sl4b_0_2: "󱍖" #television_ambient_light
-  icons_sl4b_0_3: "󱦇" #light_flood_down
-
-
-# Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
-  slider4b_icon_0_0: $icons_sl4b_0_0
-  slider4b_entity_0_0: light.holl_led_0
-
-  slider4b_icon_0_1: $icons_sl4b_0_1
-  slider4b_entity_0_1: light.holl_led_1
-  
-  slider4b_icon_0_2: $icons_sl4b_0_2
-  slider4b_entity_0_2: light.holl_led_2
-
-  slider4b_icon_0_3: $icons_sl4b_0_3
-  slider4b_entity_0_3: light.holl_led_3
-  
-
-  
-  
+ 
 font:
   - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
     id: slider4b_48
