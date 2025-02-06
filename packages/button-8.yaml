@@ -13,57 +13,6 @@
 # 2_0 # 2_1 # 2_2 # 2_3 #
 #     #     #     #     #
 #########################
-
-substitutions:
-  icons8_0_0: "\U000F18DE" # ceiling_light_multiple_outline
-  icons8_0_1: "󱊺" #string_lights
-
-  
-  icons8_1_0: "󰯪" #alarm_light_on
-  icons8_1_1: "󱠝" #countertop_outline
-
-  
-  icons8_2_0: "󱞓" #chandelier
-  icons8_2_1: "󰠠" #lightning_bolt_circle
-  icons8_2_2: "󱇜" #window_open_variant
-  icons8_2_3: "󰣳" #nas
-  
-  icons8_3_0: "󰊏" #fridge_outline
-  icons8_3_1: "󰌵" #lightbulb
-  icons8_3_2: "\U000F0BAB" #menu_open
-  icons8_3_3: "\U000F06A1" #home_outline
-
-# Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
-  button8_icon_0_0: $icons8_0_0
-  button8_entity_0_0: light.holl_led_0
-  button8_text_0_0: "Кухня низ"
-  
-  button8_icon_0_1: $icons8_0_1
-  button8_entity_0_1: light.holl_led_1
-  button8_text_0_1: "Кухня верх"
-  
-  
-# Кнопки 1 ряд
-  button8_icon_1_0: $icons8_1_0
-  button8_entity_1_0: light.holl_led_4
-
-  button8_icon_1_1: $icons8_1_1
-  button8_entity_1_1: light.holl_led_5
-  
-
-# Кнопки 2 ряд
-  button8_icon_2_0: $icons8_2_0
-  button8_entity_2_0: light.holl_led_8
-
-  button8_icon_2_1: $icons8_2_1
-  button8_entity_2_1: light.holl_led_9
-  
-  button8_icon_2_2: $icons8_2_2
-  button8_entity_2_2: light.holl_led_10
-
-  button8_icon_2_3: $icons8_2_3
-  button8_entity_2_3: light.holl_led_11
-  
   
 font:
   - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
