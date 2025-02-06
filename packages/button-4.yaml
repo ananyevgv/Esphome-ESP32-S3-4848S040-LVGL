@@ -9,36 +9,6 @@
 #   1_0     #   1_1     #
 #           #           #
 #########################
-substitutions:
-  icons4_0_0: "\U000F18DE" # ceiling_light_multiple_outline
-  icons4_0_1: "󱊺" #string_lights
-
-  
-  icons4_1_0: "󰯪" #alarm_light_on
-  icons4_1_1: "󱠝" #countertop_outline
-
-  
-
-# Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
-  button4_icon_0_0: $icons4_0_0
-  button4_entity_0_0: light.holl_led_0
-  button4_text_0_0: "Кухня низ"
-  
-  button4_icon_0_1: $icons4_0_1
-  button4_entity_0_1: light.holl_led_1
-  button4_text_0_1: "Кухня верх"
-  
-  
-# Кнопки 1 ряд
-  button4_icon_1_0: $icons4_1_0
-  button4_entity_1_0: light.holl_led_4
-  button4_text_1_0: "Холл низ"
-  
-  button4_icon_1_1: $icons4_1_1
-  button4_entity_1_1: light.holl_led_5
-  button4_text_1_1: "Холл верх"
-
-
 font:
   - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
     id: button4_130
