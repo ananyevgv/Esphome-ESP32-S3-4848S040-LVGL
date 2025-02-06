@@ -70,7 +70,23 @@ packages:
   #button16: !include packages/button-16.yaml
   #slider4v: !include packages/slider-4v.yaml
   #slider4g: !include packages/slider-4g.yaml
-  #slider4b: !include packages/slider-4b.yaml
+  slider4b: !include 
+    file: packages/display/slider-4b.yaml
+    vars:
+    # Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
+      slider4b_icon_0_0: "\U000F18DE" # ceiling_light_multiple_outline
+      slider4b_entity_0_0: light.holl_led_0
+    
+      slider4b_icon_0_1: "󱊺" #string_lights
+      slider4b_entity_0_1: light.holl_led_1
+      
+      slider4b_icon_0_2: "󱍖" #television_ambient_light
+      slider4b_entity_0_2: light.holl_led_2
+    
+      slider4b_icon_0_3: "󱦇" #light_flood_down
+      slider4b_entity_0_3: light.holl_led_3
+
+
 
   kitchen: !include packages/kitchen_light.yaml # 30 844
   holl: !include packages/holl_light.yaml # 29 420
