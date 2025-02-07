@@ -6,10 +6,7 @@ substitutions:
   hiking:             "\U000F0D7F"
   bed:                "\U000F02E3"
   
-  room: kitchen
-  thermostat_entity_switch: ${room}_switch_thermostat
-  thermostat_entity_sensor: sensor.temperature
-  
+
 #-------------------------------------------
 # FONT
 #-------------------------------------------
