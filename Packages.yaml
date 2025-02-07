@@ -10,7 +10,7 @@ packages:
 # Раставить страницы в желаемой очередности, barometr можно использовать 1 вариант
   #weather: !include packages/weather_anime.yaml # выбрать один из трех weather #jpg:3 689 528 байт без 2 603 377 байт
   weather: !include 
-    file: packages/display/weather.yaml # выбрать один из трех weather
+    file: packages/weather.yaml # выбрать один из трех weather
     vars:
       sensor_temperature: sensor.kitchen_t
       sensor_humidity: sensor.kitchen_humidity
@@ -36,13 +36,13 @@ packages:
 #############################################################################
 #----К удалению----------------------------------------------------------
 #############################################################################
-  kitchen: !include packages/display/kitchen_light.yaml # 30 844
-  holl: !include packages/display/holl_light.yaml # 29 420
+  kitchen: !include packages/kitchen_light.yaml # 30 844
+  holl: !include packages/holl_light.yaml # 29 420
   
 #############################################################################
 #----Пульт от ТВ LG----------------------------------------------------------
 #############################################################################
-  lg: !include packages/display/lg_light.yaml  #495 288
+  lg: !include packages/lg_light.yaml  #495 288
   
 #############################################################################
 #----Часы----------------------------------------------------------
@@ -53,7 +53,7 @@ packages:
 #----Страничка 4 кнопоки-----------------------------------------------------
 #############################################################################
   button4: !include
-    file: packages/display/button-4.yaml
+    file: packages/button-4.yaml
     vars:
       background_button4: back6
       # !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
@@ -76,7 +76,7 @@ packages:
 #----Страничка 6 кнопок-----------------------------------------------------
 #############################################################################
   button6: !include
-    file: packages/display/button-6.yaml
+    file: packages/button-6.yaml
     vars:
         background_button6: back6
       # Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
@@ -107,7 +107,7 @@ packages:
 #----Страничка 8 кнопок-----------------------------------------------------
 #############################################################################
   button8: !include
-    file: packages/display/button-8.yaml
+    file: packages/button-8.yaml
     vars:
       background_button8: back6
     # Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
@@ -142,7 +142,7 @@ packages:
 #----Страничка 10 кнопок-----------------------------------------------------
 #############################################################################
   button10: !include 
-    file: packages/display/button-10.yaml
+    file: packages/button-10.yaml
     vars:
       background_button10: back6
     # Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
@@ -180,7 +180,7 @@ packages:
 #----Страничка 12 кнопок-----------------------------------------------------
 #############################################################################
   button12: !include 
-    file: packages/display/button-12.yaml
+    file: packages/button-12.yaml
     vars:
       background_button12: back6
 
@@ -221,7 +221,7 @@ packages:
 #----Страничка 16 кнопок-----------------------------------------------------
 #############################################################################
   button16: !include 
-    file: packages/display/button-16.yaml
+    file: packages/button-16.yaml
     vars:
       background_button16: back6
 # Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
@@ -271,7 +271,7 @@ packages:
 #----Страничка 4 вертикальных слайдера-----------------------------------------------------
 #############################################################################
   slider4v: !include 
-    file: packages/display/slider-4v.yaml
+    file: packages/slider-4v.yaml
     vars:
     # Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
       slider4v_icon_0_0: "\U000F18DE" # ceiling_light_multiple_outline
@@ -290,7 +290,7 @@ packages:
 #----Страничка 4 горизонтальных слайдера-----------------------------------------------------
 #############################################################################
   slider4g: !include 
-    file: packages/display/slider-4g.yaml
+    file: packages/slider-4g.yaml
     vars:
     # Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
       slider4g_icon_0_0: "\U000F18DE" # ceiling_light_multiple_outline
@@ -309,7 +309,7 @@ packages:
 #----Страничка 4 слайдера с кнопкой------------------------------------------
 #############################################################################
   slider4b: !include 
-    file: packages/display/slider-4b.yaml
+    file: packages/slider-4b.yaml
     vars:
     # Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
       slider4b_icon_0_0: "\U000F18DE" # ceiling_light_multiple_outline
@@ -329,7 +329,7 @@ packages:
 #############################################################################
   #barometr: !include packages/barometr.yaml # выбрать один из трех barometr
   barometr: !include 
-    file: packages/display/barometr_page.yaml # выбрать один из трех barometr
+    file: packages/barometr_page.yaml # выбрать один из трех barometr
     vars:
       sensor_temperature: sensor.kitchen_t
       sensor_pressure: sensor.iaroslavskaia_pressure
@@ -340,7 +340,7 @@ packages:
 #----Страничка геомагнитная обстановка---------------------------------------
 #############################################################################
   geomag: !include 
-    file: packages/display/geomag.yaml
+    file: packages/geomag.yaml
     vars:
       sensor_geomagnetic: sensor.iaroslavskaia_geomagnetic_field
   #geomag: !include packages/geomag-page.yaml # Фоновый рисунок
@@ -349,7 +349,7 @@ packages:
 #----Страничка ультрофиолетовое излучение------------------------------------
 #############################################################################
   UV: !include 
-    file: packages/display/UV.yaml
+    file: packages/UV.yaml
     vars:
       sensor_uv_index: sensor.iaroslavskaia_uv_index
   #UV: !include packages/UV-page.yaml # Фоновый рисунок
@@ -357,7 +357,7 @@ packages:
 #----Страничка ветра-----------------------------------------------------
 #############################################################################
   wind: !include 
-    file: packages/display/wind.yaml 
+    file: packages/wind.yaml 
     vars:
       sensor_wind_speed: sensor.iaroslavskaia_wind_speed
       sensor_wind_bearing: sensor.iaroslavskaia_wind_bearing_2
@@ -365,17 +365,17 @@ packages:
 #----Странички с пыльцой-----------------------------------------------------
 #############################################################################
   birch: !include
-    file: packages/display/birch.yaml
+    file: packages/birch.yaml
     vars:
       sensor_birch: sensor.iaroslavskaia_birch_pollen_index
 
   grass: !include 
-    file: packages/display/grass.yaml
+    file: packages/grass.yaml
     vars:
       sensor_grass: sensor.iaroslavskaia_grass_pollen_index
 
   ragweed: !include 
-    file: packages/display/ragweed.yaml
+    file: packages/ragweed.yaml
     vars:
       sensor_ragweed: sensor.iaroslavskaia_ragweed_pollen_index
       
@@ -383,7 +383,7 @@ packages:
 #----Страничка влажность-----------------------------------------------------
 #############################################################################
   humm: !include 
-    file: packages/display/humm.yaml
+    file: packages/humm.yaml
     vars:
       sensor_humidity: sensor.kitchen_humidity
       
@@ -391,7 +391,7 @@ packages:
 #----Термостат--------------------------------------------------------------
 #############################################################################
   termostat: !include 
-    file: packages/display/termostat.yaml
+    file: packages/termostat.yaml
     vars:
       room: kitchen
       thermostat_entity_switch: kitchen_switch_thermostat
@@ -459,7 +459,7 @@ packages:
 #----Пылесос-----------------------------------------------------
 #############################################################################
   vacuum: !include 
-    file: packages/display/vacuum_cleaner.yaml
+    file: packages/vacuum_cleaner.yaml
     vars:
       # Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
       vacuum_icon_0_0: "\U000F040A" #Play
@@ -481,4 +481,4 @@ packages:
 #############################################################################
 #----Настройки-----------------------------------------------------
 #############################################################################
-  settings: !include packages/display/settings.yaml
+  settings: !include packages/settings.yaml
