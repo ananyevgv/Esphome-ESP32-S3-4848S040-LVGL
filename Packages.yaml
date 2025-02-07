@@ -57,6 +57,7 @@ packages:
   button10: !include 
     file: packages/display/button-10.yaml
     vars:
+      background_button10: back6
     # Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
       button10_icon_0_0: "\U000F18DE" # ceiling_light_multiple_outline
       button10_entity_0_0: light.holl_led_0
