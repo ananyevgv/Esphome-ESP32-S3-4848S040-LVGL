@@ -3,7 +3,10 @@
 #-------------------------------------------
 packages:
   wifi: !include packages/display/wifi-lvgl.yaml
-
+  
+#############################################################################
+#----Страничка погоды-----------------------------------------------------
+#############################################################################
 # Раставить страницы в желаемой очередности, barometr можно использовать 1 вариант
   #weather: !include packages/weather_anime.yaml # выбрать один из трех weather #jpg:3 689 528 байт без 2 603 377 байт
   weather: !include 
@@ -50,9 +53,37 @@ packages:
       button4_text_0_1: "Кухня верх"
       button4_text_1_0: "Холл низ"
       button4_text_1_1: "Холл верх"
-  
-  #button6: !include packages/button-6.yaml
-  # background_button6: back6
+      
+#############################################################################
+#----Страничка 6 кнопок-----------------------------------------------------
+#############################################################################
+  button6: !include
+    file: packages/display/button-6.yaml
+    vars:
+        background_button6: back6
+      # Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
+        button6_icon_0_0: "\U000F18DE" # ceiling_light_multiple_outline
+        button6_entity_0_0: light.holl_led_0
+        button6_text_0_0: "Кухня низ"
+        
+        button6_icon_0_1: "󱊺" #string_lights
+        button6_entity_0_1: light.holl_led_1
+        button6_text_0_1: "Кухня верх"
+        
+        
+      # Кнопки 1 ряд
+        button6_icon_1_0: "󱞓" #chandelier
+        button6_entity_1_0: light.holl_led_4
+      
+        button6_icon_1_1: "󰠠" #lightning_bolt_circle
+        button6_entity_1_1: light.holl_led_5
+        
+      
+        button6_icon_1_2: "󱇜" #window_open_variant
+        button6_entity_1_2: light.holl_led_6
+      
+        button6_icon_1_3: "󰣳" #nas
+        button6_entity_1_3: light.holl_led_7
   #button8: !include packages/button-8.yaml
   
 #############################################################################
@@ -92,6 +123,7 @@ packages:
       button10_entity_2_2: light.holl_led_10
       button10_icon_2_3: "󰣳" #nas
       button10_entity_2_3: light.holl_led_11
+      
 #############################################################################
 #----Страничка 12 кнопок-----------------------------------------------------
 #############################################################################
@@ -136,13 +168,33 @@ packages:
   #button16: !include packages/button-16.yaml
   #slider4v: !include packages/slider-4v.yaml
   #slider4g: !include packages/slider-4g.yaml
-  #slider4b: !include packages/slider-4b.yaml
+#############################################################################
+#----Страничка 4 слайдера-----------------------------------------------------
+#############################################################################
+  slider4b: !include 
+    file: packages/display/slider-4b.yaml
+    vars:
+    # Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
+      slider4b_icon_0_0: "\U000F18DE" # ceiling_light_multiple_outline
+      slider4b_entity_0_0: light.holl_led_0
+    
+      slider4b_icon_0_1: "󱊺" #string_lights
+      slider4b_entity_0_1: light.holl_led_1
+      
+      slider4b_icon_0_2: "󱍖" #television_ambient_light
+      slider4b_entity_0_2: light.holl_led_2
+    
+      slider4b_icon_0_3: "󱦇" #light_flood_down
+      slider4b_entity_0_3: light.holl_led_3
   kitchen: !include packages/display/kitchen_light.yaml # 30 844
   holl: !include packages/display/holl_light.yaml # 29 420
   #boiler: !include packages/boiler.yaml
   lg: !include packages/display/lg_light.yaml  #495 288
  # clock: !include packages/clock_page.yaml
-
+ 
+#############################################################################
+#----Страничка барометр-----------------------------------------------------
+#############################################################################
   #barometr: !include packages/barometr.yaml # выбрать один из трех barometr
   barometr: !include 
     file: packages/display/barometr_page.yaml # выбрать один из трех barometr
@@ -151,25 +203,35 @@ packages:
       sensor_pressure: sensor.iaroslavskaia_pressure
   #barometr: !include packages/barometr_bme680_page.yaml  # выбрать один из трех barometr
   #barometr: !include packages/barometr_bme680_weather.yaml  # выбрать один из трех barometr  обязателен weather_bme680.yaml
-
+  
+#############################################################################
+#----Страничка геомагнитная обстановка---------------------------------------
+#############################################################################
   geomag: !include 
     file: packages/display/geomag.yaml
     vars:
       sensor_geomagnetic: sensor.iaroslavskaia_geomagnetic_field
   #geomag: !include packages/geomag-page.yaml # Фоновый рисунок
-
+  
+#############################################################################
+#----Страничка ультрофиолетовое излучение------------------------------------
+#############################################################################
   UV: !include 
     file: packages/display/UV.yaml
     vars:
       sensor_uv_index: sensor.iaroslavskaia_uv_index
   #UV: !include packages/UV-page.yaml # Фоновый рисунок
-
+#############################################################################
+#----Страничка ветра-----------------------------------------------------
+#############################################################################
   wind: !include 
     file: packages/display/wind.yaml 
     vars:
       sensor_wind_speed: sensor.iaroslavskaia_wind_speed
       sensor_wind_bearing: sensor.iaroslavskaia_wind_bearing_2
-
+#############################################################################
+#----Странички с пыльцой-----------------------------------------------------
+#############################################################################
   birch: !include
     file: packages/display/birch.yaml
     vars:
@@ -184,7 +246,10 @@ packages:
     file: packages/display/ragweed.yaml
     vars:
       sensor_ragweed: sensor.iaroslavskaia_ragweed_pollen_index
-
+      
+#############################################################################
+#----Страничка влажность-----------------------------------------------------
+#############################################################################
   humm: !include 
     file: packages/display/humm.yaml
     vars:
