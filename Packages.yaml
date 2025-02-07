@@ -338,6 +338,15 @@ packages:
     vars:
       sensor_humidity: sensor.kitchen_humidity
       
-  termostat: !include packages/display/termostat.yaml
+#############################################################################
+#----Термостат-----------------------------------------------------
+#############################################################################
+  termostat: !include 
+    file: packages/display/termostat.yaml
+    vars:
+      room: kitchen
+      thermostat_entity_switch: kitchen_switch_thermostat
+      thermostat_entity_sensor: sensor.temperature
   vacuum: !include packages/display/vacuum_cleaner.yaml
+  
   settings: !include packages/display/settings.yaml
