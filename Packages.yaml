@@ -28,7 +28,7 @@ packages:
       sensor_wind_bearing: sensor.iaroslavskaia_wind_bearing_2
 
   #weather: !include packages/weather_bme680.yaml # выбрать один из трех обязателен barometr_bme680_weather.yaml
-  
+#----Страничка 4 кнопоки-----------------------------------------------------
   button4: !include
     file: packages/display/button-4.yaml
     vars:
@@ -52,7 +52,42 @@ packages:
   #button6: !include packages/button-6.yaml
   # background_button6: back6
   #button8: !include packages/button-8.yaml
-  #button10: !include packages/button-10.yaml
+  
+#----Страничка 10 кнопок-----------------------------------------------------
+  button10: !include 
+    file: packages/display/button-10.yaml
+    vars:
+    # Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
+      button10_icon_0_0: "\U000F18DE" # ceiling_light_multiple_outline
+      button10_entity_0_0: light.holl_led_0
+      button10_text_0_0: "Кухня низ"
+      
+      button10_icon_0_1: "󱊺" #string_lights
+      button10_entity_0_1: light.holl_led_1
+      button10_text_0_1: "Кухня верх"
+      
+      
+    # Кнопки 1 ряд
+      button10_icon_1_0: "󰯪" #alarm_light_on
+      button10_entity_1_0: light.holl_led_4
+      button10_icon_1_1: "󱠝" #countertop_outline
+      button10_entity_1_1: light.holl_led_5
+      
+      button10_icon_1_2: "󰟴" #television
+      button10_entity_1_2: light.holl_led_6
+      button10_icon_1_3: "󰦠" #shower:
+      button10_entity_1_3: light.holl_led_7
+    # Кнопки 2 ряд
+      button10_icon_2_0: "󱞓" #chandelier
+      button10_entity_2_0: light.holl_led_8
+      button10_icon_2_1: "󰠠" #lightning_bolt_circle
+      button10_entity_2_1: light.holl_led_9
+      
+      button10_icon_2_2: "󱇜" #window_open_variant
+      button10_entity_2_2: light.holl_led_10
+      button10_icon_2_3: "󰣳" #nas
+      button10_entity_2_3: light.holl_led_11
+  
   #button12: !include packages/button-12.yaml
   #button16: !include packages/button-16.yaml
   #slider4v: !include packages/slider-4v.yaml
