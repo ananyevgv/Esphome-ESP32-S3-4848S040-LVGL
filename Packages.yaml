@@ -28,7 +28,9 @@ packages:
       sensor_wind_bearing: sensor.iaroslavskaia_wind_bearing_2
 
   #weather: !include packages/weather_bme680.yaml # выбрать один из трех обязателен barometr_bme680_weather.yaml
+#############################################################################
 #----Страничка 4 кнопоки-----------------------------------------------------
+#############################################################################
   button4: !include
     file: packages/display/button-4.yaml
     vars:
@@ -53,7 +55,9 @@ packages:
   # background_button6: back6
   #button8: !include packages/button-8.yaml
   
+#############################################################################
 #----Страничка 10 кнопок-----------------------------------------------------
+#############################################################################
   button10: !include 
     file: packages/display/button-10.yaml
     vars:
@@ -88,8 +92,47 @@ packages:
       button10_entity_2_2: light.holl_led_10
       button10_icon_2_3: "󰣳" #nas
       button10_entity_2_3: light.holl_led_11
+#############################################################################
+#----Страничка 12 кнопок-----------------------------------------------------
+#############################################################################
+  button12: !include 
+    file: packages/display/button-12.yaml
+    vars:
+      background_button12: back6
+
+# Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
+  button12_icon_0_0: "\U000F18DE" # ceiling_light_multiple_outline
+  button12_entity_0_0: light.holl_led_0
+  button12_icon_0_1: "󱦇" #light_flood_down
+  button12_entity_0_1: light.holl_led_1
   
-  #button12: !include packages/button-12.yaml
+  button12_icon_0_2: "󱊺" #string_lights
+  button12_entity_0_2: light.holl_led_2
+  button12_icon_0_3: "󱍖" #television_ambient_light
+  button12_entity_0_3: light.holl_led_3
+  
+# Кнопки 1 ряд
+  button12_icon_1_0: "󰯪" #alarm_light_on
+  button12_entity_1_0: light.holl_led_4
+  button12_icon_1_1: "󱠝" #countertop_outline
+  button12_entity_1_1: light.holl_led_5
+  
+  button12_icon_1_2: "󰟴" #television
+  button12_entity_1_2: light.holl_led_6
+  button12_icon_1_3: "󰦠" #shower
+  button12_entity_1_3: light.holl_led_7
+# Кнопки 2 ряд
+  button12_icon_2_0: "󱞓" #chandelier
+  button12_entity_2_0: light.holl_led_8
+  button12_icon_2_1: "󰠠" #lightning_bolt_circle
+  button12_entity_2_1: light.holl_led_9
+  
+  button12_icon_2_2: "󱇜" #window_open_variant
+  button12_entity_2_2: light.holl_led_10
+  button12_icon_2_3: "󰣳" #nas
+  button12_entity_2_3: light.holl_led_11
+  
+  
   #button16: !include packages/button-16.yaml
   #slider4v: !include packages/slider-4v.yaml
   #slider4g: !include packages/slider-4g.yaml
