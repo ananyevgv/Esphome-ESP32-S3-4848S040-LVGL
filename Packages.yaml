@@ -84,7 +84,41 @@ packages:
       
         button6_icon_1_3: "󰣳" #nas
         button6_entity_1_3: light.holl_led_7
-  #button8: !include packages/button-8.yaml
+
+#############################################################################
+#----Страничка 8 кнопок-----------------------------------------------------
+#############################################################################
+  button8: !include
+    file: packages/display/button-8.yaml
+    vars:
+      background_button8: back6
+    # Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
+      button8_icon_0_0: "󰯪" #alarm_light_on
+      button8_entity_0_0: light.holl_led_0
+      button8_text_0_0: "Кухня низ"
+      
+      button8_icon_0_1: "󱠝" #countertop_outline
+      button8_entity_0_1: light.holl_led_1
+      button8_text_0_1: "Кухня верх"
+      
+      
+    # Кнопки 1 ряд
+      button8_icon_1_0: "\U000F18DE" # ceiling_light_multiple_outline
+      button8_entity_1_0: light.holl_led_2
+    
+      button8_icon_1_1: "󱊺" #string_lights
+      button8_entity_1_1: light.holl_led_3
+      
+    # Кнопки 2 ряд
+      button8_icon_2_0: "󱞓" #chandelier
+      button8_entity_2_0: light.holl_led_4
+      button8_icon_2_1: "󰠠" #lightning_bolt_circle
+      button8_entity_2_1: light.holl_led_5
+      
+      button8_icon_2_2: "󱇜" #window_open_variant
+      button8_entity_2_2: light.holl_led_6
+      button8_icon_2_3: "󰣳" #nas
+      button8_entity_2_3: light.holl_led_7
   
 #############################################################################
 #----Страничка 10 кнопок-----------------------------------------------------
@@ -165,7 +199,56 @@ packages:
   button12_entity_2_3: light.holl_led_11
   
   
-  #button16: !include packages/button-16.yaml
+#############################################################################
+#----Страничка 16 кнопок-----------------------------------------------------
+#############################################################################
+  button16: !include 
+    file: packages/display/button-16.yaml
+    vars:
+      background_button16: back6
+# Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
+  button16_icon_0_0: "\U000F18DE" # ceiling_light_multiple_outline
+  button16_entity_0_0: light.holl_led_0
+  button16_icon_0_1: "󱍖" #television_ambient_light
+  button16_entity_0_1: light.holl_led_1
+  
+  button16_icon_0_2: "󱍖" #television_ambient_light
+  button16_entity_0_2: light.holl_led_2
+  button16_icon_0_3: "󱦇" #light_flood_down
+  button16_entity_0_3: light.holl_led_3
+  
+# Кнопки 1 ряд
+  button16_icon_1_0: "󰯪" #alarm_light_on
+  button16_entity_1_0: light.holl_led_4
+  button16_icon_1_1: "󱠝" #countertop_outline
+  button16_entity_1_1: light.holl_led_5
+  
+  button16_icon_1_2: "󰟴" #television
+  button16_entity_1_2: light.holl_led_6
+  button16_icon_1_3: "󰦠" #shower
+  button16_entity_1_3: light.holl_led_7
+# Кнопки 2 ряд
+  button16_icon_2_0: "󱞓" #chandelier
+  button16_entity_2_0: light.holl_led_8
+  button16_icon_2_1: "󰠠" #lightning_bolt_circle
+  button16_entity_2_1: light.holl_led_9
+  
+  button16_icon_2_2: "󱇜" #window_open_variant
+  button16_entity_2_2: light.holl_led_10
+  button16_icon_2_3: "󰣳" #nas
+  button16_entity_2_3: light.holl_led_11
+  
+# Кнопки 3 ряд
+  button16_icon_3_0: "󰊏" #fridge_outline
+  button16_entity_3_0: light.holl_led_12
+  button16_icon_3_1: "󰌵" #lightbulb
+  button16_entity_3_1: light.holl_led_13
+  
+  button16_icon_3_2: "\U000F0BAB" #menu_open
+  button16_entity_3_2: light.holl_led_14
+  button16_icon_3_3: "\U000F06A1" #home_outline
+  button16_entity_3_3: light.holl_led_15
+  
   #slider4v: !include packages/slider-4v.yaml
   #slider4g: !include packages/slider-4g.yaml
 #############################################################################
