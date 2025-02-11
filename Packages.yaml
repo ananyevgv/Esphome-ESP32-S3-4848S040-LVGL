@@ -71,6 +71,16 @@ packages:
       button4_text_0_1: "Кухня верх"
       button4_text_1_0: "Холл низ"
       button4_text_1_1: "Холл верх"
+
+        button4_action_0_0: "light.toggle"
+        button4_action_0_1: "light.toggle"
+        button4_action_1_0: "light.toggle"
+        button4_action_1_1: "light.toggle"
+        
+        button4_checkable_0_0: "true"
+        button4_checkable_0_1: "true"
+        button4_checkable_1_0: "true"
+        button4_checkable_1_1: "true"
       
 #############################################################################
 #----Страничка 6 кнопок-----------------------------------------------------
@@ -83,98 +93,150 @@ packages:
         button6_icon_0_0: "\U000F18DE" # ceiling_light_multiple_outline
         button6_entity_0_0: light.holl_led_0
         button6_text_0_0: "Кухня низ"
+        button6_action_0_0: "light.toggle"
+        button6_checkable_0_0: "true"
         
         button6_icon_0_1: "󱊺" #string_lights
         button6_entity_0_1: light.holl_led_1
         button6_text_0_1: "Кухня верх"
-        
+        button6_action_0_1: "light.toggle"
+        button6_checkable_0_1: "true"
         
       # Кнопки 1 ряд
         button6_icon_1_0: "󱞓" #chandelier
         button6_entity_1_0: light.holl_led_4
-      
+        button6_action_1_0: "light.toggle"
+        button6_checkable_1_0: "true"
+        
         button6_icon_1_1: "󰠠" #lightning_bolt_circle
         button6_entity_1_1: light.holl_led_5
-        
+        button6_action_1_0: "light.toggle"
+        button6_checkable_1_0: "true"
       
         button6_icon_1_2: "󱇜" #window_open_variant
         button6_entity_1_2: light.holl_led_6
-      
+        button6_action_1_2: "light.toggle"
+        button6_checkable_1_2: "true"
+        
         button6_icon_1_3: "󰣳" #nas
         button6_entity_1_3: light.holl_led_7
-
+        button6_action_1_3: "light.toggle"
+        button6_checkable_1_3: "true"
 #############################################################################
-#----Страничка 8 кнопок-----------------------------------------------------
+#----Страничка 8 кнопок кухня-----------------------------------------------
 #############################################################################
   button8: !include
-    file: packages/button-8.yaml
+    file: packages/display/button-8.yaml
     vars:
       background_button8: back6
-    # Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
-      button8_icon_0_0: "󰯪" #alarm_light_on
-      button8_entity_0_0: light.holl_led_0
+    # Кнопки 0 ряд
+      button8_icon_0_0: "\U000F18DD" # ceiling_light_multiple
+      button8_entity_0_0: light.kitchen_n
       button8_text_0_0: "Кухня низ"
-      
-      button8_icon_0_1: "󱠝" #countertop_outline
-      button8_entity_0_1: light.holl_led_1
+      button8_action_0_0: "light.toggle"
+      button8_checkable_0_0: "true"
+
+      button8_icon_0_1:  "\U000F18DE" # ceiling_light_multiple_outline
+      button8_entity_0_1: light.kitchen_v
       button8_text_0_1: "Кухня верх"
-      
-      
+      button8_action_0_1: "light.toggle"
+      button8_checkable_0_1: "true"
+
     # Кнопки 1 ряд
-      button8_icon_1_0: "\U000F18DE" # ceiling_light_multiple_outline
-      button8_entity_1_0: light.holl_led_2
-    
-      button8_icon_1_1: "󱊺" #string_lights
-      button8_entity_1_1: light.holl_led_3
-      
+      button8_icon_1_0: "\U000F1987" # light_flood_down
+      button8_entity_1_0: switch.wi_fi_smart_switch_switch_1
+      button8_action_1_0: "switch.toggle"
+      button8_checkable_1_0: "true"
+
+      button8_icon_1_1: "\U000F07F4" # television-classic
+      button8_entity_1_1: button.kitchen_power_lg
+      button8_action_1_1: "button.press"
+      button8_checkable_1_1: "false"
+
     # Кнопки 2 ряд
-      button8_icon_2_0: "󱞓" #chandelier
-      button8_entity_2_0: light.holl_led_4
-      button8_icon_2_1: "󰠠" #lightning_bolt_circle
-      button8_entity_2_1: light.holl_led_5
-      
-      button8_icon_2_2: "󱇜" #window_open_variant
-      button8_entity_2_2: light.holl_led_6
-      button8_icon_2_3: "󰣳" #nas
-      button8_entity_2_3: light.holl_led_7
+      button8_icon_2_0: "\U000F12BA" # string_lights
+      button8_entity_2_0: light.kithcen_lighting_ch0
+      button8_action_2_0: "light.toggle"
+      button8_checkable_2_0: "true"
+
+      button8_icon_2_1: "\U000F1356" # television-ambient-light
+      button8_entity_2_1: light.kithcen_lighting_ch1
+      button8_action_2_1: "light.toggle"
+      button8_checkable_2_1: "true"
+
+      button8_icon_2_2: "\U000F0748" # wall-sconce-flat
+      button8_entity_2_2: light.kithcen_lighting_ch2
+      button8_action_2_2: "light.toggle"
+      button8_checkable_2_2: "true"
+
+      button8_icon_2_3: "\U000F091D" # wall-sconce-flat
+      button8_entity_2_3: light.kithcen_lighting_ch3
+      button8_action_2_3: "light.toggle"
+      button8_checkable_2_3: "true"
+
   
 #############################################################################
-#----Страничка 10 кнопок-----------------------------------------------------
+#----Страничка 10 кнопок холл-----------------------------------------------
 #############################################################################
   button10: !include 
-    file: packages/button-10.yaml
+    file: packages/display/button-10.yaml
     vars:
+      pref_id: holl
       background_button10: back6
-    # Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
-      button10_icon_0_0: "\U000F18DE" # ceiling_light_multiple_outline
-      button10_entity_0_0: light.holl_led_0
-      button10_text_0_0: "Кухня низ"
-      
-      button10_icon_0_1: "󱊺" #string_lights
-      button10_entity_0_1: light.holl_led_1
-      button10_text_0_1: "Кухня верх"
-      
-      
+    # Кнопки 0 ряд
+      button10_icon_0_0:  "\U000F0335" # lightbulb "\U000F18DD" # ceiling_light_multiple
+      button10_entity_0_0: light.holl_led_1
+      button10_text_0_0: "Холл 1л"
+      button10_action_0_0: light.toggle
+      button10_checkable_0_0: "true"
+
+      button10_icon_0_1: "\U000F1255" # lightbulb-multiple "\U000F18DE" # ceiling_light_multiple_outline
+      button10_entity_0_1: light.holl_led_2
+      button10_text_0_1: "Холл 2л"
+      button10_action_0_1: light.toggle
+      button10_checkable_0_1: "true"
+
     # Кнопки 1 ряд
-      button10_icon_1_0: "󰯪" #alarm_light_on
-      button10_entity_1_0: light.holl_led_4
-      button10_icon_1_1: "󱠝" #countertop_outline
-      button10_entity_1_1: light.holl_led_5
-      
-      button10_icon_1_2: "󰟴" #television
-      button10_entity_1_2: light.holl_led_6
-      button10_icon_1_3: "󰦠" #shower:
-      button10_entity_1_3: light.holl_led_7
+      button10_icon_1_0: "\U000F1793" # chandelier
+      button10_entity_1_0: light.in_shower
+      button10_action_1_0: light.toggle
+      button10_checkable_1_0: "true"
+
+      button10_icon_1_1: "\U000F09A0" # shower
+      button10_entity_1_1: light.shower
+      button10_action_1_1: "light.toggle"
+      button10_checkable_1_1: "true"
+
+      button10_icon_1_2: "\U000F081A" # door
+      button10_entity_1_2: light.vihod
+      button10_action_1_2: "light.toggle"
+      button10_checkable_1_2: "true"
+
+      button10_icon_1_3: "\U000F1020" # coach_lamp
+      button10_entity_1_3: light.vhod
+      button10_action_1_3: "light.toggle"
+      button10_checkable_1_3: "true"
+
     # Кнопки 2 ряд
-      button10_icon_2_0: "󱞓" #chandelier
-      button10_entity_2_0: light.holl_led_8
-      button10_icon_2_1: "󰠠" #lightning_bolt_circle
-      button10_entity_2_1: light.holl_led_9
-      
-      button10_icon_2_2: "󱇜" #window_open_variant
-      button10_entity_2_2: light.holl_led_10
-      button10_icon_2_3: "󰣳" #nas
-      button10_entity_2_3: light.holl_led_11
+      button10_icon_2_0: "\U000F0820" # lightning-bolt-circle
+      button10_entity_2_0: light.laba
+      button10_action_2_0: "light.toggle"
+      button10_checkable_2_0: "true"
+
+      button10_icon_2_1: "\U000F11DC" # window-open-variant
+      button10_entity_2_1: light.garderob
+      button10_action_2_1: "light.toggle"
+      button10_checkable_2_1: "true"
+
+      button10_icon_2_2: "\U000F028F" # fridge-outline
+      button10_entity_2_2: light.kladovka
+      button10_action_2_2: "light.toggle"
+      button10_checkable_2_2: "true"
+
+      button10_icon_2_3: "\U000F08F3" # nas
+      button10_entity_2_3: light.server
+      button10_action_2_3: "light.toggle"
+      button10_checkable_2_3: "true"
       
 #############################################################################
 #----Страничка 12 кнопок-----------------------------------------------------
@@ -187,35 +249,64 @@ packages:
 # Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
   button12_icon_0_0: "\U000F18DE" # ceiling_light_multiple_outline
   button12_entity_0_0: light.holl_led_0
+  button12_action_0_0: "light.toggle"
+  button12_checkable_0_0: "true"
+  
   button12_icon_0_1: "󱦇" #light_flood_down
   button12_entity_0_1: light.holl_led_1
+  button12_action_0_1: "light.toggle"
+  button12_checkable_0_1: "true"
+
   
   button12_icon_0_2: "󱊺" #string_lights
   button12_entity_0_2: light.holl_led_2
+  button12_action_0_2: "light.toggle"
+  button12_checkable_0_2: "true"
+  
   button12_icon_0_3: "󱍖" #television_ambient_light
   button12_entity_0_3: light.holl_led_3
-  
+  button12_action_0_3: "light.toggle"
+  button12_checkable_0_3: "true"
 # Кнопки 1 ряд
   button12_icon_1_0: "󰯪" #alarm_light_on
   button12_entity_1_0: light.holl_led_4
+  button12_action_1_0: "light.toggle"
+  button12_checkable_1_0: "true"
+  
   button12_icon_1_1: "󱠝" #countertop_outline
   button12_entity_1_1: light.holl_led_5
+  button12_action_1_1: "light.toggle"
+  button12_checkable_1_1: "true"
   
   button12_icon_1_2: "󰟴" #television
   button12_entity_1_2: light.holl_led_6
+  button12_action_1_2: "light.toggle"
+  button12_checkable_1_2: "true"
+  
   button12_icon_1_3: "󰦠" #shower
   button12_entity_1_3: light.holl_led_7
+  button12_action_1_3: "light.toggle"
+  button12_checkable_1_3: "true"
 # Кнопки 2 ряд
   button12_icon_2_0: "󱞓" #chandelier
   button12_entity_2_0: light.holl_led_8
+  button12_action_2_0: "light.toggle"
+  button12_checkable_2_0: "true"
+  
   button12_icon_2_1: "󰠠" #lightning_bolt_circle
   button12_entity_2_1: light.holl_led_9
+  button12_action_2_1: "light.toggle"
+  button12_checkable_2_1: "true"
   
   button12_icon_2_2: "󱇜" #window_open_variant
   button12_entity_2_2: light.holl_led_10
+  button12_action_2_2: "light.toggle"
+  button12_checkable_2_2: "true"
+  
   button12_icon_2_3: "󰣳" #nas
   button12_entity_2_3: light.holl_led_11
-  
+  button12_action_2_3: "light.toggle"
+  button12_checkable_2_3: "true"
   
 #############################################################################
 #----Страничка 16 кнопок-----------------------------------------------------
@@ -227,46 +318,85 @@ packages:
 # Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
   button16_icon_0_0: "\U000F18DE" # ceiling_light_multiple_outline
   button16_entity_0_0: light.holl_led_0
+  button16_action_0_0: "light.toggle"
+  button16_checkable_0_0: "true"
+  
   button16_icon_0_1: "󱍖" #television_ambient_light
   button16_entity_0_1: light.holl_led_1
+  button16_action_0_1: "light.toggle"
+  button16_checkable_0_1: "true"
+
   
   button16_icon_0_2: "󱍖" #television_ambient_light
   button16_entity_0_2: light.holl_led_2
+  button16_action_0_2: "light.toggle"
+  button16_checkable_0_2: "true"
+  
   button16_icon_0_3: "󱦇" #light_flood_down
   button16_entity_0_3: light.holl_led_3
+  button16_action_0_3: "light.toggle"
+  button16_checkable_0_3: "true"
   
 # Кнопки 1 ряд
   button16_icon_1_0: "󰯪" #alarm_light_on
   button16_entity_1_0: light.holl_led_4
+  button16_action_1_0: "light.toggle"
+  button16_checkable_1_0: "true"
+  
   button16_icon_1_1: "󱠝" #countertop_outline
   button16_entity_1_1: light.holl_led_5
+  button16_action_1_1: "light.toggle"
+  button16_checkable_1_1: "true"
   
   button16_icon_1_2: "󰟴" #television
   button16_entity_1_2: light.holl_led_6
+  button16_action_1_2: "light.toggle"
+  button16_checkable_1_2: "true"
+  
   button16_icon_1_3: "󰦠" #shower
   button16_entity_1_3: light.holl_led_7
+  button16_action_1_3: "light.toggle"
+  button16_checkable_1_3: "true"
 # Кнопки 2 ряд
   button16_icon_2_0: "󱞓" #chandelier
   button16_entity_2_0: light.holl_led_8
+  button16_action_2_0: "light.toggle"
+  button16_checkable_2_0: "true"
+  
   button16_icon_2_1: "󰠠" #lightning_bolt_circle
   button16_entity_2_1: light.holl_led_9
+  button16_action_2_1: "light.toggle"
+  button16_checkable_2_1: "true"
   
   button16_icon_2_2: "󱇜" #window_open_variant
   button16_entity_2_2: light.holl_led_10
+  button16_action_2_2: "light.toggle"
+  button16_checkable_2_2: "true"
+  
   button16_icon_2_3: "󰣳" #nas
   button16_entity_2_3: light.holl_led_11
-  
+  button16_action_2_3: "light.toggle"
+  button16_checkable_2_3: "true"
 # Кнопки 3 ряд
   button16_icon_3_0: "󰊏" #fridge_outline
   button16_entity_3_0: light.holl_led_12
+  button16_action_3_0: "light.toggle"
+  button16_checkable_3_0: "true"
+  
   button16_icon_3_1: "󰌵" #lightbulb
   button16_entity_3_1: light.holl_led_13
+  button16_action_3_1: "light.toggle"
+  button16_checkable_3_1: "true"
   
   button16_icon_3_2: "\U000F0BAB" #menu_open
   button16_entity_3_2: light.holl_led_14
+  button16_action_3_2: "light.toggle"
+  button16_checkable_3_2: "true"
+  
   button16_icon_3_3: "\U000F06A1" #home_outline
   button16_entity_3_3: light.holl_led_15
-  
+  button16_action_3_3: "light.toggle"
+  button16_checkable_3_3: "true"
 #############################################################################
 #----Страничка 4 вертикальных слайдера-----------------------------------------------------
 #############################################################################
