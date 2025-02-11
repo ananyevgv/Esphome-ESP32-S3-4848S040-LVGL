@@ -15,7 +15,7 @@
 # 3_0 # 3_1 # 3_2 # 3_3 #
 #     #     #     #     #
 #########################
-
+  
 font:
   - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
     id: button16_48
@@ -412,7 +412,7 @@ lvgl:
             widgets:
             ########################
               - button:
-                  checkable: true
+                  checkable: $button16_checkable_0_0
                   id: b_button16_0_0
                   grid_cell_row_pos: 0
                   grid_cell_column_pos: 0
@@ -426,13 +426,13 @@ lvgl:
                         text: $button16_icon_0_0
                         id: w_button16_0_0
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button16_action_0_0
                       data:
                         entity_id: $button16_entity_0_0        
                     
               - button:
-                  checkable: true
+                  checkable: $button16_checkable_0_1
                   id: b_button16_0_1
                   grid_cell_row_pos: 0
                   grid_cell_column_pos: 1
@@ -446,13 +446,13 @@ lvgl:
                         text: $button16_icon_0_1
                         id: w_button16_0_1
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button16_action_0_1
                       data:
                         entity_id: $button16_entity_0_1   
             
               - button:
-                  checkable: true
+                  checkable: $button16_checkable_0_2
                   id: b_button16_0_2
                   grid_cell_row_pos: 0
                   grid_cell_column_pos: 2
@@ -466,13 +466,13 @@ lvgl:
                         text: $button16_icon_0_2
                         id: w_button16_0_2
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button16_action_0_2
                       data:
                         entity_id: $button16_entity_0_2  
             
               - button:
-                  checkable: true
+                  checkable: $button16_checkable_0_3
                   id: b_button16_0_3
                   grid_cell_row_pos: 0
                   grid_cell_column_pos: 3
@@ -486,14 +486,14 @@ lvgl:
                         text: $button16_icon_0_3
                         id: w_button16_0_3
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button16_action_0_3
                       data:
                         entity_id: $button16_entity_0_3  
      
             ########################
               - button:
-                  checkable: true
+                  checkable: $button16_checkable_1_0
                   id: b_button16_1_0
                   grid_cell_row_pos: 1
                   grid_cell_column_pos: 0
@@ -507,13 +507,13 @@ lvgl:
                         text: $button16_icon_1_0
                         id: w_button16_1_0
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button16_action_1_0
                       data:
                         entity_id: $button16_entity_1_0        
                     
               - button:
-                  checkable: true
+                  checkable: $button16_checkable_1_1
                   id: b_button16_1_1
                   grid_cell_row_pos: 1
                   grid_cell_column_pos: 1
@@ -527,13 +527,13 @@ lvgl:
                         text: $button16_icon_1_1
                         id: w_button16_1_1
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button16_action_1_1
                       data:
                         entity_id: $button16_entity_1_1   
             
               - button:
-                  checkable: true
+                  checkable: $button16_checkable_1_2
                   id: b_button16_1_2
                   grid_cell_row_pos: 1
                   grid_cell_column_pos: 2
@@ -547,13 +547,13 @@ lvgl:
                         text: $button16_icon_1_2
                         id: w_button16_1_2
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button16_action_1_2
                       data:
                         entity_id: $button16_entity_1_2  
             
               - button:
-                  checkable: true
+                  checkable: $button16_checkable_1_3
                   id: b_button16_1_3
                   grid_cell_row_pos: 1
                   grid_cell_column_pos: 3
@@ -567,14 +567,14 @@ lvgl:
                         text: $button16_icon_1_3
                         id: w_button16_1_3
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button16_action_1_3
                       data:
                         entity_id: $button16_entity_1_3     
                         
             ########################
               - button:
-                  checkable: true
+                  checkable: $button16_checkable_2_0
                   id: b_button16_2_0
                   grid_cell_row_pos: 2
                   grid_cell_column_pos: 0
@@ -588,13 +588,13 @@ lvgl:
                         text: $button16_icon_2_0
                         id: w_button16_2_0
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button16_action_2_0
                       data:
                         entity_id: $button16_entity_2_0        
                     
               - button:
-                  checkable: true
+                  checkable: $button16_checkable_2_1
                   id: b_button16_2_1
                   grid_cell_row_pos: 2
                   grid_cell_column_pos: 1
@@ -608,13 +608,13 @@ lvgl:
                         text: $button16_icon_2_1
                         id: w_button16_2_1
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button16_action_2_1
                       data:
                         entity_id: $button16_entity_2_1   
             
               - button:
-                  checkable: true
+                  checkable: $button16_checkable_2_2
                   id: b_button16_2_2
                   grid_cell_row_pos: 2
                   grid_cell_column_pos: 2
@@ -628,13 +628,13 @@ lvgl:
                         text: $button16_icon_2_2
                         id: w_button16_2_2
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button16_action_2_2
                       data:
                         entity_id: $button16_entity_2_2  
             
               - button:
-                  checkable: true
+                  checkable: $button16_checkable_2_3
                   id: b_button16_2_3
                   grid_cell_row_pos: 2
                   grid_cell_column_pos: 3
@@ -648,15 +648,15 @@ lvgl:
                         text: $button16_icon_2_3
                         id: w_button16_2_3
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button16_action_2_3
                       data:
                         entity_id: $button16_entity_2_3  
             
             
             ########################
               - button:
-                  checkable: true
+                  checkable: $button16_checkable_3_0
                   id: b_button16_3_0
                   grid_cell_row_pos: 3
                   grid_cell_column_pos: 0
@@ -670,13 +670,13 @@ lvgl:
                         text: $button16_icon_3_0
                         id: w_button16_3_0
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button16_action_3_0
                       data:
                         entity_id: $button16_entity_3_0        
                     
               - button:
-                  checkable: true
+                  checkable: $button16_checkable_3_1
                   id: b_button16_3_1
                   grid_cell_row_pos: 3
                   grid_cell_column_pos: 1
@@ -690,13 +690,13 @@ lvgl:
                         text: $button16_icon_3_1
                         id: w_button16_3_1
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button16_action_3_1
                       data:
                         entity_id: $button16_entity_3_1   
             
               - button:
-                  checkable: true
+                  checkable: $button16_checkable_3_2
                   id: b_button16_3_2
                   grid_cell_row_pos: 3
                   grid_cell_column_pos: 2
@@ -710,13 +710,13 @@ lvgl:
                         text: $button16_icon_3_2
                         id: w_button16_3_2
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button16_action_3_2
                       data:
                         entity_id: $button16_entity_3_2  
             
               - button:
-                  checkable: true
+                  checkable: $button16_checkable_3_3
                   id: b_button16_3_3
                   grid_cell_row_pos: 3
                   grid_cell_column_pos: 3
@@ -730,12 +730,7 @@ lvgl:
                         text: $button16_icon_3_3
                         id: w_button16_3_3
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button16_action_3_3
                       data:
                         entity_id: $button16_entity_3_3  
-            
-            
-            
-            
- 

@@ -6,7 +6,10 @@ substitutions:
   hiking:             "\U000F0D7F"
   bed:                "\U000F02E3"
   
-
+  room: kitchen
+  thermostat_entity_switch: ${room}_switch_thermostat
+  thermostat_entity_sensor: sensor.temperature
+  
 #-------------------------------------------
 # FONT
 #-------------------------------------------
@@ -33,6 +36,37 @@ font:
           $hiking,
           $bed
           ]
+
+number:
+  - platform: template
+    name: Гистерезис охлаждение
+    optimistic: true
+    id: deadband
+    unit_of_measurement: "°c"
+    icon: mdi:chart-sankey
+    initial_value: 0.5
+    restore_value: true
+    min_value: 0.1
+    max_value: 2
+    step: 0.1
+    mode: box
+    on_value: 
+      - lambda: return id(${room}_thermostat).set_heat_deadband(x);
+
+  - platform: template
+    name: Гистерезис нагрев
+    optimistic: true
+    id: overrun
+    unit_of_measurement: "°c"
+    icon: mdi:chart-bell-curve-cumulative
+    initial_value: 0.5
+    restore_value: true
+    min_value: 0.1
+    max_value: 2
+    step: 0.1
+    mode: box
+    on_value: 
+      - lambda: return id(${room}_thermostat).set_heat_overrun(x);
     
 #-------------------------------------------
 # SWITCH
@@ -70,6 +104,8 @@ climate:
     min_heating_off_time: 5s
     min_heating_run_time: 5s
     min_idle_time: 5s
+    heat_deadband:  0.5  # остывает на n от заданной
+    heat_overrun: 0.5  # нагревает выше n от заданной
     visual:
       min_temperature: 15 °C
       max_temperature: 30 °C
@@ -88,19 +124,11 @@ climate:
     heat_action:
       - switch.turn_on: $thermostat_entity_switch
       
-      - lvgl.label.update:
-          id: heating_icon
-          text_color: color_deep_orange
-          text: "${heating}"
-          
+  
     idle_action:
       - switch.turn_off: $thermostat_entity_switch
       
-      - lvgl.label.update:
-          id: heating_icon
-          text_color: color_dark_gray
-          text: "${heating}"
-          
+
     off_mode:
       - switch.turn_off: $thermostat_entity_switch
 
@@ -125,22 +153,8 @@ climate:
               
         - if: 
             condition:
-              lambda: return (x.mode != CLIMATE_MODE_OFF);
+              lambda: return (x.mode == CLIMATE_MODE_OFF);
             then:
-              - lvgl.label.update:
-                  id: ${room}_target_temperature
-                  text_color: color_black
-              - lvgl.label.update:
-                  id: ${room}_target_temperature_fraction
-                  text_color: color_black
-              - lvgl.label.update:
-                  id: target_temperature_measurement
-                  text_color: color_black
-              - lvgl.label.update:
-                  id: heating_status
-                  text_color: color_deep_orange
-                  text: "Обогрев"
-            else: 
               - lvgl.label.update:
                   id: ${room}_target_temperature
                   text_color: color_white
@@ -152,12 +166,58 @@ climate:
                   text_color: color_white  
               - lvgl.label.update:
                   id: heating_status
-                  text_color: color_white
+                  text_color: color_black
                   text: "Выкл"
               - lvgl.label.update:
                   id: heating_icon
                   text: "${heating}"
                   text_color: color_white
+                  
+
+        - if: 
+            condition:
+              lambda: return (x.action == CLIMATE_ACTION_HEATING);
+            then:
+              - lvgl.label.update:
+                  id: ${room}_target_temperature
+                  text_color: color_black
+              - lvgl.label.update:
+                  id: ${room}_target_temperature_fraction
+                  text_color: color_black
+              - lvgl.label.update:
+                  id: target_temperature_measurement
+                  text_color: color_black
+            
+              - lvgl.label.update:
+                  id: heating_icon
+                  text_color: color_deep_orange
+                  text: "${heating}"
+              - lvgl.label.update:
+                  id: heating_status
+                  text_color: color_deep_orange
+                  text: "Обогрев"        
+        - if: 
+            condition:
+              lambda: return (x.action == CLIMATE_ACTION_IDLE);
+            then:
+              - lvgl.label.update:
+                  id: ${room}_target_temperature
+                  text_color: color_black
+              - lvgl.label.update:
+                  id: ${room}_target_temperature_fraction
+                  text_color: color_black
+              - lvgl.label.update:
+                  id: target_temperature_measurement
+                  text_color: color_black
+                  
+              - lvgl.label.update:
+                  id: heating_icon
+                  text_color: color_dark_gray
+                  text: "${heating}"
+              - lvgl.label.update:
+                  id: heating_status
+                  text_color: color_black
+                  text: "Вкл"
 #-------------------------------------------
 # SENSOR
 #-------------------------------------------
@@ -457,4 +517,3 @@ lvgl:
                   - climate.control:
                       id:  ${room}_thermostat
                       custom_preset: "SLEEP"
-

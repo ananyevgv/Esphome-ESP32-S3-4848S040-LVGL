@@ -13,7 +13,7 @@
 # 2_0 # 2_1 # 2_2 # 2_3 #
 #     #     #     #     #
 #########################
-  
+
 font:
   - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
     id: button8_48
@@ -56,7 +56,7 @@ script:
             return time_buf; 
 
 time:
-  - id: !extend sntp_time
+  - platform: sntp
     on_time_sync:
       - script.execute: time_update_button8
     on_time:
@@ -274,7 +274,7 @@ lvgl:
             widgets:
             ########################
               - button:
-                  checkable: true
+                  checkable: $button8_checkable_0_0
                   id: b_button8_0_0
                   grid_cell_row_pos: 0 #Позиция ряд
                   grid_cell_column_pos: 0 #Позиция колонка
@@ -301,13 +301,13 @@ lvgl:
                         text: $button8_text_0_0
                         long_mode: dot  
                   on_click:
-                    - homeassistant.service:
-                        service: light.toggle
+                    - homeassistant.action:
+                        action: $button8_action_0_0
                         data:
                           entity_id: $button8_entity_0_0
 
               - button:
-                  checkable: true
+                  checkable: $button8_checkable_0_1
                   id: b_button8_0_1
                   grid_cell_row_pos: 0 #Позиция ряд
                   grid_cell_column_pos: 2 #Позиция колонка
@@ -334,14 +334,14 @@ lvgl:
                         text: $button8_text_0_1
                         long_mode: dot  
                   on_click:
-                    - homeassistant.service:
-                        service: light.toggle
+                    - homeassistant.action:
+                        action: $button8_action_0_1
                         data:
                           entity_id: $button8_entity_0_1
                           
             ########################
               - button:
-                  checkable: true
+                  checkable: $button8_checkable_1_0
                   id: b_button8_1_0
                   grid_cell_row_pos: 2 #Позиция ряд
                   grid_cell_column_pos: 0 #Позиция колонка
@@ -357,13 +357,13 @@ lvgl:
                         text: $button8_icon_1_0
                         id: w_button8_1_0
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button8_action_1_0
                       data:
                         entity_id: $button8_entity_1_0        
                     
               - button:
-                  checkable: true
+                  checkable: $button8_checkable_1_1
                   id: b_button8_1_1
                   grid_cell_row_pos: 2 #Позиция ряд
                   grid_cell_column_pos: 2 #Позиция колонка
@@ -379,15 +379,15 @@ lvgl:
                         text: $button8_icon_1_1
                         id: w_button8_1_1
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button8_action_1_1
                       data:
                         entity_id: $button8_entity_1_1   
                         
 
             ########################
               - button:
-                  checkable: true
+                  checkable: $button8_checkable_2_0
                   id: b_button8_2_0
                   grid_cell_row_pos: 3 #Позиция ряд
                   grid_cell_column_pos: 0 #Позиция колонка
@@ -403,13 +403,13 @@ lvgl:
                         text: $button8_icon_2_0
                         id: w_button8_2_0
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button8_action_2_0
                       data:
                         entity_id: $button8_entity_2_0        
                     
               - button:
-                  checkable: true
+                  checkable: $button8_checkable_2_1
                   id: b_button8_2_1
                   grid_cell_row_pos: 3 #Позиция ряд
                   grid_cell_column_pos: 1 #Позиция колонка
@@ -425,13 +425,13 @@ lvgl:
                         text: $button8_icon_2_1
                         id: w_button8_2_1
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button8_action_2_1
                       data:
                         entity_id: $button8_entity_2_1   
             
               - button:
-                  checkable: true
+                  checkable: $button8_checkable_2_2
                   id: b_button8_2_2
                   grid_cell_row_pos: 3 #Позиция ряд
                   grid_cell_column_pos: 2 #Позиция колонка
@@ -447,13 +447,13 @@ lvgl:
                         text: $button8_icon_2_2
                         id: w_button8_2_2
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button8_action_2_2
                       data:
                         entity_id: $button8_entity_2_2  
             
               - button:
-                  checkable: true
+                  checkable: $button8_checkable_2_3
                   id: b_button8_2_3
                   grid_cell_row_pos: 3 #Позиция ряд
                   grid_cell_column_pos: 3 #Позиция колонка
@@ -469,7 +469,7 @@ lvgl:
                         text: $button8_icon_2_3
                         id: w_button8_2_3
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button8_action_2_3
                       data:
                         entity_id: $button8_entity_2_3 

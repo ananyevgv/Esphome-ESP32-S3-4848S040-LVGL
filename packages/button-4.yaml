@@ -9,6 +9,7 @@
 #   1_0     #   1_1     #
 #           #           #
 #########################
+
 font:
   - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
     id: button4_130
@@ -56,6 +57,11 @@ binary_sensor:
 #-------------------------------------------
 # 0 Ряд
 #-------------------------------------------
+#action:
+ # - service: homeassistant.update_entity
+ #   target:
+ #     entity_id: switch.sonoff_1000xxxxxx
+
   - platform: homeassistant
     name: bin_button4_icon_0_0
     entity_id: $button4_entity_0_0
@@ -95,8 +101,6 @@ binary_sensor:
       lvgl.widget.update:
         id: w_button4_0_1
         text_color: 0xB6B6B6
-
-
 
 #-------------------------------------------
 # 1 Ряд
@@ -175,7 +179,7 @@ lvgl:
             widgets:
             ########################
               - button:
-                  checkable: true
+                  checkable: $button4_checkable_0_0
                   id: b_button4_0_0
                   grid_cell_row_pos: 0 #Позиция ряд
                   grid_cell_column_pos: 0 #Позиция колонка
@@ -202,13 +206,13 @@ lvgl:
                         text: $button4_text_0_0
                         long_mode: dot  
                   on_click:
-                    - homeassistant.service:
-                        service: light.toggle
+                    - homeassistant.action:
+                        action: $button4_action_0_0
                         data:
                           entity_id: $button4_entity_0_0
 
               - button:
-                  checkable: true
+                  checkable: $button4_checkable_0_1
                   id: b_button4_0_1
                   grid_cell_row_pos: 0 #Позиция ряд
                   grid_cell_column_pos: 2 #Позиция колонка
@@ -235,14 +239,14 @@ lvgl:
                         text: $button4_text_0_1
                         long_mode: dot  
                   on_click:
-                    - homeassistant.service:
-                        service: light.toggle
+                    - homeassistant.action:
+                        action: $button4_action_0_1
                         data:
                           entity_id: $button4_entity_0_1
             
             ########################
               - button:
-                  checkable: true
+                  checkable: $button4_checkable_1_0
                   id: b_button4_1_0
                   grid_cell_row_pos: 2 #Позиция ряд
                   grid_cell_column_pos: 0 #Позиция колонка
@@ -263,13 +267,13 @@ lvgl:
                         text: $button4_text_1_0
                         long_mode: dot  
                   on_click:
-                    - homeassistant.service:
-                        service: light.toggle
+                    - homeassistant.action:
+                        action: $button4_action_1_0
                         data:
                           entity_id: $button4_entity_1_0
 
               - button:
-                  checkable: true
+                  checkable: $button4_checkable_1_1
                   id: b_button4_1_1
                   grid_cell_row_pos: 2 #Позиция ряд
                   grid_cell_column_pos: 2 #Позиция колонка
@@ -290,8 +294,8 @@ lvgl:
                         text: $button4_text_1_1
                         long_mode: dot  
                   on_click:
-                    - homeassistant.service:
-                        service: light.toggle
+                    - homeassistant.action:
+                        action: $button4_action_1_1
                         data:
                           entity_id: $button4_entity_1_1
                         
