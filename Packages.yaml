@@ -397,24 +397,38 @@ packages:
       button16_entity_3_3: light.holl_led_15
       button16_action_3_3: "light.toggle"
       button16_checkable_3_3: "true"
-#############################################################################
-#----Страничка 4 вертикальных слайдера-----------------------------------------------------
-#############################################################################
-  slider4v: !include 
-    file: packages/slider-4v.yaml
-    vars:
-    # Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
-      slider4v_icon_0_0: "\U000F18DE" # ceiling_light_multiple_outline
-      slider4v_entity_0_0: light.holl_led_0
-    
-      slider4v_icon_0_1: "󱊺" #string_lights
-      slider4v_entity_0_1: light.holl_led_1
       
-      slider4v_icon_0_2: "󱍖" #television_ambient_light
-      slider4v_entity_0_2: light.holl_led_2
-    
-      slider4v_icon_0_3: "󱦇" #light_flood_down
-      slider4v_entity_0_3: light.holl_led_3
+#############################################################################
+#----Страничка 4 кнопоки улица-----------------------------------------------
+#############################################################################
+  button4: !include
+    file: packages/display/button-4.yaml
+    vars:
+      background_button4: back6
+
+      button4_icon_0_0: "\U000F116A" # gate-open
+      button4_entity_0_0: switch.sonoff_1000fd870d_1
+      button4_text_0_0: "Ворота"
+      button4_action_0_0: "script.vorota"
+      button4_checkable_0_0: "false"
+
+      button4_icon_0_1: "\U000F1169" # gate-arrow-right
+      button4_entity_0_1: switch.sonoff_1000fd870d_2
+      button4_text_0_1: "Ворота 1/2"
+      button4_action_0_1: "script.vorota_1_2"
+      button4_checkable_0_1: "false"
+
+      button4_icon_1_0: "\U000F0299" # gate
+      button4_entity_1_0: switch.sonoff_1000fd870d_3
+      button4_text_1_0: "Закрыть"
+      button4_action_1_0: "script.vorota_close"
+      button4_checkable_1_0: "false"
+
+      button4_icon_1_1: "\U000F07AE" # cctv
+      button4_entity_1_1: light.cam
+      button4_text_1_1: "Камеры"
+      button4_action_1_1: "light.toggle"
+      button4_checkable_1_1: "true"
       
 #############################################################################
 #----Страничка 4 горизонтальных слайдера-----------------------------------------------------
