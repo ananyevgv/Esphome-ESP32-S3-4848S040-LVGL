@@ -11,7 +11,87 @@ kitchen-lighting.yaml указываем свои сенсоры, первона
 ```yaml
 packages:
 # Раставить страницы в желаемой очередности, weather  и barometr можно использовать 1 вариант
-смотри packages.yaml
+
+# смотри packages.yaml
+
+#############################################################################
+#----Страничка погоды-----------------------------------------------------
+#############################################################################
+# Раставить страницы в желаемой очередности, barometr можно использовать 1 вариант
+  #weather: !include packages/weather_anime.yaml # выбрать один из трех weather #jpg:3 689 528 байт без 2 603 377 байт
+  weather: !include 
+    file: packages/weather.yaml # выбрать один из трех weather
+    vars:
+      sensor_temperature: sensor.kitchen_t
+      sensor_humidity: sensor.kitchen_humidity
+      sensor_pressure: sensor.iaroslavskaia_pressure
+      sensor_co2: sensor.holl_co2
+      sensor_weather: weather.iaroslavskaia
+      sensor_iaq: sensor.holl_iaq
+      sensor_iaq_c: sensor.holl_iaq_classification
+      sensor_voc: sensor.holl_voc
+      sensor_lux: sensor.holl_p
+
+      sensor_uv_index: sensor.iaroslavskaia_uv_index
+      sensor_geomagnetic: sensor.iaroslavskaia_geomagnetic_field
+      sensor_wind_speed: sensor.iaroslavskaia_wind_speed
+      sensor_birch: sensor.iaroslavskaia_birch_pollen_index
+      sensor_grass: sensor.iaroslavskaia_grass_pollen_index
+      sensor_ragweed: sensor.iaroslavskaia_ragweed_pollen_index
+      sensor_wind_bearing: sensor.iaroslavskaia_wind_bearing_2
+
+  #weather: !include packages/weather_bme680.yaml # выбрать один из трех обязателен barometr_bme680_weather.yaml
+
+  
+#############################################################################
+#----К удалению----------------------------------------------------------
+#############################################################################
+  kitchen: !include packages/kitchen_light.yaml # 30 844
+  holl: !include packages/holl_light.yaml # 29 420
+  
+#############################################################################
+#----Пульт от ТВ LG----------------------------------------------------------
+#############################################################################
+  lg: !include packages/lg_light.yaml  #495 288
+  
+#############################################################################
+#----Часы----------------------------------------------------------
+#############################################################################
+  clock: !include packages/clock_page.yaml
+  
+#############################################################################
+#----Страничка 4 кнопоки-----------------------------------------------------
+#############################################################################
+  button4: !include
+    file: packages/button-4.yaml
+    vars:
+      background_button4: back6
+      # !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
+      button4_icon_0_0: "\U000F18DE" # ceiling_light_multiple_outline
+      button4_icon_0_1: "󱊺" #string_lights
+      button4_icon_1_0: "󰯪" #alarm_light_on
+      button4_icon_1_1: "󱠝" #countertop_outline
+
+      button4_entity_0_0: light.holl_led_0
+      button4_entity_0_1: light.holl_led_1
+      button4_entity_1_0: light.holl_led_2
+      button4_entity_1_1: light.holl_led_3
+
+      button4_text_0_0: "Кухня низ"
+      button4_text_0_1: "Кухня верх"
+      button4_text_1_0: "Холл низ"
+      button4_text_1_1: "Холл верх"
+
+      button4_action_0_0: "light.toggle"  # "switch.toggle" "button.press"
+      button4_action_0_1: "light.toggle"  # "switch.toggle" "button.press"
+      button4_action_1_0: "light.toggle"  # "switch.toggle" "button.press"
+      button4_action_1_1: "light.toggle"  # "switch.toggle" "button.press"
+        
+      button4_checkable_0_0: "true" # light, switch. button"false"
+      button4_checkable_0_1: "true" # light, switch. button"false"
+      button4_checkable_1_0: "true" # light, switch. button"false"
+      button4_checkable_1_1: "true" # light, switch. button"false"
+
 
 ```
 
