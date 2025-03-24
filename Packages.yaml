@@ -481,6 +481,16 @@ packages:
   #barometr: !include packages/barometr_bme680_weather.yaml  # выбрать один из трех barometr  обязателен weather_bme680.yaml
   
 #############################################################################
+#----Страничка влажности на улице--------------------------------------------
+#############################################################################
+  humm-out: !include 
+    file: packages/display/humm-out.yaml
+    vars:
+      sensor_humidity_out: sensor.iaroslavskaia_humidity
+
+
+  
+#############################################################################
 #----Страничка геомагнитная обстановка---------------------------------------
 #############################################################################
   geomag: !include 
@@ -522,6 +532,24 @@ packages:
     file: packages/ragweed.yaml
     vars:
       sensor_ragweed: sensor.iaroslavskaia_ragweed_pollen_index
+#############################################################################
+#----Странички качества воздуха----------------------------------------------
+#############################################################################
+  iaq: !include
+    file: packages/display/iaq.yaml
+    vars:
+      sensor_iaq: sensor.holl_iaq
+
+  co2: !include
+    file: packages/display/co2.yaml
+    vars:
+      sensor_co2: sensor.holl_co2
+
+  voc: !include
+    file: packages/display/voc.yaml
+    vars:
+      sensor_voc: sensor.holl_voc
+
       
 #############################################################################
 #----Страничка влажность-----------------------------------------------------
