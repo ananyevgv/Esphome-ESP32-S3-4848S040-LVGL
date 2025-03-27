@@ -1,25 +1,3 @@
-substitutions:
-#Первая строчка пульт
-  power: "\U000F0425"
-  input: "\U000F02FA"
-  menu_open: "\U000F0BAB"
-  home_outline: "\U000F06A1"
-
-# 2-3 строка пульта  
-  plus: "\U000F0415"
-  minus: "\U000F0374"
-
-  menu_up: "\U000F0360"
-  menu_down: "\U000F035D"
-  menu_left: "\U000F035E"
-  menu_right: "\U000F035F"
-  checkbox: "\U000F0133"
-
-# Четвертая строчка пульта
-  play: "\U000F040A"
-  pause: "\U000F03E4"
-  stop: "\U000F04DB"
-  record: "\U000F044A"
 
 #image:
  # - file: "picture/lg.png"
@@ -33,21 +11,21 @@ font:
     size: 48
     bpp: 4
     glyphs: [
-      $power,
-      $input,
-      $menu_open,
-      $home_outline,
-      $plus,
-      $minus,
-      $menu_up,
-      $menu_down,
-      $menu_left,
-      $menu_right,
-      $checkbox,
-      $play,
-      $pause,
-      $stop,
-      $record
+      $buttonLG_icon_0_0,
+      $buttonLG_icon_0_1,
+      $buttonLG_icon_0_2,
+      $buttonLG_icon_0_3,
+      $buttonLG_icon_1_0,
+      $buttonLG_icon_1_1,
+      $buttonLG_icon_1_2,
+      $buttonLG_icon_1_3,
+      $buttonLG_icon_1_4,
+      $buttonLG_icon_2_0,
+      $buttonLG_icon_2_1,
+      $buttonLG_icon_2_2,
+      $buttonLG_icon_2_3,
+      $buttonLG_icon_up,    
+      $buttonLG_icon_dw
     ]   
 
 remote_transmitter:
@@ -72,8 +50,6 @@ script:
           esphome::remote_base::LGProtocol().encode(call.get_data(), data);
           call.set_send_times(2);
           call.perform();
-  
-  
  # rmt_channel: 3
 
  
@@ -87,7 +63,7 @@ button:
     icon: mdi:power #F0425
     on_press:
       - remote_transmitter.transmit_lg:
-         data: 0x20DF10EF # power on/off
+         data: $lg_code_0_0 # 0x20DF10EF # power on/off
          #data: 0x20DF08F7
          nbits: 32
   - platform: template
@@ -97,7 +73,7 @@ button:
     icon:  mdi:import #F02FA
     on_press:
       - remote_transmitter.transmit_lg:
-         data: 0x20DFD02F
+         data: $lg_code_0_1 # 
          nbits: 32
   - platform: template
     name: "${name} Home LG"
@@ -106,7 +82,7 @@ button:
     icon: mdi:home-outline #F06A1
     on_press:
       - remote_transmitter.transmit_lg:
-         data: 0x20DF3EC1
+         data: $lg_code_0_2 #0x20DF3EC1
          nbits: 32
   - platform: template
     name: "${name} MyApp LG"
@@ -115,7 +91,7 @@ button:
     icon: mdi:menu-open #F0BAB
     on_press:
       - remote_transmitter.transmit_lg:
-         data: 0x20DF42BD
+         data: $lg_code_0_3 #0x20DF42BD
          nbits: 32
 
 
@@ -127,7 +103,7 @@ button:
     icon: mdi:plus #F0415
     on_press:
       - remote_transmitter.transmit_lg:
-         data: 0x20DF40BF
+         data: $lg_code_up_0 #
          nbits: 32 
   - platform: template
     name: "${name} VolDwn LG"
@@ -136,7 +112,7 @@ button:
     icon: mdi:minus # F0374
     on_press:
       - remote_transmitter.transmit_lg:
-         data: 0x20DFC03F
+         data: $lg_code_dw_0 #0x20DFC03F
          nbits: 32         
   - platform: template
     name: "${name} ChUp LG"
@@ -145,7 +121,7 @@ button:
     icon: mdi:plus #F0415
     on_press:
       - remote_transmitter.transmit_lg:
-         data: 0x20DF00FF
+         data: $lg_code_up_1 #0x20DF00FF
          nbits: 32 
   - platform: template
     name: "${name} ChDwn LG"
@@ -154,7 +130,7 @@ button:
     icon: mdi:minus # F0374
     on_press:
       - remote_transmitter.transmit_lg:
-         data: 0x20DF807F
+         data:  $lg_code_dw_1 #0x20DF807F
          nbits: 32   
   - platform: template
     name: "${name} Up LG"
@@ -163,17 +139,8 @@ button:
     icon: mdi:menu-up # F0360
     on_press:
       - remote_transmitter.transmit_lg:
-         data: 0x20DF02FD
+         data: $lg_code_1_0 #0x20DF02FD
          nbits: 32  
-  - platform: template
-    name: "${name} Down LG"
-    id: down_lg
-    disabled_by_default: true
-    icon: mdi:menu-down #F035D
-    on_press:
-      - remote_transmitter.transmit_lg:
-         data: 0x20DF827D
-         nbits: 32 
   - platform: template
     name: "${name} Left LG"
     id: left_lg
@@ -181,8 +148,17 @@ button:
     icon: mdi:menu-left # F035E
     on_press:
       - remote_transmitter.transmit_lg:
-         data: 0x20DFE01F
-         nbits: 32    
+         data: $lg_code_1_1 #0x20DFE01F
+         nbits: 32   
+  - platform: template
+    name: "${name} Down LG"
+    id: down_lg
+    disabled_by_default: true
+    icon: mdi:menu-down #F035D
+    on_press:
+      - remote_transmitter.transmit_lg:
+         data: $lg_code_1_2 #0x20DF827D
+         nbits: 32 
   - platform: template
     name: "${name} Right LG"
     id: right_lg
@@ -190,7 +166,7 @@ button:
     icon: mdi:menu-right # F035F
     on_press:
       - remote_transmitter.transmit_lg:
-         data: 0x20DF609F
+         data: $lg_code_1_3 #0x20DF609F
          nbits: 32       
   - platform: template
     name: "${name} OK LG"
@@ -199,7 +175,7 @@ button:
     icon: mdi:checkbox-marked-circle #F0133
     on_press:
       - remote_transmitter.transmit_lg:
-         data: 0x20DF22DD
+         data: $lg_code_1_4 #0x20DF22DD
          nbits: 32        
          
 # Четвертая строчка пульта
@@ -210,7 +186,7 @@ button:
     icon: mdi:play #F040A
     on_press:
       - remote_transmitter.transmit_lg:
-         data: 0x20DF0DF2
+         data: $lg_code_2_0 #0x20DF0DF2
          nbits: 32
   - platform: template
     name: "${name} Pause LG"
@@ -219,7 +195,7 @@ button:
     icon: mdi:pause #F03E4
     on_press:
       - remote_transmitter.transmit_lg:
-         data: 0x20DF5DA2
+         data: $lg_code_2_1 #0x20DF5DA2
          nbits: 32 
   - platform: template
     name: "${name} Stop LG"
@@ -228,7 +204,7 @@ button:
     icon: mdi:stop #F04DB
     on_press:
       - remote_transmitter.transmit_lg:
-         data: 0x20DF8D72
+         data: $lg_code_2_2 #0x20DF8D72
          nbits: 32
   - platform: template
     name: "${name} Rec LG"
@@ -237,7 +213,7 @@ button:
     icon: mdi:record # F044A
     on_press:
       - remote_transmitter.transmit_lg:
-         data: 0x20DFBD42 
+         data: $lg_code_2_3 #0x20DFBD42 
          nbits: 32    
 
 
@@ -280,20 +256,23 @@ lvgl:
         - button:
             x: 5
             y: 5
-            id: power_btn
+            id: btn_0_0
             bg_opa: 35%
             text_color: 0xFF0000
             widgets:
               - label:
                   text_font: LG48
                   id: w_button_lg_0_0
-                  text: $power
+                  text: $buttonLG_icon_0_0
                   align: CENTER
             on_click:
-              - button.press: power_lg
+            #  - button.press: power_lg
               - lvgl.label.update: 
                   id: w_button_lg_0_0
                   text_color: 0xB6B6B6
+              - lambda: |-
+                  id(lg_code) = $lg_code_0_0;
+                  id(transmitter_remote).execute();
               - delay: 0.5s
               - lvgl.label.update: 
                   id: w_button_lg_0_0
@@ -303,19 +282,22 @@ lvgl:
         - button:
             x: 125
             y: 5
-            id: input_btn
+            id: btn_0_1
             bg_opa: 35%
             widgets:
               - label:
                   text_font: LG48
-                  text: $input
+                  text: $buttonLG_icon_0_1
                   id: w_button_lg_0_1
                   align: CENTER
             on_click:
-              - button.press: input_lg
+             # - button.press: input_lg
               - lvgl.label.update: 
                   id: w_button_lg_0_1
                   text_color: red 
+              - lambda: |-
+                  id(lg_code) = $lg_code_0_1;
+                  id(transmitter_remote).execute();
               - delay: 0.5s
               - lvgl.label.update: 
                   id: w_button_lg_0_1
@@ -323,19 +305,22 @@ lvgl:
         - button:
             x: 245
             y: 5
-            id: home_btn
             bg_opa: 35%
+            id: btn_0_2
             widgets:
               - label:
                   text_font: LG48
-                  text: $home_outline
+                  text: $buttonLG_icon_0_2
                   id: w_button_lg_0_2
                   align: CENTER
             on_click:
-              - button.press: home_lg 
+         #     - button.press: home_lg 
               - lvgl.label.update: 
                   id: w_button_lg_0_2
                   text_color: red 
+              - lambda: |-
+                  id(lg_code) = $lg_code_0_2;
+                  id(transmitter_remote).execute();
               - delay: 0.5s
               - lvgl.label.update: 
                   id: w_button_lg_0_2
@@ -343,16 +328,16 @@ lvgl:
         - button:
             x: 365
             y: 5
-            id: myapp_btn
+            id: btn_0_3
             bg_opa: 35%
             widgets:
               - label:
                   text_font: LG48
-                  text: $menu_open  
+                  text: $buttonLG_icon_0_3  
                   id: w_button_lg_0_3
                   align: CENTER
             on_click:
-              - button.press: myapp_lg
+          #    - button.press: myapp_lg
               - lvgl.label.update: 
                   id: w_button_lg_0_3
                   text_color: red 
@@ -375,6 +360,7 @@ lvgl:
                   width: 100
                   height: 70
                   y: -60
+                  id: btn_up_0
                   checkable: false
                   widgets:
                     - label:
@@ -383,10 +369,13 @@ lvgl:
                         align: CENTER
                         id: w_button_lg_vol_up
                   on_click:
-                    - button.press: volup_lg
+                 #   - button.press: volup_lg
                     - lvgl.label.update: 
                         id: w_button_lg_vol_up
                         text_color: red 
+                    - lambda: |-
+                        id(lg_code) = $lg_code_up_0;
+                        id(transmitter_remote).execute();
                     - delay: 0.5s
                     - lvgl.label.update: 
                         id: w_button_lg_vol_up
@@ -402,6 +391,7 @@ lvgl:
                   width: 100
                   height: 70
                   y: 60
+                  id: btn_dw_0
                   checkable: false
                   bg_color: 0x0000FF
                   widgets:
@@ -411,10 +401,13 @@ lvgl:
                         align: CENTER
                         id: w_button_lg_vol_dw
                   on_click:
-                    - button.press: voldwn_lg
+                 #   - button.press: voldwn_lg
                     - lvgl.label.update: 
                         id: w_button_lg_vol_dw
                         text_color: red 
+                    - lambda: |-
+                        id(lg_code) = $lg_code_dw_0;
+                        id(transmitter_remote).execute();
                     - delay: 0.5s
                     - lvgl.label.update: 
                         id: w_button_lg_vol_dw
@@ -434,18 +427,22 @@ lvgl:
                   width: 160
                   height: 40
                   y: -85
+                  id: btn_1_0
                   checkable: false
                   widgets:
                     - label:
                         text_font: LG48
-                        text: $menu_up
+                        text: $buttonLG_icon_1_0
                         align: CENTER
                         id: w_button_lg_1_0
                   on_click:
-                    - button.press: up_lg
+                #    - button.press: up_lg
                     - lvgl.label.update: 
                         id: w_button_lg_1_0
                         text_color: red 
+                    - lambda: |-
+                        id(lg_code) = $lg_code_1_0;
+                        id(transmitter_remote).execute();
                     - delay: 0.5s
                     - lvgl.label.update: 
                         id: w_button_lg_1_0
@@ -455,18 +452,22 @@ lvgl:
                   width: 40
                   height: 160
                   x: -95
+                  id: btn_1_1
                   checkable: false
                   widgets:
                     - label:
                         text_font: LG48
-                        text: $menu_left
+                        text: $buttonLG_icon_1_1
                         align: CENTER
                         id: w_button_lg_1_1
                   on_click:
-                    - button.press: left_lg
+                 #   - button.press: left_lg
                     - lvgl.label.update: 
                         id: w_button_lg_1_1
                         text_color: red 
+                    - lambda: |-
+                        id(lg_code) = $lg_code_1_1;
+                        id(transmitter_remote).execute();
                     - delay: 0.5s
                     - lvgl.label.update: 
                         id: w_button_lg_1_1
@@ -477,18 +478,22 @@ lvgl:
                   width: 160
                   height: 40
                   y: 85
+                  id: btn_1_2
                   checkable: false
                   widgets:
                     - label:
                         text_font: LG48
-                        text: $menu_down
+                        text: $buttonLG_icon_1_2
                         align: CENTER
                         id: w_button_lg_1_2
                   on_click:
-                    - button.press: down_lg   
+                   # - button.press: down_lg   
                     - lvgl.label.update: 
                         id: w_button_lg_1_2
                         text_color: red 
+                    - lambda: |-
+                        id(lg_code) = $lg_code_1_2;
+                        id(transmitter_remote).execute();
                     - delay: 0.5s
                     - lvgl.label.update: 
                         id: w_button_lg_1_2
@@ -499,18 +504,22 @@ lvgl:
                   width: 40
                   height: 160
                   x: 95
+                  id: btn_1_3
                   checkable: false
                   widgets:
                     - label:
                         text_font: LG48
-                        text: $menu_right
+                        text: $buttonLG_icon_1_3
                         align: CENTER
                         id: w_button_lg_1_3
                   on_click:
-                    - button.press: right_lg
+                 #   - button.press: right_lg
                     - lvgl.label.update: 
                         id: w_button_lg_1_3
                         text_color: red 
+                    - lambda: |-
+                        id(lg_code) = $lg_code_1_3;
+                        id(transmitter_remote).execute();
                     - delay: 0.5s
                     - lvgl.label.update: 
                         id: w_button_lg_1_3
@@ -519,17 +528,21 @@ lvgl:
               - button:
                   align: CENTER
                   checkable: false
+                  id: btn_1_4
                   widgets:
                     - label:
                         text_font: LG48
-                        text: $checkbox
+                        text: $buttonLG_icon_1_4
                         align: CENTER
                         id: w_button_lg_1_4
                   on_click:
-                    - button.press: ok_lg   
+                   # - button.press: ok_lg   
                     - lvgl.label.update: 
                         id: w_button_lg_1_4
                         text_color: red 
+                    - lambda: |-
+                        id(lg_code) = $lg_code_1_4;
+                        id(transmitter_remote).execute();  
                     - delay: 0.5s
                     - lvgl.label.update: 
                         id: w_button_lg_1_4
@@ -550,6 +563,7 @@ lvgl:
                   width: 100
                   height: 70
                   y: -60
+                  id: btn_up_1
                   checkable: false
                   widgets:
                     - label:
@@ -558,15 +572,17 @@ lvgl:
                         align: CENTER
                         id: w_button_lg_ch_up
                   on_click:
-                    - button.press: chup_lg
+                  #  - button.press: chup_lg
                     - lvgl.label.update: 
                         id: w_button_lg_ch_up
                         text_color: red 
+                    - lambda: |-
+                        id(lg_code) = $lg_code_up_1;
+                        id(transmitter_remote).execute();
                     - delay: 0.5s
                     - lvgl.label.update: 
                         id: w_button_lg_ch_up
                         text_color: 0xB6B6B6 
-                  
               - label:
                    text_font: roboto24
                    text: "CH"
@@ -578,6 +594,7 @@ lvgl:
                   width: 100
                   height: 70
                   y: 60
+                  id: btn_dw_1
                   checkable: false
                   bg_color: 0x0000FF
                   widgets:
@@ -587,10 +604,13 @@ lvgl:
                         align: CENTER
                         id: w_button_lg_ch_dw
                   on_click:
-                    - button.press: chdwn_lg
+                 #   - button.press: chdwn_lg
                     - lvgl.label.update: 
                         id: w_button_lg_ch_dw
                         text_color: red 
+                    - lambda: |-
+                        id(lg_code) = $lg_code_dw_1;
+                        id(transmitter_remote).execute();
                     - delay: 0.5s
                     - lvgl.label.update: 
                         id: w_button_lg_ch_dw
@@ -600,19 +620,22 @@ lvgl:
         - button:
             x: 5
             y: 340
-            id: play_btn
+            id: btn_2_0
             bg_opa: 35%
             widgets:
               - label:
                   text_font: LG48
-                  text: $play
+                  text: $buttonLG_icon_2_0
                   id: w_button_lg_2_0
                   align: CENTER
             on_click:
-              - button.press: play_lg
+            #  - button.press: play_lg
               - lvgl.label.update: 
                   id: w_button_lg_2_0
                   text_color: red 
+              - lambda: |-
+                  id(lg_code) = $lg_code_2_0;
+                  id(transmitter_remote).execute();
               - delay: 0.5s
               - lvgl.label.update: 
                   id: w_button_lg_2_0
@@ -620,19 +643,22 @@ lvgl:
         - button:
             x: 125
             y: 340
-            id: stop_btn
+            id: btn_2_1
             bg_opa: 35%
             widgets:
               - label:
                   text_font: LG48
-                  text: $stop
+                  text: $buttonLG_icon_2_1
                   id: w_button_lg_2_1
                   align: CENTER
             on_click:
-              - button.press: stop_lg
+             # - button.press: stop_lg
               - lvgl.label.update: 
                   id: w_button_lg_2_1
                   text_color: red 
+              - lambda: |-
+                  id(lg_code) = $lg_code_2_1;
+                  id(transmitter_remote).execute();
               - delay: 0.5s
               - lvgl.label.update: 
                   id: w_button_lg_2_1
@@ -640,19 +666,22 @@ lvgl:
         - button:
             x: 245
             y: 340
-            id: pause_btn
+            id: btn_2_2
             bg_opa: 35%
             widgets:
               - label:
                   text_font: LG48
-                  text: $pause
+                  text: $buttonLG_icon_2_2
                   id: w_button_lg_2_2
                   align: CENTER
             on_click:
-              - button.press: pause_lg 
+             # - button.press: pause_lg 
               - lvgl.label.update: 
                   id: w_button_lg_2_2
                   text_color: red 
+              - lambda: |-
+                  id(lg_code) = $lg_code_2_2;
+                  id(transmitter_remote).execute();
               - delay: 0.5s
               - lvgl.label.update: 
                   id: w_button_lg_2_2
@@ -660,20 +689,23 @@ lvgl:
         - button:
             x: 365
             y: 340
-            id: rec_btn
+            id: btn_2_3
             text_color: 0xFF0000
             bg_opa: 35%
             widgets:
               - label:
                   text_font: LG48
-                  text: $record
+                  text: $buttonLG_icon_2_3
                   align: CENTER
                   id: w_button_lg_2_3
             on_click:
-              - button.press: rec_lg
+            #  - button.press: rec_lg
               - lvgl.label.update: 
                   id: w_button_lg_2_3
-                  text_color: 0xB6B6B6
+                  text_color: 0xB6B6B6 
+              - lambda: |-
+                  id(lg_code) = $lg_code_2_3;
+                  id(transmitter_remote).execute();
               - delay: 0.5s
               - lvgl.label.update: 
                   id: w_button_lg_2_3
