@@ -1,6 +1,6 @@
 # Esphome-ESP32-S3-4848S040-LVGL  quickly create your own pages
 
-# TO-DO draw polygon in LVGL
+Добавлен BME680 и IR_LED
 
 kitchen-lighting.yaml указываем свои сенсоры, первоначальную страницу, фон для страниц 
 
