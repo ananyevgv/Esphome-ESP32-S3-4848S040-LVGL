@@ -1,0 +1,258 @@
+#-------------------------------------------
+# DEFINE PINS AND VARIABILES
+# CIRCUIT AND MODULES - basic definitions and description of the device
+#-------------------------------------------
+ # ----- MCU -----
+  # Module: ESP32-S3-WROOM-1U-N16R8
+  # Board   ESP32-4848S040
+   # Circuit: 
+   # LDO:
+   # Current per pin: max 40mA (default 20mA) / Cumulative: 1500mA
+   # Power Consumption: Peak   / Normal wifi:    / Normal:   / Wifi disable: / DeepSleep:  
+   # Specification: Chip Family: ESP32 / Chip Model: ESP32-D0WDQ6 (revision 1) / Number of Cores: 2 /Max CPU Frequency: 240MHz / Has Bluetooth: YES / Has Embedded Flash: NO / Has Factory-Calibrated ADC: YES /MAC Address: C8:C9:A3:C7:C4:F4
+   
+
+   # Pinout:
+    #                       +-----------------------+
+    #                       |  +--+  +--+  +--+--+  |
+    #                       |  |  |  |  |  |  |  |  |
+    #                       |  |  +--+  +--+  |  |  |
+    #                       |                       |
+    #                GND --+|                       |+-- GND
+    #                3V3 --+|                 |o|   |+-- GPIO01 ADC1 TOUCH
+    #                 EN --+|                       |+-- GPIO02 ADC1 TOUCH
+    # ADC1 TOUCH  GPIO04 --+|   +----------+        |+-- GPIO43 TXD0
+    # ADC1 TOUCH  GPIO05 --+|   | MCU      |        |+-- GPIO44 RXD0
+    # ADC1 TOUCH  GPIO06 --+|   |          |        |+-- GPIO42 MTMS
+    # ADC1 TOUCH  GPIO07 --+|   |          |        |+-- GPIO41 MTDI
+    # ADC2        GPIO15 --+|   |          |        |+-- GPIO40 MTD0
+    # ADC2        GPIO16 --+|   +----------+        |+-- GPIO39 MTCK
+    # ADC2 TXD1   GPIO17 --+|     +---------+       |+-- GPIO38 
+    # ADC2 RXD1   GPIO18 --+|    -| FLASH   |-      |+-- GPIO37 PSRAM
+    # ADC1 TOUCH  GPIO08 --+|    -|         |-      |+-- GPIO36 PSRAM
+    # ADC2 USB_D- GPIO19 --+|    -|         |-      |+-- GPIO35 PSRAM 
+    # ADC2 USB_D+ GPIO20 --+|    -|        °|-      |+-- GPIO0  NOT_USE 
+    #                       |     +---------+       |
+    #                       +-----------------------+
+    #                        + + + + + + + + + + + +
+    #                        | | | | | | | | | | | |
+    # ADC1 TOUCH GPIO03  ----+ | | | | | | | | | | +---- GPIO45 NOT_USE
+    # NOT_USE    GPIO46  ------+ | | | | | | | | +------ GPIO48
+    # ADC1 TOUCH GPIO09  --------+ | | | | | | +-------- GPIO47
+    # ADC1 TOUCH GPIO10  ----------+ | | | | +---------- GPIO21 
+    # ADC2 TOUCH GPIO11  ------------+ | | +------------ GPIO14 ADC1 TOUCH  
+    # ADC2 TOUCH GPIO12  --------------+ +-------------- GPIO13 ADC2 TOUCH
+
+   # Description pins:
+    # PINS ESP32    | USED ON PROJECT             | FUNCTION          | INPUT | OUTPUT | RTC*13 | ADC   | PWM | TOUCH |PU/PD*12| RESISTOR | BOOT       | FLASH   | HIGH AT BOOT | BOOT FAILS | NOTES
+    # ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    # EN            |                 BUTTON RST  | RESET             |       |        |        |       |     |       |        |          |            |         |              |            |
+    # GPIO0         | DISPLAY DB17(R) BUTTON BOOT | STRAPPING *1      | OK!   | OK!    | OK     |       | OK  |       | OK     |          |            |         |              |            |
+    # GPIO01        | SPEAKER BCLK /RELAY L3      |                   | OK    | OK     | OK     | OK    | OK  | OK    | OK     |          |            |         |              |            |
+    # GPIO02        | SPEAKER LRCLK/RELAY L2      |                   | OK    | OK     | OK     | OK    | OK  | OK    | OK     |          |            |         |              |            | 
+    # GPIO03        | DISPLAY DB8(G)              | STRAPPING *1      | OK!   | OK!    | OK     | OK    | OK  | OK    | OK     |          |            |         |              |            | 
+    # GPIO04        | DISPLAY DB1(B)              | *2                | OK    | OK     | OK     | OK    | OK  | OK    | OK     |          |            |         |              |            |
+    # GPIO05        | DISPLAY DB2(B)              | *2                | OK    | OK     | OK     | OK    | OK  | OK    | OK     |          |            |         |              |            |
+    # GPIO06        | DISPLAY DB3(B)              | *2                | OK    | OK     | OK     | OK    | OK  | OK    | OK     |          |            |         |              |            |
+    # GPIO07        | DISPLAY DB4(B)              | *2                | OK    | OK     | OK     | OK    | OK  | OK    | OK     |          |            |         |              |            |
+    # GPIO08        | DISPLAY DB6(G)              | I2C SCL  def. *2  | OK    | OK     | OK     | OK    | OK  | OK    | OK     |          |            |         |              |            |
+    # GPIO09        | DISPLAY DB10(G)             | I2C SDA  def. *2  | OK    | OK     | OK     | OK    | OK  | OK    | OK     |          |            |         |              |            |
+    # GPIO10        | DISPLAY DB11(G)             | SPI SCO  def. *2  | OK    | OK     | OK     | OK    | OK  | OK    | OK     |          |            |         |              |            |
+    # GPIO11        | DISPLAY DB13(B)             | SPI MOSI def. *2  | OK    | OK     | OK     | OK *9 | OK  | OK    | OK     |          |            |         |              |            |
+    # GPIO12        | DISPLAY DB14(R)             | SPI SCK  def. *2  | OK    | OK     | OK     | OK *9 | OK  | OK    | OK     |          |            |         |              |            |
+    # GPIO13        | DISPLAY DB15(R)             | SPI MISO def. *2  | OK    | OK     | OK     | OK *9 | OK  | OK    | OK     |          |            |         |              |            |
+    # GPIO14        | DISPLAY DB16(R)             | *2                | OK    | OK     | OK     | OK *9 | OK  | OK    | OK     |          |            |         |              |            |
+    # GPIO15        | DISPLAY DB5(B)              | XTAL_32K_P *2 *10 | OK    | OK     | OK     | OK *9 | OK  |       | OK     |          |            |         |              |            |
+    # GPIO16        | DISPLAY HSYNC               | XTAL_32K_N *2 *10 | OK    | OK     | OK     | OK *9 | OK  |       | OK     |          |            |         |              |            |
+    # GPIO17        | DISPLAY VSYNC               | U1_TXD *2         | OK    | OK     | OK     | OK *9 | OK  |       | OK     |          |            |         |              |            |
+    # GPIO18        | DISPLAY DE                  | U1_RXD *2         | OK    | OK     | OK     | OK *9 | OK  |       | OK     |          |            |         |              |            |
+    # GPIO19        | TOUCH TP_SDA                | USB_D- *3         | OK    | OK     | OK     | OK *9 | OK  |       | OK     |          |            |         |              |            |
+    # GPIO20        | DISPLAY DB7(R)              | USB_D+ *3         | OK    | OK     | OK     | OK *9 | OK  |       | OK     |          |            |         |              |            |
+    # GPIO21        | DISPLAY PCLK                |                   | OK    | OK     | OK     |       | OK  |       | OK     |          |            |         |              |            |
+    
+    # GPIO26        | Flash/PSRAM SPICS1          | SPICS1 *6         |
+    # GPIO27        | Flash/PSRAM SPIHD           | SPIHD  *6         |
+    # GPIO28        | Flash/PSRAM SPIWP           | SPIWP  *6         |
+    # GPIO29        | Flash/PSRAM SPICS0          | SPICS0 *6         |
+    # GPIO30        | Flash/PSRAM SPICLK          | SPICLK *6         |
+    # GPIO31        | Flash/PSRAM SPIQ            | SPIQ   *6         |
+    # GPIO32        | Flash/PSRAM SPID            | SPID   *6         |
+    # GPIO33        | Flash/PSRAM SPIWP           | SPIQ4  *4         |
+    # GPIO34        | Flash/PSRAM SPIWP           | SPIQ5  *4         |
+    
+    # GPIO35        | PSRAM 8MB                   | SPIQ6  *4         |       |        |        |       | OK  |       | OK     |          |            |         |              |            |
+    # GPIO36        | PSRAM 8MB                   | SPIQ7  *4         |       |        |        |       | OK  |       | OK     |          |            |         |              |            |
+    # GPIO37        | PSRAM 8MB                   | SPIQ8  *4         |       |        |        |       | OK  |       | OK     |          |            |         |              |            |
+    # GPIO38        | DISPLAY BL_C                | SPIDQS *4         | OK    | OK     |        |       | OK  |       | OK     |          |            |         |              |            |
+    # GPIO39        | DISPLAY LCD_CS              | MTCK *5           | OK    | OK     |        |       | OK  |       | OK     |          |            |         |              |            |
+    # GPIO40        | SPEAKER SD/RELAY L1         | MTD0 CLK_OUT2 *5  | OK    | OK     |        |       | OK  |       | OK     |          |            |         |              |            |
+    # GPIO41        | MIC SD /SDCARD D1           | MTDI CLK_OUT1 *5  | OK    | OK     |        |       | OK  |       | OK     |          |            |         |              |            |
+    # GPIO42        | MIC WC /SDCARD D3           | MTMS *5           | OK    |        |        |       | OK  |       | OK     |          |            |         |              |            |
+    # GPIO43        | MIC SCK/SLOT H1/TXD/UART    | U0_TXD *7         | OK!   | OK!    |        |       | OK  |       | OK     |          |            |         |              |            |
+    # GPIO44        | SM300D2/SLOT H1/RXD/UART    | U0_RXD *7         | OK!   | OK!    |        |       | OK  |       | OK     |          |            |         |              |            |
+    # GPIO45        | TOUCH TP_SCL USB_D-         | STRAPPING VSPI *1 | OK!   | OK!    |        |       | OK  |       | OK     |          |            |         |              |            |
+    # GPIO46        | DISPLAY DB9(G)              | STRAPPING LOG  *1 | OK!   | OK!    |        |       | OK  |       | OK     |          |            |         |              |            |
+    # GPIO47        | SPI DISPLAY SDCARD SDA      | SPICLK_P          | OK    | OK     |        |       | OK  |       | OK     |          |            |         |              |            |
+    # GPIO48        | SPI DISPLAY SDCARD SCK      | SPICLK_L          | OK    | OK     |        |       | OK  |       | OK     |          |            |         |              |            |
+
+    # *1  Strapping pins: GPIO0  PULLUP  : Boot Mode. Weak pullup during reset. (Boot Mode 0=Boot from Flash, 1=Download)
+    #                     GPIO03 FLOATING: JTAG Mode. Weak pull down during reset. (JTAG Config)
+    #                     GPIO45 PULLDOWN: SPI voltage. Weak pull down during reset. (SPI Voltage 0=3.3v 1=1.8v)
+    #                     GPIO46 PULLDOWN: Boot mode. Weak pull down during reset. (Enabling/Disabling ROM Messages Print During Booting)
+    # *2  60μs glitch on boot: Low-level glitch: the pin is at a low level output status for 60us.
+    #     GPIO18    : Low 60us/high 60us
+    #     GPIO19, 20: Low 60us/ 2*high 60us
+    # *3  UART whit USB connected pin D+ and D-
+    #     Source: https://docs.espressif.com/projects/esp-idf/en/stable/esp32s3/api-reference/peripherals/usb_device.html
+    # *4  not available if octal Flash or SPI RAM is used 
+    # *5  JTAG interface: The default behaviour of these pins is JTAG debugging, during firmware download mode they will have spurious values on them.
+    #     This can be turned off by burning some eFuses in conjunction with GPIO3 (see the datasheet for details).
+    # *6  not available if SPI RAM is used 
+    # *7  These default to UART0 until they are used by your code. Disable hardware uart. logger baud_rate: 0
+    # *8  DAC Pins: There is NO DAC on the ESP32-S3 - you can simulate analog output using PWM or I2S PDM.
+    # *9  ADC2 not available if wifi enable 
+    # *10 xTAL External 32k crystal
+    # *11 PU/PD: Pins that have software configurable pull-up/pull-down functionality.
+    # *12 RTC: Pins that are RTC GPIOs and can be used in deep-sleep mode.
+    
+    # I2S
+     # The ESP32 S3 has two I2S interfaces which can be mapped to any available gpio pins.
+    
+    # I2C
+     # Default pins are:
+     # GPIO9 SCL
+     # GPIO8 SDA
+     # There is an aditional I2C interface which does not seem to have default pins (wip).
+    
+    # SPI
+     # The ESP32 S3 has four SPI interfaces which are:
+      # SPI0 used by ESP32-S3’s cache and Crypto DMA (EDMA) to access in-package or off-package flash/PSRAM
+      # SPI1 used by the CPU to access in-package or off-package flash/PSRAM
+      # SPI2 is a general purpose SPI controller with its own DMA channel
+      # SPI3 is a general purpose SPI controller with access to a DMA channel shared between several peripherals
+
+ # ----- TOUCH -------
+  # Modul: Goodix GT911 touch platform
+   # Support: maximum of 4 touch key and guestures, It is strongly recommended that transmission rate be kept at or below 400Kbps
+   # Specifications: Voltage: 1.8V internal LDO / Glass 0.55 - 2.0mm / Operational Range: Temperature: -40 ~ +85°C Humidity: 95%
+   # Circuit: Interface: I2C address: 0x5D,
+   # Power consumption: normal: 14.5mA sleep: 0.12mA
+   
+   # Pinout:
+    # 1. GND
+    # 2. SDA
+    # 3. SCL
+    # 4. RST = 
+    # 5. INT = GND
+    # 6. VDD
+
+ # ----- DISPLAY -----
+  # Modul: 0400B009 (not found datasheet)
+  # Similar datasheet round display: TFT LCD Display Datasheet ER-TFT021-1
+   # Source:    https://www.buydisplay.com/480x480-round-ips-tft-lcd-display-2-1-inch-capacitive-touch-circle-screen
+   # Desciption github:
+    # Tasmota:  https://github.com/arendst/Tasmota/discussions/20527
+    # Esphome:  https://github.com/esphome/esphome/pull/5872
+    # Openhasb: https://github.com/HASwitchPlate/openHASP/issues/603
+    
+  # Description pinout:
+   # PIN NO | PIN NAME | DESCRIPTION     | GPIO         | DESCRIPTION        # PIN NO | PIN NAME | DESCRIPTION     | GPIO       | DESCRIPTION
+   # 1      | VLED+    | LED ANODE       | KDG2V GPIO38 | BACKLIGHT DISPLAY  # 21     | DB5      | 18-BIT BUS      | GPIO15     |
+   # 2      | VLED-    | LED CATHODE     | GND          |                    # 22     | DB6      | 18-BIT BUS      | GPIO08     |
+   # 3      | VLED-    | LED CATHODE     | GND          |                    # 23     | DB7      | 18-BIT BUS      | GPIO20     |
+   # 4      | GND      | GROUND          | GND          |                    # 24     | DB8      | 18-BIT BUS      | GPIO03     |
+   # 5      | VCC      | POWER SUPPLY    | 3V3          |                    # 25     | DB9      | 18-BIT BUS      | GPIO46     |
+   # 6      | RST      | RESET ACTIVE LOW| NC           |                    # 26     | DB10     | 18-BIT BUS      | GPIO09     |
+   # 7      | NC       |                 | NC           |                    # 27     | DB11     | 18-BIT BUS      | GPIO10     |
+   # 8      | NC       |                 | NC           |                    # 28     | DB12     | 18-BIT BUS      | NC         |
+   # 9      | SDA      | DATA I/O BI SPI | GPIO47       |                    # 29     | DB13     | 18-BIT BUS      | GPIO11     |
+   # 10     | SCK      | CLOCK I SPI     | GPIO48       |                    # 30     | DB14     | 18-BIT BUS      | GPIO12     |
+   # 11     | CS       | CHIP SELECTED   | GPIO39       |                    # 31     | DB15     | 18-BIT BUS      | GPIO13     |
+   # 12     | PCLK     | DOT CLOCK RGB   | GPIO21       |                    # 32     | DB16     | 18-BIT BUS      | GPIO14     |
+   # 13     | DE       | DATA ENABLE     | GPIO18       |                    # 33     | DB17     | 18-BIT BUS      | GPIO0      | 
+   # 14     | VSYNC    | FRAME SYNC      | GPIO17       |                    # 34     | GND      | GROUND          | GND        |
+   # 15     | HSYNC    | LINE SYNC       | GPIO16       |                    # 35     | TP-INT   | TOUCH INTERRUPT | GND        |
+   # 16     | DB0      | 16-BIT BUS      | NC           |                    # 36     | TP-SDA   | TOUCH SDA I2C   | GPIO19     | TOUCH SDA   GT911
+   # 17     | DB1      | 16-BIT BUS      | GPIO04       |                    # 37     | TP-SCL   | TOUCH SCL I2C   | GPIO45     | TOUCH SCL   GT911
+   # 18     | DB2      | 16-BIT BUS      | GPIO05       |                    # 38     | TP-RST   | TOUCH RESET     | RST        | TOUCH RESET GT911
+   # 19     | DB3      | 16-BIT BUS      | GPIO06       |                    # 39     | TP-VCL   | POWER SUPPLY    | VDD        | TOUCH POWER SUPPLY
+   # 20     | DB4      | 16-BIT BUS      | GPIO07       |                    # 40     | GND      | GROUND          | GND        |
+
+   # RGB DATA SIGNAL
+    # DB0:  BLUE  LSB GPIO04  
+    # DB5:  BLUE  MSB 
+    # DB6:  GREEN LSB
+    # DB11: GREEN MSB
+    # DB12: RED   LSB
+    # DB17: RED   MSB
+
+  display_cs_pin:    GPIO39
+  display_en_pin:    "5" # not connected pseudo expander pin
+  display_de_pin:    GPIO18
+  display_hsync_pin: GPIO16
+  display_vsync_pin: GPIO17
+  display_pclk_pin:  GPIO21
+    
+    # Data pin: show below on display label
+    
+  # Backlight:
+   # Module: KDG2V (not found datasheet)
+    # Pinout: (not fit exactly)
+    # N.| CONNECT | Pin | Scheme | Pin | CONNECT | N.
+    #                     +----+
+    # 1 | 5V      | IN   -|°   |-  IN  | 5V      | 6
+    # 2 | GND     | GND  -|    |-  SW  | LED_A   | 5
+    # 3 | LED_K   | FB   -|    |-  EN  | GPIO38  | 4
+    #                     +----+
+  display_led_pin: GPIO38
+  
+ # ----- SDCARD ------
+  # Remove
+  # Pinout:
+   # N.| NAME     | GPIO   | PULLUP | NOTES
+   # -------------------------------------
+   # 1 | DAT2/X   |        | 10k    | 
+   # 2 | DAT3/CS  | GPIO42 | 10k    | Unsolder pullup -> free pin
+   # 3 | CMD/DI   | GPIO47 | 10k    | DISPLAY SPI mosi_pin
+   # 4 | VDD      | VCC    |        | 
+   # 5 | CLK/SCLK | GPIO48 |        | DISPLAY SPI clk_pin
+   # 6 | VSS      | GND    |        | 
+   # 7 | DAT0/DO  | GPIO41 | 10k    | Unsolder pullup -> free pin
+   # 8 | DAT1/x   |        |        | 
+
+ # ----- SPEAKER -----
+  # Circuit: The 4-inch screen relay and I2S audio are shared IO ports, IO1, IO2, and IO40. If audio is needed, the 0 ohm resistors R25, R26, and R27 should be moved to R21, R22, and R23.
+  # Speaker: UNISON U3608B35U 8Ω 1.5W 701
+  # Chip: NS4168
+  # Modification: Unsolder resistor 1MΩ on CTRL pin and solder 3V3 47Ω CTRL
+   # Pinout:                                                                                                                                                                                                                                                                                     
+    # N.| CONNECTED | DESCRIPTION     | Pin   | Scheme | Pin | DESCRIPTION     | CONNECTED | N.
+    #                                           +----+
+    # 1 | VCC-> 1MΩ | Control pin     | CTRL   -|°   |-  VoP | Output positive | SPEAKER   | 8
+    # 2 | GPIO02    | I2S Frame clock | L/RCLK -|    |-  GND | Ground          | GND       | 7
+    # 3 | GPIO01    | I2S bit clock   | BCLK   -|    |-  VDD | Power supply    | VCC       | 6
+    # 4 | GPIO40    | Serial data     | SDATA  -|    |-  VoN | Output Negative | SPEAKER   | 5
+    #                                           +----+
+
+  
+  
+ # ----- BATTERY -----
+  # Chip: IP5306 (Datasheet source: https://datasheetspdf.com/datasheet/IP5306.html)
+  # Specifications: 2.4A synchronous boost conversion, 2.1A synchronous switch charging / Boost efficiency up to 92% / Charging efficiency up to 91% / Input: 4.65 ~ 5.5V / 
+  # Power consumption Standby: 100 μA
+  # Protections: Output overcurrent, overvoltage, short circuit protection, Input overvoltage, overcharge, overdischarge, overcurrent discharge protection, Overheat protection of the whole machine
+   # Circuit: key -> connected to SW button
+   # Pinout:                                                                                                                                                                                                                                                                                     
+    # N.| CONNECTED | DESCRIPTION     | Pin   | Scheme  | Pin   | DESCRIPTION                             | CONNECTED  | N.
+    #                                          +-------+
+    # 1 | 5V IN     | INPUT 5V        | VIN   -|°      |-  VOUT | 5V OUTPUT                               | 5V OUT     | 8
+    # 2 | ? R50     | BAT INDICATOR 1 | LED1  -| POWER |-  SW   | DC DC SWITCH NODE                       | INDUCTOR   | 7
+    # 3 | NC        | BAT INDICATOR 2 | LED2  -| PAD   |-  BAT  | VOLTAGE SENS                            | ?          | 6
+    # 4 | ?         | BAT INDICATOR 3 | LED3  -| GND   |-  KEY  | ON/OFF KEY MULTIPLEX TORCH LIGHT DRIVER | SW1 BUTTON | 5
+    #                                          +-------+
+
+# ----- BUTTON ------
+ # Module:
+  # Circuit: 10kΩ PULLUP
+  # Description: When button push displey change color scheme because red datapoint. But the button is functional
+  button_pin: GPIO0
