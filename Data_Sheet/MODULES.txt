@@ -234,8 +234,8 @@ http://pan.jczn1688.com/1
     # 3 | GPIO01    | I2S bit clock   | BCLK   -|    |-  VDD | Power supply    | VCC       | 6
     # 4 | GPIO40    | Serial data     | SDATA  -|    |-  VoN | Output Negative | SPEAKER   | 5
     #                                           +----+
-
-  
+# ----- Power -----
+?sy8113b?
   
  # ----- BATTERY -----
   # Chip: IP5306 (Datasheet source: https://datasheetspdf.com/datasheet/IP5306.html)
