@@ -197,7 +197,7 @@ http://pan.jczn1688.com/1
     # Data pin: show below on display label
     
   # Backlight:
-   # Module: KDG2V (not found datasheet)
+   # Module: AP3019A 
     # Pinout: (not fit exactly)
     # N.| CONNECT | Pin | Scheme | Pin | CONNECT | N.
     #                     +----+
