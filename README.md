@@ -1,5 +1,13 @@
 # Esphome-ESP32-S3-4848S040-LVGL  quickly create your own pages
 
+[![License][license-shield]][license]
+[![ESPHome release][esphome-release-shield]][esphome-release]
+
+[license-shield]: https://img.shields.io/static/v1?label=License&message=MIT&color=orange&logo=license
+[license]: https://opensource.org/licenses/MIT
+[esphome-release-shield]: https://img.shields.io/static/v1?label=ESPHome&message=2025.3&color=green&logo=esphome
+[esphome-release]: https://GitHub.com/esphome/esphome/releases/
+
 Добавлен BME680 и IR_LED
 
 kitchen-lighting.yaml указываем свои сенсоры, первоначальную страницу, фон для страниц 
