@@ -10,7 +10,7 @@ https://aliexpress.ru/item/1005008214872438.html
 [esphome-release-shield]: https://img.shields.io/static/v1?label=ESPHome&message=2025.3&color=green&logo=esphome
 [esphome-release]: https://GitHub.com/esphome/esphome/releases/
 
-Добавлен BME680 и IR_LED
+Добавлен BME680 и IR_LED и выбор сущности "light.toggle" "switch.toggle" "button.press"
 
 kitchen-lighting.yaml указываем свои сенсоры, первоначальную страницу, фон для страниц 
 
