@@ -16,8 +16,9 @@
 image:
   - file: "picture/sun-UV.png"
     id: sun_uv
-    resize: 60x60
+    resize: 80x80
     type: RGB565 
+    transparency: alpha_channel 
 #-------------------------------------------
 # SENSOR
 #-------------------------------------------    
@@ -77,114 +78,65 @@ lvgl:
         - canvas: 
             width: 480
             height: 480
-            id: fon
+            id: uv_fon
             on_boot:
             # Зеленый
               - lvgl.canvas.draw_polygon:
-                  id: fon
+                  id: uv_fon
                   points:
                     - 240, 240
                     - 0, 480
-                    - 0, 240
+                    - 0, 260
                     - 240, 240
                   bg_color: 0x00ff00
             # Желтый      
               - lvgl.canvas.draw_polygon:
-                  id: fon
+                  id: uv_fon
                   points:
                     - 240, 240
-                    - 0, 240
+                    - 0, 260
                     - 0, 0
-                    - 70, 0  
+                    - 90, 0  
                     - 240, 240           
                   bg_color: 0xe7c12c
             # Оранжевый      
               - lvgl.canvas.draw_polygon:
-                  id: fon
+                  id: uv_fon
                   points:
                     - 240, 240
-                    - 70, 0
-                    - 410, 0
+                    - 90, 0
+                    - 390, 0
                     - 240, 240           
                   bg_color: 0xffa500
             # Красный      
               - lvgl.canvas.draw_polygon:
-                  id: fon
+                  id: uv_fon
                   points:
                     - 240, 240
-                    - 410, 0
+                    - 390, 0
                     - 480, 0   
-                    - 480, 240
+                    - 480, 260
                     - 240, 240           
                   bg_color: 0xF50F34   
          # Фиолетовый
               - lvgl.canvas.draw_polygon:
-                  id: fon
+                  id: uv_fon
                   points:
                     - 240, 240
-                    - 480, 240
+                    - 480, 260
                     - 480, 480   
                     - 240, 240           
                   bg_color: 0xA63DC2  
-         # Черный
+         # Белый
               - lvgl.canvas.draw_polygon:
-                  id: fon
+                  id: uv_fon
                   points:
                     - 240, 240
-                    - 480, 240
-                    - 480, 480   
+                    - 480, 480
+                    - 0, 480   
                     - 240, 240           
-                  bg_color: 0x000000  
-                  
-        # Зеленый
-        #- line:
-      #      points:
-      #        - 170, 170
-      #        - -70, 410
-      #      line_width: 200
-      #      line_color: 0x00ff00
-      #      line_rounded: false 
-        # Желтый
-       # - line:
-        #    points:
-         #     - 0, 120
-        #      - 240, 120
-         #   line_width: 250
-        #    line_color:  0xe7c12c
-        #    line_rounded: false 
-        # Оранжевый
-       # - line:
-       #     points:
-       #       - 160, 110
-       ##       - 480, -100
-       #     line_width: 300
-        #    line_color: 0xffa500
-        #    line_rounded: false 
-        # Красный
-      #  - line:
-        #    points:
-       #       - 325, 295
-       #       - 520, 10 #+5 -5
-       #     line_width: 220
-       #     line_color: 0xF50F34
-       #     line_rounded: false 
-         # Фиолетовый
-     #   - line:
-      #      points:
-     #         - 240, 365
-      #        - 480, 365
-     #       line_color: 0xA63DC2 #0x9412FD
-      #      line_width: 240
-      #      line_rounded: false
-         # Черный
-     #   - line:
-      #      points:
-     #         - 105, 585
-      #        - 345, 345
-      #      align: TOP_left
-      #      line_width: 300
-      #      line_color: 0x000000
-      #      line_rounded: false 
+                  bg_color: 0xffffff
+
 # Шкала
         - meter:
             bg_opa: 0%
@@ -281,6 +233,6 @@ lvgl:
         - image:
             align: CENTER
             src: sun_uv
-            y: 180
+            y: 0
             bg_color: 0xFFFFFF
             bg_image_opa: 100% 

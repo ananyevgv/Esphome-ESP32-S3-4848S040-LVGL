@@ -1,11 +1,23 @@
+#############################################################################
+#----Страничка геомагнитная обстановка---------------------------------------
+#############################################################################
+# Add yaml and copy file esphome/packages/
+#packages:
+#  geomag: !include 
+#    file: packages/geomag.yaml
+#    vars:
+#      sensor_geomagnetic: sensor.iaroslavskaia_geomagnetic_field
+#############################################################################
+
 #-------------------------------------------
 # IMAGE
 #-------------------------------------------
 image:
   - file: "picture/magnet.png"
     id: magnit
-    resize: 50x50
+    resize: 65x65
     type: RGB565 
+    transparency: alpha_channel
 #-------------------------------------------
 # SENSOR
 #-------------------------------------------    
@@ -62,72 +74,76 @@ lvgl:
       scrollbar_mode: "OFF"
       scrollable: false
       widgets:
+        - canvas: 
+            width: 480
+            height: 480
+            id: geomag_fon
+            on_boot:
         # Зеленый
-        - line:
-            points:
-              - 170, 170
-              - -70, 410
-            line_width: 200
-            line_color: 0x00ff00
-            line_rounded: false 
-        - line:
-            points:
-              - 120, 0
-              - 120, 240
-            line_width: 240
-            line_color: 0x00ff00
-            line_rounded: false 
-        
+              - lvgl.canvas.draw_polygon:
+                  id: geomag_fon
+                  points:
+                    - 240, 240
+                    - 0, 480
+                    - 0, 0
+                    - 240, 0
+                    - 240, 240
+                  bg_color: 0x00ff00
         # Желтый
-        - line:
-            points:
-              - 310, 240
-              - 310, 0
-            line_width: 140
-            line_color:  0xe7c12c
-            line_rounded: false 
-            
+              - lvgl.canvas.draw_polygon:
+                  id: geomag_fon
+                  points:
+                    - 240, 240
+                    - 240, 0
+                    - 380, 0 
+                    - 240, 240
+                  bg_color: 0xe7c12c
         # Оранжевый
-        - line:
-            points:
-              - 309, 279
-              - 465, -15 
-            line_width: 160
-            line_color: 0xffa500
-            line_rounded: false 
+              - lvgl.canvas.draw_polygon:
+                  id: geomag_fon
+                  points:
+                    - 240, 240
+                    - 380, 0 
+                    - 480, 0  
+                    - 480, 90          
+                    - 240, 240
+                  bg_color: 0xffa500
         # Красный
-        - line:
-            points:
-              - 274, 304
-              - 519, 154 #-10
-            line_width: 140
-            line_color: 0xF50F34
-            line_rounded: false 
-        # Фиолетовый
-        - line:
-            points:
-              - 240, 320
-              - 480, 320
-            line_color: 0x9412FD
-            line_width: 160
-            line_rounded: false
-        # Темно фиолетовый
-        - line:
-            points:
-              - 196, 304
-              - 490, 500
-            line_width: 160
-            line_color: 0xA63DC2
-            line_rounded: false 
-        
-        - line:
-            points:
-              - 105, 585
-              - 345, 345
-            align: TOP_left
-            line_width: 300
-            line_color: 0x000000
-            line_rounded: false 
+              - lvgl.canvas.draw_polygon:
+                  id: geomag_fon
+                  points:
+                    - 240, 240
+                    - 480, 90 
+                    - 480, 240                     
+                    - 240, 240
+                  bg_color: 0xF50F34
+        # Фиолетовый          
+              - lvgl.canvas.draw_polygon:
+                  id: geomag_fon
+                  points:
+                    - 240, 240
+                    - 480, 240                     
+                    - 480, 380 
+                    - 240, 240
+                  bg_color: 0x9412FD
+        # Темно фиолетовый        
+              - lvgl.canvas.draw_polygon:
+                  id: geomag_fon
+                  points:
+                    - 240, 240
+                    - 480, 380 
+                    - 480, 480 
+                    - 240, 240
+                  bg_color: 0xA63DC2            
+        # Белый
+              - lvgl.canvas.draw_polygon:
+                  id: geomag_fon
+                  points:
+                    - 240, 240
+                    - 480, 480
+                    - 0, 480   
+                    - 240, 240           
+                  bg_color: 0xffffff
 
         - meter:
             bg_opa: 0%
@@ -157,11 +173,13 @@ lvgl:
                 rotation: 135
                 range_from: 0
                 range_to: 9
+             
         - meter:
             width: 200
             height: 200
             align: center
             scales:
+
               - indicators:
                   - line:
                       id: geomagnetic_meter
@@ -222,6 +240,6 @@ lvgl:
         - image:
             align: CENTER
             src: magnit
-            y: 180
+            y: 10 #180
             bg_color: 0xFFFFFF
-            bg_image_opa: 100% 
+            bg_image_opa: 100%    
