@@ -37,20 +37,21 @@ sensor:
     id: pressure_1h
     update_interval: never
     device_class: pressure
-
+    disabled_by_default: true
 
   - platform: template # Pressure 2h
     name: "${name} pressure old 2h"
     id: pressure_2h
     update_interval: never
     device_class: pressure
-
+    disabled_by_default: true
 
   - platform: template # Pressure 3h
     name: "${name} pressure old 3h"
     id: pressure_3h
     update_interval: never
     device_class: pressure
+    disabled_by_default: true
     on_value:
       - lvgl.indicator.update:
           id: barometr_hand_3h
@@ -60,27 +61,40 @@ sensor:
           id: barometr_hand_3hz
           value: !lambda |- 
             return x;
-            
+
+#-------------------------------------------
+# SCRIPT
+#-------------------------------------------
+script:
+  - id: time_sync_barometr
+    then:
+      - delay: 4s
+      - lambda: !lambda |-
+          id(pressure_3h).publish_state(id(barometr_pressure).state);
+          id(pressure_2h).publish_state(id(barometr_pressure).state);
+          id(pressure_1h).publish_state(id(barometr_pressure).state);
+        
+  - id: time_update_barometr
+    then:
+      lambda: !lambda |-
+        id(pressure_3h).publish_state(id(pressure_2h).state);
+        id(pressure_2h).publish_state(id(pressure_1h).state);
+        id(pressure_1h).publish_state(id(barometr_pressure).state);
+      
 #-------------------------------------------
 # TIME
 #-------------------------------------------
 time:
-  - platform: sntp
+  - id: !extend sntp_time
     on_time_sync:
-    - lambda: !lambda |-
-        id(pressure_3h).publish_state(id(barometr_pressure).state);
-        id(pressure_2h).publish_state(id(barometr_pressure).state);
-        id(pressure_1h).publish_state(id(barometr_pressure).state);
+      - script.execute: time_sync_barometr
     on_time:
       - hours: '*'
         minutes: 50
         seconds: 0
         then:
-          lambda: !lambda |-
-            id(pressure_3h).publish_state(id(pressure_2h).state);
-            id(pressure_2h).publish_state(id(pressure_1h).state);
-            id(pressure_1h).publish_state(id(barometr_pressure).state);
-    
+          - script.execute: time_update_barometr
+        
 
 #-------------------------------------------
 # LVGL

@@ -1,3 +1,12 @@
+#############################################################################
+#----Страничка с пыльцой березы----------------------------------------------
+#############################################################################
+# Add yaml and copy file esphome/packages/
+#packages:
+#  birch: !include
+#    file: packages/birch.yaml
+#    vars:
+#      sensor_birch: sensor.iaroslavskaia_birch_pollen_index
 #-------------------------------------------
 # IMAGE
 #-------------------------------------------
@@ -13,6 +22,8 @@ sensor:
   - platform: homeassistant
     id: birch_index
     entity_id: $sensor_birch
+    filters:
+      - filter_out: nan
     on_value:
       then:
         - lvgl.label.update:
@@ -108,7 +119,7 @@ lvgl:
             align: TOP_left
             line_width: 300
             line_color: 0xFFFFFF
-            line_rounded: false 
+            line_rounded: false
 # Шкала
         - meter:
             bg_opa: 0%
@@ -195,6 +206,7 @@ lvgl:
         - label:
             id: display_birch_class
             text_color: color_white
+            text: "нет"
             text_font: roboto36
             align: TOP_MID 
 

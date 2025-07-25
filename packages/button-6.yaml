@@ -22,8 +22,8 @@ font:
     glyphs: [
       $button6_icon_1_0,
       $button6_icon_1_1,
-      $button6_icon_1_2,
-      $button6_icon_1_3
+      $button6_icon_2_0,
+      $button6_icon_2_1
     ]      
     
   - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
@@ -73,7 +73,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_button6_icon_0_0
     entity_id: $button6_entity_0_0
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -93,7 +93,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_button6_icon_0_1
     entity_id: $button6_entity_0_1
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -118,7 +118,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_button6_icon_1_0
     entity_id: $button6_entity_1_0
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -138,7 +138,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_button6_icon_1_1
     entity_id: $button6_entity_1_1
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -157,44 +157,44 @@ binary_sensor:
 ####################################
 
   - platform: homeassistant
-    name: bin_button6_icon_1_2
-    entity_id: $button6_entity_1_2
-    publish_initial_state: true
+    name: bin_button6_icon_2_0
+    entity_id: $button6_entity_2_0
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
         lvgl.widget.update:
-          id: b_button6_1_2
+          id: b_button6_2_0
           state:
             checked: !lambda return x;
     on_press:
       lvgl.widget.update:
-        id: w_button6_1_2
+        id: w_button6_2_0
         text_color: 0xFFFF00
     on_release:
       lvgl.widget.update:
-        id: w_button6_1_2
+        id: w_button6_2_0
         text_color: 0xB6B6B6
 ####################################
 
   - platform: homeassistant
-    name: bin_button6_icon_1_3
-    entity_id: $button6_entity_1_3
-    publish_initial_state: true
+    name: bin_button6_icon_2_1
+    entity_id: $button6_entity_2_1
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
         lvgl.widget.update:
-          id: b_button6_1_3
+          id: b_button6_2_1
           state:
             checked: !lambda return x;
     on_press:
       lvgl.widget.update:
-        id: w_button6_1_3
+        id: w_button6_2_1
         text_color: 0xFFFF00
     on_release:
       lvgl.widget.update:
-        id: w_button6_1_3
+        id: w_button6_2_1
         text_color: 0xB6B6B6
 ####################################
 
@@ -255,8 +255,8 @@ lvgl:
                         text: $button6_text_0_0
                         long_mode: dot  
                   on_click:
-                    - homeassistant.service:
-                        service: light.toggle
+                    - homeassistant.action:
+                        action: $button6_action_0_0
                         data:
                           entity_id: $button6_entity_0_0
 
@@ -288,8 +288,8 @@ lvgl:
                         text: $button6_text_0_1
                         long_mode: dot  
                   on_click:
-                    - homeassistant.service:
-                        service: light.toggle
+                    - homeassistant.action:
+                        action: $button6_action_0_1
                         data:
                           entity_id: $button6_entity_0_1
             
@@ -311,8 +311,8 @@ lvgl:
                         text: $button6_icon_1_0
                         id: w_button6_1_0
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: light.toggle
                       data:
                         entity_id: $button6_entity_1_0        
                     
@@ -333,15 +333,15 @@ lvgl:
                         text: $button6_icon_1_1
                         id: w_button6_1_1
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button6_action_1_1
                       data:
                         entity_id: $button6_entity_1_1   
                         
             ######################## 
               - button:
                   checkable: true
-                  id: b_button6_1_2
+                  id: b_button6_2_0
                   grid_cell_row_pos: 3 #Позиция ряд
                   grid_cell_column_pos: 0 #Позиция колонка
                   grid_cell_x_align: STRETCH
@@ -353,17 +353,17 @@ lvgl:
                     - label:
                         text_font: button6_48
                         align: center
-                        text: $button6_icon_1_2
-                        id: w_button6_1_2
+                        text: $button6_icon_2_0
+                        id: w_button6_2_0
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button6_action_2_0
                       data:
-                        entity_id: $button6_entity_1_2  
+                        entity_id: $button6_entity_2_0 
                         
               - button:
                   checkable: true
-                  id: b_button6_1_3
+                  id: b_button6_2_1
                   grid_cell_row_pos: 3 #Позиция ряд
                   grid_cell_column_pos: 2 #Позиция колонка
                   grid_cell_x_align: STRETCH
@@ -375,14 +375,12 @@ lvgl:
                     - label:
                         text_font: button6_48
                         align: center
-                        text: $button6_icon_1_3
-                        id: w_button6_1_3
+                        text: $button6_icon_2_1
+                        id: w_button6_2_1
                   on_click:
-                    homeassistant.service:
-                      service: light.toggle
+                    homeassistant.action:
+                      action: $button6_action_2_1
                       data:
-                        entity_id: $button6_entity_1_3 
+                        entity_id: $button6_entity_2_1
 ##########################################################
-
-                        
                         

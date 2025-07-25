@@ -1,0 +1,381 @@
+#########################
+#     #     #     #     #
+#     #     #     #     #
+#########################
+#     #           #     #
+# 0_0 #           # 0_2 #
+#     #           #     #
+######     0_1    #######
+#     #           #     #
+# 1_0 #           # 1_1 #
+#     #           #     #
+#########################
+#                       #
+# 2_0              2_1  #
+#                       #
+#########################
+
+substitutions:
+ # vacuum_icons_0_0: "\U000F034E" #map-marker
+  
+  vacuum_icons_0_0: "\U000F040A" #Play
+  vacuum_icons_0_1: "\U000F070D" #robot-vacuum
+  vacuum_icons_0_2: "\U000F04DB" #stop
+  
+  vacuum_icons_1_0: "\U000F03E4" #pause
+  vacuum_icons_1_1: "\U000F0F9C" #home-import-outline
+
+
+
+# Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
+  vacuum_icon_0_0: $vacuum_icons_0_0
+  vacuum_entity_0_0: light.holl_led_0
+  
+  vacuum_icon_0_1: $vacuum_icons_0_1
+  vacuum_entity_0_1: light.holl_led_1
+
+  vacuum_icon_0_2: $vacuum_icons_0_2
+  vacuum_entity_0_2: light.holl_led_2
+  
+# Кнопки 1 ряд
+  vacuum_icon_1_0: $vacuum_icons_1_0
+  vacuum_entity_1_0: light.holl_led_4
+
+  vacuum_icon_1_1: $vacuum_icons_1_1
+  vacuum_entity_1_1: light.holl_led_5
+  
+
+  
+  
+font:
+  - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+    id: vacuum_48
+    size: 48
+    bpp: 4
+    glyphs: [
+      $vacuum_icon_0_0,
+      $vacuum_icon_0_2,
+      $vacuum_icon_1_0,
+      $vacuum_icon_1_1,
+    ]      
+    
+  - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+    id: vacuum_130
+    size: 130
+    bpp: 4
+    glyphs: [
+      $vacuum_icon_0_1
+      ]   
+      
+
+          
+#-------------------------------------------
+# Binary sensor
+#-------------------------------------------
+binary_sensor:
+#-------------------------------------------
+# 0 Ряд
+#-------------------------------------------
+  - platform: homeassistant
+    name: bin_vacuum_icon_0_0
+    entity_id: $vacuum_entity_0_0
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_vacuum_0_0
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_vacuum_0_0
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_vacuum_0_0
+        text_color: 0xB6B6B6
+####################################
+  - platform: homeassistant
+    name: bin_vacuum_icon_0_1
+    entity_id: $vacuum_entity_0_1
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_vacuum_0_1
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_vacuum_0_1
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_vacuum_0_1
+        text_color: 0xB6B6B6
+
+####################################
+  - platform: homeassistant
+    name: bin_vacuum_icon_0_2
+    entity_id: $vacuum_entity_0_2
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_vacuum_0_2
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_vacuum_0_2
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_vacuum_0_2
+        text_color: 0xB6B6B6
+####################################
+
+#-------------------------------------------
+# 1 Ряд
+#-------------------------------------------
+  - platform: homeassistant
+    name: bin_vacuum_icon_1_0
+    entity_id: $vacuum_entity_1_0
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_vacuum_1_0
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_vacuum_1_0
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_vacuum_1_0
+        text_color: 0xB6B6B6
+####################################
+  - platform: homeassistant
+    name: bin_vacuum_icon_1_1
+    entity_id: $vacuum_entity_1_1
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_vacuum_1_1
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_vacuum_1_1
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_vacuum_1_1
+        text_color: 0xB6B6B6
+####################################
+
+
+#-------------------------------------------
+# LVGL
+#-------------------------------------------
+lvgl:
+  pages:
+    - id: vacuum_page     
+      width: 100%
+      bg_color: 0x000000
+      bg_opa: cover
+      widgets:
+        - image:
+            align: CENTER
+            src: $background_vacuum
+        - obj:
+            bg_opa: TRANSP
+            border_opa: TRANSP
+            width: 480
+            height: 460
+            align: TOP_LEFT
+            x: 0
+            y: 0
+            layout:
+              pad_row: 10
+              pad_column: 10
+              type: GRID
+              grid_columns: [FR(1), FR(1), FR(1), FR(1)]
+              grid_rows: [FR(1), FR(1), FR(1), FR(1)]
+            widgets:
+            ########################
+              - button:
+                  checkable: true
+                  id: b_vacuum_0_0
+                  grid_cell_row_pos: 1 #Позиция ряд
+                  grid_cell_column_pos: 0 #Позиция колонка
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  grid_cell_row_span: 1 #Занять ячеек в ряде
+                  grid_cell_column_span: 1 #Занять ячеек в колонке
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: vacuum_48
+                        align: center
+                        text: $vacuum_icon_0_0
+                        id: w_vacuum_0_0
+                  on_click:
+                    - homeassistant.service:
+                        service: light.toggle
+                        data:
+                          entity_id: $vacuum_entity_0_0
+  #- homeassistant.action:
+   #   action: notify.html5
+   #   data:
+   ##     title: New Humidity
+    #  data_template:
+    #    message: The humidity is {{ my_variable }}%.
+     # variables:
+     #   my_variable: |-
+      #    return id(my_sensor).state;
+          
+              - button:
+                  checkable: true
+                  id: b_vacuum_0_1
+                  grid_cell_row_pos: 1 #Позиция ряд
+                  grid_cell_column_pos: 1 #Позиция колонка
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  grid_cell_row_span: 2 #Занять ячеек в ряде
+                  grid_cell_column_span: 2 #Занять ячеек в колонке
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: vacuum_130
+                        align: center
+                        text: $vacuum_icon_0_1
+                        id: w_vacuum_0_1
+                  on_click:
+                    - homeassistant.service:
+                        service: light.toggle
+                        data:
+                          entity_id: $vacuum_entity_0_1
+                          
+              - button:
+                  checkable: true
+                  id: b_vacuum_0_2
+                  grid_cell_row_pos: 1 #Позиция ряд
+                  grid_cell_column_pos: 3 #Позиция колонка
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  grid_cell_row_span: 1 #Занять ячеек в ряде
+                  grid_cell_column_span: 1 #Занять ячеек в колонке
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: vacuum_48
+                        align: center
+                        text: $vacuum_icon_0_2
+                        id: w_vacuum_0_2
+                  on_click:
+                    - homeassistant.service:
+                        service: light.toggle
+                        data:
+                          entity_id: $vacuum_entity_0_2
+                          
+            ########################
+              - button:
+                  checkable: true
+                  id: b_vacuum_1_0
+                  grid_cell_row_pos: 2 #Позиция ряд
+                  grid_cell_column_pos: 0 #Позиция колонка
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  grid_cell_row_span: 1 #Занять ячеек в ряде
+                  grid_cell_column_span: 1 #Занять ячеек в колонке
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: vacuum_48
+                        align: center
+                        text: $vacuum_icon_1_0
+                        id: w_vacuum_1_0
+                  on_click:
+                    homeassistant.service:
+                      service: light.toggle
+                      data:
+                        entity_id: $vacuum_entity_1_0        
+                    
+              - button:
+                  checkable: true
+                  id: b_vacuum_1_1
+                  grid_cell_row_pos: 2 #Позиция ряд
+                  grid_cell_column_pos: 3 #Позиция колонка
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  grid_cell_row_span: 1 #Занять ячеек в ряде
+                  grid_cell_column_span: 1 #Занять ячеек в колонке
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: vacuum_48
+                        align: center
+                        text: $vacuum_icon_1_1
+                        id: w_vacuum_1_1
+                  on_click:
+                    homeassistant.service:
+                      service: light.toggle
+                      data:
+                        entity_id: $vacuum_entity_1_1   
+
+########################################################################################                              
+
+              - label:
+                  grid_cell_row_pos: 3 # позиция ряд
+                  grid_cell_column_pos: 0 # Позиция колонка
+
+                  grid_cell_x_align: SPACE_AROUND   #'START', 'CENTER', 'END', 'STRETCH', 'SPACE_EVENLY', 'SPACE_AROUND', 'SPACE_BETWEEN'.
+                  grid_cell_y_align: CENTER   #'START', 'CENTER', 'END', 'STRETCH', 'SPACE_EVENLY', 'SPACE_AROUND', 'SPACE_BETWEEN'.
+                  align: LEFT_MID
+                  text_font: roboto24
+                  text_color: color_dark_gray
+                  text: "Мощность"
+                  
+              - roller:
+                  id: vacuum_power
+                  bg_opa: TRANSP
+                  border_opa: TRANSP
+                  shadow_opa: TRANSP
+                  pad_all: 0
+                  grid_cell_row_pos: 3 # позиция ряд
+                  grid_cell_column_pos: 2 #  Позиция колонка
+                  grid_cell_row_span: 1 #Занять ячеек в ряде
+                  grid_cell_column_span: 2 #Занять ячеек в колонке
+                  grid_cell_x_align: SPACE_AROUND   #'START', 'CENTER', 'END', 'STRETCH', 'SPACE_EVENLY', 'SPACE_AROUND', 'SPACE_BETWEEN'.
+                  grid_cell_y_align: CENTER   #'START', 'CENTER', 'END', 'STRETCH', 'SPACE_EVENLY', 'SPACE_AROUND', 'SPACE_BETWEEN'.
+                  width: 180
+                  align: CENTER
+                  text_font: roboto24
+                  text_line_space: 4
+                  selected:
+                    bg_opa: TRANSP
+                    text_font: roboto24
+                    text_color: color_amber
+                  options:
+                    - 60
+                    - 120
+                    - 180
+                    - 300
+                    - 600
+                  visible_row_count: 2
+               #   on_value:
+               #     then:
+               #       - number.set:
+                #          id: display_timeout
+               #           value: !lambda |-
+                #              static const int backlight_time[] = {60, 120, 180, 300, 600};
+                #              return vacuum_power[x];  

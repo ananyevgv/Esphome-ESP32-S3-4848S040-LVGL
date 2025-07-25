@@ -6,6 +6,7 @@ image:
     id: humm_image
     resize: 60x60
     type: RGB565 
+    transparency: alpha_channel 
 #-------------------------------------------
 # SENSOR
 #-------------------------------------------    

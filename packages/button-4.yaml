@@ -65,7 +65,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_button4_icon_0_0
     entity_id: $button4_entity_0_0
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -85,7 +85,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_button4_icon_0_1
     entity_id: $button4_entity_0_1
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -108,7 +108,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_button4_icon_1_0
     entity_id: $button4_entity_1_0
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -128,7 +128,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_button4_icon_1_1
     entity_id: $button4_entity_1_1
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -298,4 +298,3 @@ lvgl:
                         action: $button4_action_1_1
                         data:
                           entity_id: $button4_entity_1_1
-                        

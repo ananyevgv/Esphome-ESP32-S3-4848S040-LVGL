@@ -1,0 +1,241 @@
+#-------------------------------------------
+# NUMBER
+#-------------------------------------------
+number:
+  - platform: template
+    name: "${name} Weather Return Time"
+    optimistic: true
+    id: return_timeout
+    unit_of_measurement: "s"
+    initial_value: 30
+    restore_value: true    
+    min_value: 10
+    max_value: 300
+    step: 5
+    mode: box
+  - platform: template
+    name: "${name} LCD Screen Timeout"
+    optimistic: true
+    id: screen_timeout
+    unit_of_measurement: "s"
+    initial_value: 300
+    restore_value: true    
+    min_value: 10
+    max_value: 300
+    step: 5
+    mode: box
+
+
+#-------------------------------------------
+# LVGL
+#-------------------------------------------
+lvgl:
+  pages:
+# Вывод на экран 
+
+    - id: menu_page
+      widgets:
+      - obj:
+          align: TOP_LEFT
+          styles: home_style
+          width: 480
+          height: 450
+          widgets:
+            - tabview:
+                id: setting_tab
+                position: bottom
+                styles: card
+
+                tab_style:
+                  styles: tab_theme
+                  items:
+                    text_color: 0xE5E5E5
+                    height: 100%
+                    pressed:
+                      text_color: 0xE5E5E5
+                    checked: 
+                      text_color: 0xE5E5E5
+                tabs:
+                  - name: "настройка"
+                    id: setting
+                    widgets:
+      
+                      - obj:
+                          x: 5
+                          y: 80
+                          align: TOP_LEFT
+                          width: 430
+                          height: 30
+                          styles: home_style
+                          layout:
+                            type: FLEX
+                            flex_flow: ROW
+                            flex_align_main: SPACE_BETWEEN
+                            flex_align_cross: CENTER
+                          widgets:
+                            - label:
+                                text: "Яркость экрана"
+                                text_font: roboto24
+                            - label:
+                                text: "0"
+                                text_font: roboto24
+                            - slider:
+                                y: -2
+                                align: BOTTOM_MID
+                                id: slide_brightness
+                                width: 40%
+                                height: 20
+                                value: 100
+                                pad_all: 2
+                                min_value: 5
+                                max_value: 100                                
+                               # indicator:
+                                 # bg_color: 0x003866
+                                 # bg_grad_color: 0x4adeff
+                                  #bg_grad_dir: HOR
+                                 # bg_opa: COVER
+                                #  height: 20
+                                on_release:
+                                  then:
+                                    - light.control:
+                                        id: backlight
+                                        brightness: !lambda return x / 100;
+                                  #  - number.set:
+                                  #      id: backlight
+                                  #      value: !lambda return x;
+                            - label:
+                                text: "100"
+                                
+                                text_font: roboto24
+                      - obj:
+                          x: 5
+                          y: 160
+                          align: TOP_LEFT
+                          width: 200
+                          height: 50
+                          styles: home_style
+                          layout:
+                            type: FLEX
+                            flex_flow: ROW
+                            flex_align_main: START
+                          widgets:
+                            - label:
+                                align: LEFT_MID
+                                text: "Гашение экрана"
+                                text_font: roboto24                             
+                      - obj:
+                          x: -5
+                          y: 155
+                          align: TOP_RIGHT
+                          width: 55%
+                          height: 50
+                          styles: home_style
+                          text_font: roboto24
+                          layout:
+                            type: FLEX
+                            flex_flow: ROW
+                            flex_align_main: END
+                          widgets:                           
+                            - button:
+                                height: 50
+                                width: 50
+                                on_click:
+                                  - lvgl.spinbox.decrement: return_spin
+                                widgets:
+                                  - label:
+                                      text: "-"
+                                      align: CENTER
+                            - spinbox:
+                                width: 100
+                                height: 50
+                                id: return_spin                                
+                                align: BOTTOM_MID
+                                text_font: roboto24
+                                text_align: CENTER
+                                range_from: 10
+                                range_to: 300
+                                step: 5
+                                value: !lambda return id(return_timeout).state;
+                                rollover: false                                
+                                digits: 3
+                                decimal_places: 0                                
+                                on_value:
+                                  then:
+                                    - number.set:
+                                        id: return_timeout
+                                        value: !lambda return x;
+                            - button:
+                                height: 50
+                                width: 50
+                                on_click:
+                                  - lvgl.spinbox.increment: return_spin
+                                widgets:
+                                  - label:
+                                      text: "+"
+                                      align: CENTER                                
+                      - obj:
+                          x: 5
+                          y: 235
+                          align: TOP_LEFT
+                          width: 200
+                          height: 50
+                          styles: home_style
+                          layout:
+                            type: FLEX
+                            flex_flow: ROW
+                            flex_align_main: START
+                          widgets:
+                            - label:
+                                align: LEFT_MID
+                                text: "Время сна(S)"
+                                text_font: roboto24
+                      - obj:
+                          x: -5
+                          y: 230
+                          align: TOP_RIGHT
+                          width: 55%
+                          height: 50
+                          styles: home_style
+                          text_font: roboto24
+                          layout:
+                            type: FLEX
+                            flex_flow: ROW
+                            flex_align_main: END
+                          widgets:                           
+                            - button:
+                                height: 50
+                                width: 50
+                                on_click:
+                                  - lvgl.spinbox.decrement: idle_spin
+                                widgets:
+                                  - label:
+                                      text: "-"
+                                      align: CENTER
+                            - spinbox:
+                                width: 100
+                                height: 50
+                                id: idle_spin
+                                align: BOTTOM_MID                                
+                                text_align: CENTER
+                                text_font: roboto24
+                                range_from: 10
+                                range_to: 300
+                                step: 5
+                                value: !lambda return id(screen_timeout).state;
+                                rollover: false                                
+                                digits: 3
+                                decimal_places: 0                                
+                                on_value:
+                                  then:
+                                    - number.set:
+                                        id: screen_timeout
+                                        value: !lambda return x;
+                            - button:
+                                height: 50
+                                width: 50
+                                on_click:
+                                  - lvgl.spinbox.increment: idle_spin
+                                widgets:
+                                  - label:
+                                      text: "+"
+                                      align: CENTER

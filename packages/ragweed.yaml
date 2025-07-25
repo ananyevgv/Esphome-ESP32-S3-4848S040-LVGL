@@ -1,3 +1,13 @@
+#############################################################################
+#----Страничка с пыльцой амброзии----------------------------------------------
+#############################################################################
+# Add yaml and copy file esphome/packages/
+#packages:
+#
+#  ragweed: !include 
+#    file: packages/ragweed.yaml
+#    vars:
+#      sensor_ragweed: sensor.iaroslavskaia_ragweed_pollen_index
 #-------------------------------------------
 # IMAGE
 #-------------------------------------------
@@ -13,6 +23,8 @@ sensor:
   - platform: homeassistant
     id: ragweed_index
     entity_id: $sensor_ragweed
+    filters:
+      - filter_out: nan
     on_value:
       then:
         - lvgl.label.update:
@@ -109,7 +121,7 @@ lvgl:
             align: TOP_left
             line_width: 300
             line_color: 0xFFFFFF
-            line_rounded: false 
+            line_rounded: false
 # Шкала
         - meter:
             bg_opa: 0%
@@ -196,6 +208,7 @@ lvgl:
             id: display_ragweed_class
             text_color: color_white
             text_font: roboto36
+            text: "нет"
             align: TOP_MID 
         - label:
             text_color: color_white

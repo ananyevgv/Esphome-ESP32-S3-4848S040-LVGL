@@ -56,7 +56,7 @@ script:
             return time_buf; 
 
 time:
-  - platform: sntp
+  - id: !extend sntp_time
     on_time_sync:
       - script.execute: time_update_button8
     on_time:
@@ -75,7 +75,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_button8_icon_0_0
     entity_id: $button8_entity_0_0
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -95,7 +95,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_button8_icon_0_1
     entity_id: $button8_entity_0_1
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -120,7 +120,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_button8_icon_1_0
     entity_id: $button8_entity_1_0
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -140,7 +140,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_button8_icon_1_1
     entity_id: $button8_entity_1_1
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -165,7 +165,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_button8_icon_2_0
     entity_id: $button8_entity_2_0
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -185,7 +185,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_button8_icon_2_1
     entity_id: $button8_entity_2_1
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -205,7 +205,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_button8_icon_2_2
     entity_id: $button8_entity_2_2
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -225,7 +225,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_button8_icon_2_3
     entity_id: $button8_entity_2_3
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -379,10 +379,17 @@ lvgl:
                         text: $button8_icon_1_1
                         id: w_button8_1_1
                   on_click:
-                    homeassistant.action:
-                      action: $button8_action_1_1
-                      data:
-                        entity_id: $button8_entity_1_1   
+                    - homeassistant.action:
+                        action: $button8_action_1_1
+                        data:
+                          entity_id: $button8_entity_1_1  
+                    - lvgl.label.update: 
+                        id: w_button8_1_1
+                        text_color: red
+                    - delay: 0.5s
+                    - lvgl.label.update: 
+                        id: w_button8_1_1
+                        text_color: 0xB6B6B6
                         
 
             ########################
@@ -444,7 +451,7 @@ lvgl:
                     - label:
                         text_font: button8_48
                         align: center
-                        text: $button8_icon_2_2
+                        text: $button8_icon_2_0 # $button8_icon_2_2
                         id: w_button8_2_2
                   on_click:
                     homeassistant.action:
@@ -466,7 +473,7 @@ lvgl:
                     - label:
                         text_font: button8_48
                         align: center
-                        text: $button8_icon_2_3
+                        text: $button8_icon_2_1 #$button8_icon_2_3
                         id: w_button8_2_3
                   on_click:
                     homeassistant.action:

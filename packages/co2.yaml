@@ -3,7 +3,7 @@ substitutions:
 font:
   - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
     id: co2_36
-    size: 36
+    size: 48
     bpp: 4
     glyphs: [
       $co2_icon
@@ -39,7 +39,7 @@ sensor:
             uint16_t vco2= (id(co2).state);
               switch (vco2) {
                 case 0 ... 500: return id(co2_class).publish_state("Отлично");
-                case 601 ... 1000: return id(co2_class).publish_state("Хорошо");
+                case 501 ... 1000: return id(co2_class).publish_state("Хорошо");
                 case 1001 ... 1500: return id(co2_class).publish_state("Слегка загрязненный");
                 case 1501 ... 2000: return id(co2_class).publish_state("Загрязненный");
                 case 2001 ... 5000: return id(co2_class).publish_state("Сильно загрязненный");
@@ -237,6 +237,7 @@ lvgl:
         - label:
             id: display_co2_class
             text_color: color_white
+            text: "Качество воздуха"
             text_font: roboto36
             align: TOP_MID 
             y: 50

@@ -1,3 +1,7 @@
+#############################################################################
+#----Универсальный Пульт (выбрать иконки и коды 
+# при необходимости изменить скрипт (в примере скрипт для LG)
+#############################################################################
 font:
   - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
     id: LG48
@@ -23,7 +27,7 @@ font:
 
 remote_transmitter:
   pin: 
-    number: GPIO1
+    number: $GPIO_IR
     drive_strength: 40mA 
   carrier_duty_percent: 50%
   id: my_transmitter
@@ -33,7 +37,7 @@ globals:
     type: uint32_t 
     restore_value: no
     initial_value: '0x20DF10EF'
-  
+# при необходимости изменить скрипт (в примере скрипт для LG) 
 script:
   - id: transmitter_remote
     then:
@@ -54,7 +58,7 @@ lvgl:
       widgets:
         - image:
             align: CENTER
-            src: $background_lg #lg_image
+            src: $background_lg 
         - button:
             x: 5
             y: 5
@@ -79,7 +83,6 @@ lvgl:
                   id: w_button_lg_0_0
                   text_color: red
                         
-                        
         - button:
             x: 125
             y: 5
@@ -101,7 +104,8 @@ lvgl:
               - delay: 0.5s
               - lvgl.label.update: 
                   id: w_button_lg_0_1
-                  text_color: 0xB6B6B6               
+                  text_color: 0xB6B6B6        
+                  
         - button:
             x: 245
             y: 5
@@ -123,7 +127,8 @@ lvgl:
               - delay: 0.5s
               - lvgl.label.update: 
                   id: w_button_lg_0_2
-                  text_color: 0xB6B6B6               
+                  text_color: 0xB6B6B6      
+                  
         - button:
             x: 365
             y: 5
@@ -200,7 +205,7 @@ lvgl:
                   on_click:
                     - lvgl.label.update: 
                         id: w_button_lg_vol_dw
-                        text_color: red 
+                        text_color: 0x0000FF
                     - lambda: |-
                         id(lg_code) = $lg_code_dw_0;
                         id(transmitter_remote).execute();
@@ -280,7 +285,7 @@ lvgl:
                         text: $buttonLG_icon_1_2
                         align: CENTER
                         id: w_button_lg_1_2
-                  on_click:  
+                  on_click:
                     - lvgl.label.update: 
                         id: w_button_lg_1_2
                         text_color: red 
@@ -327,7 +332,7 @@ lvgl:
                         text: $buttonLG_icon_1_4
                         align: CENTER
                         id: w_button_lg_1_4
-                  on_click: 
+                  on_click:
                     - lvgl.label.update: 
                         id: w_button_lg_1_4
                         text_color: red 
@@ -396,7 +401,7 @@ lvgl:
                   on_click:
                     - lvgl.label.update: 
                         id: w_button_lg_ch_dw
-                        text_color: red 
+                        text_color: 0x0000FF
                     - lambda: |-
                         id(lg_code) = $lg_code_dw_1;
                         id(transmitter_remote).execute();
@@ -427,7 +432,8 @@ lvgl:
               - delay: 0.5s
               - lvgl.label.update: 
                   id: w_button_lg_2_0
-                  text_color: 0xB6B6B6                   
+                  text_color: 0xB6B6B6           
+                  
         - button:
             x: 125
             y: 340
@@ -449,7 +455,8 @@ lvgl:
               - delay: 0.5s
               - lvgl.label.update: 
                   id: w_button_lg_2_1
-                  text_color: 0xB6B6B6                 
+                  text_color: 0xB6B6B6          
+                  
         - button:
             x: 245
             y: 340
@@ -471,7 +478,8 @@ lvgl:
               - delay: 0.5s
               - lvgl.label.update: 
                   id: w_button_lg_2_2
-                  text_color: 0xB6B6B6                
+                  text_color: 0xB6B6B6          
+                  
         - button:
             x: 365
             y: 340

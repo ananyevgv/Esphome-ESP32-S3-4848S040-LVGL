@@ -74,7 +74,7 @@ number:
 switch:
   - platform: gpio
     id: ${room}_switch_thermostat
-    pin: 2
+    pin: $pin_switch_thermostat
     
   - platform: template
     id: climate_toggle

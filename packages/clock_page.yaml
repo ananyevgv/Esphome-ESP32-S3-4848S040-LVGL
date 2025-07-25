@@ -25,18 +25,8 @@ script:
             static const char * const day_names[] = { "ВС","ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ"};
             return day_names[id(sntp_time).now().day_of_week-1];
 
-#-------------------------------------------
-# IMAGE
-#-------------------------------------------
-image:
-  - file: "picture/clok.jpg"
-    id: clok_image
-    resize: 450x450
-    type: RGB565 
-    
-    
 time:
-  - id: !extend sntp_time
+  - platform: sntp
     on_time_sync:
       - script.execute: time_update_clock  
     on_time:
@@ -44,8 +34,6 @@ time:
         seconds: 0
         then:
           - script.execute: time_update_clock
-    
-    
     
 lvgl:
   style_definitions:
@@ -74,7 +62,7 @@ lvgl:
             widgets:
               - image:
                   align: CENTER
-                  src: clok_image
+                  src: $background_clock
                   id: im_clock
                   radius: 20
                   clip_corner: true

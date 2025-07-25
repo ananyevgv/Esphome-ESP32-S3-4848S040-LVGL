@@ -14,6 +14,29 @@
 #     #     #     #     #
 #########################
 
+substitutions:
+  icons_sl4v_0_0: "\U000F18DE" # ceiling_light_multiple_outline
+  icons_sl4v_0_1: "󱊺" #string_lights
+  icons_sl4v_0_2: "󱍖" #television_ambient_light
+  icons_sl4v_0_3: "󱦇" #light_flood_down
+
+
+# Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
+  slider4v_icon_0_0: $icons_sl4v_0_0
+  slider4v_entity_0_0: light.holl_led_0
+
+  slider4v_icon_0_1: $icons_sl4v_0_1
+  slider4v_entity_0_1: light.holl_led_1
+  
+  slider4v_icon_0_2: $icons_sl4v_0_2
+  slider4v_entity_0_2: light.holl_led_2
+
+  slider4v_icon_0_3: $icons_sl4v_0_3
+  slider4v_entity_0_3: light.holl_led_3
+  
+
+  
+  
 font:
   - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
     id: slider4v_48
@@ -36,7 +59,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_slider4v_icon_0_0
     entity_id: $slider4v_entity_0_0
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -56,7 +79,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_slider4v_icon_0_1
     entity_id: $slider4v_entity_0_1
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -76,7 +99,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_slider4v_icon_0_2
     entity_id: $slider4v_entity_0_2
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -96,7 +119,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_slider4v_icon_0_3
     entity_id: $slider4v_entity_0_3
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -385,7 +408,3 @@ lvgl:
                       service: light.toggle
                       data:
                         entity_id: $slider4v_entity_0_3  
-                        
-                        
-
-                     

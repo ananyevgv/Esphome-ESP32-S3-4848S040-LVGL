@@ -1,3 +1,15 @@
+#############################################################################
+#----Страничка ветра-----------------------------------------------------
+#############################################################################
+# Add yaml and copy file esphome/packages/
+#packages:
+#  wind: !include 
+#    file: packages/wind.yaml 
+#    vars:
+#      sensor_wind_speed: sensor.iaroslavskaia_wind_speed
+#      sensor_wind_bearing: sensor.iaroslavskaia_wind_bearing_2
+#############################################################################
+
 #-------------------------------------------
 # IMAGE
 #-------------------------------------------
@@ -54,6 +66,8 @@ text_sensor:
     filters:
       - to_upper
       - substitute:
+        - "UNAVAILABLE ->  " 
+        - "UNKNOWN ->  " 
         - "SW -> Юго-Западный" 
         - "SE -> Юго-Восточный" 
         - "NW -> Северо-Западный" 
@@ -138,14 +152,14 @@ lvgl:
             line_width: 700
             line_color: 0x9412FD
             line_rounded: false 
-         # Черный
+         # белый
         - line:
             points:
               - 105, 585
               - 345, 345
             align: TOP_left
             line_width: 300
-            line_color: 0x000000
+            line_color: 0xffffff
             line_rounded: false 
 # Шкала
         - meter:
@@ -243,10 +257,10 @@ lvgl:
             y: 50
         - label:
             text: $windy
-            text_color: color_white
+            text_color: color_blue
             text_font: weather36
-            align: BOTTOM_MID
-            y: -40
+            align: center #BOTTOM_MID
+            y: -30
             
      #   - image:
       #      align: CENTER

@@ -16,11 +16,6 @@
 #       #       #       #       #
 #################################
 
-image:
-  - file: "picture/baxi.jpg"
-    id: boiler_image
-    resize: 480x480
-    type: RGB565 
 font:
   - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
     id: icons_boiler_48
@@ -51,13 +46,55 @@ font:
     glyphs: [
       $icons_boiler_f_0
     ]   
-
+    
+    
+number:
+  - platform: homeassistant
+    id: number_0
+    entity_id: $number_boiler_0
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: setpoint_boiler_0
+            text: 
+              format: " %.1f °C"
+              args: ["id(number_0).state"]  
+  - platform: homeassistant
+    id: number_1
+    entity_id: $number_boiler_1
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: setpoint_boiler_1
+            text: 
+              format: " %.0f °C"
+              args: ["id(number_1).state"]   
+  - platform: homeassistant
+    id: number_2
+    entity_id: $number_boiler_2
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: setpoint_boiler_2
+            text: 
+              format: " %.0f °C"
+              args: ["id(number_2).state"]  
+  - platform: homeassistant
+    id: number_3
+    entity_id: $number_boiler_3
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: setpoint_boiler_3
+            text: 
+              format: " %.0f"
+              args: ["id(number_3).state"]  
 #-------------------------------------------
 # SENSOR
 #-------------------------------------------    
 sensor:
   - platform: homeassistant
-    id: modulation
+    id: s_modulation
     entity_id: $sensor_modulation
     on_value:
       then:
@@ -65,7 +102,47 @@ sensor:
             id: flame_modulation
             text: 
               format: " %.0f %%"
-              args: ["id(modulation).state"]
+              args: ["id(s_modulation).state"]
+  - platform: homeassistant
+    id: current_0
+    entity_id: $sensor_current_boiler_0
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: current_boiler_0
+            text: 
+              format: " %.1f °C"
+              args: ["id(current_0).state"] 
+  - platform: homeassistant
+    id: current_1
+    entity_id: $sensor_current_boiler_1
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: current_boiler_1
+            text: 
+              format: " %.0f °C"
+              args: ["id(current_1).state"]        
+  - platform: homeassistant
+    id: current_2
+    entity_id: $sensor_current_boiler_2
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: current_boiler_2
+            text: 
+              format: " %.0f °C"
+              args: ["id(current_2).state"]
+  - platform: homeassistant
+    id: current_3
+    entity_id: $sensor_current_boiler_3
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: current_boiler_3
+            text: 
+              format: " %.0f"
+              args: ["id(current_3).state"]
               
 #-------------------------------------------
 # TEXT SENSOR
@@ -87,7 +164,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_icons_boiler_f_0
     entity_id: $boiler_entity_f_0
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -98,7 +175,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_icons_boiler_a_0
     entity_id: $boiler_entity_a_0
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -109,7 +186,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_icons_boiler_a_1
     entity_id: $boiler_entity_a_1
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -120,7 +197,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_icons_boiler_a_2
     entity_id: $boiler_entity_a_2
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -131,7 +208,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_icons_boiler_a_3
     entity_id: $boiler_entity_a_3
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -142,7 +219,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_icons_boiler_a_4
     entity_id: $boiler_entity_a_4
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -153,7 +230,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_icons_boiler_a_5
     entity_id: $boiler_entity_a_5
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -164,7 +241,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_icons_boiler_a_6
     entity_id: $boiler_entity_a_6
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -175,7 +252,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_icons_boiler_a_7
     entity_id: $boiler_entity_a_7
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -191,7 +268,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_boiler_icon_0_0
     entity_id: $boiler_entity_0_0
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -211,7 +288,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_boiler_icon_0_1
     entity_id: $boiler_entity_0_1
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -231,7 +308,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_boiler_icon_0_2
     entity_id: $boiler_entity_0_2
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -252,7 +329,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_boiler_icon_0_3
     entity_id: $boiler_entity_0_3
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -275,7 +352,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_boiler_icon_1_0
     entity_id: $boiler_entity_1_0
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -295,7 +372,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_boiler_icon_1_1
     entity_id: $boiler_entity_1_1
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -315,7 +392,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_boiler_icon_1_2
     entity_id: $boiler_entity_1_2
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -335,7 +412,7 @@ binary_sensor:
   - platform: homeassistant
     name: bin_boiler_icon_1_3
     entity_id: $boiler_entity_1_3
-    publish_initial_state: true
+    trigger_on_initial_state: true
     #internal: true
     on_state:
       then:
@@ -528,7 +605,7 @@ lvgl:
                         align: TOP_MID
                         width: 100
                         height: 35
-                        y: -10
+                        y: -6
                         checkable: false
                         widgets:
                           - label:
@@ -536,6 +613,7 @@ lvgl:
                               text: "+"
                               align: CENTER
                         on_click:
+                         # - number.increment: number_0
                           - homeassistant.service:
                               service: input_number.increment
                               data: 
@@ -563,7 +641,7 @@ lvgl:
                         align:  BOTTOM_MID
                         width: 100
                         height: 35
-                        y: 8
+                        y: 7
                         checkable: false
                         bg_color: 0x0000FF
                         widgets:
@@ -572,6 +650,7 @@ lvgl:
                               text: "-"
                               align: CENTER
                         on_click:
+                         # - number.decrement: number_0
                           - homeassistant.service:
                               service: input_number.decrement
                               data: 
@@ -597,7 +676,7 @@ lvgl:
                         align: TOP_MID
                         width: 100
                         height: 35
-                        y: -10
+                        y: -6
                         checkable: false
                         widgets:
                           - label:
@@ -605,10 +684,8 @@ lvgl:
                               text: "+"
                               align: CENTER
                         on_click:
-                          - homeassistant.service:
-                              service: input_number.increment
-                              data: 
-                                entity_id: $number_boiler_1
+                          - number.increment: number_1
+
                     - label:
                         id: current_boiler_1
                         text_font: roboto24
@@ -632,7 +709,7 @@ lvgl:
                         align: BOTTOM_MID
                         width: 100
                         height: 35
-                        y: 8
+                        y: 7
                         checkable: false
                         bg_color: 0x0000FF
                         widgets:
@@ -641,10 +718,7 @@ lvgl:
                               text: "-"
                               align: CENTER
                         on_click:
-                          - homeassistant.service:
-                              service: input_number.decrement
-                              data: 
-                                entity_id: $number_boiler_1
+                          - number.decrement: number_1
                   on_click:
                     - homeassistant.service:
                         service: switch.toggle
@@ -666,7 +740,7 @@ lvgl:
                         align: TOP_MID
                         width: 100
                         height: 35
-                        y: -10
+                        y: -6
                         checkable: false
                         widgets:
                           - label:
@@ -674,10 +748,7 @@ lvgl:
                               text: "+"
                               align: CENTER
                         on_click:
-                          - homeassistant.service:
-                              service: input_number.increment
-                              data: 
-                                entity_id: $number_boiler_2
+                          - number.increment: number_2
                     - label:
                         id: current_boiler_2
                         text_font: roboto24
@@ -701,7 +772,7 @@ lvgl:
                         align: BOTTOM_MID
                         width: 100
                         height: 35
-                        y: 8
+                        y: 7
                         checkable: false
                         bg_color: 0x0000FF
                         widgets:
@@ -710,10 +781,7 @@ lvgl:
                               text: "-"
                               align: CENTER
                         on_click:
-                          - homeassistant.service:
-                              service: input_number.decrement
-                              data: 
-                                entity_id: $number_boiler_2
+                          - number.decrement: number_2
                   on_click:
                     - homeassistant.service:
                         service: switch.toggle
@@ -736,7 +804,7 @@ lvgl:
                         align: TOP_MID
                         width: 100
                         height: 35
-                        y: -10
+                        y: -6
                         checkable: false
                         widgets:
                           - label:
@@ -744,10 +812,7 @@ lvgl:
                               text: "+"
                               align: CENTER
                         on_click:
-                          - homeassistant.service:
-                              service: input_number.increment
-                              data: 
-                                entity_id: $number_boiler_3
+                          - number.increment: number_3
                     - label:
                         id: current_boiler_3
                         text_font: roboto24
@@ -771,7 +836,7 @@ lvgl:
                         align: BOTTOM_MID
                         width: 100
                         height: 35
-                        y: 8
+                        y: 7
                         checkable: false
                         bg_color: 0x0000FF
                         widgets:
@@ -780,10 +845,7 @@ lvgl:
                               text: "-"
                               align: CENTER
                         on_click:
-                          - homeassistant.service:
-                              service: input_number.decrement
-                              data: 
-                                entity_id: $number_boiler_3
+                          - number.decrement: number_3
                   on_click:
                     - homeassistant.service:
                         service: switch.toggle
