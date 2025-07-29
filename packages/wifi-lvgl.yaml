@@ -24,8 +24,9 @@ api:
               text_color: color_dark_gray
               
 ota:
-  password: !secret ota_pass
-  platform: esphome
+  - platform: esphome
+    password: !secret ota_pass
+    
 
 
   
