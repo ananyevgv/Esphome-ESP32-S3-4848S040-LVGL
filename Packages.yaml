@@ -695,13 +695,19 @@ packages:
       vacuum_entity_1_1: light.holl_led_5
 
 #############################################################################
-#----Страничка управления  шторой--------------------------------------------
+#----Страничка управление шторами-----------------------------------------------------
 #############################################################################
   shutter: !include
-    file: packages/display/shutter.yaml
+    file: packages/display/shutter.yaml    # управление 1 шторой
+    # file: packages/display/shutter2.yaml # управление 2 шторами
+    # file: packages/display/shutter4.yaml # управление 4 шторами
     vars:
       background_shutter: back6
       shutter_0: "cover.hall_window"
+      shutter_1: "cover.hall_window"
+      shutter_2: "cover.hall_window"
+      shutter_3: "cover.hall_window"
+
     
 #############################################################################
 #----Страничка управления двумя шторами--------------------------------------
