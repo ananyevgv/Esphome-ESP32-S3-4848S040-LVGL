@@ -35,7 +35,7 @@ substitutions:
 font:
   - file: "font/icons.ttf"
     id: shutter_font_icon
-    size: 200
+    size: 250
     bpp: 4
     glyphs: [
       $shutter_open_icon, 
@@ -112,7 +112,7 @@ text_sensor:
       then:
         - lvgl.label.update:
             id: shutter_widget_state_0
-
+            text: !lambda return x;
 #-------------------------------------------
 # LVGL
 #-------------------------------------------
@@ -124,7 +124,7 @@ lvgl:
       bg_opa: cover
       widgets:
         - image:
-            align: CENTER
+            align: LEFT_MID #CENTER
             src: $background_shutter
         - obj:
             bg_opa: TRANSP
@@ -162,7 +162,7 @@ lvgl:
                         text_font: roboto24
                         id: shutter_widget_name_0
                         align: top_mid
-                        text: "нетдоступно"
+                        text: "недоступно"
                         long_mode: dot
                     - label:                        
                         text_font: roboto24
@@ -177,11 +177,27 @@ lvgl:
                         align: bottom_mid
                         text: "-- %"
                         long_mode: dot  
-                  on_click:
+                  on_short_click:
                     - homeassistant.action:
                         action: cover.toggle
                         data:
-                          entity_id: "${shutter_0}"         
+                          entity_id: "${shutter_0}" 
+                  on_long_press:
+                    - homeassistant.action:
+                        action: cover.stop_cover
+                        data:
+                          entity_id: "${shutter_0}" 
+                  on_swipe_up:
+                    - homeassistant.action:
+                        action: cover.open_cover
+                        data:
+                          entity_id: "${shutter_0}"                          
+                  on_swipe_down:         
+                    - homeassistant.action:
+                        action: cover.close_cover
+                        data:
+                          entity_id: "${shutter_0}"   
+                          
             ########### UP ############# 
               - button:
                   checkable: false
