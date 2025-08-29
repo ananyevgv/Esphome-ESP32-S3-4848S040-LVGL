@@ -123,5 +123,5 @@ https://github.com/albert-canfield/HA-panel-esphome
 
 https://github.com/GlennGoddard/CanvasGaugeBackgrounds
 
-# Weather_anime позаимствован от сюда, картинки там же
+# Weather_anime позаимствован от сюда, картинки и шрифт icons там же
 https://github.com/alaltitov/display
