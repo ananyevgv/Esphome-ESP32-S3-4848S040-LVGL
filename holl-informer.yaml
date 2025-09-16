@@ -1,0 +1,837 @@
+#https://github.com/bearpawmaxim/esphome-configs/blob/master/water-guard.yaml
+
+substitutions:
+  name: "holl-informer"
+  device_description: "Выключатель холл"
+  characters: " !#%'()+=,-_.:³°/μ0123456789АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧЩШЬЫЪЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZабвгдеёжзийклмнопрстуфхцчшщьыъэюяabcdefghijklmnopqrstuvwxyz"
+  number_characters: " :.-0123456789"
+
+# Icon page setting_page
+  botton_icon0: "\U000F0FD0" #bed-queen
+  botton_page0: button10_page
+  collor_page0: color_crimson
+  
+  botton_icon1: "󱠝" #countertop_outline
+  botton_page1: button8_page
+  collor_page1: color_blue
+
+  botton_icon2: "\U000F0454" # remote
+  botton_page2: lg_remoute
+  collor_page2: color_mint
+
+  botton_icon3: "\U000F0F54" # 
+  botton_page3: thermostat_page
+  collor_page3: color_green
+  
+  botton_icon4: "\U000F0299" # 
+  botton_page4: button4_page
+  collor_page4: color_yellow
+
+  botton_icon5: "\U000F111C" #F08BB" 
+  botton_page5: shutter_page
+  collor_page5: color_orange
+
+  background_boot: back6
+
+#-------------------------------------------
+# Packages
+#-------------------------------------------
+packages:
+  wifi: !include packages/display/wifi-lvgl.yaml
+  
+  weather: !include 
+    file: packages/display/weather.yaml # выбрать один из трех weather
+    vars:
+      background_weather: back6
+      sensor_weather: weather.iaroslavskaia
+
+#############################################################################
+#----Страничка 10 кнопок холл-----------------------------------------------
+#############################################################################
+  button10: !include 
+    file: packages/display/button-10.yaml
+    vars:
+      pref_id: holl
+      background_button10: back6
+    # Кнопки 0 ряд
+      button10_icon_0_0:  "\U000F0335" # lightbulb "\U000F18DD" # ceiling_light_multiple
+      button10_entity_0_0: light.holl_led_1
+      button10_text_0_0: "Холл 1л"
+      button10_action_0_0: light.toggle
+      button10_checkable_0_0: "true"
+
+      button10_icon_0_1: "\U000F1255" # lightbulb-multiple "\U000F18DE" # ceiling_light_multiple_outline
+      button10_entity_0_1: light.holl_led_2
+      button10_text_0_1: "Холл 2л"
+      button10_action_0_1: light.toggle
+      button10_checkable_0_1: "true"
+
+    # Кнопки 1 ряд
+      button10_icon_1_0: "\U000F1793" # chandelier
+      button10_entity_1_0: light.in_shower
+      button10_action_1_0: light.toggle
+      button10_checkable_1_0: "true"
+
+      button10_icon_1_1: "\U000F09A0" # shower
+      button10_entity_1_1: light.shower
+      button10_action_1_1: "light.toggle"
+      button10_checkable_1_1: "true"
+
+      button10_icon_1_2: "\U000F081A" # door
+      button10_entity_1_2: light.vihod
+      button10_action_1_2: "light.toggle"
+      button10_checkable_1_2: "true"
+
+      button10_icon_1_3: "\U000F1020" # coach_lamp
+      button10_entity_1_3: light.vhod
+      button10_action_1_3: "light.toggle"
+      button10_checkable_1_3: "true"
+
+    # Кнопки 2 ряд
+      button10_icon_2_0: "\U000F0820" # lightning-bolt-circle
+      button10_entity_2_0: light.laba
+      button10_action_2_0: "light.toggle"
+      button10_checkable_2_0: "true"
+
+      button10_icon_2_1: "\U000F11DC" # window-open-variant
+      button10_entity_2_1: light.garderob
+      button10_action_2_1: "light.toggle"
+      button10_checkable_2_1: "true"
+
+      button10_icon_2_2: "\U000F028F" # fridge-outline
+      button10_entity_2_2: light.kladovka
+      button10_action_2_2: "light.toggle"
+      button10_checkable_2_2: "true"
+
+      button10_icon_2_3: "\U000F08F3" # nas
+      button10_entity_2_3: light.server
+      button10_action_2_3: "light.toggle"
+      button10_checkable_2_3: "true"
+#############################################################################
+#----Страничка 8 кнопок кухня-----------------------------------------------
+#############################################################################
+  button8: !include
+    file: packages/display/button-8.yaml
+    vars:
+      background_button8: back6
+    # Кнопки 0 ряд
+      button8_icon_0_0: "\U000F18DD" # ceiling_light_multiple
+      button8_entity_0_0: light.kitchen_n
+      button8_text_0_0: "Кухня низ"
+      button8_action_0_0: "light.toggle"
+      button8_checkable_0_0: "true"
+
+      button8_icon_0_1:  "\U000F18DE" # ceiling_light_multiple_outline
+      button8_entity_0_1: light.kitchen_v
+      button8_text_0_1: "Кухня верх"
+      button8_action_0_1: "light.toggle"
+      button8_checkable_0_1: "true"
+
+    # Кнопки 1 ряд
+      button8_icon_1_0: "\U000F1987" # light_flood_down
+      button8_entity_1_0: switch.wi_fi_smart_switch_switch_1
+      button8_action_1_0: "switch.toggle"
+      button8_checkable_1_0: "true"
+
+      button8_icon_1_1: "\U000F07F4" # television-classic
+      button8_entity_1_1: button.kitchen_clock_power_lg
+      button8_action_1_1: "button.press"
+      button8_checkable_1_1: "false"
+
+    # Кнопки 2 ряд
+      button8_icon_2_0: "\U000F12BA" # string_lights
+      button8_entity_2_0: light.kitchen_lighting_ch0
+      button8_action_2_0: "light.toggle"
+      button8_checkable_2_0: "true"
+
+      button8_icon_2_1: "\U000F1356" # television-ambient-light
+      button8_entity_2_1: light.kitchen_lighting_ch1
+      button8_action_2_1: "light.toggle"
+      button8_checkable_2_1: "true"
+
+      button8_icon_2_2: "\U000F0748" # wall-sconce-flat
+      button8_entity_2_2: light.kitchen_lighting_ch2
+      button8_action_2_2: "light.toggle"
+      button8_checkable_2_2: "true"
+
+      button8_icon_2_3: "\U000F091D" # wall-sconce-flat
+      button8_entity_2_3: light.kitchen_lighting_ch3
+      button8_action_2_3: "light.toggle"
+      button8_checkable_2_3: "true"
+
+#############################################################################
+#----Страничка 4 кнопоки улица-----------------------------------------------------
+#############################################################################
+  button4: !include
+    file: packages/display/button-4.yaml
+    vars:
+      background_button4: back6
+
+      button4_icon_0_0: "\U000F116A" # gate-open
+      button4_entity_0_0: switch.sonoff_1000fd870d_1
+      button4_text_0_0: "Ворота"
+      button4_action_0_0: "script.vorota"
+      button4_checkable_0_0: "false"
+
+      button4_icon_0_1: "\U000F1169" # gate-arrow-right
+      button4_entity_0_1: switch.sonoff_1000fd870d_2
+      button4_text_0_1: "Ворота 1/2"
+      button4_action_0_1: "script.vorota_1_2"
+      button4_checkable_0_1: "false"
+
+      button4_icon_1_0: "\U000F0299" # gate
+      button4_entity_1_0: switch.sonoff_1000fd870d_3
+      button4_text_1_0: "Закрыть"
+      button4_action_1_0: "script.vorota_close"
+      button4_checkable_1_0: "false"
+
+      button4_icon_1_1: "\U000F07AE" # cctv
+      button4_entity_1_1: light.cam
+      button4_text_1_1: "Камеры"
+      button4_action_1_1: "light.toggle"
+      button4_checkable_1_1: "true"
+#############################################################################
+#----Страничка управления двумя шторами--------------------------------------
+#############################################################################
+  shutter: !include
+    file: packages/display/shutter2.yaml
+    vars:
+      background_shutter: back6
+      shutter_0: "cover.holl_l_curtain"
+      shutter_1: "cover.holl_p_curtain"
+
+
+#############################################################################
+#----Страничка телевизора TV LG----------------------------------------------
+#############################################################################
+  lg: !include 
+    file: packages/display/lg_light.yaml  
+    vars:
+      background_lg: back6
+      GPIO_IR: GPIO1
+
+      buttonLG_icon_0_0: "\U000F0425" # power
+      buttonLG_icon_0_1: "\U000F02FA" # input
+      buttonLG_icon_0_2: "\U000F06A1" # home_outline
+      buttonLG_icon_0_3: "\U000F0BAB" # menu_open
+
+      lg_code_0_0: "0x20DF10EF" # power on/off
+      lg_code_0_1: "0x20DFD02F" # input
+      lg_code_0_2: "0x20DF3EC1" # home
+      lg_code_0_3: "0x20DF42BD" # MyAPP
+    # 2-3 строка пульта  
+      buttonLG_icon_up: "\U000F0415" # plus
+      buttonLG_icon_dw: "\U000F0374" #  minus
+      lg_code_up_0: "0x20DF40BF" # VolUp
+      lg_code_dw_0: "0x20DFC03F" # VolDwn
+      lg_code_up_1: "0x20DF00FF" # CHlUp
+      lg_code_dw_1: "0x20DF807F"# CHDwn
+      
+      buttonLG_icon_1_0: "\U000F0360" # menu_up
+      buttonLG_icon_1_1: "\U000F035E" # menu_left
+      buttonLG_icon_1_2: "\U000F035D" # menu_down
+      buttonLG_icon_1_3: "\U000F035F" # menu_right
+      buttonLG_icon_1_4: "\U000F0133" # checkbox
+
+      lg_code_1_0: "0x20DF02FD" # UP
+      lg_code_1_1: "0x20DF827D" # Dwn
+      lg_code_1_2: "0x20DFE01F" # Left
+      lg_code_1_3: "0x20DF609F" # Right
+      lg_code_1_4: "0x20DF22DD" # OK
+    # Четвертая строчка пульта
+      buttonLG_icon_2_0: "\U000F040A" # play
+      buttonLG_icon_2_1: "\U000F03E4" # pause
+      buttonLG_icon_2_2: "\U000F04DB" # stop
+      buttonLG_icon_2_3: "\U000F044A" #  record
+
+      lg_code_2_0: "0x20DF0DF2" # play
+      lg_code_2_1: "0x20DF5DA2" # pause
+      lg_code_2_2: "0x20DF8D72" # stop
+      lg_code_2_3: "0x20DFBD42" #  record
+
+#############################################################################
+#----Страничка посудомойки --------------------------------------------------
+#############################################################################
+  dishwasher: !include 
+    file: packages/display/dishwasher.yaml
+    vars:
+      sensor_dishwasher_percent: sensor.siemens_dishwasher_program_progress
+      sensor_dishwasher_time: sensor.siemens_dishwasher_remaining_program_time 
+
+  barometr: !include 
+    file: packages/display/barometr_page.yaml 
+    vars:
+      sensor_temperature: sensor.holl_clock_temperature
+      sensor_pressure: sensor.holl_clock_pressure
+
+  humm-out: !include 
+    file: packages/display/humm-out.yaml
+    vars:
+      sensor_humidity_out: sensor.iaroslavskaia_humidity
+      
+  geomag: !include 
+    file: packages/display/geomag.yaml
+    vars:
+      sensor_geomagnetic: sensor.iaroslavskaia_geomagnetic_field
+
+  UV: !include 
+    file: packages/display/UV.yaml
+    vars:
+      sensor_uv_index: sensor.iaroslavskaia_uv_index
+
+  wind: !include 
+    file: packages/display/wind.yaml 
+    vars:
+      sensor_wind_speed: sensor.iaroslavskaia_wind_speed
+      sensor_wind_bearing: sensor.iaroslavskaia_wind_bearing_2
+
+  iaq: !include
+    file: packages/display/iaq.yaml
+    vars:
+      sensor_iaq: sensor.holl_clock_iaq
+
+  co2: !include
+    file: packages/display/co2.yaml
+    vars:
+      sensor_co2: sensor.holl_clock_co2
+
+  voc: !include
+    file: packages/display/voc.yaml
+    vars:
+      sensor_voc: sensor.holl_clock_voc
+      
+  birch: !include
+    file: packages/display/birch.yaml
+    vars:
+      sensor_birch: sensor.iaroslavskaia_birch_pollen_index
+
+  grass: !include 
+    file: packages/display/grass.yaml
+    vars:
+      sensor_grass: sensor.iaroslavskaia_grass_pollen_index
+
+  ragweed: !include 
+    file: packages/display/ragweed.yaml
+    vars:
+      sensor_ragweed: sensor.iaroslavskaia_ragweed_pollen_index
+
+  humm: !include 
+    file: packages/display/humm.yaml
+    vars:
+      sensor_humidity: sensor.holl_clock_humidity
+
+  termostat: !include 
+    file: packages/display/termostat.yaml
+    vars:
+      room: holl
+      pin_switch_thermostat: GPIO2
+      thermostat_entity_switch: holl_switch_thermostat
+      thermostat_entity_sensor: sensor.holl_clock_temperature
+
+
+  settings: !include packages/display/settings.yaml
+
+#-------------------------------------------
+# ESPHOME PLATFORM SETTINGS
+#-------------------------------------------
+esphome:
+  name: "${name}"
+  comment: "${device_description}"
+  platformio_options:
+
+    board_build.flash_mode: dio
+    build_flags: "-DBOARD_HAS_PSRAM"
+    board_build.arduino.memory_type: qio_opi
+    board_build.psram_type: opi
+    board_upload.maximum_size: 16777216
+    board_upload.maximum_ram_size: 524288
+
+  on_boot:
+    - light.turn_on: backlight
+    - delay: 5s
+    - lvgl.widget.hide: boot_screen
+    - lvgl.slider.update:
+        id: dimmer_slider
+        value: !lambda return id(backlight).remote_values.get_brightness() * 100;
+
+#-------------------------------------------
+# ESP MCU SETTINGS for
+# Guition ESP32-S3-4848S040
+#-------------------------------------------
+esp32:
+  board: esp32-s3-devkitc-1
+  variant: esp32s3
+  flash_size: 16MB
+  framework:
+    type: esp-idf
+    sdkconfig_options:
+      CONFIG_ESP32S3_DEFAULT_CPU_FREQ_240: "y"
+      CONFIG_ESP32S3_DATA_CACHE_64KB: "y"
+      CONFIG_ESP32S3_DATA_CACHE_LINE_64B: "y"
+      CONFIG_SPIRAM_FETCH_INSTRUCTIONS: y
+      CONFIG_SPIRAM_RODATA: y
+     # CONFIG_ESP32_S3_BOX_BOARD: "y"
+    #components:
+    #  - name: esp32_s3_box_3_board
+    #    source: github://jesserockz/esp32-s3-box-3-board@main
+     #   refresh: 0s
+#-------------------------------------------
+# Logger #32 356 байт
+#-------------------------------------------
+logger: 
+
+i2c:
+    sda: GPIO19
+    scl: GPIO45
+
+spi:
+    clk_pin: GPIO48
+    mosi_pin: GPIO47
+
+#-------------------------------------------
+# PSRAM
+#-------------------------------------------
+psram:
+  mode: octal
+  speed: 80MHz
+
+# ----------------------------------------- #
+# -------------- COLORS ------------------- #
+# ----------------------------------------- #
+color:
+  - id: color_black
+    hex: 0d0d0d
+  - id: color_dark_gray
+    hex: 333333
+  - id: color_gray
+    hex: 666666
+  - id: color_white
+    hex: f2f0eb
+  - id: color_red
+    hex: ff0000
+  - id: color_crimson
+    hex: f5075c
+  - id: color_blue
+    hex: 2fc0ff
+  - id: color_yellow
+    hex: e7c12c
+  - id: color_amber
+    hex: f4a900
+  - id: color_mint
+    hex: 39d19c
+  - id: color_green
+    hex: 00ff00
+  - id: color_orange
+    hex: f07c40
+  - id: color_deep_orange
+    hex: ff6600
+  - id: color_violet
+    hex: 9670d6
+  - id: color_dark_blue
+    hex: 4867aa
+
+
+#-------------------------------------------
+# TIME
+#-------------------------------------------
+time:
+  - platform: sntp
+    id: sntp_time
+    timezone: UTC-3 #Europe/Moscow
+    servers: !secret sntp
+    on_time:
+      - minutes: 25
+        seconds: 0
+        then:
+          - switch.turn_on: switch_antiburn
+      - minutes: 55
+        seconds: 0
+        then:
+          - switch.turn_off: switch_antiburn
+
+#-------------------------------------------
+# IMAGE
+#-------------------------------------------
+image:
+ # - file: "picture/clok.jpg"
+ #   id: clok_image
+ #   resize: 450x450
+ #   type: RGB565 
+ # - file: 'picture/ha_logo.png'
+ #   id: boot_logo
+ #   resize: 200x200
+ #   type: RGB565
+ #   use_transparency: true
+  - file: 'picture/back6.png'
+    id: back6
+    type: RGB565
+  #- file: 'picture/back7.png'
+  #  id: back7
+  #  type: RGB565
+
+#-------------------------------------------
+# FONT
+#-------------------------------------------
+font:   
+  - file: "gfonts://Roboto"
+    id: roboto36
+    glyphs: ${characters}
+    size: 36
+    bpp: 4     
+
+  - file: "gfonts://Roboto"
+    id: roboto24
+    glyphs: ${characters}
+    size: 24
+    bpp: 4  
+
+  - file: "font/DSEG7ModernMini-Bold.ttf"
+    id: SEG36
+    glyphs: ${number_characters}
+ #     :.-0123456789
+    size: 36
+
+    bpp: 4  
+  - file: "gfonts://Roboto"
+    id: menu24
+    size: 24
+    bpp: 4
+    extras:
+      - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+        glyphs: [
+          "\U000F06A1",
+          "\U000F0141",
+          "\U000F0142"
+        ]
+
+#-------------------------------------------
+# switch
+#-------------------------------------------
+switch:
+#-------------------------------------------
+# Локальные реле
+#-------------------------------------------
+  - platform: gpio
+    id: relay_1
+    pin: 40
+ # - platform: gpio
+ #   id: relay_2
+ #   pin: 2
+ # - platform: gpio
+ #   id: relay_3
+  #  pin: 1
+
+  - platform: template
+    name: Antiburn
+    id: switch_antiburn
+    icon: mdi:television-shimmer
+    optimistic: true
+    entity_category: "config"
+    turn_on_action:
+      - logger.log: "Starting Antiburn"
+      - if:
+          condition: lvgl.is_paused
+          then:
+            - lvgl.resume:
+            - lvgl.widget.redraw:
+            - delay: 1s
+      - lvgl.pause:
+          show_snow: true
+    turn_off_action:
+      - logger.log: "Stoping Antiburn"
+      - if:
+          condition: lvgl.is_paused
+          then:
+            - lvgl.resume:
+            - lvgl.widget.redraw:
+            - delay: 1s
+            - lvgl.pause:
+
+#-------------------------------------------
+# Buttons
+#-------------------------------------------
+button:
+  - platform: restart
+    name: "restart"
+    id: restart_button
+  - platform: template
+    name: "Next page"
+    on_press:
+      then:
+        lvgl.page.next:    
+
+#-------------------------------------------
+# Outputs
+#-------------------------------------------
+output:
+  - platform: ledc
+    pin: GPIO38
+    id: GPIO38
+    frequency: 100Hz
+    
+#-------------------------------------------
+# LIGHTS
+#
+#  value: !lambda return (id(backlight).state)->brightness  *100; -------------------------------------------
+light:
+  - platform: monochromatic
+    output: GPIO38
+    name: Backlight
+    id: backlight
+    icon: mdi:television-ambient-light
+    on_state:
+      - lvgl.slider.update:
+          id: dimmer_slider
+          value: !lambda return id(backlight).remote_values.get_brightness() * 100;
+      - logger.log: "Light turned on with previous brightness setting"
+#-------------------------------------------
+# Number
+#-------------------------------------------
+number:
+  - platform: template
+    name: LVGL Screen timeout
+    optimistic: true
+    id: display_timeout
+    unit_of_measurement: "s"
+    initial_value: 45
+    restore_value: true
+    min_value: 10
+    max_value: 180
+    step: 5
+    mode: box
+ 
+#-------------------------------------------
+# TOUCHSCREEN
+#-------------------------------------------
+touchscreen:
+  platform: gt911
+  transform:
+    mirror_x: false
+    mirror_y: false
+  id: my_touchscreen
+  display: my_display
+  on_release:
+    then:
+      - if:
+          condition: lvgl.is_paused
+          then:
+            - lvgl.resume:
+            - lvgl.widget.redraw:
+            - logger.log: "LVGL resuming"
+      - light.turn_on: backlight
+
+#-------------------------------------------
+# DISPLAY
+#-------------------------------------------
+display:
+  - platform: st7701s
+    id: my_display
+    update_interval: never
+    auto_clear_enabled: False
+    spi_mode: MODE3
+    data_rate: 2MHz
+    #rotation: 90
+    color_order: RGB
+    invert_colors: False
+    dimensions:
+      width: 480
+      height: 480
+    cs_pin: 39
+    de_pin: 18
+    hsync_pin: 16
+    vsync_pin: 17
+    pclk_pin: 21
+    pclk_frequency: 12MHz
+    pclk_inverted: False
+    hsync_pulse_width: 8
+    hsync_front_porch: 10
+    hsync_back_porch: 20
+    vsync_pulse_width: 8
+    vsync_front_porch: 10
+    vsync_back_porch: 10
+    init_sequence:
+      - 1
+      # Custom sequences are an array, first byte is command, the rest are data.
+      - [ 0xFF, 0x77, 0x01, 0x00, 0x00, 0x10 ] # CMD2_BKSEL_BK0
+      - [ 0xCD, 0x00 ] # disable MDT flag
+    data_pins:
+      red:
+        - 11        #r1
+        - 12        #r2
+        - 13        #r3
+        - 14        #r4
+        - 0         #r5
+      green:
+        - 8         #g0
+        - 20        #g1
+        - 3         #g2
+        - 46        #g3
+        - 9         #g4
+        - 10        #g5
+      blue:
+        - 4         #b1
+        - 5         #b2
+        - 6         #b3
+        - 7         #b4
+        - 15        #b5   
+
+
+#-------------------------------------------
+# WEB 51 112 bytes
+#-------------------------------------------
+#web_server:
+#  port: 80
+#  version: 3
+#  local: true
+#  auth:
+#    username: !secret web_user
+#    password: !secret web_pass
+
+        
+#-------------------------------------------   
+# LVGL
+#-------------------------------------------    
+lvgl:
+  displays:
+    -  my_display
+  touchscreens:
+    -  my_touchscreen
+
+  on_idle:
+    timeout: !lambda "return (id(display_timeout).state * 1000);"
+    then:
+      - logger.log: "LVGL is idle"
+      - light.turn_off: backlight
+      - lvgl.pause:
+
+  style_definitions:
+    - id: style_line
+      line_color: 0x0000FF
+      line_width: 8
+      line_rounded: true
+
+    - id: header_footer
+      bg_color: 0x2F8CD8
+      bg_grad_color: 0x005782
+      bg_grad_dir: VER
+      bg_opa: cover
+      border_width: 0
+      radius: 0
+      pad_all: 0
+     # pad_row: 0
+     # pad_column: 0
+      border_color: 0x0077b3
+      text_color: 0xFFFFFF
+      width: 100%
+      height: 30
+
+  theme:
+    button:
+      text_font: menu24
+      scroll_on_focus: true
+      radius: 25
+      width: 110
+      height: 100
+      bg_color: 0x313131
+      text_color: 0xB6B6B6
+      checked:
+        bg_color: 0xCC5E14
+        text_color: 0xB6B6B6
+    buttonmatrix:
+      bg_opa: transp
+      border_color: 0x0077b3
+      border_width: 0
+      text_color: 0xFFFFFF
+      pad_all: 0
+      items: # set all your btnmatrix buttins to use your custom defined styles and font
+        bg_color: 0x2F8CD8
+        bg_grad_color: 0x005782
+        bg_grad_dir: VER
+        bg_opa: cover
+        border_color: 0x0077b3
+        border_width: 1
+        text_color: 0xFFFFFF
+        text_font: menu24
+        pressed:
+          bg_color: 0x006699
+          bg_grad_color: 0x00334d
+        checked:
+          bg_color: 0x1d5f96
+          bg_grad_color: 0x03324A
+          text_color: 0x005580
+
+    slider:
+      border_width: 1
+      border_opa: 30%
+      bg_color: 0x9c9c9c
+      bg_opa: 15%
+      indicator:
+        bg_color: 0x333333
+        bg_grad_color: 0x333333
+        bg_opa: COVER
+      knob:
+        bg_color: 0x444444
+        bg_grad_color: 0x444444
+        bg_opa: COVER
+        border_color: 0x444444
+        border_width: 1
+        text_color: 0xFFFFFF
+
+  top_layer:
+      widgets:
+        - obj:
+            id: boot_screen
+            x: 0
+            y: 0
+            width: 100%
+            height: 100%
+            bg_color: 0x000000
+            bg_opa: COVER
+            radius: 0
+            pad_all: 0
+            border_width: 0
+            widgets:
+              - image:
+                  align: CENTER
+                  src: $background_boot
+                  y: -40
+              - spinner:
+                  align: CENTER
+                  y: 95
+                  height: 50
+                  width: 50
+                  spin_time: 1s
+                  arc_length: 60deg
+                  arc_width: 8
+                  indicator:
+                    arc_color: 0x18bcf2
+                    arc_width: 8
+            on_press:
+              - lvgl.widget.hide: boot_screen
+
+        - buttonmatrix:
+            align: bottom_mid
+            styles: header_footer
+            pad_all: 0
+            outline_width: 0
+            id: top_layer
+            items:
+              styles: header_footer
+            rows:
+              - buttons:
+                - id: page_prev
+                  text: "\U000F0141"
+                  on_press:
+                    then:
+                      lvgl.page.previous:
+                - id: page_home
+                  text: "\U000F06A1"
+                  on_press:
+                    then:
+                      lvgl.page.show: $page_home
+                - id: page_next
+                  text: "\U000F0142"
+                  on_press:
+                    then:
+                      lvgl.page.next:   
+  page_wrap: true
