@@ -1,0 +1,286 @@
+#############################################################################
+#----Страничка геомагнитная обстановка---------------------------------------
+#############################################################################
+# Add yaml and copy file esphome/packages/
+#packages:
+#  geomag: !include 
+#    file: packages/geomag.yaml
+#    vars:
+#      sensor_geomagnetic: sensor.iaroslavskaia_geomagnetic_field
+#############################################################################
+
+#-------------------------------------------
+# IMAGE
+#-------------------------------------------
+image:
+  - file: "picture/magnet.png"
+    id: magnit
+    resize: 65x65
+    type: RGB565 
+    transparency: alpha_channel
+#-------------------------------------------
+# SENSOR
+#-------------------------------------------    
+sensor:
+  - platform: homeassistant
+    id: geomagnetic
+    entity_id: $sensor_geomagnetic
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: geomagnetic_text
+            text: 
+              format: " %.0f "
+              args: ["id(geomagnetic).state"]
+
+        - lvgl.indicator.update:
+            id: geomagnetic_meter
+            value: !lambda |- 
+              return x;
+        - lambda: |-
+            uint8_t vgeomag= (id(geomagnetic).state);
+              switch (vgeomag) {
+                case 0 ... 4: return id(geomag_class).publish_state("небольшие возмущения");
+                case 5: return id(geomag_class).publish_state("слабая буря");
+                case 6: return id(geomag_class).publish_state("умеренная буря");
+                case 7: return id(geomag_class).publish_state("сильная буря");
+                case 8: return id(geomag_class).publish_state("шторм");
+                case 9: return id(geomag_class).publish_state("экстремальный шторм");
+                default: return id(geomag_class).publish_state("n/a");
+              }
+
+################################################################
+        - lvgl.label.update:
+            id: display_geomagnetic
+            text: 
+              format: "$earth %.0f"
+              args: ["id(geomagnetic).state"]
+            text_color: !lambda |-
+              uint8_t geo_var = (id(geomagnetic).state);
+              switch (geo_var) {
+                case 0 ... 4: return lv_color_hex(0x00ff00);
+                case 5: return lv_color_hex(0x99FF99);
+                case 6: return lv_color_hex(0xe7c12c);
+                case 7: return lv_color_hex(0xFFBB33);
+                case 8: return lv_color_hex(0xff6600);
+                case 9: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }
+################################################################
+#-------------------------------------------
+# TEXT SENSOR
+#-------------------------------------------
+text_sensor:             
+  - platform: template
+    id: geomag_class
+    on_value:
+      then:
+         - lvgl.label.update:
+            id: display_geomag_class
+            text: !lambda |- 
+              return x;            
+
+#-------------------------------------------
+# LVGL
+#-------------------------------------------  
+lvgl:
+  pages:
+################################################################
+# Добавляем на weather geomag
+    - id: !extend weather
+      widgets:  
+        - button:
+            y: 100
+            x: 250
+            align: TOP_LEFT
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 100
+            height: 40
+            widgets:
+              - label:
+                  id: display_geomagnetic
+                  text: --
+                  text_font: weather36
+                  text_color: 0x808080
+                  align: LEFT_MID
+            on_press:
+              lvgl.page.show: geomag
+              
+# Вывод на экран 
+    - id: geomag
+      #width: 100%
+      bg_color: 0x000000
+      #opa: cover
+      scrollbar_mode: "OFF"
+      scrollable: false
+      widgets:
+        - canvas: 
+            width: 480
+            height: 480
+            id: geomag_fon
+            on_boot:
+        # Зеленый
+              - lvgl.canvas.draw_polygon:
+                  id: geomag_fon
+                  points:
+                    - 240, 240
+                    - 0, 480
+                    - 0, 0
+                    - 240, 0
+                    - 240, 240
+                  bg_color: 0x00ff00
+        # Желтый
+              - lvgl.canvas.draw_polygon:
+                  id: geomag_fon
+                  points:
+                    - 240, 240
+                    - 240, 0
+                    - 380, 0 
+                    - 240, 240
+                  bg_color: 0xe7c12c
+        # Оранжевый
+              - lvgl.canvas.draw_polygon:
+                  id: geomag_fon
+                  points:
+                    - 240, 240
+                    - 380, 0 
+                    - 480, 0  
+                    - 480, 90          
+                    - 240, 240
+                  bg_color: 0xffa500
+        # Красный
+              - lvgl.canvas.draw_polygon:
+                  id: geomag_fon
+                  points:
+                    - 240, 240
+                    - 480, 90 
+                    - 480, 240                     
+                    - 240, 240
+                  bg_color: 0xF50F34
+        # Фиолетовый          
+              - lvgl.canvas.draw_polygon:
+                  id: geomag_fon
+                  points:
+                    - 240, 240
+                    - 480, 240                     
+                    - 480, 380 
+                    - 240, 240
+                  bg_color: 0x9412FD
+        # Темно фиолетовый        
+              - lvgl.canvas.draw_polygon:
+                  id: geomag_fon
+                  points:
+                    - 240, 240
+                    - 480, 380 
+                    - 480, 480 
+                    - 240, 240
+                  bg_color: 0xA63DC2            
+        # Белый
+              - lvgl.canvas.draw_polygon:
+                  id: geomag_fon
+                  points:
+                    - 240, 240
+                    - 480, 480
+                    - 0, 480   
+                    - 240, 240           
+                  bg_color: 0xffffff
+
+        - meter:
+            bg_opa: 0%
+            opa: 100%
+            #bg_color: color_blue
+            shadow_color: color_blue
+            shadow_spread: 2
+            shadow_width: 25
+            shadow_opa: 100%
+            border_width: 15
+            width: 300
+            height: 300
+            align: center
+            scales:
+              - ticks: 
+                  count: 19
+                  width: 2
+                  length: 10
+                  color: 0x000000
+                  major:
+                    stride: 2
+                    width: 3
+                    length: 20
+                    color: 0x000000
+                    label_gap: 10
+                angle_range: 270
+                rotation: 135
+                range_from: 0
+                range_to: 9
+             
+        - meter:
+            width: 200
+            height: 200
+            align: center
+            scales:
+
+              - indicators:
+                  - line:
+                      id: geomagnetic_meter
+                      width: 4
+                      color: 0xFF0000
+                      r_mod: -15
+                      value: 0
+                angle_range: 270
+                rotation: 135
+                range_from: 0
+                range_to: 9
+                ticks: 
+                  count: 10
+                  width: 0
+                  length: 0
+                  color: 0x000000
+                  major:
+                    stride: 1
+                    width: 0
+                    length: 0
+                    color: 0x000000
+                    label_gap: 8
+        - led:
+           y: 65
+           align: CENTER
+           color: 808080
+           width: 40
+           height: 25          
+        - label:
+           id: geomagnetic_text
+           text: "-"
+           text_color: color_blue
+           align: CENTER
+           y: 65
+                  
+        - spinner:
+            width: 245
+            height: 245
+            align: center
+            spin_time: 0s
+            arc_length: 0deg
+            arc_width: 3
+            arc_color: 0x000000
+            indicator:
+              arc_width: 3
+              arc_color: 0x000000
+        - label:
+            text_color: color_white
+            text: Геомагнитная активность
+            text_font: roboto36
+            align: TOP_MID 
+        - label:
+            id: display_geomag_class
+            text_color: color_white
+            text_font: roboto36
+            align: TOP_MID 
+            y: 50
+        - image:
+            align: CENTER
+            src: magnit
+            y: 10 #180
+            bg_color: 0xFFFFFF
+            bg_image_opa: 100%    

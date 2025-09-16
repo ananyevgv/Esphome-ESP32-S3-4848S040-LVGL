@@ -1,0 +1,1066 @@
+#############################################################################
+#----Котел-------------------------------------------------------------------
+#############################################################################
+#  boiler: !include   
+#    file: packages/display/boiler.yaml
+#    vars:
+#      background_boiler: boiler_image
+#      boiler_entity_sensor: sensor.kitchen_clock_temperature
+    # Пламя
+#      icons_boiler_f_0:     "\U000F0238"    # fire
+#    # Ошибки  бинарные сенсоры
+#      icons_boiler_a_0:     "\U000F0D70"    # face-agent
+#      icons_boiler_a_1:     "\U000F0873"    # gauge-empty   
+#      icons_boiler_a_2:     "\U000F11B3"    # water-boiler-alert
+#      icons_boiler_a_3:     "\U000F0773"    # lock-reset 
+#      icons_boiler_a_4:     "\U000F1A1B"    # gas-burner
+#      icons_boiler_a_5:     "\U000F03C8"    # coolant-temperature
+#      icons_boiler_a_6:     "\U000F189A"    # ccount-wrench
+#      icons_boiler_a_7:     "\U000F1BE0"    # cloud-alert-outline
+    #  icons_boiler_a_8:    "\U000F1807"    # fire-circle
+    # Режимы работы
+#      icons_boiler_0_0:     "\U000F0F54"    # home-thermometer
+#      icons_boiler_0_1:     "\U000F0F92"    # water-boiler
+#      icons_boiler_0_2:     "\U000F1B29"    # faucet
+#      icons_boiler_0_3:     "\U000F0FA7"    # chart-bell-curve-cumulative
+    
+#      icons_boiler_1_0:     "\U000F0E66"    # sprout
+#      icons_boiler_1_1:     "\U000F033E"    # lock
+#      icons_boiler_1_2:     "\U000F0266"    # format-color-fill faucet-variant
+#      icons_boiler_1_3:     "\U000F0709"    # restart
+
+
+#      boiler_entity_f_0: binary_sensor.baxi_flame
+#      boiler_entity_a_0: binary_sensor.baxi_diagnostic
+#      boiler_entity_a_1: binary_sensor.baxi_water_pressure_fault
+#      boiler_entity_a_2: binary_sensor.baxi_fault
+#      boiler_entity_a_3: binary_sensor.baxi_lockout_reset
+#      boiler_entity_a_4: binary_sensor.baxi_gas_flame_fault
+#      boiler_entity_a_5: binary_sensor.baxi_water_over_temperature_fault
+#      boiler_entity_a_6: binary_sensor.baxi_service_request
+#      boiler_entity_a_7: binary_sensor.baxi_air_pressure_fault
+    
+#      number_boiler_0: number.pid_setpoint_temperature
+#      number_boiler_1: number.baxi_ch_setpoint_temperature
+#      number_boiler_2: number.baxi_dhw_setpoint_temperature
+#      number_boiler_3: number.baxi_otc_setpoint
+
+#      sensor_current_boiler_0: sensor.kitchen_t
+#      sensor_current_boiler_1: sensor.baxi_boiler_temperature
+#      sensor_current_boiler_2: sensor.baxi_dhw_temperature
+#      sensor_current_boiler_3: sensor.baxi_OTC
+    
+#      boiler_entity_0_0: switch.pid
+#      boiler_entity_0_1: switch.baxi_ch_enabled
+#      boiler_entity_0_2: switch.baxi_dhw_enabled
+#      boiler_entity_0_3: switch.baxi_otc_active
+    
+#      boiler_entity_1_0: switch.baxi_eco_enabled
+#      boiler_entity_1_1: button.baxi_boiler_lock_out_reset
+#      boiler_entity_1_2: button.baxi_ch_water_filling
+#      boiler_entity_1_3: button.baxi_restart
+    
+#      sensor_error: sensor.baxi_oshibka_kotla
+#      sensor_modulation: sensor.baxi_modulation
+#
+#################################
+##      # a_1 # a_2 # a_3 # a_3 #
+## f_0  #     #     #     #     #
+##      # a_4 # a_5 # a_6 # a_7 #
+#################################
+#       #       #       #       #
+#       #       #       #       #
+#       #       #       #       #
+#  0_0  #  0_1  #  0_2  #  0_3  #
+#       #       #       #       #
+#       #       #       #       #
+#       #       #       #       #
+#################################
+#       #       #       #       #
+#  1_0  #  1_1  #  1_2  #  1_3  #
+#       #       #       #       #
+#################################
+image:
+  - file: "picture/baxi.jpg"
+    id: boiler_image
+    resize: 480x480
+    type: RGB565 
+font:
+  - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+    id: icons_boiler_48
+    size: 48
+    bpp: 4
+    glyphs: [
+      $icons_boiler_a_0,
+      $icons_boiler_a_1,
+      $icons_boiler_a_2,
+      $icons_boiler_a_3,
+      $icons_boiler_a_4,
+      $icons_boiler_a_5,
+      $icons_boiler_a_6,
+      $icons_boiler_a_7,
+      $icons_boiler_0_0,
+      $icons_boiler_0_1,
+      $icons_boiler_0_2,
+      $icons_boiler_0_3,
+      $icons_boiler_1_0,
+      $icons_boiler_1_1,
+      $icons_boiler_1_2,
+      $icons_boiler_1_3
+    ]      
+  - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+    id: icons_boiler_100
+    size: 100
+    bpp: 4
+    glyphs: [
+      $icons_boiler_f_0
+    ]   
+    
+    
+number:
+  - platform: homeassistant
+    id: number_0
+    entity_id: $number_boiler_0
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: setpoint_boiler_0
+            text: 
+              format: " %.1f °C"
+              args: ["id(number_0).state"]  
+  - platform: homeassistant
+    id: number_1
+    entity_id: $number_boiler_1
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: setpoint_boiler_1
+            text: 
+              format: " %.0f °C"
+              args: ["id(number_1).state"]   
+  - platform: homeassistant
+    id: number_2
+    entity_id: $number_boiler_2
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: setpoint_boiler_2
+            text: 
+              format: " %.0f °C"
+              args: ["id(number_2).state"]  
+  - platform: homeassistant
+    id: number_3
+    entity_id: $number_boiler_3
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: setpoint_boiler_3
+            text: 
+              format: " %.0f"
+              args: ["id(number_3).state"]  
+#-------------------------------------------
+# SENSOR
+#-------------------------------------------    
+sensor:
+################################################################
+  - platform: homeassistant
+    id:  room_temperature
+    entity_id: $boiler_entity_sensor
+    on_value:
+      - lvgl.label.update:
+          id: display_holl_temp
+          text: 
+            format: "$house_temp %.1f °C"
+            args: ["id(room_temperature).state"]
+          text_color: !lambda |-
+            uint8_t temp_var = (id(room_temperature).state);
+            switch (temp_var) {
+              case 1 ... 10: return lv_color_hex(0x4867aa);
+              case 11 ... 21: return lv_color_hex(0x2fc0ff);
+              case 22 ... 25: return lv_color_hex(0x00ff00);
+              case 26 ... 30: return lv_color_hex(0xe7c12c);
+              case 31 ... 40: return lv_color_hex(0xff0000);
+              default: return lv_color_hex(0x333333);
+            }
+################################################################
+  - platform: homeassistant
+    id: s_modulation
+    entity_id: $sensor_modulation
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: flame_modulation
+            text: 
+              format: " %.0f %%"
+              args: ["id(s_modulation).state"]
+  - platform: homeassistant
+    id: current_0
+    entity_id: $sensor_current_boiler_0
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: current_boiler_0
+            text: 
+              format: " %.1f °C"
+              args: ["id(current_0).state"] 
+  - platform: homeassistant
+    id: current_1
+    entity_id: $sensor_current_boiler_1
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: current_boiler_1
+            text: 
+              format: " %.0f °C"
+              args: ["id(current_1).state"]        
+  - platform: homeassistant
+    id: current_2
+    entity_id: $sensor_current_boiler_2
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: current_boiler_2
+            text: 
+              format: " %.0f °C"
+              args: ["id(current_2).state"]
+  - platform: homeassistant
+    id: current_3
+    entity_id: $sensor_current_boiler_3
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: current_boiler_3
+            text: 
+              format: " %.0f"
+              args: ["id(current_3).state"]
+              
+#-------------------------------------------
+# TEXT SENSOR
+#-------------------------------------------
+text_sensor:      
+  - platform: homeassistant
+    id: error
+    entity_id: $sensor_error
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: error_text
+            text: !lambda return x;    
+            
+#-------------------------------------------
+# Binary sensor
+#-------------------------------------------
+binary_sensor:
+  - platform: homeassistant
+    name: bin_icons_boiler_f_0
+    entity_id: $boiler_entity_f_0
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: flame_active
+          state:
+            checked: !lambda return x;
+  - platform: homeassistant
+    name: bin_icons_boiler_a_0
+    entity_id: $boiler_entity_a_0
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: alert_0
+          state:
+            checked: !lambda return x;
+  - platform: homeassistant
+    name: bin_icons_boiler_a_1
+    entity_id: $boiler_entity_a_1
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: alert_1
+          state:
+            checked: !lambda return x;          
+  - platform: homeassistant
+    name: bin_icons_boiler_a_2
+    entity_id: $boiler_entity_a_2
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: alert_2
+          state:
+            checked: !lambda return x; 
+  - platform: homeassistant
+    name: bin_icons_boiler_a_3
+    entity_id: $boiler_entity_a_3
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: alert_3
+          state:
+            checked: !lambda return x;
+  - platform: homeassistant
+    name: bin_icons_boiler_a_4
+    entity_id: $boiler_entity_a_4
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: alert_4
+          state:
+            checked: !lambda return x;
+  - platform: homeassistant
+    name: bin_icons_boiler_a_5
+    entity_id: $boiler_entity_a_5
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: alert_5
+          state:
+            checked: !lambda return x; 
+  - platform: homeassistant
+    name: bin_icons_boiler_a_6
+    entity_id: $boiler_entity_a_6
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: alert_6
+          state:
+            checked: !lambda return x; 
+  - platform: homeassistant
+    name: bin_icons_boiler_a_7
+    entity_id: $boiler_entity_a_7
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: alert_7
+          state:
+            checked: !lambda return x;    
+            
+#-------------------------------------------
+# 0 Ряд
+#-------------------------------------------
+####################################
+  - platform: homeassistant
+    name: bin_boiler_icon_0_0
+    entity_id: $boiler_entity_0_0
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_boiler_0_0
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_boiler_0_0
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_boiler_0_0
+        text_color: 0xB6B6B6
+####################################
+  - platform: homeassistant
+    name: bin_boiler_icon_0_1
+    entity_id: $boiler_entity_0_1
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_boiler_0_1
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_boiler_0_1
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_boiler_0_1
+        text_color: 0xB6B6B6
+####################################
+  - platform: homeassistant
+    name: bin_boiler_icon_0_2
+    entity_id: $boiler_entity_0_2
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_boiler_0_2
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_boiler_0_2
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_boiler_0_2
+        text_color: 0xB6B6B6
+
+####################################
+  - platform: homeassistant
+    name: bin_boiler_icon_0_3
+    entity_id: $boiler_entity_0_3
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_boiler_0_3
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_boiler_0_3
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_boiler_0_3
+        text_color: 0xB6B6B6
+
+#-------------------------------------------
+# 1 Ряд
+#-------------------------------------------
+  - platform: homeassistant
+    name: bin_boiler_icon_1_0
+    entity_id: $boiler_entity_1_0
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_boiler_1_0
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_boiler_1_0
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_boiler_1_0
+        text_color: 0xB6B6B6
+####################################
+  - platform: homeassistant
+    name: bin_boiler_icon_1_1
+    entity_id: $boiler_entity_1_1
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_boiler_1_1
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_boiler_1_1
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_boiler_1_1
+        text_color: 0xB6B6B6
+####################################
+  - platform: homeassistant
+    name: bin_boiler_icon_1_2
+    entity_id: $boiler_entity_1_2
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_boiler_1_2
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_boiler_1_2
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_boiler_1_2
+        text_color: 0xB6B6B6
+####################################
+  - platform: homeassistant
+    name: bin_boiler_icon_1_3
+    entity_id: $boiler_entity_1_3
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_boiler_1_3
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_boiler_1_3
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_boiler_1_3
+        text_color: 0xB6B6B6
+
+
+
+#-------------------------------------------
+# LVGL
+#-------------------------------------------
+lvgl:
+  pages:
+################################################################
+# Добавляем на weather termostat
+    - id: !extend weather
+      widgets:
+        - button:
+            y: 40
+            align: LEFT_MID
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 180
+            height: 40
+            widgets:  
+              - label:
+                  align: LEFT_MID
+                  id: display_holl_temp
+                  text: --.- °C
+                  text_font: weather24
+                  text_color: 0x808080
+            on_press:
+              lvgl.page.show: boiler_page
+################################################################
+  
+    - id: boiler_page     
+      width: 100%
+      bg_color: 0x000000
+      bg_opa: cover
+      widgets:
+        - image:
+            align: TOP_LEFT
+            src: $background_boiler
+        - label:
+            id: flame_active
+            align: TOP_LEFT
+            x: 10
+            width: 120
+            height: 120
+            text: "${icons_boiler_f_0}"
+            text_color: color_dark_gray
+            text_font: icons_boiler_100
+        - label:
+            id: flame_modulation
+            align: TOP_LEFT
+            x: 50
+            y: 90
+            text: "--%"
+            text_color: color_dark_gray
+            text_font: roboto36
+        - label:
+            id: error_text
+            align: TOP_LEFT
+            x: 50
+            y: 320
+            text: "нет данных"
+            text_color: color_dark_gray
+            text_font: roboto36
+#####################################################################################  
+
+# Аварийные сообщения
+#
+#####################################################################################  
+        - obj:
+            bg_opa: TRANSP
+            border_opa: TRANSP
+            width: 360
+            height: 120
+            align: TOP_LEFT
+            x: 120
+            layout:
+              pad_row: 10
+              pad_column: 10
+              type: GRID
+              grid_columns: [FR(1), FR(1), FR(1), FR(1)]
+              grid_rows: [FR(1), FR(1)]
+            ########################
+            widgets:
+              - label:
+                  id: alert_0
+                  align: CENTER
+                  grid_cell_column_pos: 0 # place the widget in
+                  grid_cell_row_pos: 0 # the corresponding cell
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  text: "${icons_boiler_a_0}"
+                  text_color: color_dark_gray
+                  text_font: icons_boiler_48
+              - label:
+                  id: alert_1
+                  align: CENTER
+                  grid_cell_column_pos: 1 # place the widget in
+                  grid_cell_row_pos: 0 # the corresponding cell
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  text: "${icons_boiler_a_1}"
+                  text_color: color_dark_gray
+                  text_font: icons_boiler_48
+              - label:
+                  id: alert_2
+                  align: CENTER
+                  grid_cell_column_pos: 2 # place the widget in
+                  grid_cell_row_pos: 0 # the corresponding cell
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  text: "${icons_boiler_a_2}"
+                  text_color: color_dark_gray
+                  text_font: icons_boiler_48
+              - label:
+                  id: alert_3
+                  align: CENTER
+                  grid_cell_column_pos: 3 # place the widget in
+                  grid_cell_row_pos: 0 # the corresponding cell
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  text: "${icons_boiler_a_3}"
+                  text_color: color_dark_gray
+                  text_font: icons_boiler_48
+              - label:
+                  id: alert_4
+                  align: CENTER
+                  grid_cell_column_pos: 0 # place the widget in
+                  grid_cell_row_pos: 1 # the corresponding cell
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  text: "${icons_boiler_a_4}"
+                  text_color: color_dark_gray
+                  text_font: icons_boiler_48
+              - label:
+                  id: alert_5
+                  align: CENTER
+                  grid_cell_column_pos: 1 # place the widget in
+                  grid_cell_row_pos: 1 # the corresponding cell
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  text: "${icons_boiler_a_5}"
+                  text_color: color_dark_gray
+                  text_font: icons_boiler_48
+              - label:
+                  id: alert_6
+                  align: CENTER
+                  grid_cell_column_pos: 2 # place the widget in
+                  grid_cell_row_pos: 1 # the corresponding cell
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  text: "${icons_boiler_a_6}"
+                  text_color: color_dark_gray
+                  text_font: icons_boiler_48
+              - label:
+                  id: alert_7
+                  align: CENTER
+                  grid_cell_column_pos: 3 # place the widget in
+                  grid_cell_row_pos: 1 # the corresponding cell
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  text: "${icons_boiler_a_7}"
+                  text_color: color_dark_gray
+                  text_font: icons_boiler_48
+                  
+#####################################################################################  
+#
+# Управление котлом
+#
+#####################################################################################  
+        - obj:
+            bg_opa: TRANSP
+            border_opa: TRANSP
+            width: 480
+            height: 230
+            align: TOP_LEFT
+            x: 0
+            y: 115
+            layout:
+              pad_row: 10
+              pad_column: 10
+              type: GRID
+              grid_columns: [FR(1), FR(1), FR(1), FR(1)]
+              grid_rows: [FR(1)]
+            ########################
+            widgets:
+              - button: 
+                  id: b_boiler_0_0
+                  align: CENTER
+                  grid_cell_column_pos: 0 # place the widget in
+                  grid_cell_row_pos: 0 # the corresponding cell
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  checkable: true
+                  widgets:
+                    - button:
+                        bg_color: 0xFF0000
+                        align: TOP_MID
+                        width: 100
+                        height: 35
+                        y: -6
+                        checkable: false
+                        widgets:
+                          - label:
+                              text_font: roboto24
+                              text: "+"
+                              align: CENTER
+                        on_click:
+                         # - number.increment: number_0
+                          - homeassistant.service:
+                              service: input_number.increment
+                              data: 
+                                entity_id: $number_boiler_0
+                    - label:
+                        id: current_boiler_0
+                        text_font: roboto24
+                        text: "--.- °C"
+                        align: CENTER
+                        y: -37
+                    - label:
+                        id: w_boiler_0_0
+                        text_font: icons_boiler_48
+                        text: $icons_boiler_0_0
+                        align: CENTER
+                        #y: -10
+                    - label:
+                        id: setpoint_boiler_0
+                        text_font: roboto24
+                        text: "--.- °C"
+                        align: CENTER
+                        y: 37
+                                
+                    - button:
+                        align:  BOTTOM_MID
+                        width: 100
+                        height: 35
+                        y: 7
+                        checkable: false
+                        bg_color: 0x0000FF
+                        widgets:
+                          - label:
+                              text_font: roboto24
+                              text: "-"
+                              align: CENTER
+                        on_click:
+                         # - number.decrement: number_0
+                          - homeassistant.service:
+                              service: input_number.decrement
+                              data: 
+                                entity_id: $number_boiler_0
+                  on_click:
+                    - homeassistant.service:
+                        service: switch.toggle
+                        data:
+                          entity_id: $boiler_entity_0_0
+##################################################################################### 
+                          
+              - button: 
+                  id: b_boiler_0_1
+                  align: CENTER
+                  grid_cell_column_pos: 1 # place the widget in
+                  grid_cell_row_pos: 0 # the corresponding cell
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  checkable: true
+                  widgets:
+                    - button:
+                        bg_color: 0xFF0000
+                        align: TOP_MID
+                        width: 100
+                        height: 35
+                        y: -6
+                        checkable: false
+                        widgets:
+                          - label:
+                              text_font: roboto24
+                              text: "+"
+                              align: CENTER
+                        on_click:
+                          - number.increment: number_1
+
+                    - label:
+                        id: current_boiler_1
+                        text_font: roboto24
+                        text: "--.- °C"
+                        align: CENTER
+                        y: -37
+                    - label:
+                        id: w_boiler_0_1
+                        text_font: icons_boiler_48
+                        text: $icons_boiler_0_1
+                        align: CENTER
+                        #y: -10
+                    - label:
+                        id: setpoint_boiler_1
+                        text_font: roboto24
+                        text: "--.- °C"
+                        align: CENTER
+                        y: 37
+                                
+                    - button:
+                        align: BOTTOM_MID
+                        width: 100
+                        height: 35
+                        y: 7
+                        checkable: false
+                        bg_color: 0x0000FF
+                        widgets:
+                          - label:
+                              text_font: roboto24
+                              text: "-"
+                              align: CENTER
+                        on_click:
+                          - number.decrement: number_1
+                  on_click:
+                    - homeassistant.service:
+                        service: switch.toggle
+                        data:
+                          entity_id: $boiler_entity_0_1
+#####################################################################################                          
+                          
+              - button: 
+                  id: b_boiler_0_2
+                  align: CENTER
+                  grid_cell_column_pos: 2 # place the widget in
+                  grid_cell_row_pos: 0 # the corresponding cell
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  checkable: true
+                  widgets:
+                    - button:
+                        bg_color: 0xFF0000
+                        align: TOP_MID
+                        width: 100
+                        height: 35
+                        y: -6
+                        checkable: false
+                        widgets:
+                          - label:
+                              text_font: roboto24
+                              text: "+"
+                              align: CENTER
+                        on_click:
+                          - number.increment: number_2
+                    - label:
+                        id: current_boiler_2
+                        text_font: roboto24
+                        text: "--.- °C"
+                        align: CENTER
+                        y: -37
+                    - label:
+                        id: w_boiler_0_2
+                        text_font: icons_boiler_48
+                        text: $icons_boiler_0_2
+                        align: CENTER
+                        #y: -10
+                    - label:
+                        id: setpoint_boiler_2
+                        text_font: roboto24
+                        text: "--.- °C"
+                        align: CENTER
+                        y: 37
+                                
+                    - button:
+                        align: BOTTOM_MID
+                        width: 100
+                        height: 35
+                        y: 7
+                        checkable: false
+                        bg_color: 0x0000FF
+                        widgets:
+                          - label:
+                              text_font: roboto24
+                              text: "-"
+                              align: CENTER
+                        on_click:
+                          - number.decrement: number_2
+                  on_click:
+                    - homeassistant.service:
+                        service: switch.toggle
+                        data:
+                          entity_id: $boiler_entity_0_2
+#####################################################################################                          
+                          
+                          
+              - button: 
+                  id: b_boiler_0_3
+                  align: CENTER
+                  grid_cell_column_pos: 3 # place the widget in
+                  grid_cell_row_pos: 0 # the corresponding cell
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  checkable: true
+                  widgets:
+                    - button:
+                        bg_color: 0xFF0000
+                        align: TOP_MID
+                        width: 100
+                        height: 35
+                        y: -6
+                        checkable: false
+                        widgets:
+                          - label:
+                              text_font: roboto24
+                              text: "+"
+                              align: CENTER
+                        on_click:
+                          - number.increment: number_3
+                    - label:
+                        id: current_boiler_3
+                        text_font: roboto24
+                        text: "---"
+                        align: CENTER
+                        y: -37
+                    - label:
+                        id: w_boiler_0_3
+                        text_font: icons_boiler_48
+                        text: $icons_boiler_0_3
+                        align: CENTER
+                        #y: -10
+                    - label:
+                        id: setpoint_boiler_3
+                        text_font: roboto24
+                        text: "---"
+                        align: CENTER
+                        y: 37
+                                
+                    - button:
+                        align: BOTTOM_MID
+                        width: 100
+                        height: 35
+                        y: 7
+                        checkable: false
+                        bg_color: 0x0000FF
+                        widgets:
+                          - label:
+                              text_font: roboto24
+                              text: "-"
+                              align: CENTER
+                        on_click:
+                          - number.decrement: number_3
+                  on_click:
+                    - homeassistant.service:
+                        service: switch.toggle
+                        data:
+                          entity_id: $boiler_entity_0_3
+
+                          
+#####################################################################################  
+#
+# Кнопки
+#
+#####################################################################################  
+        - obj:
+            bg_opa: TRANSP
+            border_opa: TRANSP
+            width: 480
+            height: 120
+            align: TOP_LEFT
+            x: 0
+            y: 340
+            layout:
+              pad_row: 10
+              pad_column: 10
+              type: GRID
+              grid_columns: [FR(1), FR(1), FR(1), FR(1)]
+              grid_rows: [FR(1)]
+            widgets:
+     
+            ########################
+              - button:
+                  checkable: true
+                  id: b_boiler_1_0
+                  grid_cell_row_pos: 0
+                  grid_cell_column_pos: 0
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: icons_boiler_48
+                        align: center
+                        text: $icons_boiler_1_0
+                        id: w_boiler_1_0
+                  on_click:
+                    homeassistant.service:
+                      service: button.press
+                      data:
+                        entity_id: $boiler_entity_1_0
+              - button:
+                  checkable: true
+                  id: b_boiler_1_1
+                  grid_cell_row_pos: 0
+                  grid_cell_column_pos: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: icons_boiler_48
+                        align: center
+                        text: $icons_boiler_1_1
+                        id: w_boiler_1_1
+                  on_click:
+                    homeassistant.service:
+                      service: button.press
+                      data:
+                        entity_id: $boiler_entity_1_1
+            ########################
+              - button:
+                  checkable: true
+                  id: b_boiler_1_2
+                  grid_cell_row_pos: 0
+                  grid_cell_column_pos: 2
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: icons_boiler_48
+                        align: center
+                        text: $icons_boiler_1_2
+                        id: w_boiler_1_2
+                  on_click:
+                    homeassistant.service:
+                      service: button.press
+                      data:
+                        entity_id: $boiler_entity_1_2
+              - button:
+                  checkable: true
+                  id: b_boiler_1_3
+                  grid_cell_row_pos: 0
+                  grid_cell_column_pos: 3
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: icons_boiler_48
+                        align: center
+                        text: $icons_boiler_1_3
+                        id: w_boiler_1_3
+                  on_click:
+                    homeassistant.service:
+                      service: button.press
+                      data:
+                        entity_id: $boiler_entity_1_3            

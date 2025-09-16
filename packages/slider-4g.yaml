@@ -1,0 +1,415 @@
+#########################
+#     #                 #
+# b_0 #    s_0          #
+#     #                 #
+#########################
+#     #                 #
+# b_1 #    s_1          #
+#     #                 #
+#########################
+#     #                 #
+# b_2 #    s_2          #
+#     #                 #
+#########################
+#     #                 #
+# b_3 #    s_3          #
+#     #                 #
+#########################
+
+substitutions:
+  icons_sl4g_0_0: "\U000F18DE" # ceiling_light_multiple_outline
+  icons_sl4g_0_1: "󱊺" #string_lights
+  icons_sl4g_0_2: "󱍖" #television_ambient_light
+  icons_sl4g_0_3: "󱦇" #light_flood_down
+
+
+# Кнопки 0 ряд !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
+  slider4g_icon_0_0: $icons_sl4g_0_0
+  slider4g_entity_0_0: light.holl_led_0
+
+  slider4g_icon_0_1: $icons_sl4g_0_1
+  slider4g_entity_0_1: light.holl_led_1
+  
+  slider4g_icon_0_2: $icons_sl4g_0_2
+  slider4g_entity_0_2: light.holl_led_2
+
+  slider4g_icon_0_3: $icons_sl4g_0_3
+  slider4g_entity_0_3: light.holl_led_3
+  
+
+  
+  
+font:
+  - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+    id: slider4g_48
+    size: 48
+    bpp: 4
+    glyphs: [
+      $slider4g_icon_0_0,
+      $slider4g_icon_0_1,
+      $slider4g_icon_0_2,
+      $slider4g_icon_0_3,
+    ]      
+    
+#-------------------------------------------
+# Binary sensor
+#-------------------------------------------
+binary_sensor:
+#-------------------------------------------
+# 0 Ряд
+#-------------------------------------------
+  - platform: homeassistant
+    name: bin_slider4g_icon_0_0
+    entity_id: $slider4g_entity_0_0
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_slider4g_0_0
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_slider4g_0_0
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_slider4g_0_0
+        text_color: 0xB6B6B6
+####################################
+  - platform: homeassistant
+    name: bin_slider4g_icon_0_1
+    entity_id: $slider4g_entity_0_1
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_slider4g_0_1
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_slider4g_0_1
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_slider4g_0_1
+        text_color: 0xB6B6B6
+####################################
+  - platform: homeassistant
+    name: bin_slider4g_icon_0_2
+    entity_id: $slider4g_entity_0_2
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_slider4g_0_2
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_slider4g_0_2
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_slider4g_0_2
+        text_color: 0xB6B6B6
+####################################
+  - platform: homeassistant
+    name: bin_slider4g_icon_0_3
+    entity_id: $slider4g_entity_0_3
+    trigger_on_initial_state: true
+    #internal: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: b_slider4g_0_3
+          state:
+            checked: !lambda return x;
+    on_press:
+      lvgl.widget.update:
+        id: w_slider4g_0_3
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: w_slider4g_0_3
+        text_color: 0xB6B6B6
+##############################################################
+sensor:
+  - platform: homeassistant
+    id: brightness_slider4g_entity_0_0
+    entity_id: $slider4g_entity_0_0
+    attribute: brightness
+    on_value:
+      - lvgl.slider.update:
+          id: slider_slider4g_0_0
+          value: !lambda return x;
+
+  - platform: homeassistant
+    id: brightness_slider4g_entity_0_1
+    entity_id: $slider4g_entity_0_1
+    attribute: brightness
+    on_value:
+      - lvgl.slider.update:
+          id: slider_slider4g_0_1
+          value: !lambda return x;
+          
+  - platform: homeassistant
+    id: brightness_slider4g_entity_0_2
+    entity_id: $slider4g_entity_0_2
+    attribute: brightness
+    on_value:
+      - lvgl.slider.update:
+          id: slider_slider4g_0_2
+          value: !lambda return x;
+
+  - platform: homeassistant
+    id: brightness_slider4g_entity_0_3
+    entity_id: $slider4g_entity_0_3
+    attribute: brightness
+    on_value:
+      - lvgl.slider.update:
+          id: slider_slider4g_0_3
+          value: !lambda return x;       
+#-------------------------------------------
+# LVGL
+#-------------------------------------------
+lvgl:
+  pages:
+    - id: slider4g_page     
+      width: 100%
+      bg_color: 0x000000
+      bg_opa: cover
+      widgets:
+        - image:
+            align: CENTER
+            src: $background_slider4g
+        - obj:
+            bg_opa: TRANSP
+            border_opa: TRANSP
+            width: 480
+            height: 460
+            align: TOP_LEFT
+            x: 0
+            y: 0
+            layout:
+              pad_row: 10
+              pad_column: 10
+              type: GRID
+              grid_columns: [FR(1), FR(3)]
+              grid_rows: [FR(1), FR(1), FR(1), FR(1)]
+            widgets:
+##################################################################
+
+
+
+              - slider:
+                  id: slider_slider4g_0_0
+                  grid_cell_row_pos: 0
+                  grid_cell_column_pos: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  align: top_right
+                  #x: 10
+                  #width: 40
+                  #height: 200
+                  pad_all: 0
+                  min_value: 0
+                  max_value: 100
+                  radius: 5px
+                  knob:
+                    bg_color: 0xffffff
+                    radius: 2px
+                    pad_left: -50px
+                    pad_right: -35px
+                    pad_top: -5px
+                    pad_bottom: -5px
+                  indicator:
+                    radius: 0px
+                    bg_color: color_blue
+                    
+                  on_release:
+                    - homeassistant.action:
+                        action: light.turn_on
+                        data:
+                          entity_id: $slider4g_entity_0_0
+                          brightness: !lambda return int(x);
+
+                          
+              - slider:
+                  id: slider_slider4g_0_1
+                  grid_cell_row_pos: 1
+                  grid_cell_column_pos: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  align: top_right
+                 # x: 10
+                 #width: 40
+                 # height: 200
+                  pad_all: 0
+                  min_value: 0
+                  max_value: 100
+                  radius: 5px
+                  knob:
+                    bg_color: 0xffffff
+                    radius: 2px
+                    pad_left: -50px
+                    pad_right: -35px
+                    pad_top: -5px
+                    pad_bottom: -5px
+                  indicator:
+                    radius: 0px
+                    bg_color: color_blue
+                  on_release:
+                    - homeassistant.action:
+                        action: light.turn_on
+                        data:
+                          entity_id: $slider4g_entity_0_1
+                          brightness: !lambda return int(x);
+
+
+              - slider:
+                  id: slider_slider4g_0_2
+                  grid_cell_row_pos: 2
+                  grid_cell_column_pos: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  align: top_right
+                  #x: 10
+                  #width: 40
+                  #height: 200
+                  pad_all: 0
+                  min_value: 0
+                  max_value: 100
+                  radius: 5px
+                  knob:
+                    bg_color: 0xffffff
+                    radius: 2px
+                    pad_left: -50px
+                    pad_right: -35px
+                    pad_top: -5px
+                    pad_bottom: -5px
+                  indicator:
+                    radius: 0px
+                    bg_color: color_blue
+                  on_release:
+                    - homeassistant.action:
+                        action: light.turn_on
+                        data:
+                          entity_id: $slider4g_entity_0_2
+                          brightness: !lambda return int(x);
+
+            
+              - slider:
+                  id: slider_slider4g_0_3
+                  grid_cell_row_pos: 3
+                  grid_cell_column_pos: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  align: top_right
+                  #x: 10
+                  #width: 40
+                  #height: 200
+                  pad_all: 0
+                  min_value: 0
+                  max_value: 100
+                  radius: 5px
+                  knob:
+                    bg_color: 0xffffff
+                    radius: 2px
+                    pad_left: -50px
+                    pad_right: -35px
+                    pad_top: -5px
+                    pad_bottom: -5px
+                  indicator:
+                    radius: 0px
+                    bg_color: color_blue
+                  on_release:
+                    - homeassistant.action:
+                        action: light.turn_on
+                        data:
+                          entity_id: $slider4g_entity_0_3
+                          brightness: !lambda return int(x);
+#############################################################################
+              - button:
+                  checkable: true
+                  id: b_slider4g_0_0
+                  grid_cell_row_pos: 0
+                  grid_cell_column_pos: 0
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: slider4g_48
+                        align: center
+                        text: $slider4g_icon_0_0
+                        id: w_slider4g_0_0
+                  on_click:
+                    homeassistant.service:
+                      service: light.toggle
+                      data:
+                        entity_id: $slider4g_entity_0_0        
+                    
+              - button:
+                  checkable: true
+                  id: b_slider4g_0_1
+                  grid_cell_row_pos: 1
+                  grid_cell_column_pos: 0
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: slider4g_48
+                        align: center
+                        text: $slider4g_icon_0_1
+                        id: w_slider4g_0_1
+                  on_click:
+                    homeassistant.service:
+                      service: light.toggle
+                      data:
+                        entity_id: $slider4g_entity_0_1   
+            
+              - button:
+                  checkable: true
+                  id: b_slider4g_0_2
+                  grid_cell_row_pos: 2
+                  grid_cell_column_pos: 0
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: slider4g_48
+                        align: center
+                        text: $slider4g_icon_0_2
+                        id: w_slider4g_0_2
+                  on_click:
+                    homeassistant.service:
+                      service: light.toggle
+                      data:
+                        entity_id: $slider4g_entity_0_2  
+            
+              - button:
+                  checkable: true
+                  id: b_slider4g_0_3
+                  grid_cell_row_pos: 3
+                  grid_cell_column_pos: 0
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: slider4g_48
+                        align: center
+                        text: $slider4g_icon_0_3
+                        id: w_slider4g_0_3
+                  on_click:
+                    homeassistant.service:
+                      service: light.toggle
+                      data:
+                        entity_id: $slider4g_entity_0_3  

@@ -1,0 +1,518 @@
+#############################################################################
+#----Страничка управления четырьмя шторами-----------------------------------
+#############################################################################
+#  shutter: !include
+#    file: packages/display/shutter4.yaml
+#    vars:
+#      background_shutter: back6
+#      shutter_0: "cover.holl_l_curtain"
+#      shutter_1: "cover.holl_p_curtain"
+#      shutter_2: "cover.holl_l_curtain"
+#      shutter_3: "cover.holl_p_curtain"
+#############################################################################
+
+
+
+#################################################
+#                      #                        #
+#                      #                        #
+#                      #                        #
+#                      #                        #
+#                      #                        #
+#          0           #          1             #
+#                      #                        #
+#                      #                        #
+#                      #                        #
+#                      #                        #
+#################################################
+#                      #                        #
+#                      #                        #
+#                      #                        #
+#                      #                        #
+#                      #                        #
+#          2           #          3             #
+#                      #                        #
+#                      #                        #
+#                      #                        #
+#                      #                        #
+#################################################
+
+
+substitutions:
+  up_icon:            "\U0000e91f"
+  down_icon:          "\U0000e920"
+  stop_icon:          "\U0000e91c"
+  shutter_open_icon:  "\U0000e91e" 
+  shutter_close_icon: "\U0000e91d"
+  shutter_10_icon:    "\U0000e93d"
+  shutter_20_icon:    "\U0000e93e"
+  shutter_30_icon:    "\U0000e93f"
+  shutter_40_icon:    "\U0000e940"
+  shutter_50_icon:    "\U0000e941"
+  shutter_60_icon:    "\U0000e93c"
+  shutter_70_icon:    "\U0000e943"
+  shutter_80_icon:    "\U0000e944"
+  shutter_90_icon:    "\U0000e942"
+
+
+font:
+  - file: "font/icons.ttf"   # "https://github.com/alaltitov/Guition-ESP32-S3-4848S040/blob/dev/src/fonts/icons_v2.ttf"
+    id: shutter_font_icon
+    size: 150
+    bpp: 4
+    glyphs: [
+      $shutter_open_icon, 
+      $shutter_close_icon,
+      $shutter_10_icon,
+      $shutter_20_icon,
+      $shutter_30_icon,
+      $shutter_40_icon,
+      $shutter_50_icon,
+      $shutter_60_icon,
+      $shutter_70_icon,
+      $shutter_80_icon,
+      $shutter_90_icon
+      ]   
+  - file: "font/icons.ttf"
+    id: shutter_font
+    size: 24
+    bpp: 4
+    glyphs: [
+      $up_icon,
+      $down_icon,
+      $stop_icon,
+      ]    
+
+sensor:  
+  - platform: homeassistant
+    id: shutter_current_pos_0
+    entity_id: "${shutter_0}"
+    attribute: current_position
+    on_value:
+      then:
+        - lambda: |-
+              int pos = round(id(shutter_current_pos_0).state / 10) * 10;
+              switch (pos) {
+                case 0 ... 5:    return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e91d");
+                case 6 ... 15:   return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e93d");
+                case 16 ... 25:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e93e");
+                case 26 ... 35:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e93f");
+                case 36 ... 45:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e940");
+                case 46 ... 55:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e941");
+                case 56 ... 65:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e942");
+                case 66 ... 75:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e943");               
+                case 76 ... 85:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e944");
+                case 86 ... 95:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e945");
+                case 96 ... 100: return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e91e");
+                default: return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e91d");
+              }
+
+  - platform: homeassistant
+    id: shutter_current_pos_1
+    entity_id: "${shutter_1}"
+    attribute: current_position
+    on_value:
+      then:
+        - lambda: |-
+              int pos = round(id(shutter_current_pos_1).state / 10) * 10;
+              switch (pos) {
+                case 0 ... 5:    return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e91d");
+                case 6 ... 15:   return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e93d");
+                case 16 ... 25:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e93e");
+                case 26 ... 35:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e93f");
+                case 36 ... 45:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e940");
+                case 46 ... 55:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e941");
+                case 56 ... 65:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e942");
+                case 66 ... 75:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e943");               
+                case 76 ... 85:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e944");
+                case 86 ... 95:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e945");
+                case 96 ... 100: return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e91e");
+                default: return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e91d");
+              }
+  - platform: homeassistant
+    id: shutter_current_pos_2
+    entity_id: "${shutter_2}"
+    attribute: current_position
+    on_value:
+      then:
+        - lambda: |-
+              int pos = round(id(shutter_current_pos_2).state / 10) * 10;
+              switch (pos) {
+                case 0 ... 5:    return lv_label_set_text(id(shutter_widget_icon_2), "\U0000e91d");
+                case 6 ... 15:   return lv_label_set_text(id(shutter_widget_icon_2), "\U0000e93d");
+                case 16 ... 25:  return lv_label_set_text(id(shutter_widget_icon_2), "\U0000e93e");
+                case 26 ... 35:  return lv_label_set_text(id(shutter_widget_icon_2), "\U0000e93f");
+                case 36 ... 45:  return lv_label_set_text(id(shutter_widget_icon_2), "\U0000e940");
+                case 46 ... 55:  return lv_label_set_text(id(shutter_widget_icon_2), "\U0000e941");
+                case 56 ... 65:  return lv_label_set_text(id(shutter_widget_icon_2), "\U0000e942");
+                case 66 ... 75:  return lv_label_set_text(id(shutter_widget_icon_2), "\U0000e943");               
+                case 76 ... 85:  return lv_label_set_text(id(shutter_widget_icon_2), "\U0000e944");
+                case 86 ... 95:  return lv_label_set_text(id(shutter_widget_icon_2), "\U0000e945");
+                case 96 ... 100: return lv_label_set_text(id(shutter_widget_icon_2), "\U0000e91e");
+                default: return lv_label_set_text(id(shutter_widget_icon_2), "\U0000e91d");
+              }
+
+  - platform: homeassistant
+    id: shutter_current_pos_3
+    entity_id: "${shutter_3}"
+    attribute: current_position
+    on_value:
+      then:
+        - lambda: |-
+              int pos = round(id(shutter_current_pos_3).state / 10) * 10;
+              switch (pos) {
+                case 0 ... 5:    return lv_label_set_text(id(shutter_widget_icon_3), "\U0000e91d");
+                case 6 ... 15:   return lv_label_set_text(id(shutter_widget_icon_3), "\U0000e93d");
+                case 16 ... 25:  return lv_label_set_text(id(shutter_widget_icon_3), "\U0000e93e");
+                case 26 ... 35:  return lv_label_set_text(id(shutter_widget_icon_3), "\U0000e93f");
+                case 36 ... 45:  return lv_label_set_text(id(shutter_widget_icon_3), "\U0000e940");
+                case 46 ... 55:  return lv_label_set_text(id(shutter_widget_icon_3), "\U0000e941");
+                case 56 ... 65:  return lv_label_set_text(id(shutter_widget_icon_3), "\U0000e942");
+                case 66 ... 75:  return lv_label_set_text(id(shutter_widget_icon_3), "\U0000e943");               
+                case 76 ... 85:  return lv_label_set_text(id(shutter_widget_icon_3), "\U0000e944");
+                case 86 ... 95:  return lv_label_set_text(id(shutter_widget_icon_3), "\U0000e945");
+                case 96 ... 100: return lv_label_set_text(id(shutter_widget_icon_3), "\U0000e91e");
+                default: return lv_label_set_text(id(shutter_widget_icon_3), "\U0000e91d");
+              }
+text_sensor:
+  - platform: homeassistant
+    id: shutter_name_0
+    entity_id:  "${shutter_0}"
+    attribute: friendly_name
+    on_value: 
+      - lvgl.label.update:
+          id: shutter_widget_name_0
+          text: !lambda return x;
+        
+  - platform: homeassistant
+    id: shutter_name_1
+    entity_id:  "${shutter_1}"
+    attribute: friendly_name
+    on_value: 
+      - lvgl.label.update:
+          id: shutter_widget_name_1
+          text: !lambda return x;
+  - platform: homeassistant
+    id: shutter_name_2
+    entity_id:  "${shutter_2}"
+    attribute: friendly_name
+    on_value: 
+      - lvgl.label.update:
+          id: shutter_widget_name_2
+          text: !lambda return x;    
+  - platform: homeassistant
+    id: shutter_name_3
+    entity_id:  "${shutter_3}"
+    attribute: friendly_name
+    on_value: 
+      - lvgl.label.update:
+          id: shutter_widget_name_3
+          text: !lambda return x;
+
+ 
+  - platform: homeassistant
+    id: shutter_state_0
+    entity_id:  "${shutter_0}"
+    filters:
+      - to_upper
+      - substitute:
+        - "OPENING -> Открывается" 
+        - "CLOSING -> Закрывается" 
+        - "OPEN -> Открыто"
+        - "CLOSED -> Закрыто"  
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: shutter_widget_state_0
+
+  - platform: homeassistant
+    id: shutter_state_1
+    entity_id:  "${shutter_1}"
+    filters:
+      - to_upper
+      - substitute:
+        - "OPENING -> Открывается" 
+        - "CLOSING -> Закрывается" 
+        - "OPEN -> Открыто"
+        - "CLOSED -> Закрыто"  
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: shutter_widget_state_1
+  - platform: homeassistant
+    id: shutter_state_2
+    entity_id:  "${shutter_2}"
+    filters:
+      - to_upper
+      - substitute:
+        - "OPENING -> Открывается" 
+        - "CLOSING -> Закрывается" 
+        - "OPEN -> Открыто"
+        - "CLOSED -> Закрыто"  
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: shutter_widget_state_2
+  - platform: homeassistant
+    id: shutter_state_3
+    entity_id:  "${shutter_3}"
+    filters:
+      - to_upper
+      - substitute:
+        - "OPENING -> Открывается" 
+        - "CLOSING -> Закрывается" 
+        - "OPEN -> Открыто"
+        - "CLOSED -> Закрыто"  
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: shutter_widget_state_3
+
+#-------------------------------------------
+# LVGL
+#-------------------------------------------
+lvgl:
+  pages:
+    - id: shutter_page     
+      width: 100%
+      bg_color: 0x000000
+      bg_opa: cover
+      widgets:
+        - image:
+            align: LEFT_MID #CENTER
+            src: $background_shutter
+        - obj:
+            bg_opa: TRANSP
+            border_opa: TRANSP
+            width: 480
+            height: 460
+            align: TOP_LEFT
+            x: 0
+            y: 0
+            layout:
+              pad_row: 10
+              pad_column: 10
+              type: GRID
+              grid_columns: [FR(1), FR(1), FR(1), FR(1), FR(1), FR(1)]
+              grid_rows: [FR(1), FR(1), FR(1), FR(1), FR(1), FR(1)]
+            widgets:
+####################################################################################################################
+              - button:
+                  checkable: false
+                  press_lock: false
+                  scrollable: true
+                 # id: b_shutter_widget_0
+                  grid_cell_row_pos: 0 #Позиция ряд
+                  grid_cell_column_pos: 0 #Позиция колонка
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  grid_cell_row_span: 3 #Занять ячеек в рядах
+                  grid_cell_column_span: 3 #Занять ячеек в колонках
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: shutter_font_icon
+                        align: center
+                        text: ${shutter_close_icon}
+                        id: shutter_widget_icon_0
+                    - label:
+                        text_font: roboto24
+                        id: shutter_widget_name_0
+                        align: top_mid
+                        text: "недоступно"
+                        long_mode: dot
+                        y: -5
+                    - label:                        
+                        text_font: roboto24
+                        id: shutter_widget_state_0
+                        text: "недоступно"
+                        align: bottom_mid
+                        long_mode: dot
+                        y: 5
+                  on_short_click:
+                    - homeassistant.action:
+                        action: cover.toggle
+                        data:
+                          entity_id: "${shutter_0}" 
+                    - logger.log: "cover toggle"
+                  on_long_press:
+                    - homeassistant.action:
+                        action: cover.stop_cover
+                        data:
+                          entity_id: "${shutter_0}" 
+                    - logger.log: "stop cover"
+                  on_swipe_top:
+                    - homeassistant.action:
+                        action: cover.open_cover
+                        data:
+                          entity_id: "${shutter_0}" 
+                    - logger.log: "open cover"
+                  on_swipe_bottom:         
+                    - homeassistant.action:
+                        action: cover.close_cover
+                        data:
+                          entity_id: "${shutter_0}"   
+                    - logger.log: "close cover"
+                            
+# on_swipe_up : Обнаружен жест прокрутки вверх
+# on_swipe_down : Обнаружен жест смахивания вниз
+# on_press : Виджет был нажат.
+# on_long_press : Виджет был нажат по крайней мере в течение указанного в конфигурации устройства ввода. Не вызывается при прокрутке.long_press_time
+# on_short_click : Виджет был нажат на короткий промежуток времени, затем отпущен. Не вызывается при прокрутке или долгом нажатии.
+
+####################################################################################################################
+              - button:
+                  checkable: false
+                 # id: b_shutter_widget_1
+                  grid_cell_row_pos: 0 #Позиция ряд
+                  grid_cell_column_pos: 3 #Позиция колонка
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  grid_cell_row_span: 3 #Занять ячеек в рядах
+                  grid_cell_column_span: 3 #Занять ячеек в колонках
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: shutter_font_icon
+                        align: center
+                        text: ${shutter_close_icon}
+                        id: shutter_widget_icon_1
+                    - label:
+                        text_font: roboto24
+                        id: shutter_widget_name_1
+                        align: top_mid
+                        text: "недоступно"
+                        long_mode: dot
+                        y: -5
+                    - label:                        
+                        text_font: roboto24
+                        id: shutter_widget_state_1
+                        text: "недоступно"
+                        align: bottom_mid
+                        long_mode: dot
+                        y: 5
+                  on_short_click:
+                    - homeassistant.action:
+                        action: cover.toggle
+                        data:
+                          entity_id: "${shutter_1}" 
+                  on_long_press:
+                    - homeassistant.action:
+                        action: cover.stop_cover
+                        data:
+                          entity_id: "${shutter_1}" 
+                  on_swipe_up:
+                    - homeassistant.action:
+                        action: cover.open_cover
+                        data:
+                          entity_id: "${shutter_1}"                          
+                  on_swipe_down:         
+                    - homeassistant.action:
+                        action: cover.close_cover
+                        data:
+                          entity_id: "${shutter_1}"    
+####################################################################################################################
+              - button:
+                  checkable: false
+                 # id: b_shutter_widget_2
+                  grid_cell_row_pos: 3 #Позиция ряд
+                  grid_cell_column_pos: 0 #Позиция колонка
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  grid_cell_row_span: 3 #Занять ячеек в рядах
+                  grid_cell_column_span: 3 #Занять ячеек в колонках
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: shutter_font_icon
+                        align: center
+                        text: ${shutter_close_icon}
+                        id: shutter_widget_icon_2
+                    - label:
+                        text_font: roboto24
+                        id: shutter_widget_name_2
+                        align: top_mid
+                        text: "недоступно"
+                        long_mode: dot
+                        y: -5
+                    - label:                        
+                        text_font: roboto24
+                        id: shutter_widget_state_2
+                        text: "недоступно"
+                        align: bottom_mid
+                        long_mode: dot
+                        y: 5
+                  on_short_click:
+                    - homeassistant.action:
+                        action: cover.toggle
+                        data:
+                          entity_id: "${shutter_2}" 
+                  on_long_press:
+                    - homeassistant.action:
+                        action: cover.stop_cover
+                        data:
+                          entity_id: "${shutter_2}" 
+                  on_swipe_up:
+                    - homeassistant.action:
+                        action: cover.open_cover
+                        data:
+                          entity_id: "${shutter_2}"                          
+                  on_swipe_down:         
+                    - homeassistant.action:
+                        action: cover.close_cover
+                        data:
+                          entity_id: "${shutter_2}"   
+
+####################################################################################################################
+              - button:
+                  checkable: false
+                 # id: b_shutter_widget_3
+                  grid_cell_row_pos: 3 #Позиция ряд
+                  grid_cell_column_pos: 3 #Позиция колонка
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  grid_cell_row_span: 3 #Занять ячеек в рядах
+                  grid_cell_column_span: 3 #Занять ячеек в колонках
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        text_font: shutter_font_icon
+                        align: center
+                        text: ${shutter_close_icon}
+                        id: shutter_widget_icon_3
+                    - label:
+                        text_font: roboto24
+                        id: shutter_widget_name_3
+                        align: top_mid
+                        text: "недоступно"
+                        long_mode: dot
+                        y: -5
+                    - label:                        
+                        text_font: roboto24
+                        id: shutter_widget_state_3
+                        text: "недоступно"
+                        align: bottom_mid
+                        long_mode: dot
+                        y: 5
+                  on_short_click:
+                    - homeassistant.action:
+                        action: cover.toggle
+                        data:
+                          entity_id: "${shutter_3}" 
+                  on_long_press:
+                    - homeassistant.action:
+                        action: cover.stop_cover
+                        data:
+                          entity_id: "${shutter_3}" 
+                  on_swipe_up:
+                    - homeassistant.action:
+                        action: cover.open_cover
+                        data:
+                          entity_id: "${shutter_3}"                          
+                  on_swipe_down:         
+                    - homeassistant.action:
+                        action: cover.close_cover
+                        data:
+                          entity_id: "${shutter_3}"                          
+                         
+       

@@ -1,0 +1,233 @@
+lvgl:
+  pages:  # PAGE SETTINGS
+  - id: settings_page
+    bg_color: color_black
+    widgets:
+      - obj:
+          bg_opa: TRANSP
+          border_opa: TRANSP
+          shadow_opa: TRANSP
+          pad_all: 0
+          width: 480
+          height: 420
+          align: TOP_MID
+          layout:
+            pad_column: 0
+            pad_row: 0
+            type: GRID
+            grid_columns: [FR(10), FR(45), FR(45)]
+            grid_rows: [FR(1), FR(1), FR(1), FR(1), FR(1)]
+          widgets:
+            - label:
+                grid_cell_column_pos: 1 # place the widget in
+                grid_cell_row_pos: 0 # the corresponding cell
+                grid_cell_x_align: SPACE_AROUND   #'START', 'CENTER', 'END', 'STRETCH', 'SPACE_EVENLY', 'SPACE_AROUND', 'SPACE_BETWEEN'.
+                grid_cell_y_align: CENTER   #'START', 'CENTER', 'END', 'STRETCH', 'SPACE_EVENLY', 'SPACE_AROUND', 'SPACE_BETWEEN'.
+                align: LEFT_MID
+                text_font: roboto24
+                text_color: color_dark_gray
+                text: "Яркость экрана"
+                
+            - slider:
+                grid_cell_column_pos: 2 # place the widget in
+                grid_cell_row_pos: 0 # the corresponding cell
+                grid_cell_x_align: SPACE_AROUND   #'START', 'CENTER', 'END', 'STRETCH', 'SPACE_EVENLY', 'SPACE_AROUND', 'SPACE_BETWEEN'.
+                grid_cell_y_align: CENTER   #'START', 'CENTER', 'END', 'STRETCH', 'SPACE_EVENLY', 'SPACE_AROUND', 'SPACE_BETWEEN'.
+                id: dimmer_slider
+                radius: 10
+                bg_color: color_gray
+                align: CENTER
+                width: 180
+                height: 30
+                min_value: 35
+                max_value: 100
+                value: 100
+                indicator:
+                  bg_color: color_amber
+                  radius: 10
+                knob:
+                  bg_opa: TRANSP
+                on_release:
+                  then:
+                    - light.turn_on:
+                        id: backlight
+                        brightness: !lambda return int(x)/ 100.0;
+                              
+########################################################################################                              
+                              
+            - label:
+                grid_cell_column_pos: 1 # place the widget in
+                grid_cell_row_pos: 1 # the corresponding cell
+                grid_cell_x_align: SPACE_AROUND   #'START', 'CENTER', 'END', 'STRETCH', 'SPACE_EVENLY', 'SPACE_AROUND', 'SPACE_BETWEEN'.
+                grid_cell_y_align: CENTER   #'START', 'CENTER', 'END', 'STRETCH', 'SPACE_EVENLY', 'SPACE_AROUND', 'SPACE_BETWEEN'.
+                align: LEFT_MID
+                text_font: roboto24
+                text_color: color_dark_gray
+                text: "Сон (сек)"
+                
+            - roller:
+                id: display_timeout_roller
+                bg_opa: TRANSP
+                border_opa: TRANSP
+                shadow_opa: TRANSP
+                pad_all: 0
+                grid_cell_column_pos: 2 # place the widget in
+                grid_cell_row_pos: 1 # the corresponding cell
+                grid_cell_x_align: SPACE_AROUND   #'START', 'CENTER', 'END', 'STRETCH', 'SPACE_EVENLY', 'SPACE_AROUND', 'SPACE_BETWEEN'.
+                grid_cell_y_align: CENTER   #'START', 'CENTER', 'END', 'STRETCH', 'SPACE_EVENLY', 'SPACE_AROUND', 'SPACE_BETWEEN'.
+                width: 180
+                align: CENTER
+                text_font: roboto24
+                text_line_space: 4
+                selected:
+                  bg_opa: TRANSP
+                  text_font: roboto24
+                  text_color: color_amber
+                      #selected_index: !lambda return id(display_timeout_global);
+                options:
+                  - 60
+                  - 120
+                  - 180
+                  - 300
+                  - 600
+                visible_row_count: 2
+                on_value:
+                  then:
+                    - number.set:
+                        id: display_timeout
+                        value: !lambda |-
+                          static const int backlight_time[] = {60, 120, 180, 300, 600};
+                          return backlight_time[x];
+
+  
+########################################################################################    
+  
+            - label:
+                grid_cell_column_pos: 1 # place the widget in
+                grid_cell_row_pos: 2 # the corresponding cell
+                grid_cell_x_align: SPACE_AROUND   #'START', 'CENTER', 'END', 'STRETCH', 'SPACE_EVENLY', 'SPACE_AROUND', 'SPACE_BETWEEN'.
+                grid_cell_y_align: CENTER   #'START', 'CENTER', 'END', 'STRETCH', 'SPACE_EVENLY', 'SPACE_AROUND', 'SPACE_BETWEEN'.
+                align: LEFT_MID
+                text_font: roboto24
+                text_color: color_dark_gray
+                text:  "Выкл экран"
+
+            - obj:
+                bg_opa: TRANSP
+                border_opa: TRANSP
+                shadow_opa: TRANSP
+                pad_all: 0
+                grid_cell_column_pos: 2
+                grid_cell_row_pos: 2
+                grid_cell_x_align: STRETCH
+                grid_cell_y_align: STRETCH
+                grid_cell_column_span: 1
+                grid_cell_row_span: 1
+                widgets:
+                  - button:
+                      bg_color: color_amber
+                      align: CENTER
+                      width: 60
+                      height: 50
+                      on_click:
+                        - light.toggle:
+                            id: backlight  
+                        - lvgl.pause:
+
+
+
+########################################################################################    
+            - label:
+                grid_cell_column_pos: 1 # place the widget in
+                grid_cell_row_pos: 3 # the corresponding cell
+                grid_cell_x_align: SPACE_AROUND   #'START', 'CENTER', 'END', 'STRETCH', 'SPACE_EVENLY', 'SPACE_AROUND', 'SPACE_BETWEEN'.
+                grid_cell_y_align: CENTER   #'START', 'CENTER', 'END', 'STRETCH', 'SPACE_EVENLY', 'SPACE_AROUND', 'SPACE_BETWEEN'.
+                align: LEFT_MID
+                text_font: roboto24
+                text_color: color_dark_gray
+                text:  "Тренировка экрана"
+
+            - obj:
+                bg_opa: TRANSP
+                border_opa: TRANSP
+                shadow_opa: TRANSP
+                pad_all: 0
+                grid_cell_column_pos: 2
+                grid_cell_row_pos: 3
+                grid_cell_x_align: STRETCH
+                grid_cell_y_align: STRETCH
+                grid_cell_column_span: 1
+                grid_cell_row_span: 1
+                widgets:
+                  - button:
+                      bg_color: color_amber
+                      align: CENTER
+                      width: 60
+                      height: 50
+                      on_click:
+                        - switch.turn_on: switch_antiburn
+
+########################################################################################    
+
+            - label:
+                grid_cell_column_pos: 1 # place the widget in
+                grid_cell_row_pos: 4 # the corresponding cell
+                grid_cell_x_align: SPACE_AROUND   #'START', 'CENTER', 'END', 'STRETCH', 'SPACE_EVENLY', 'SPACE_AROUND', 'SPACE_BETWEEN'.
+                grid_cell_y_align: CENTER   #'START', 'CENTER', 'END', 'STRETCH', 'SPACE_EVENLY', 'SPACE_AROUND', 'SPACE_BETWEEN'.
+                align: LEFT_MID
+                text_font: roboto24
+                text_color: color_dark_gray
+                text:  "Перезагрузка"
+
+            - obj:
+                bg_opa: TRANSP
+                border_opa: TRANSP
+                shadow_opa: TRANSP
+                pad_all: 0
+                grid_cell_column_pos: 2
+                grid_cell_row_pos: 4
+                grid_cell_x_align: STRETCH
+                grid_cell_y_align: STRETCH
+                grid_cell_column_span: 1
+                grid_cell_row_span: 1
+                widgets:
+                  - button:
+                      bg_color: color_amber
+                      align: CENTER
+                      width: 60
+                      height: 50
+                      on_click:
+                        - button.press: restart_button
+
+########################################################################################    
+      - line:
+          points:
+            - 30, 85
+            - 450, 85
+          line_width: 2
+          line_color: color_dark_gray
+          line_rounded: true  
+          
+      - line:
+          points:
+            - 30, 170
+            - 450, 170
+          line_width: 2
+          line_color: color_dark_gray
+          line_rounded: true
+          
+      - line:
+          points:
+            - 30, 255
+            - 450, 255
+          line_width: 2
+          line_color: color_dark_gray
+          line_rounded: true
+          
+      - line:
+          points:
+            - 30, 340
+            - 450, 340
+          line_width: 2
+          line_color: color_dark_gray
+          line_rounded: true

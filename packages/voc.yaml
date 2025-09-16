@@ -1,0 +1,285 @@
+#############################################################################
+#----Страничка VOC ----------------------------------------------------------
+#############################################################################
+# Add yaml and copy file esphome/packages/
+#packages:
+#  voc: !include
+#    file: packages/display/voc.yaml
+#    vars:
+#      sensor_voc: sensor.holl_clock_voc
+# 
+#############################################################################
+
+substitutions:
+  voc_icon: "\U000F0BAC" # mdi:molecule
+font:
+  - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+    id: voc_36
+    size: 48
+    bpp: 4
+    glyphs: [
+      $voc_icon
+    ]  
+#-------------------------------------------
+# IMAGE
+#-------------------------------------------
+#image:
+#  - file: "picture/voc.png"
+ #   id: sun_voc
+ #   resize: 60x60
+ #   type: RGB565 
+#-------------------------------------------
+# SENSOR
+#-------------------------------------------    
+sensor:
+  - platform: homeassistant
+    id: voc
+    entity_id: $sensor_voc
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: voc_index_text
+            text: 
+              format: " %.0f"
+              args: ["id(voc).state"]
+
+        - lvgl.indicator.update:
+            id: voc_meter
+            value: !lambda |- 
+              return x;
+        - lambda: |-
+            uint16_t vvoc= (id(voc).state);
+              switch (vvoc) {
+                case 0 ... 50: return id(voc_class).publish_state("отлично");
+                case 51 ... 100: return id(voc_class).publish_state("хорошо");
+                case 101 ... 150: return id(voc_class).publish_state("слегка загрязненный");
+                case 151 ... 200: return id(voc_class).publish_state("умеренно загрязненный");
+                case 201 ... 250: return id(voc_class).publish_state("слегка загрязненный");
+                case 251 ... 300: return id(voc_class).publish_state("загрязненный");
+                case 301 ... 350: return id(voc_class).publish_state("сильно загрязненный");
+                case 351 ... 500: return id(voc_class).publish_state("черезвычайно загрязненный"); 
+                default: return id(voc_class).publish_state("n/a");
+              }
+
+################################################################
+        - lvgl.label.update:
+            id: display_voc
+            text: 
+              format: "$molecule %.0f ppm"
+              args: ["id(voc).state"]
+            text_color: !lambda |-
+              uint16_t vvoc = (id(voc).state);
+              switch (vvoc) {
+                case 0 ... 100: return lv_color_hex(0x00ff00);
+                case 101 ... 150: return lv_color_hex(0x99FF99);
+                case 151 ... 200: return lv_color_hex(0xe7c12c);
+                case 201 ... 250: return lv_color_hex(0xFFBB33);
+                case 251 ... 300: return lv_color_hex(0xff6600);
+                case 301 ... 500: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }    
+################################################################
+
+#-------------------------------------------
+# TEXT SENSOR
+#-------------------------------------------
+text_sensor:
+  - platform: template
+    id: voc_class
+    on_value:
+      then:
+         - lvgl.label.update:
+            id: display_voc_class
+            text: !lambda |- 
+              return x; 
+#-------------------------------------------
+# LVGL
+#-------------------------------------------
+lvgl:
+  pages:
+################################################################
+# Добавляем на weather voc
+    - id: !extend weather
+      widgets:
+        - button:
+            y: 190
+            x: 0
+            align: LEFT_MID
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 180
+            height: 40
+            widgets:  
+              - label:
+                  align: LEFT_MID
+                  id: display_voc
+                  text: --- ppm
+                  text_font: weather24
+                  text_color: 0x808080
+            on_press:
+              lvgl.page.show: voc_page   
+################################################################  
+      
+# Вывод на экран 
+    - id: voc_page
+      #width: 100%
+      bg_color: 0x000000
+      #opa: cover
+      scrollbar_mode: "OFF"
+      scrollable: false
+      widgets:
+        # Зеленый
+        - line:
+            points:
+              - 170, 170
+              - -70, 410
+            line_width: 200
+            line_color: 0x00ff00
+            line_rounded: false 
+        # Желтый
+        - line:
+            points:
+              - 90, 220
+              - 120, 0
+            line_width: 250
+            line_color:  0xe7c12c
+            line_rounded: false  
+        # Оранжевый
+        - line:
+            points:
+              - 170, 110
+              - 480, -80
+            line_width: 300
+            line_color: 0xffa500
+            line_rounded: false 
+            
+        # Красный
+        - line:
+            points:
+              - 330, 295
+              - 482, 0 #+5 -5
+            line_width: 220
+            line_color: 0xF50F34
+            line_rounded: false 
+        # Красный
+        - line:
+            points:
+              - 360, 220
+              - 390, 480
+            line_color: 0xF50F34
+            line_width: 240
+            line_rounded: false
+      
+  
+         # Черный
+        - line:
+            points:
+              - 105, 585
+              - 345, 345
+            align: TOP_left
+            line_width: 300
+            line_color: 0x000000
+            line_rounded: false 
+# Шкала
+        - meter:
+            bg_opa: 0%
+            opa: 100%
+            #bg_color: color_blue
+            shadow_color: color_blue
+            shadow_spread: 2
+            shadow_width: 25
+            shadow_opa: 100%
+            border_width: 15
+            width: 300
+            height: 300
+            align: center
+            scales:
+              - ticks: 
+                  count: 101
+                  width: 2
+                  length: 10
+                  color: 0x000000
+                  major:
+                    stride: 10
+                    width: 3
+                    length: 20
+                    color: 0x000000
+                    label_gap: 10
+                angle_range: 270
+                rotation: 135
+                range_from: 0
+                range_to: 100
+# Индикатор
+        - meter:
+            width: 200
+            height: 200
+            align: center
+            scales:
+              - indicators:
+                  - line:
+                      id: voc_meter
+                      width: 4
+                      color: 0xFF0000
+                      r_mod: -15
+                      value: 0
+                angle_range: 270
+                rotation: 135
+                range_from: 0
+                range_to: 500
+                ticks: 
+                  count: 101
+                  width: 0
+                  length: 0
+                  color: 0x000000
+                  major:
+                    stride: 10
+                    width: 0
+                    length: 0
+                    color: 0x000000
+                    label_gap: 8
+                    
+        - led:
+           y: 65
+           align: CENTER
+           color: 808080
+           width: 40
+           height: 25         
+        - label:
+            id: voc_index_text
+            text: "--"
+            text_color: color_violet
+            align: CENTER
+            y: 65
+                  
+        - spinner:
+            width: 245
+            height: 245
+            align: center
+            spin_time: 0s
+            arc_length: 0deg
+            arc_width: 3
+            arc_color: 0x000000
+            indicator:
+              arc_width: 3
+              arc_color: 0x000000
+              
+
+        - label:
+            id: display_voc_class
+            text_color: color_white
+            text_font: roboto36
+            align: TOP_MID 
+            y: 50
+        - label:
+            text: $voc_icon
+            text_color: color_white
+            text_font: voc_36
+            align: BOTTOM_MID
+            y: -40
+            
+     #   - image:
+      #      align: CENTER
+      #      src: voc
+     #       y: 180
+      #      bg_color: 0xFFFFFF
+        #    bg_image_opa: 100% 
