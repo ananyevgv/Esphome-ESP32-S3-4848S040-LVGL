@@ -7,7 +7,7 @@ https://aliexpress.ru/item/1005008214872438.html
 
 [license-shield]: https://img.shields.io/static/v1?label=License&message=MIT&color=orange&logo=license
 [license]: https://opensource.org/licenses/MIT
-[esphome-release-shield]: https://img.shields.io/static/v1?label=ESPHome&message=2025.7.4&color=green&logo=esphome
+[esphome-release-shield]: https://img.shields.io/static/v1?label=ESPHome&message=2025.9.0&color=green&logo=esphome
 [esphome-release]: https://GitHub.com/esphome/esphome/releases/
 
 Добавлен BME680 и IR_LED и выбор сущности "light.toggle" "switch.toggle" "button.press"
@@ -17,13 +17,14 @@ kitchen-lighting.yaml указываем свои сенсоры, первона
 создаем папку packages в esphome, копируем нужные пакеты в папку
 
 
-Раставиляем страницы в желаемой очередности, barometr и  weather можно использовать 1 экземпляр
+Раставиляем страницы в желаемой очередности 
 
 # смотри packages.yaml
 
 ```yaml
 packages:
-# Раставить страницы в желаемой очередности, weather  и barometr можно использовать 1 вариант
+# Раставить страницы в желаемой очередности, weather  можно использовать 1 вариант
+на главную страеицу сенсоры добавляются автоматически при добавлении пакета
 
 #############################################################################
 #----Страничка погоды-----------------------------------------------------
