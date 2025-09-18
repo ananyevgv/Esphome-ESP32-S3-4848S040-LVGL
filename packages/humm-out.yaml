@@ -1,3 +1,15 @@
+#############################################################################
+#----Страничка влажности на улице -------------------------------------------
+#############################################################################
+# Add yaml and copy file esphome/packages/
+#packages:
+#  humm-out: !include 
+#    file: packages/display/humm-out.yaml
+#    vars:
+#      sensor_humidity_out: sensor.iaroslavskaia_humidity
+# 
+#############################################################################
+
 #-------------------------------------------
 # IMAGE
 #-------------------------------------------
@@ -40,6 +52,23 @@ sensor:
             id: humm_out_meter
             value: !lambda |- 
               return x;
+################################################################
+        - lvgl.label.update:
+            id: display_hum
+            text: 
+              format: "%.0f %%"
+              args: ["id(humm_out).state"]  
+            text_color: !lambda |-
+              uint8_t hum_var = (id(humm_out).state);
+              switch (hum_var) {
+                case 0 ... 30: return lv_color_hex(0x00ff00);
+                case 31 ... 50: return lv_color_hex(0xe7c12c);
+                case 51 ... 60: return lv_color_hex(0x00ff00);
+                case 61 ... 70: return lv_color_hex(0xe7c12c);
+                case 71 ... 100: return lv_color_hex(0x2fc0ff);
+                default: return lv_color_hex(0x333333);
+              }   
+################################################################
 
 #-------------------------------------------
 # TEXT SENSOR
@@ -58,6 +87,29 @@ text_sensor:
 #-------------------------------------------
 lvgl:
   pages:
+################################################################
+# Добавляем на weather humm_out
+    - id: !extend weather
+      widgets:  
+        - button:
+            y: 80
+            x: 10
+            align: TOP_LEFT
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 180
+            height: 40
+            widgets:  
+              - label:
+                  align: LEFT_MID
+                  id: display_hum
+                  text:  --.- %
+                  text_font: roboto36
+                  text_color: 0x808080
+            on_press:
+              lvgl.page.show: humm_out_page  
+################################################################
+
 # Вывод на экран 
     - id: humm_out_page
       #width: 100%

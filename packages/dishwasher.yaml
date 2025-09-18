@@ -1,0 +1,710 @@
+#############################################################################
+#----Страничка посудомойки --------------------------------------------------
+#############################################################################
+# Add yaml and copy file esphome/packages/display
+#packages:
+#  dishwasher: !include 
+#    file: packages/display/dishwasher.yaml
+#    vars:
+
+#      sensor_dishwasher_percent: sensor.siemens_dishwasher_program_progress
+#      sensor_dishwasher_time: sensor.siemens_dishwasher_remaining_program_time 
+#      sensor_dishwasher_start_count: sensor.siemens_dishwasher_start_count
+#      sensor_dishwasher_water_forecast: sensor.siemens_dishwasher_water_forecast
+#      sensor_dishwasher_energy_forecast: sensor.siemens_dishwasher_energy_forecast
+#      sensor_dishwasher_program_phase: sensor.siemens_dishwasher_program_phase
+#      sensor_dishwasher_salt: sensor.siemens_dishwasher_salt
+#      sensor_dishwasher_time_end: sensor.posuda_time_end
+#      sensor_dishwasher_rinse_aid: sensor.siemens_dishwasher_rinse_aid
+        
+#      binary_sensor_dishwasher_door: binary_sensor.siemens_dishwasher_door
+#      binary_sensor_dishwasher_low_water_pressure: binary_sensor.siemens_dishwasher_low_water_pressure
+#      binary_sensor_dishwasher_aquastop_occurred: binary_sensor.siemens_dishwasher_aquastop_occurred
+      
+#      select_dishwasher_sound_level_signal: select.siemens_dishwasher_sound_level_signal
+#      select_dishwasher_selected_program: select.siemens_dishwasher_selected_program
+#      select_dishwasher_default_program: select.siemens_dishwasher_default_program
+#      select_dishwasher_remote_control: select.siemens_dishwasher_remote_control
+        
+#      switch_dishwasher_power: switch.siemens_dishwasher_power
+#      switch_dishwasher_variospeedplus: switch.siemens_dishwasher_variospeedplus
+#      switch_dishwasher_half_load: switch.siemens_dishwasher_half_load
+#      switch_dishwasher_silence_on_demand: switch.siemens_dishwasher_silence_on_demand
+#      switch_dishwasher_speed_on_demand: switch.siemens_dishwasher_speed_on_demand
+        
+#      button_dishwasher_start: button.siemens_dishwasher_start
+#      button_dishwasher_abort: button.siemens_dishwasher_abort
+# 
+#############################################################################
+
+
+#######################################
+#         #  e_for #        #         #
+#  power  #        # t_end  #         #
+#         #  w_for #        #   door  #
+#######################################
+#  sel_p                       sound  #
+#         #                 #         #
+#                           #         #
+#         #                 #         #
+#         #     phase       #  salt   #
+#         #                 #         #
+#         #    progress     #  rinse  #
+#         #                 #         #
+#         #                 # l_water #
+#         #                 #         #
+#         #                 # a_stop  #
+#######################################
+#         #        #        #         #
+# s_plus  # h_load # silenc #  speed  #  
+#         #        #        #         #
+#######################################
+
+
+substitutions:
+  power:            "\U000F0425" # power
+  stop:             "\U000F04DB" # stop
+  play:             "\U000F040A" # play
+  door:             "\U000F081B" # door-closed  
+  water:            "\U000F1505" # water-check-outline
+  speedometer:      "\U000F04C5" # speedometer
+  volume:           "\U000F0581" # volume-off
+  half:             "\U000F1992" # fraction-one-half
+  timer:            "\U000F1AE1" # timer-play-outline
+  shaker:           "\U000F110F" # shaker-outline
+  creation:         "\U000F0674" # creation
+  
+#-------------------------------------------
+# IMAGE
+#-------------------------------------------
+image:
+  - file: "picture/siemens1.jpg"
+    id: image_dishwasher
+    resize: 480x480
+    type: RGB565 
+    
+#-------------------------------------------
+# FONT
+#-------------------------------------------
+font:
+  - file: "font/DSEG7ModernMini-Bold.ttf"
+    id: SEG24
+    glyphs: |-
+      :-0123456789
+    size: 24
+    bpp: 4  
+
+  - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+    id: font_dishwasher
+    size: 48
+    bpp: 4
+    glyphs: [
+      $power,
+      $stop,
+      $play,
+      $door,
+      $water,
+      $speedometer,
+      $volume,
+      $half,
+      $timer,    
+      $shaker,
+      $creation
+    ]    
+    
+#-------------------------------------------
+# SWITCH
+#-------------------------------------------     
+switch:
+  - platform: homeassistant
+    id: sw_dishwasher_power
+    entity_id: $switch_dishwasher_power   
+    on_turn_on:
+      lvgl.widget.update:
+        id: l_dishwasher_power
+        text_color: 0x00FF00
+    on_turn_off:
+      lvgl.widget.update:
+        id: l_dishwasher_power
+        text_color: 0xB6B6B6
+  
+  - platform: homeassistant
+    id: sw_dishwasher_s_plus
+    entity_id: $switch_dishwasher_variospeedplus   
+    on_turn_on:
+      lvgl.widget.update:
+        id: l_dishwasher_s_plus
+        text_color: 0x00FF00
+    on_turn_off:
+      lvgl.widget.update:
+        id: l_dishwasher_s_plus
+        text_color: 0xB6B6B6  
+  
+  - platform: homeassistant
+    id: sw_dishwasher_h_load
+    entity_id: $switch_dishwasher_half_load   
+    on_turn_on:
+      lvgl.widget.update:
+        id: l_dishwasher_h_load
+        text_color: 0x00FF00
+    on_turn_off:
+      lvgl.widget.update:
+        id: l_dishwasher_h_load
+        text_color: 0xB6B6B6    
+  
+  - platform: homeassistant
+    id: sw_dishwasher_silenc
+    entity_id: $switch_dishwasher_silence_on_demand 
+    on_turn_on:
+      lvgl.widget.update:
+        id: l_dishwasher_silenc
+        text_color: 0x00FF00
+    on_turn_off:
+      lvgl.widget.update:
+        id: l_dishwasher_silenc
+        text_color: 0xB6B6B6 
+  
+  - platform: homeassistant
+    id: sw_dishwasher_speed
+    entity_id: $switch_dishwasher_speed_on_demand   
+    on_turn_on:
+      lvgl.widget.update:
+        id: l_dishwasher_speed
+        text_color: 0x00FF00
+    on_turn_off:
+      lvgl.widget.update:
+        id: l_dishwasher_speed
+        text_color: 0xB6B6B6 
+
+      
+#-------------------------------------------
+# BINARY_SENSOR
+#-------------------------------------------           
+binary_sensor:
+  - platform: homeassistant
+    entity_id: $binary_sensor_dishwasher_door
+    id: bin_dishwasher_door
+    trigger_on_initial_state: true
+    on_press:
+      lvgl.widget.update:
+        id: l_dishwasher_door
+        text_color: 0xFF0000
+    on_release:
+      lvgl.widget.update:
+        id: l_dishwasher_door
+        text_color: 0xB6B6B6
+  - platform: homeassistant
+    entity_id: $binary_sensor_dishwasher_low_water_pressure
+    id: bin_dishwasher_l_water
+    trigger_on_initial_state: true
+    on_press:
+      lvgl.widget.update:
+        id: l_dishwasher_l_water
+        text_color: 0xFF0000
+    on_release:
+      lvgl.widget.update:
+        id: l_dishwasher_l_water
+        text_color: 0xdce1e7 
+  - platform: homeassistant
+    entity_id: $binary_sensor_dishwasher_aquastop_occurred
+    id: bin_dishwasher_a_stop
+    trigger_on_initial_state: true
+    on_press:
+      lvgl.widget.update:
+        id: l_dishwasher_a_stop
+        text_color: 0xFF0000
+    on_release:
+      lvgl.widget.update:
+        id: l_dishwasher_a_stop
+        text_color: 0xdce1e7  
+  - platform: homeassistant
+    entity_id: $button_dishwasher_start
+    id: bin_dishwasher_start
+    trigger_on_initial_state: true
+    on_press:
+      lvgl.widget.update:
+        id: l_dishwasher_start
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: l_dishwasher_start
+        text_color: 0xB6B6B6  
+  - platform: homeassistant
+    entity_id: $button_dishwasher_abort
+    id: bin_dishwasher_abort
+    trigger_on_initial_state: true
+    on_press:
+      lvgl.widget.update:
+        id: l_dishwasher_abort
+        text_color: 0xFFFF00
+    on_release:
+      lvgl.widget.update:
+        id: l_dishwasher_abort
+        text_color: 0x00B600    
+        
+#-------------------------------------------
+# SENSOR
+#-------------------------------------------
+sensor:
+  - platform: homeassistant
+    id:  dishwasher_percent
+    entity_id: $sensor_dishwasher_percent
+    filters:
+      - filter_out: nan
+    on_value:
+      - lvgl.label.update:
+          id: display_dishwasher_percent
+          text: 
+            format: "%.0f %%"
+            args: ["id(dishwasher_percent).state"]  
+          text_color: white 
+      - lvgl.arc.update:
+          id: arc_dishwasher_percent
+          value: !lambda |- 
+            return x;
+      - lvgl.label.update:
+          id: label_dishwasher_percent
+          text:
+            format: "%0.0f %%"
+            args: ["x"] 
+            
+  - platform: homeassistant
+    id: ha_dishwasher_time
+    entity_id: $sensor_dishwasher_time
+    unit_of_measurement: h
+    device_class: duration
+    filters:
+      - filter_out: nan
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: display_dishwasher_time
+            text: 
+              format: "%02.0f:%02.0f"
+              args:  ["trunc(id(ha_dishwasher_time).state)", "trunc(fmod(id(ha_dishwasher_time).state , 1.0) * 60.0)"]  
+            #  format: "%03.0f"
+            #  args:  ["id(ha_dishwasher_time).state *60"]   
+            text_color: white     
+            
+        - lvgl.label.update:
+            id: l_dishwasher_time
+            text: 
+              format: "%02.0f:%02.0f"
+              args:  ["trunc(id(ha_dishwasher_time).state)", "trunc(fmod(id(ha_dishwasher_time).state , 1.0) * 60.0)"]  
+            text_color: black      
+#-------------------------------------------
+# TEXT_SENSOR
+#-------------------------------------------
+text_sensor:
+  - platform: homeassistant
+    id: ha_dishwasher_salt
+    entity_id: $sensor_dishwasher_salt
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: l_dishwasher_salt
+            text_color: !lambda |-
+              std::string state = id(ha_dishwasher_salt).state.c_str();
+              if (state == "full") { return lv_color_hex(0xdce1e7); }
+              else if (state == "nearly_empty") { return lv_color_hex(0xffff00); }
+              else if (state == "empty") { return lv_color_hex(0xff0000); }
+              return lv_color_hex(0xdce1e7);
+    
+  - platform: homeassistant
+    id: ha_dishwasher_rinse
+    entity_id: $sensor_dishwasher_rinse_aid
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: l_dishwasher_rinse
+            text_color: !lambda |-
+              std::string state = id(ha_dishwasher_rinse).state.c_str();
+              if (state == "full") { return lv_color_hex(0xdce1e7); }
+              else if (state == "nearly_empty") { return lv_color_hex(0xffff00); }
+              else if (state == "empty") { return lv_color_hex(0xff0000); }
+              return lv_color_hex(0xdce1e7);
+              
+  - platform: homeassistant
+    id: ha_dishwasher_phase
+    entity_id: $sensor_dishwasher_program_phase
+    filters:
+    #  - to_upper
+      - substitute:
+        - "PreRinse -> Замачивание" 
+        - "MainWash -> Основная мойка" 
+        - "FinalRinse -> Ополаскивание"
+        - "Drying -> Сушка" 
+        - "unavailable -> ВЫКЛ"
+        - "None -> "
+        
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: l_dishwasher_phase
+            text: !lambda return x;
+              
+  - platform: homeassistant
+    id: ha_dishwasher_t_end
+    entity_id: $sensor_dishwasher_time_end
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: l_dishwasher_t_end
+            text: !lambda return x;
+            text_color: color_green
+#-------------------------------------------
+# LVGL
+#-------------------------------------------
+lvgl:
+  pages:
+    - id: !extend weather
+# Добавляем на weather посудомойку
+      widgets:
+        - button:
+            y: 110
+            x: -5
+            align: TOP_RIGHT
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+           # shadow_spread: 2
+           # shadow_width: 25
+           # shadow_opa: 100%
+           # shadow_color: color_blue
+            width: 120
+            height: 70
+            widgets:  
+              - label:
+                  align: CENTER
+                  id: display_dishwasher_time
+                  text: 88:88
+                  text_font: SEG24
+                  text_color: 0x808080
+                  y: -5
+              - label:
+                  align: CENTER
+                  id: display_dishwasher_percent
+                  text: __%
+                  text_font: roboto24
+                  text_color: 0x808080
+                  y: 20
+            on_press:
+              lvgl.page.show: dishwasher_page
+
+
+
+# Страничка посудомойки 
+    - id: dishwasher_page
+      widgets:
+        - image:
+            align: CENTER
+            src: image_dishwasher
+##############################################################################            
+        - button:
+            id: b_dishwasher_power
+            x: 0
+            y: 0
+            align: TOP_LEFT
+            width: 120
+            height: 120
+            bg_opa: TRANSP
+            border_opa: TRANSP
+            shadow_opa: TRANSP
+            widgets:
+              - label:
+                  id: l_dishwasher_power
+                  align: LEFT_MID
+                  text_font: font_dishwasher
+                  text_color: color_gray
+                  text: $power
+                  x: 10
+                  y: -10            
+            on_click:
+              - homeassistant.service:
+                  service: switch.toggle
+                  data:
+                    entity_id: $switch_dishwasher_power 
+        - arc:
+            id: arc_dishwasher_percent
+            align: CENTER
+            arc_width: 20
+            width: 240
+            height: 240
+            min_value: 0
+            max_value: 100
+            start_angle: 0
+            end_angle: 360
+            rotation: 90
+            value: 100
+          #  arc_opa: TRANSP
+          #  arc_color: 0x43739e
+
+        - label:
+            id: l_dishwasher_phase
+            align: CENTER
+            text_color: color_dark_gray
+            text: "выключено"
+            text_font: roboto24
+            y: -50
+            
+        - label:
+            id: label_dishwasher_percent
+            align: CENTER
+            text_color: color_dark_gray
+            text: "__%"
+            text_font: roboto24
+            
+        - label:
+            id: l_dishwasher_time
+            align: CENTER
+            text_font: SEG24
+            text_color: color_gray
+            text: 88:88
+            y: 50
+
+        - dropdown:
+            id: d_programm
+            width: 120
+            align: TOP_LEFT 
+            bg_color: 0xdce1e7
+            y: 95
+           # x: 132
+            options:
+              - favorite
+              - eco 50
+              - glas 40
+              - intensiv 70
+              - prerinse
+              - quick 65
+            selected_index: 0
+            dropdown_list:
+              selected:
+                checked:
+                  text_color: 0xFF0000
+            on_change:
+              - homeassistant.service:
+                  service: select.select_option
+                  data:
+                    entity_id: $select_dishwasher_selected_program
+                    option: !lambda |- 
+                      switch (x) {
+                        case 0: return "favorite_001"; break;
+                        case 1: return "dishcare_dishwasher_program_eco50"; break;
+                        case 2: return "dishcare_dishwasher_program_glas40"; break;              
+                        case 3: return "dishcare_dishwasher_program_intensiv70"; break;      
+                        case 4: return "dishcare_dishwasher_program_prerinse"; break;              
+                        case 5: return "dishcare_dishwasher_program_quick65"; break; 
+                        default: return "favorite_001";
+                      }
+
+        - dropdown:
+            id: d_sound
+            width: 110
+            align: TOP_RIGHT
+            bg_color: 0xdce1e7
+            y: 95
+          #  x: 132
+            options:
+              - high
+              - low
+              - medium
+              - "off"
+            selected_index: 0
+            dropdown_list:
+              selected:
+                checked:
+                  text_color: 0xFF0000
+            on_change:
+              - homeassistant.service:
+                  service: select.select_option
+                  data:
+                    entity_id: $select_dishwasher_sound_level_signal
+                    option: !lambda |- 
+                      switch (x) {
+                        case 0: return "high"; break;
+                        case 1: return "low"; break;
+                        case 2: return "medium"; break;              
+                        case 3: return "medium"; break;      
+                        default: return "off";
+                      }
+
+###############################################
+        - label:
+            id: l_dishwasher_t_end
+            align: TOP_MID
+            text_font: SEG24
+            text_color: color_gray
+            text: 88:88
+            y: 35
+            x: 132
+
+        - label:
+            id: l_dishwasher_door
+            align: TOP_RIGHT
+            text_font: font_dishwasher
+            text_color: color_gray
+            text: $door
+            y: 20
+            
+        - label:
+            id: l_dishwasher_salt
+            align: TOP_RIGHT
+            text_font: font_dishwasher
+            text_color: 0xdce1e7
+            text: $shaker
+            y: 140
+
+        - label:
+            id: l_dishwasher_rinse
+            align: TOP_RIGHT
+            text_font: font_dishwasher
+            text_color: 0xdce1e7
+            text: $creation
+            y: 200
+
+        - label:
+            id: l_dishwasher_l_water
+            align: TOP_RIGHT
+            text_font: font_dishwasher
+            text_color: 0xdce1e7
+            text: $water
+            y: 260
+            
+        - label:
+            id: l_dishwasher_a_stop
+            align: TOP_RIGHT
+            text_font: font_dishwasher
+            text_color: 0xdce1e7
+            text: $water
+            y: 320
+            
+#####################################################################                      
+        - button:
+            id: b_dishwasher_start
+            x: 0
+            align: BOTTOM_LEFT
+            width: 80
+            height: 120
+            bg_opa: TRANSP
+            border_opa: TRANSP
+            shadow_opa: TRANSP
+            widgets:
+              - label:
+                  id: l_dishwasher_start
+                  align: LEFT_MID
+                  text_font: font_dishwasher
+                  text_color: color_gray
+                  text: $play
+            on_click:
+              - homeassistant.service:
+                  service: button.press
+                  data:
+                    entity_id: $button_dishwasher_start
+                    
+        - button:
+            id: b_dishwasher_abort
+            x: 80
+            align: BOTTOM_LEFT
+            width: 80
+            height: 120
+            bg_opa: TRANSP
+            border_opa: TRANSP
+            shadow_opa: TRANSP
+            widgets:
+              - label:
+                  id: l_dishwasher_abort
+                  align: LEFT_MID
+                  text_font: font_dishwasher
+                  text_color: color_gray
+                  text: $stop
+            on_click:
+              - homeassistant.service:
+                  service: button.press
+                  data:
+                    entity_id: $button_dishwasher_abort
+                    
+        - button:
+            id: b_dishwasher_s_plus
+            x: 160
+            align: BOTTOM_LEFT
+            width: 80
+            height: 120
+            bg_opa: TRANSP
+            border_opa: TRANSP
+            shadow_opa: TRANSP
+            widgets:
+              - label:
+                  id: l_dishwasher_s_plus
+                  align: LEFT_MID
+                  text_font: font_dishwasher
+                  text_color: 0xdce1e7
+                  text: $timer
+            on_click:
+              - homeassistant.service:
+                  service: switch.toggle
+                  data:
+                    entity_id: $switch_dishwasher_variospeedplus
+                    
+        - button:
+            id: b_dishwasher_h_load
+            x: 240
+            align: BOTTOM_LEFT
+            width: 80
+            height: 120
+            bg_opa: TRANSP
+            border_opa: TRANSP
+            shadow_opa: TRANSP
+            widgets:
+              - label:
+                  id: l_dishwasher_h_load
+                  align: LEFT_MID
+                  text_font: font_dishwasher
+                  text_color: 0xdce1e7
+                  text: $half
+            on_click:
+              - homeassistant.service:
+                  service: switch.toggle
+                  data:
+                    entity_id: $switch_dishwasher_half_load                  
+        - button:
+            id: b_dishwasher_silenc
+            x: 320
+            align: BOTTOM_LEFT
+            width: 80
+            height: 120
+            bg_opa: TRANSP
+            border_opa: TRANSP
+            shadow_opa: TRANSP
+            widgets:
+              - label:
+                  id: l_dishwasher_silenc
+                  align: LEFT_MID
+                  text_font: font_dishwasher
+                  text_color: 0xdce1e7
+                  text: $volume
+            on_click:
+              - homeassistant.service:
+                  service: switch.toggle
+                  data:
+                    entity_id: $switch_dishwasher_silence_on_demand         
+        - button:
+            id: b_dishwasher_speed
+            x: 400
+            align: BOTTOM_LEFT
+            width: 80
+            height: 120
+            bg_opa: TRANSP
+            border_opa: TRANSP
+            shadow_opa: TRANSP
+            widgets:
+              - label:
+                  id: l_dishwasher_speed
+                  align: LEFT_MID
+                  text_font: font_dishwasher
+                  text_color: 0xdce1e7
+                  text: $speedometer
+            on_click:
+              - homeassistant.service:
+                  service: switch.toggle
+                  data:
+                    entity_id: $switch_dishwasher_speed_on_demand
+                  

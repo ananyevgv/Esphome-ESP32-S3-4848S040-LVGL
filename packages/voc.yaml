@@ -1,3 +1,15 @@
+#############################################################################
+#----Страничка VOC ----------------------------------------------------------
+#############################################################################
+# Add yaml and copy file esphome/packages/
+#packages:
+#  voc: !include
+#    file: packages/display/voc.yaml
+#    vars:
+#      sensor_voc: sensor.holl_clock_voc
+# 
+#############################################################################
+
 substitutions:
   voc_icon: "\U000F0BAC" # mdi:molecule
 font:
@@ -48,7 +60,26 @@ sensor:
                 case 351 ... 500: return id(voc_class).publish_state("черезвычайно загрязненный"); 
                 default: return id(voc_class).publish_state("n/a");
               }
-    
+
+################################################################
+        - lvgl.label.update:
+            id: display_voc
+            text: 
+              format: "$molecule %.0f ppm"
+              args: ["id(voc).state"]
+            text_color: !lambda |-
+              uint16_t vvoc = (id(voc).state);
+              switch (vvoc) {
+                case 0 ... 100: return lv_color_hex(0x00ff00);
+                case 101 ... 150: return lv_color_hex(0x99FF99);
+                case 151 ... 200: return lv_color_hex(0xe7c12c);
+                case 201 ... 250: return lv_color_hex(0xFFBB33);
+                case 251 ... 300: return lv_color_hex(0xff6600);
+                case 301 ... 500: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }    
+################################################################
+
 #-------------------------------------------
 # TEXT SENSOR
 #-------------------------------------------
@@ -66,6 +97,29 @@ text_sensor:
 #-------------------------------------------
 lvgl:
   pages:
+################################################################
+# Добавляем на weather voc
+    - id: !extend weather
+      widgets:
+        - button:
+            y: 190
+            x: 0
+            align: LEFT_MID
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 180
+            height: 40
+            widgets:  
+              - label:
+                  align: LEFT_MID
+                  id: display_voc
+                  text: --- ppm
+                  text_font: weather24
+                  text_color: 0x808080
+            on_press:
+              lvgl.page.show: voc_page   
+################################################################  
+      
 # Вывод на экран 
     - id: voc_page
       #width: 100%

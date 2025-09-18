@@ -1,36 +1,18 @@
-substitutions:
-# Указываем название устройства
-  name: kitchen-lighting
-  last_name: boiler
-  device_description: "Выключатель кухня"
-  characters: " !#%'()+=,-_.:³°/μ0123456789АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧЩЬЫЪЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZабвгдеёжзийклмнопрстуфхцчщьыъэюяabcdefghijklmnopqrstuvwxyz"
-  number_characters: " :.-0123456789"
-# Указываем ID сенсоров в HA
+#https://github.com/bearpawmaxim/esphome-configs/blob/master/water-guard.yaml
 
-  sensor_uv_index: sensor.iaroslavskaia_uv_index
-  sensor_geomagnetic: sensor.iaroslavskaia_geomagnetic_field
-  sensor_temperature: sensor.kitchen_t
-  sensor_humidity: sensor.kitchen_humidity
-  sensor_pressure: sensor.iaroslavskaia_pressure
-  sensor_co2: sensor.holl_co2
-  sensor_weather: weather.iaroslavskaia
-  sensor_iaq: sensor.holl_iaq
-  sensor_iaq_c: sensor.holl_iaq_classification
-  sensor_voc: sensor.holl_voc
-  sensor_lux: sensor.holl_p
-  sensor_wind_speed: sensor.iaroslavskaia_wind_speed
-  sensor_birch: sensor.iaroslavskaia_birch_pollen_index
-  sensor_grass: sensor.iaroslavskaia_grass_pollen_index
-  sensor_ragweed: sensor.iaroslavskaia_ragweed_pollen_index
-  sensor_wind_bearing: sensor.iaroslavskaia_wind_bearing_2
+substitutions:
+  name: "holl-informer"
+  device_description: "Выключатель холл"
+  characters: " !#%'()+=,-_.:³°/μ0123456789АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧЩШЬЫЪЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZабвгдеёжзийклмнопрстуфхцчшщьыъэюяabcdefghijklmnopqrstuvwxyz"
+  number_characters: " :.-0123456789"
 
 # Icon page setting_page
-  botton_icon0: "󱠝" #countertop_outline
-  botton_page0: kitchen_page
+  botton_icon0: "\U000F0FD0" #bed-queen
+  botton_page0: button10_page
   collor_page0: color_crimson
   
-  botton_icon1: "\U000F0FD0" #bed-queen
-  botton_page1: holl_page
+  botton_icon1: "󱠝" #countertop_outline
+  botton_page1: button8_page
   collor_page1: color_blue
 
   botton_icon2: "\U000F0454" # remote
@@ -41,29 +23,314 @@ substitutions:
   botton_page3: thermostat_page
   collor_page3: color_green
   
-  botton_icon4: "\U000F19A2" # 
-  botton_page4: lg_remoute
+  botton_icon4: "\U000F0299" # 
+  botton_page4: button4_page
   collor_page4: color_yellow
 
-  botton_icon5: "\U000F08BB" # 
-  botton_page5: settings_page
+  botton_icon5: "\U000F111C" #F08BB" 
+  botton_page5: shutter_page
   collor_page5: color_orange
 
   background_boot: back6
-  background_weather: back6
-  background_kitchen: back6
-  background_holl: back6
-  background_lg: back6
-  background_button4: back6
-  background_button6: back6
-  background_button8: back6
-  background_button10: back6
-  background_button12: back6
-  background_button16: back6
-  background_slider4v: back6
-  background_slider4g: back6
-  background_slider4b: back6
-  lightbulb: "󰌵"
+
+#-------------------------------------------
+# Packages
+#-------------------------------------------
+packages:
+  wifi: !include packages/display/wifi-lvgl.yaml
+  
+  weather: !include 
+    file: packages/display/weather.yaml # выбрать один из трех weather
+    vars:
+      background_weather: back6
+      sensor_weather: weather.iaroslavskaia
+
+#############################################################################
+#----Страничка 10 кнопок холл-----------------------------------------------
+#############################################################################
+  button10: !include 
+    file: packages/display/button-10.yaml
+    vars:
+      pref_id: holl
+      background_button10: back6
+    # Кнопки 0 ряд
+      button10_icon_0_0:  "\U000F0335" # lightbulb "\U000F18DD" # ceiling_light_multiple
+      button10_entity_0_0: light.holl_led_1
+      button10_text_0_0: "Холл 1л"
+      button10_action_0_0: light.toggle
+      button10_checkable_0_0: "true"
+
+      button10_icon_0_1: "\U000F1255" # lightbulb-multiple "\U000F18DE" # ceiling_light_multiple_outline
+      button10_entity_0_1: light.holl_led_2
+      button10_text_0_1: "Холл 2л"
+      button10_action_0_1: light.toggle
+      button10_checkable_0_1: "true"
+
+    # Кнопки 1 ряд
+      button10_icon_1_0: "\U000F1793" # chandelier
+      button10_entity_1_0: light.in_shower
+      button10_action_1_0: light.toggle
+      button10_checkable_1_0: "true"
+
+      button10_icon_1_1: "\U000F09A0" # shower
+      button10_entity_1_1: light.shower
+      button10_action_1_1: "light.toggle"
+      button10_checkable_1_1: "true"
+
+      button10_icon_1_2: "\U000F081A" # door
+      button10_entity_1_2: light.vihod
+      button10_action_1_2: "light.toggle"
+      button10_checkable_1_2: "true"
+
+      button10_icon_1_3: "\U000F1020" # coach_lamp
+      button10_entity_1_3: light.vhod
+      button10_action_1_3: "light.toggle"
+      button10_checkable_1_3: "true"
+
+    # Кнопки 2 ряд
+      button10_icon_2_0: "\U000F0820" # lightning-bolt-circle
+      button10_entity_2_0: light.laba
+      button10_action_2_0: "light.toggle"
+      button10_checkable_2_0: "true"
+
+      button10_icon_2_1: "\U000F11DC" # window-open-variant
+      button10_entity_2_1: light.garderob
+      button10_action_2_1: "light.toggle"
+      button10_checkable_2_1: "true"
+
+      button10_icon_2_2: "\U000F028F" # fridge-outline
+      button10_entity_2_2: light.kladovka
+      button10_action_2_2: "light.toggle"
+      button10_checkable_2_2: "true"
+
+      button10_icon_2_3: "\U000F08F3" # nas
+      button10_entity_2_3: light.server
+      button10_action_2_3: "light.toggle"
+      button10_checkable_2_3: "true"
+#############################################################################
+#----Страничка 8 кнопок кухня-----------------------------------------------
+#############################################################################
+  button8: !include
+    file: packages/display/button-8.yaml
+    vars:
+      background_button8: back6
+    # Кнопки 0 ряд
+      button8_icon_0_0: "\U000F18DD" # ceiling_light_multiple
+      button8_entity_0_0: light.kitchen_n
+      button8_text_0_0: "Кухня низ"
+      button8_action_0_0: "light.toggle"
+      button8_checkable_0_0: "true"
+
+      button8_icon_0_1:  "\U000F18DE" # ceiling_light_multiple_outline
+      button8_entity_0_1: light.kitchen_v
+      button8_text_0_1: "Кухня верх"
+      button8_action_0_1: "light.toggle"
+      button8_checkable_0_1: "true"
+
+    # Кнопки 1 ряд
+      button8_icon_1_0: "\U000F1987" # light_flood_down
+      button8_entity_1_0: switch.wi_fi_smart_switch_switch_1
+      button8_action_1_0: "switch.toggle"
+      button8_checkable_1_0: "true"
+
+      button8_icon_1_1: "\U000F07F4" # television-classic
+      button8_entity_1_1: button.kitchen_clock_power_lg
+      button8_action_1_1: "button.press"
+      button8_checkable_1_1: "false"
+
+    # Кнопки 2 ряд
+      button8_icon_2_0: "\U000F12BA" # string_lights
+      button8_entity_2_0: light.kitchen_lighting_ch0
+      button8_action_2_0: "light.toggle"
+      button8_checkable_2_0: "true"
+
+      button8_icon_2_1: "\U000F1356" # television-ambient-light
+      button8_entity_2_1: light.kitchen_lighting_ch1
+      button8_action_2_1: "light.toggle"
+      button8_checkable_2_1: "true"
+
+      button8_icon_2_2: "\U000F0748" # wall-sconce-flat
+      button8_entity_2_2: light.kitchen_lighting_ch2
+      button8_action_2_2: "light.toggle"
+      button8_checkable_2_2: "true"
+
+      button8_icon_2_3: "\U000F091D" # wall-sconce-flat
+      button8_entity_2_3: light.kitchen_lighting_ch3
+      button8_action_2_3: "light.toggle"
+      button8_checkable_2_3: "true"
+
+#############################################################################
+#----Страничка 4 кнопоки улица-----------------------------------------------------
+#############################################################################
+  button4: !include
+    file: packages/display/button-4.yaml
+    vars:
+      background_button4: back6
+
+      button4_icon_0_0: "\U000F116A" # gate-open
+      button4_entity_0_0: switch.sonoff_1000fd870d_1
+      button4_text_0_0: "Ворота"
+      button4_action_0_0: "script.vorota"
+      button4_checkable_0_0: "false"
+
+      button4_icon_0_1: "\U000F1169" # gate-arrow-right
+      button4_entity_0_1: switch.sonoff_1000fd870d_2
+      button4_text_0_1: "Ворота 1/2"
+      button4_action_0_1: "script.vorota_1_2"
+      button4_checkable_0_1: "false"
+
+      button4_icon_1_0: "\U000F0299" # gate
+      button4_entity_1_0: switch.sonoff_1000fd870d_3
+      button4_text_1_0: "Закрыть"
+      button4_action_1_0: "script.vorota_close"
+      button4_checkable_1_0: "false"
+
+      button4_icon_1_1: "\U000F07AE" # cctv
+      button4_entity_1_1: light.cam
+      button4_text_1_1: "Камеры"
+      button4_action_1_1: "light.toggle"
+      button4_checkable_1_1: "true"
+#############################################################################
+#----Страничка управления двумя шторами--------------------------------------
+#############################################################################
+  shutter: !include
+    file: packages/display/shutter2.yaml
+    vars:
+      background_shutter: back6
+      shutter_0: "cover.holl_l_curtain"
+      shutter_1: "cover.holl_p_curtain"
+
+
+#############################################################################
+#----Страничка телевизора TV LG----------------------------------------------
+#############################################################################
+  lg: !include 
+    file: packages/display/lg_light.yaml  
+    vars:
+      background_lg: back6
+      GPIO_IR: GPIO1
+
+      buttonLG_icon_0_0: "\U000F0425" # power
+      buttonLG_icon_0_1: "\U000F02FA" # input
+      buttonLG_icon_0_2: "\U000F06A1" # home_outline
+      buttonLG_icon_0_3: "\U000F0BAB" # menu_open
+
+      lg_code_0_0: "0x20DF10EF" # power on/off
+      lg_code_0_1: "0x20DFD02F" # input
+      lg_code_0_2: "0x20DF3EC1" # home
+      lg_code_0_3: "0x20DF42BD" # MyAPP
+    # 2-3 строка пульта  
+      buttonLG_icon_up: "\U000F0415" # plus
+      buttonLG_icon_dw: "\U000F0374" #  minus
+      lg_code_up_0: "0x20DF40BF" # VolUp
+      lg_code_dw_0: "0x20DFC03F" # VolDwn
+      lg_code_up_1: "0x20DF00FF" # CHlUp
+      lg_code_dw_1: "0x20DF807F"# CHDwn
+      
+      buttonLG_icon_1_0: "\U000F0360" # menu_up
+      buttonLG_icon_1_1: "\U000F035E" # menu_left
+      buttonLG_icon_1_2: "\U000F035D" # menu_down
+      buttonLG_icon_1_3: "\U000F035F" # menu_right
+      buttonLG_icon_1_4: "\U000F0133" # checkbox
+
+      lg_code_1_0: "0x20DF02FD" # UP
+      lg_code_1_1: "0x20DF827D" # Dwn
+      lg_code_1_2: "0x20DFE01F" # Left
+      lg_code_1_3: "0x20DF609F" # Right
+      lg_code_1_4: "0x20DF22DD" # OK
+    # Четвертая строчка пульта
+      buttonLG_icon_2_0: "\U000F040A" # play
+      buttonLG_icon_2_1: "\U000F03E4" # pause
+      buttonLG_icon_2_2: "\U000F04DB" # stop
+      buttonLG_icon_2_3: "\U000F044A" #  record
+
+      lg_code_2_0: "0x20DF0DF2" # play
+      lg_code_2_1: "0x20DF5DA2" # pause
+      lg_code_2_2: "0x20DF8D72" # stop
+      lg_code_2_3: "0x20DFBD42" #  record
+
+#############################################################################
+#----Страничка посудомойки --------------------------------------------------
+#############################################################################
+  dishwasher: !include 
+    file: packages/display/dishwasher.yaml
+    vars:
+      sensor_dishwasher_percent: sensor.siemens_dishwasher_program_progress
+      sensor_dishwasher_time: sensor.siemens_dishwasher_remaining_program_time 
+
+  barometr: !include 
+    file: packages/display/barometr_page.yaml 
+    vars:
+      sensor_temperature: sensor.holl_clock_temperature
+      sensor_pressure: sensor.holl_clock_pressure
+
+  humm-out: !include 
+    file: packages/display/humm-out.yaml
+    vars:
+      sensor_humidity_out: sensor.iaroslavskaia_humidity
+      
+  geomag: !include 
+    file: packages/display/geomag.yaml
+    vars:
+      sensor_geomagnetic: sensor.iaroslavskaia_geomagnetic_field
+
+  UV: !include 
+    file: packages/display/UV.yaml
+    vars:
+      sensor_uv_index: sensor.iaroslavskaia_uv_index
+
+  wind: !include 
+    file: packages/display/wind.yaml 
+    vars:
+      sensor_wind_speed: sensor.iaroslavskaia_wind_speed
+      sensor_wind_bearing: sensor.iaroslavskaia_wind_bearing_2
+
+  iaq: !include
+    file: packages/display/iaq.yaml
+    vars:
+      sensor_iaq: sensor.holl_clock_iaq
+
+  co2: !include
+    file: packages/display/co2.yaml
+    vars:
+      sensor_co2: sensor.holl_clock_co2
+
+  voc: !include
+    file: packages/display/voc.yaml
+    vars:
+      sensor_voc: sensor.holl_clock_voc
+      
+  birch: !include
+    file: packages/display/birch.yaml
+    vars:
+      sensor_birch: sensor.iaroslavskaia_birch_pollen_index
+
+  grass: !include 
+    file: packages/display/grass.yaml
+    vars:
+      sensor_grass: sensor.iaroslavskaia_grass_pollen_index
+
+  ragweed: !include 
+    file: packages/display/ragweed.yaml
+    vars:
+      sensor_ragweed: sensor.iaroslavskaia_ragweed_pollen_index
+
+  humm: !include 
+    file: packages/display/humm.yaml
+    vars:
+      sensor_humidity: sensor.holl_clock_humidity
+
+  termostat: !include 
+    file: packages/display/termostat.yaml
+    vars:
+      room: holl
+      pin_switch_thermostat: GPIO2
+      thermostat_entity_switch: holl_switch_thermostat
+      thermostat_entity_sensor: sensor.holl_clock_temperature
+
+
+  settings: !include packages/display/settings.yaml
+
 #-------------------------------------------
 # ESPHOME PLATFORM SETTINGS
 #-------------------------------------------
@@ -165,68 +432,6 @@ color:
 
 
 #-------------------------------------------
-# Packages
-#-------------------------------------------
-packages:
-  wifi: !include packages/wifi-lvgl.yaml
-
-# Раставить страницы в желаемой очередности, barometr можно использовать 1 вариант
-  #weather: !include packages/weather_anime.yaml # выбрать один из трех weather #jpg:3 689 528 байт без 2 603 377 байт
-  weather: !include packages/weather.yaml # выбрать один из трех weather
-  #weather: !include packages/weather_bme680.yaml # выбрать один из трех обязателен barometr_bme680_weather.yaml
-  
-  button4: !include
-    file: packages/display/button-4.yaml
-    vars:
-      # !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
-      button4_icon_0_0: "\U000F18DE" # ceiling_light_multiple_outline
-      button4_icon_0_1: "󱊺" #string_lights
-      button4_icon_1_0: "󰯪" #alarm_light_on
-      button4_icon_1_1: "󱠝" #countertop_outline
-
-      button4_entity_0_0: light.holl_led_0
-      button4_entity_0_1: light.holl_led_1
-      button4_entity_1_0: light.holl_led_2
-      button4_entity_1_1: light.holl_led_3
-
-      button4_text_0_0: "Кухня низ"
-      button4_text_0_1: "Кухня верх"
-      button4_text_1_0: "Холл низ"
-      button4_text_1_1: "Холл верх"
-  #button6: !include packages/button-6.yaml
-  #button8: !include packages/button-8.yaml
-  #button10: !include packages/button-10.yaml
-  #button12: !include packages/button-12.yaml
-  #button16: !include packages/button-16.yaml
-  #slider4v: !include packages/slider-4v.yaml
-  #slider4g: !include packages/slider-4g.yaml
-  #slider4b: !include packages/slider-4b.yaml
-  kitchen: !include packages/kitchen_light.yaml # 30 844
-  holl: !include packages/holl_light.yaml # 29 420
-  #boiler: !include packages/boiler.yaml
-  lg: !include packages/lg_light.yaml  #495 288
- # clock: !include packages/clock_page.yaml
-
-  #barometr: !include packages/barometr.yaml # выбрать один из трех barometr
-  barometr: !include packages/barometr_page.yaml # выбрать один из трех barometr
-  #barometr: !include packages/barometr_bme680_page.yaml  # выбрать один из трех barometr
-  #barometr: !include packages/barometr_bme680_weather.yaml  # выбрать один из трех barometr  обязателен weather_bme680.yaml
-
-  geomag: !include packages/geomag.yaml
-  #geomag: !include packages/geomag-page.yaml # Фоновый рисунок
-  UV: !include packages/UV.yaml
-  wind: !include packages/wind.yaml 
-
-  birch: !include packages/birch.yaml
-  grass: !include packages/grass.yaml
-  ragweed: !include packages/ragweed.yaml
-
-  #UV: !include packages/UV-page.yaml # Фоновый рисунок
-  humm: !include packages/humm.yaml
-  termostat: !include packages/termostat.yaml
-  settings: !include packages/settings.yaml
-
-#-------------------------------------------
 # TIME
 #-------------------------------------------
 time:
@@ -234,12 +439,6 @@ time:
     id: sntp_time
     timezone: UTC-3 #Europe/Moscow
     servers: !secret sntp
-#    on_time_sync:
- #     - script.execute: time_update_weather
- #     - script.execute: time_update_holl
- #     - script.execute: time_update_kitchen
-     # - script.execute: time_update_clock  
- #     - script.execute: time_sync_barometr
     on_time:
       - minutes: 25
         seconds: 0
@@ -249,29 +448,26 @@ time:
         seconds: 0
         then:
           - switch.turn_off: switch_antiburn
-    #      - script.execute: time_update_barometr
-    #  - minutes: '*'
-    #    seconds: 0
-    #    then:
-    #      - script.execute: time_update_weather
-       #   - script.execute: time_update_holl
-       #   - script.execute: time_update_kitchen
-      #    - script.execute: time_update_clock
+
 #-------------------------------------------
 # IMAGE
 #-------------------------------------------
 image:
+ # - file: "picture/clok.jpg"
+ #   id: clok_image
+ #   resize: 450x450
+ #   type: RGB565 
  # - file: 'picture/ha_logo.png'
-  #  id: boot_logo
-  #  resize: 200x200
+ #   id: boot_logo
+ #   resize: 200x200
  #   type: RGB565
-  #  use_transparency: true
+ #   use_transparency: true
   - file: 'picture/back6.png'
     id: back6
     type: RGB565
   #- file: 'picture/back7.png'
   #  id: back7
-   # type: RGB565
+  #  type: RGB565
 
 #-------------------------------------------
 # FONT
@@ -356,10 +552,10 @@ switch:
 #-------------------------------------------
 button:
   - platform: restart
-    name: "${name} restart"
+    name: "restart"
     id: restart_button
   - platform: template
-    name: "${name} Next page"
+    name: "Next page"
     on_press:
       then:
         lvgl.page.next:    
@@ -382,9 +578,7 @@ light:
     output: GPIO38
     name: Backlight
     id: backlight
-
-
-
+    icon: mdi:television-ambient-light
     on_state:
       - lvgl.slider.update:
           id: dimmer_slider
@@ -402,7 +596,7 @@ number:
     initial_value: 45
     restore_value: true
     min_value: 10
-    max_value: 600
+    max_value: 180
     step: 5
     mode: box
  
@@ -424,7 +618,7 @@ touchscreen:
             - lvgl.resume:
             - lvgl.widget.redraw:
             - logger.log: "LVGL resuming"
-            - light.turn_on: backlight
+      - light.turn_on: backlight
 
 #-------------------------------------------
 # DISPLAY
@@ -485,13 +679,13 @@ display:
 #-------------------------------------------
 # WEB 51 112 bytes
 #-------------------------------------------
-web_server:
-  port: 80
-  version: 3
-  local: true
-  auth:
-    username: !secret web_user
-    password: !secret web_pass  
+#web_server:
+#  port: 80
+#  version: 3
+#  local: true
+#  auth:
+#    username: !secret web_user
+#    password: !secret web_pass
 
         
 #-------------------------------------------   
@@ -530,39 +724,7 @@ lvgl:
       text_color: 0xFFFFFF
       width: 100%
       height: 30
-###############################
-    - id: home_style
-      text_color: 0xD5D5D5
-      bg_opa: TRANSP
-      radius: 5
-      border_color: 0xE9E9E9
-      border_width: 0
-      #border_opa:
-      pad_all: 0
-      shadow_width: 0
-      shadow_opa: TRANSP
-    - id: card
-      text_color: 0xD5D5D5
-      bg_color: 0x222222
-      bg_opa: COVER
-      radius: 20
-      outline_width: 0
-      border_width: 0
-      #border_opa:
-      pad_all: 0
-    - id: tab_theme
-      border_width: 0
-      border_color: 0x0077b3
-      border_opa: TRANSP
-      bg_color: 0x2F8CD8
-      bg_grad_color: 0x005782                  
-      bg_grad_dir: VER
-      pad_all: 0                  
-      width: 100%
-      height: 50
-      text_font: roboto24
-      text_align: CENTER
-###############################
+
   theme:
     button:
       text_font: menu24

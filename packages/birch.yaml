@@ -7,6 +7,8 @@
 #    file: packages/birch.yaml
 #    vars:
 #      sensor_birch: sensor.iaroslavskaia_birch_pollen_index
+
+
 #-------------------------------------------
 # IMAGE
 #-------------------------------------------
@@ -44,7 +46,26 @@ sensor:
                 case 4: return id(birch_class).publish_state("Высокое содержание");
                 case 5: return id(birch_class).publish_state("Очень высокое содержание");
                 default: return id(birch_class).publish_state("n/a");
-              }   
+              }
+              
+################################################################
+        - lvgl.label.update:
+            id: display_birch
+            text: 
+              format: "$tree_outline %.0f "
+              args: ["id(birch_index).state"]
+            text_color: !lambda |-
+              uint16_t vbirch = (id(birch_index).state);
+              switch (vbirch) {
+                case 0 ... 1: return lv_color_hex(0x00ff00);
+                case 2: return lv_color_hex(0xe7c12c);
+                case 3: return lv_color_hex(0xFFBB33);
+                case 4: return lv_color_hex(0xff6600);
+                case 5: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              } 
+################################################################
+
 #-------------------------------------------
 # TEXT SENSOR
 #-------------------------------------------
@@ -63,6 +84,28 @@ text_sensor:
 #-------------------------------------------
 lvgl:
   pages:
+################################################################
+# Добавляем на weather birch
+    - id: !extend weather
+      widgets:
+        - button:
+            y: 130
+            x: 140
+            align: LEFT_MID
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 180
+            height: 40
+            widgets:  
+              - label:
+                  align: LEFT_MID
+                  id: display_birch
+                  text: --
+                  text_font: weather24
+                  text_color: 0x808080
+            on_press:
+              lvgl.page.show: birch_page
+              
 # Вывод на экран 
     - id: birch_page
       #width: 100%
@@ -71,55 +114,67 @@ lvgl:
       scrollbar_mode: "OFF"
       scrollable: false
       widgets:
-        # Зеленый
-        - line:
-            points:
-              - 170, 170
-              - -70, 410
-            line_width: 200
-            line_color: 0x00ff00
-            line_rounded: false 
-        # Желтый
-        - line:
-            points:
-              - 90, 220
-              - 120, 0
-            line_width: 250
-            line_color:  0xe7c12c
-            line_rounded: false  
-        # Оранжевый
-        - line:
-            points:
-              - 170, 110
-              - 480, -80
-            line_width: 300
-            line_color: 0xffa500
-            line_rounded: false 
-        # Красный
-        - line:
-            points:
-              - 330, 295
-              - 482, 0 #+5 -5
-            line_width: 220
-            line_color: 0xF50F34
-            line_rounded: false 
+        - canvas: 
+            width: 480
+            height: 480
+            id: birch_fon
+            on_boot:
+            # Зеленый
+              - lvgl.canvas.draw_polygon:
+                  id: birch_fon
+                  points:
+                    - 240, 240
+                    - 0, 480
+                    - 0, 200
+                    - 240, 240
+                  bg_color: 0x00ff00
+            # Желтый      
+              - lvgl.canvas.draw_polygon:
+                  id: birch_fon
+                  points:
+                    - 240, 240
+                    - 0, 200
+                    - 0, 0
+                    - 120, 0  
+                    - 240, 240           
+                  bg_color: 0xe7c12c
+            # Оранжевый      
+              - lvgl.canvas.draw_polygon:
+                  id: birch_fon
+                  points:
+                    - 240, 240
+                    - 120, 0
+                    - 360, 0
+                    - 240, 240           
+                  bg_color: 0xffa500
+            # Красный      
+              - lvgl.canvas.draw_polygon:
+                  id: birch_fon
+                  points:
+                    - 240, 240
+                    - 360, 0
+                    - 480, 0   
+                    - 480, 200
+                    - 240, 240           
+                  bg_color: 0xF50F34   
          # Фиолетовый
-        - line:
-            points:
-              - 360, 220
-              - 390, 480
-            line_color: 0xA63DC2 
-            line_width: 240
-            line_rounded: false
+              - lvgl.canvas.draw_polygon:
+                  id: birch_fon
+                  points:
+                    - 240, 240
+                    - 480, 200
+                    - 480, 480   
+                    - 240, 240           
+                  bg_color: 0xA63DC2  
          # Белый
-        - line:
-            points:
-              - 105, 585
-              - 345, 345
-            align: TOP_left
-            line_width: 300
-            line_color: 0xFFFFFF
-            line_rounded: false
+              - lvgl.canvas.draw_polygon:
+                  id: birch_fon
+                  points:
+                    - 240, 240
+                    - 480, 480
+                    - 0, 480   
+                    - 240, 240           
+                  bg_color: 0xffffff
 # Шкала
         - meter:
             bg_opa: 0%

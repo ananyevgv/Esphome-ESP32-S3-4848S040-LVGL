@@ -55,6 +55,24 @@ sensor:
                 case 33 ... 100: return id(wind_class).publish_state("Ураган");
                 default: return id(wind_class).publish_state("n/a");
               }
+
+################################################################
+        - lvgl.label.update:
+            id: display_wind_speed
+            text: 
+              format: "$windy %.0f"
+              args: ["id(wind_sped).state"]  
+            text_color: !lambda |-
+              uint16_t ws_var = (id(wind_sped).state *10);
+              switch (ws_var) {
+                case 0 ... 50: return lv_color_hex(0x00ff00);
+                case 60 ... 70: return lv_color_hex(0xe7c12c);
+                case 80 ... 150: return lv_color_hex(0x00ff00);
+                case 160 ... 290: return lv_color_hex(0xe7c12c);
+                case 300 ... 1000: return lv_color_hex(0x2fc0ff);
+                default: return lv_color_hex(0x333333);
+              }       
+################################################################
     
 #-------------------------------------------
 # TEXT SENSOR
@@ -96,6 +114,29 @@ text_sensor:
 #-------------------------------------------
 lvgl:
   pages:
+################################################################
+# Добавляем на weather wind
+    - id: !extend weather
+      widgets:
+        - button:
+            y: 20
+            x: 250 
+            align: TOP_LEFT
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 170
+            height: 40
+            widgets:   
+              - label:
+                  id: display_wind_speed
+                  text: --
+                  text_font: weather36
+                  text_color: 0x808080
+                  align: LEFT_MID
+            on_press:
+              lvgl.page.show: wind_page
+################################################################
+
 # Вывод на экран 
     - id: wind_page
       #width: 100%

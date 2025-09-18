@@ -1,3 +1,16 @@
+#############################################################################
+#----Страничка CO2 ----------------------------------------------------------
+#############################################################################
+# Add yaml and copy file esphome/packages/
+#packages:
+#  co2: !include
+#    file: packages/display/co2.yaml
+#    vars:
+#      sensor_co2: sensor.holl_clock_co2
+# 
+#############################################################################
+
+
 substitutions:
   co2_icon: "\U000F07E4" # mdi:molecule-co2
 font:
@@ -45,7 +58,24 @@ sensor:
                 case 2001 ... 5000: return id(co2_class).publish_state("Сильно загрязненный");
                 default: return id(co2_class).publish_state("n/a");
               }
-    
+              
+################################################################
+        - lvgl.label.update:
+            id: display_co2
+            text: 
+              format: "$molecule_co2 %.0f ppm"
+              args: ["id(co2).state"]
+            text_color: !lambda |-
+              uint16_t vco2 = (id(co2).state);
+              switch (vco2) {
+                case 0 ... 600: return lv_color_hex(0x00ff00);
+                case 601 ... 1000: return lv_color_hex(0x80FF95);
+                case 1001 ... 1500: return lv_color_hex(0xe7c12c);
+                case 1501 ... 2000: return lv_color_hex(0xf07c40);
+                case 2001 ... 4000: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }    
+################################################################
 #-------------------------------------------
 # TEXT SENSOR
 #-------------------------------------------
@@ -58,11 +88,34 @@ text_sensor:
             id: display_co2_class
             text: !lambda |- 
               return x; 
+              
 #-------------------------------------------
 # LVGL
 #-------------------------------------------
 lvgl:
   pages:
+################################################################
+# Добавляем на weather co2
+    - id: !extend weather
+      widgets:  
+        - button:
+            y: 160
+            x: 0
+            align: LEFT_MID
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 180
+            height: 40
+            widgets:  
+              - label:
+                  align: LEFT_MID
+                  id: display_co2
+                  text: --- ppm
+                  text_font: weather24
+                  text_color: 0x808080
+            on_press:
+              lvgl.page.show: co2_page  
+              
 # Вывод на экран 
     - id: co2_page
       #width: 100%

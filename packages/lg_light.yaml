@@ -2,6 +2,52 @@
 #----Универсальный Пульт (выбрать иконки и коды 
 # при необходимости изменить скрипт (в примере скрипт для LG)
 #############################################################################
+#  lg: !include 
+#    file: packages/display/lg_light.yaml  
+#    vars:
+#      background_lg: back6
+#      GPIO_IR: GPIO1
+#
+#      buttonLG_icon_0_0: "\U000F0425" # power
+#      buttonLG_icon_0_1: "\U000F02FA" # input
+#      buttonLG_icon_0_2: "\U000F06A1" # home_outline
+#      buttonLG_icon_0_3: "\U000F0BAB" # menu_open
+
+#      lg_code_0_0: "0x20DF10EF" # power on/off
+#      lg_code_0_1: "0x20DFD02F" # input
+#      lg_code_0_2: "0x20DF3EC1" # home
+#      lg_code_0_3: "0x20DF42BD" # MyAPP
+    # 2-3 строка пульта  
+#      buttonLG_icon_up: "\U000F0415" # plus
+#      buttonLG_icon_dw: "\U000F0374" #  minus
+#      lg_code_up_0: "0x20DF40BF" # VolUp
+#      lg_code_dw_0: "0x20DFC03F" # VolDwn
+#      lg_code_up_1: "0x20DF00FF" # CHlUp
+#      lg_code_dw_1: "0x20DF807F"# CHDwn
+      
+#      buttonLG_icon_1_0: "\U000F0360" # menu_up
+#      buttonLG_icon_1_1: "\U000F035E" # menu_left
+#      buttonLG_icon_1_2: "\U000F035D" # menu_down
+#      buttonLG_icon_1_3: "\U000F035F" # menu_right
+#      buttonLG_icon_1_4: "\U000F0133" # checkbox
+
+#      lg_code_1_0: "0x20DF02FD" # UP
+#      lg_code_1_1: "0x20DF827D" # Dwn
+#      lg_code_1_2: "0x20DFE01F" # Left
+#      lg_code_1_3: "0x20DF609F" # Right
+#      lg_code_1_4: "0x20DF22DD" # OK
+    # Четвертая строчка пульта
+#      buttonLG_icon_2_0: "\U000F040A" # play
+#      buttonLG_icon_2_1: "\U000F03E4" # pause
+#      buttonLG_icon_2_2: "\U000F04DB" # stop
+#      buttonLG_icon_2_3: "\U000F044A" #  record
+
+#      lg_code_2_0: "0x20DF0DF2" # play
+#      lg_code_2_1: "0x20DF5DA2" # pause
+#      lg_code_2_2: "0x20DF8D72" # stop
+#      lg_code_2_3: "0x20DFBD42" #  record
+#############################################################################
+
 font:
   - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
     id: LG48

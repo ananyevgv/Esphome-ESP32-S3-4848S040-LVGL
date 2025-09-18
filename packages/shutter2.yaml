@@ -1,3 +1,14 @@
+#############################################################################
+#----Страничка управления двумя шторами--------------------------------------
+#############################################################################
+#  shutter: !include
+#    file: packages/display/shutter2.yaml
+#    vars:
+#      background_shutter: back6
+#      shutter_0: "cover.holl_l_curtain"
+#      shutter_1: "cover.holl_p_curtain"
+#############################################################################
+
 #################################################
 #                      #                        #
 #                      #                        #
@@ -72,7 +83,7 @@ sensor:
         - lvgl.label.update:
             id: shutter_widget_current_pos_0
             text: 
-              format: " %.0f"
+              format: " %.0f %%"
               args: ["id(shutter_current_pos_0).state"]
         - lambda: |-
               int pos = round(id(shutter_current_pos_0).state / 10) * 10;
@@ -100,7 +111,7 @@ sensor:
         - lvgl.label.update:
             id: shutter_widget_current_pos_1
             text: 
-              format: " %.0f"
+              format: " %.0f %%"
               args: ["id(shutter_current_pos_1).state"]
         - lambda: |-
               int pos = round(id(shutter_current_pos_1).state / 10) * 10;
@@ -273,21 +284,25 @@ lvgl:
                         action: cover.toggle
                         data:
                           entity_id: "${shutter_0}" 
+                    - logger.log: "cover toggle"
                   on_long_press:
                     - homeassistant.action:
                         action: cover.stop_cover
                         data:
                           entity_id: "${shutter_0}" 
-                  on_swipe_up:
+                    - logger.log: "stop cover"
+                  on_swipe_top:
                     - homeassistant.action:
                         action: cover.open_cover
                         data:
-                          entity_id: "${shutter_0}"                          
-                  on_swipe_down:         
+                          entity_id: "${shutter_0}" 
+                    - logger.log: "open cover"
+                  on_swipe_bottom:         
                     - homeassistant.action:
                         action: cover.close_cover
                         data:
-                          entity_id: "${shutter_0}"            
+                          entity_id: "${shutter_0}"   
+                    - logger.log: "close cover"        
             ########### UP ############# 
               - button:
                   checkable: false

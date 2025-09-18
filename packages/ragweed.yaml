@@ -46,7 +46,25 @@ sensor:
                 case 5: return id(ragweed_class).publish_state("Очень высокое содержание");
                 default: return id(ragweed_class).publish_state("n/a");
               }
-#------------------
+
+################################################################              
+        - lvgl.label.update:
+            id: display_ragweed
+            text: 
+              format: "$flower_pollen %.0f"
+              args: ["id(ragweed_index).state"]
+            text_color: !lambda |-
+              uint16_t vragweed = (id(ragweed_index).state);
+              switch (vragweed) {
+                case 0 ... 1: return lv_color_hex(0x00ff00);
+                case 2: return lv_color_hex(0xe7c12c);
+                case 3: return lv_color_hex(0xFFBB33);
+                case 4: return lv_color_hex(0xff6600);
+                case 5: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }  
+################################################################ 
+              
 #-------------------------------------------
 # TEXT SENSOR
 #-------------------------------------------
@@ -65,6 +83,29 @@ text_sensor:
 #-------------------------------------------
 lvgl:
   pages:
+################################################################
+# Добавляем на weather ragweed
+    - id: !extend weather
+      widgets:
+        - button:
+            y: 190
+            x: 140
+            align: LEFT_MID
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 180
+            height: 40
+            widgets:  
+              - label:
+                  align: LEFT_MID
+                  id: display_ragweed
+                  text: --
+                  text_font: weather24
+                  text_color: 0x808080
+            on_press:
+              lvgl.page.show: ragweed_page
+################################################################
+
 # Вывод на экран 
     - id: ragweed_page
       #width: 100%

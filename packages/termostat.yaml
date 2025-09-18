@@ -1,3 +1,18 @@
+#############################################################################
+#----Страничка термостат ----------------------------------------------------
+#############################################################################
+# Add yaml and copy file esphome/packages/
+#packages:
+#  termostat: !include 
+#    file: packages/display/termostat.yaml
+#    vars:
+#      room: holl
+#      pin_switch_thermostat: GPIO2
+#      thermostat_entity_switch: holl_switch_thermostat
+#      thermostat_entity_sensor: sensor.holl_clock_temperature
+# 
+#############################################################################
+
 substitutions:
   heating:            "\U0000e908" # heating
   temperature:        "\U0000e915" # temperature
@@ -235,285 +250,324 @@ sensor:
           text:
             format: "%0.1f"
             args: ["x"] 
+################################################################
+      - lvgl.label.update:
+          id: display_holl_temp
+          text: 
+            format: "$house_temp %.1f °C"
+            args: ["id(room_temperature).state"]
+          text_color: !lambda |-
+            uint8_t temp_var = (id(room_temperature).state);
+            switch (temp_var) {
+              case 1 ... 10: return lv_color_hex(0x4867aa);
+              case 11 ... 21: return lv_color_hex(0x2fc0ff);
+              case 22 ... 25: return lv_color_hex(0x00ff00);
+              case 26 ... 30: return lv_color_hex(0xe7c12c);
+              case 31 ... 40: return lv_color_hex(0xff0000);
+              default: return lv_color_hex(0x333333);
+            }
+################################################################
 #-------------------------------------------
 # LVGL
 #-------------------------------------------
 lvgl:
   pages:
+################################################################
+# Добавляем на weather termostat
+    - id: !extend weather
+      widgets:
+        - button:
+            y: 40
+            align: LEFT_MID
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 180
+            height: 40
+            widgets:  
+              - label:
+                  align: LEFT_MID
+                  id: display_holl_temp
+                  text: --.- °C
+                  text_font: weather24
+                  text_color: 0x808080
+            on_press:
+              lvgl.page.show: thermostat_page
+################################################################
 # Вывод на экран 
-  - id: thermostat_page
-    widgets:
-      - obj:
-        #  bg_opa: TRANSP
-        #  border_opa: TRANSP
-        #  shadow_opa: TRANSP
-          width: 480
-          height: 480
-          widgets:
-            - meter:
-                height: 320
-                width: 320
-                border_width: 0
-                bg_opa: TRANSP
-                align: CENTER
-                scales:
-                  - range_from: 15
-                    range_to: 30
-                    angle_range: 270
-                    ticks:
-                      width: 1
-                      count: 31
-                      length: 10
-                      color: color_white
-                      major:
-                        stride: 2
-                        width: 5
-                        length: 15
+    - id: thermostat_page
+      widgets:
+        - obj:
+          #  bg_opa: TRANSP
+          #  border_opa: TRANSP
+          #  shadow_opa: TRANSP
+            width: 480
+            height: 480
+            widgets:
+              - meter:
+                  height: 320
+                  width: 320
+                  border_width: 0
+                  bg_opa: TRANSP
+                  align: CENTER
+                  scales:
+                    - range_from: 15
+                      range_to: 30
+                      angle_range: 270
+                      ticks:
+                        width: 1
+                        count: 31
+                        length: 10
                         color: color_white
-                        label_gap: 15
-                    indicators:
-                      - tick_style:
-                          start_value: 15
-                          end_value: 30
-                          color_start: color_blue
-                          color_end: color_crimson
-                          width: 1
-
-            - arc:
-                id: arc_target_temperature
-                align: CENTER
-                arc_width: 36
-                width: 400
-                height: 400
-                min_value: 15
-                max_value: 30
-                value: 24
-                adjustable: true
-                adv_hittest: true
-                arc_opa: TRANSP
-                indicator:
-                  arc_color: color_deep_orange
-                  arc_width: 40
-                knob:
-                  border_color: color_deep_orange
-                  border_width: 8
-                  bg_color: color_amber
-                on_release:
-                  - climate.control:
-                      id:  ${room}_thermostat
-                      target_temperature: !lambda return x;
-
-            - arc:
-                id: arc_sensor_temp
-                clickable: false
-                align: CENTER
-                arc_width: 24
-                width: 370
-                height: 370
-                min_value: 15
-                max_value: 30
-                value: 22
-                adjustable: true
-                arc_opa: TRANSP
-                indicator:
-                  arc_opa: TRANSP
-                knob:
-                  border_opa: TRANSP
-                  bg_color: color_green
-
-            - led:
-               align: CENTER
-               color: color_white
-               width: 20
-               height: 20
-               
-            - obj:
-                align: CENTER
-                bg_opa: TRANSP
-                border_opa: TRANSP
-                shadow_opa: TRANSP
-                width: 220
-                height: 220
-                radius: 90
-
-            - label:
-                id: heating_icon
-                y: 40
-                align: CENTER
-                text_color: color_dark_gray
-                text: "${heating}"
-                text_font: termostat48
-
-
-            - label:
-                id: heating_status
-                y: -80
-                x: 0
-                align: CENTER
-                text_font: roboto24
-                text_color: color_deep_orange
-                text: "Обогрев"
-        
-            - button:
-                x: -140
-                y: -20
-                align: RIGHT_MID
-                width: 160
-                height: 100
-                bg_opa: TRANSP
-                border_opa: TRANSP
-                shadow_opa: TRANSP
-                widgets:
-                  - label:
-                      x: -10
-                      id: ${room}_target_temperature
-                      align: LEFT_MID
-                      text_font: roboto84
-                      text_color: color_black
-                      text: "24."
-                      
-                  - label:
-                      id: target_temperature_measurement
-                      align: TOP_RIGHT
-                      text_font: roboto36
-                      text_color: color_black
-                      text: "°C"
-                      
-                  - label:
-                      id: ${room}_target_temperature_fraction
-                      align: BOTTOM_RIGHT
-                      text_font: roboto36
-                      text_color: color_black
-                      text: "0"
-                    
-                on_click:
-                  - switch.toggle:
-                      id: climate_toggle
+                        major:
+                          stride: 2
+                          width: 5
+                          length: 15
+                          color: color_white
+                          label_gap: 15
+                      indicators:
+                        - tick_style:
+                            start_value: 15
+                            end_value: 30
+                            color_start: color_blue
+                            color_end: color_crimson
+                            width: 1
  
-            - label:
-                id: sensor_temperature_thermostat_icon
-                y: 80
-                x: -37
-                align: CENTER
-                text_font: termostat48
-                text_color: color_black
-                text: "${temperature}"
+              - arc:
+                  id: arc_target_temperature
+                  align: CENTER
+                  arc_width: 36
+                  width: 400
+                  height: 400
+                  min_value: 15
+                  max_value: 30
+                  value: 24
+                  adjustable: true
+                  adv_hittest: true
+                  arc_opa: TRANSP
+                  indicator:
+                    arc_color: color_deep_orange
+                    arc_width: 40
+                  knob:
+                    border_color: color_deep_orange
+                    border_width: 8
+                    bg_color: color_amber
+                  on_release:
+                    - climate.control:
+                        id:  ${room}_thermostat
+                        target_temperature: !lambda return x;
+ 
+              - arc:
+                  id: arc_sensor_temp
+                  clickable: false
+                  align: CENTER
+                  arc_width: 24
+                  width: 370
+                  height: 370
+                  min_value: 15
+                  max_value: 30
+                  value: 22
+                  adjustable: true
+                  arc_opa: TRANSP
+                  indicator:
+                    arc_opa: TRANSP
+                  knob:
+                    border_opa: TRANSP
+                    bg_color: color_green
 
-            - label:
-                id: sensor_temperature_thermostat
-                y: 80
-                x: 10
-                align: CENTER
-                text_font: roboto24
-                text_color: color_black
-                text: "na"
+              - led:
+                 align: CENTER
+                 color: color_white
+                 width: 20
+                 height: 20
+                 
+              - obj:
+                  align: CENTER
+                  bg_opa: TRANSP
+                  border_opa: TRANSP
+                  shadow_opa: TRANSP
+                  width: 220
+                  height: 220
+                  radius: 90
 
-            - button:
-                x: 50
-                y: -40
-                width: 70
-                height: 70
-                bg_color: color_red
-                border_color: color_gray
-                border_width: 5
-                shadow_opa: TRANSP
-                radius: 35
-                align: BOTTOM_MID
-                widgets:
-                  - label:
-                      y: -2
-                      align: CENTER
-                      text_font: roboto36
-                      text_color: color_gray
-                      text: "+"
-                on_press:
-                  - climate.control:
-                      id:  ${room}_thermostat
-                      target_temperature: !lambda "return id(${room}_thermostat).target_temperature + 0.5;"
-           
-            - button:
-                x: -50
-                y: -40
-                width: 70
-                height: 70
-                bg_color: color_blue
-                border_color: color_gray
-                border_width: 5
-                shadow_opa: TRANSP
-                radius: 35
-                align: BOTTOM_MID
-                widgets:
-                  - label:
-                      y: -2
-                      align: CENTER
-                      text_font: roboto36
-                      text_color: color_gray
-                      text: "-"
-                on_press:
-                  - climate.control:
-                      id:  ${room}_thermostat
-                      target_temperature: !lambda "return id(${room}_thermostat).target_temperature - 0.5;"
+              - label:
+                  id: heating_icon
+                  y: 40
+                  align: CENTER
+                  text_color: color_dark_gray
+                  text: "${heating}"
+                  text_font: termostat48
+ 
 
-            - button:
-                width: 70
-                height: 70
-                bg_color: color_yellow
-                border_color: color_gray
-                border_width: 5
-                shadow_opa: TRANSP
-                radius: 35
-                align: TOP_RIGHT 
-                widgets:
-                  - label:
-                      y: -2
-                      align: CENTER
-                      text_font: termostat48
-                      text_color: color_gray
-                      text: "${home_account}"
-                on_press:
-                  - climate.control:
-                      id:  ${room}_thermostat
-                      custom_preset: "Home"
-
-            - button:
-                width: 70
-                height: 70
-                bg_color: color_blue
-                border_color: color_gray
-                border_width: 5
-                shadow_opa: TRANSP
-                radius: 35
-                align: TOP_LEFT
-                widgets:
-                  - label:
-                      y: -2
-                      align: CENTER
-                      text_font: termostat48
-                      text_color: color_gray
-                      text: "${hiking}"
-                on_press:
-                  - climate.control:
-                      id:  ${room}_thermostat
-                      custom_preset: "AWAY"
+              - label:
+                  id: heating_status
+                  y: -80
+                  x: 0
+                  align: CENTER
+                  text_font: roboto24
+                  text_color: color_deep_orange
+                  text: "Обогрев"
+        
+              - button:
+                  x: -140
+                  y: -20
+                  align: RIGHT_MID
+                  width: 160
+                  height: 100
+                  bg_opa: TRANSP
+                  border_opa: TRANSP
+                  shadow_opa: TRANSP
+                  widgets:
+                    - label:
+                        x: -10
+                        id: ${room}_target_temperature
+                        align: LEFT_MID
+                        text_font: roboto84
+                        text_color: color_black
+                        text: "24."
                       
-            - button:
-                y: -20
-                width: 70
-                height: 70
-                bg_color: color_green
-                border_color: color_gray
-                border_width: 5
-                shadow_opa: TRANSP
-                radius: 35
-                align: BOTTOM_LEFT
-                widgets:
-                  - label:
-                      y: -2
-                      align: CENTER
-                      text_font: termostat48
-                      text_color: color_gray
-                      text: "${bed}"
-                on_press:
-                  - climate.control:
-                      id:  ${room}_thermostat
-                      custom_preset: "SLEEP"
+                    - label:
+                        id: target_temperature_measurement
+                        align: TOP_RIGHT
+                        text_font: roboto36
+                        text_color: color_black
+                        text: "°C"
+                       
+                    - label:
+                        id: ${room}_target_temperature_fraction
+                        align: BOTTOM_RIGHT
+                        text_font: roboto36
+                        text_color: color_black
+                        text: "0"
+                     
+                  on_click:
+                    - switch.toggle:
+                        id: climate_toggle
+  
+              - label:
+                  id: sensor_temperature_thermostat_icon
+                  y: 80
+                  x: -37
+                  align: CENTER
+                  text_font: termostat48
+                  text_color: color_black
+                  text: "${temperature}"
+
+              - label:
+                  id: sensor_temperature_thermostat
+                  y: 80
+                  x: 10
+                  align: CENTER
+                  text_font: roboto24
+                  text_color: color_black
+                  text: "na"
+
+              - button:
+                  x: 50
+                  y: -40
+                  width: 70
+                  height: 70
+                  bg_color: color_red
+                  border_color: color_gray
+                  border_width: 5
+                  shadow_opa: TRANSP
+                  radius: 35
+                  align: BOTTOM_MID
+                  widgets:
+                    - label:
+                        y: -2
+                        align: CENTER
+                        text_font: roboto36
+                        text_color: color_gray
+                        text: "+"
+                  on_press:
+                    - climate.control:
+                        id:  ${room}_thermostat
+                        target_temperature: !lambda "return id(${room}_thermostat).target_temperature + 0.5;"
+             
+              - button:
+                  x: -50
+                  y: -40
+                  width: 70
+                  height: 70
+                  bg_color: color_blue
+                  border_color: color_gray
+                  border_width: 5
+                  shadow_opa: TRANSP
+                  radius: 35
+                  align: BOTTOM_MID
+                  widgets:
+                    - label:
+                        y: -2
+                        align: CENTER
+                        text_font: roboto36
+                        text_color: color_gray
+                        text: "-"
+                  on_press:
+                    - climate.control:
+                        id:  ${room}_thermostat
+                        target_temperature: !lambda "return id(${room}_thermostat).target_temperature - 0.5;"
+ 
+              - button:
+                  width: 70
+                  height: 70
+                  bg_color: color_yellow
+                  border_color: color_gray
+                  border_width: 5
+                  shadow_opa: TRANSP
+                  radius: 35
+                  align: TOP_RIGHT 
+                  widgets:
+                    - label:
+                        y: -2
+                        align: CENTER
+                        text_font: termostat48
+                        text_color: color_gray
+                        text: "${home_account}"
+                  on_press:
+                    - climate.control:
+                        id:  ${room}_thermostat
+                        custom_preset: "Home"
+  
+              - button:
+                  width: 70
+                  height: 70
+                  bg_color: color_blue
+                  border_color: color_gray
+                  border_width: 5
+                  shadow_opa: TRANSP
+                  radius: 35
+                  align: TOP_LEFT
+                  widgets:
+                    - label:
+                        y: -2
+                        align: CENTER
+                        text_font: termostat48
+                        text_color: color_gray
+                        text: "${hiking}"
+                  on_press:
+                    - climate.control:
+                        id:  ${room}_thermostat
+                        custom_preset: "AWAY"
+                       
+              - button:
+                  y: -20
+                  width: 70
+                  height: 70
+                  bg_color: color_green
+                  border_color: color_gray
+                  border_width: 5
+                  shadow_opa: TRANSP
+                  radius: 35
+                  align: BOTTOM_LEFT
+                  widgets:
+                    - label:
+                        y: -2
+                        align: CENTER
+                        text_font: termostat48
+                        text_color: color_gray
+                        text: "${bed}"
+                  on_press:
+                    - climate.control:
+                        id:  ${room}_thermostat
+                        custom_preset: "SLEEP"
+ 

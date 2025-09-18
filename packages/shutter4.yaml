@@ -1,3 +1,18 @@
+#############################################################################
+#----Страничка управления четырьмя шторами-----------------------------------
+#############################################################################
+#  shutter: !include
+#    file: packages/display/shutter4.yaml
+#    vars:
+#      background_shutter: back6
+#      shutter_0: "cover.holl_l_curtain"
+#      shutter_1: "cover.holl_p_curtain"
+#      shutter_2: "cover.holl_l_curtain"
+#      shutter_3: "cover.holl_p_curtain"
+#############################################################################
+
+
+
 #################################################
 #                      #                        #
 #                      #                        #
@@ -284,6 +299,8 @@ lvgl:
 ####################################################################################################################
               - button:
                   checkable: false
+                  press_lock: false
+                  scrollable: true
                  # id: b_shutter_widget_0
                   grid_cell_row_pos: 0 #Позиция ряд
                   grid_cell_column_pos: 0 #Позиция колонка
@@ -317,21 +334,25 @@ lvgl:
                         action: cover.toggle
                         data:
                           entity_id: "${shutter_0}" 
+                    - logger.log: "cover toggle"
                   on_long_press:
                     - homeassistant.action:
                         action: cover.stop_cover
                         data:
                           entity_id: "${shutter_0}" 
-                  on_swipe_up:
+                    - logger.log: "stop cover"
+                  on_swipe_top:
                     - homeassistant.action:
                         action: cover.open_cover
                         data:
-                          entity_id: "${shutter_0}"                          
-                  on_swipe_down:         
+                          entity_id: "${shutter_0}" 
+                    - logger.log: "open cover"
+                  on_swipe_bottom:         
                     - homeassistant.action:
                         action: cover.close_cover
                         data:
-                          entity_id: "${shutter_0}"                          
+                          entity_id: "${shutter_0}"   
+                    - logger.log: "close cover"
                             
 # on_swipe_up : Обнаружен жест прокрутки вверх
 # on_swipe_down : Обнаружен жест смахивания вниз

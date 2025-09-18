@@ -48,6 +48,25 @@ sensor:
                 case 9: return id(geomag_class).publish_state("экстремальный шторм");
                 default: return id(geomag_class).publish_state("n/a");
               }
+
+################################################################
+        - lvgl.label.update:
+            id: display_geomagnetic
+            text: 
+              format: "$earth %.0f"
+              args: ["id(geomagnetic).state"]
+            text_color: !lambda |-
+              uint8_t geo_var = (id(geomagnetic).state);
+              switch (geo_var) {
+                case 0 ... 4: return lv_color_hex(0x00ff00);
+                case 5: return lv_color_hex(0x99FF99);
+                case 6: return lv_color_hex(0xe7c12c);
+                case 7: return lv_color_hex(0xFFBB33);
+                case 8: return lv_color_hex(0xff6600);
+                case 9: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }
+################################################################
 #-------------------------------------------
 # TEXT SENSOR
 #-------------------------------------------
@@ -66,6 +85,28 @@ text_sensor:
 #-------------------------------------------  
 lvgl:
   pages:
+################################################################
+# Добавляем на weather geomag
+    - id: !extend weather
+      widgets:  
+        - button:
+            y: 100
+            x: 250
+            align: TOP_LEFT
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 100
+            height: 40
+            widgets:
+              - label:
+                  id: display_geomagnetic
+                  text: --
+                  text_font: weather36
+                  text_color: 0x808080
+                  align: LEFT_MID
+            on_press:
+              lvgl.page.show: geomag
+              
 # Вывод на экран 
     - id: geomag
       #width: 100%

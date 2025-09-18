@@ -33,6 +33,23 @@ sensor:
             text: 
               format: " %.0f"
               args: ["id(uv_index).state"]
+################################################################
+        - lvgl.label.update:
+            id: display_UV
+            text: 
+              format: "$sun_wireless %.0f"
+              args: ["id(uv_index).state"]
+            text_color: !lambda |-
+              uint8_t uv_var = (id(uv_index).state);
+              switch (uv_var) {
+                case 0 ... 2: return lv_color_hex(0x00ff00);
+                case 3 ... 5: return lv_color_hex(0x99FF99);
+                case 6 ... 7: return lv_color_hex(0xe7c12c);
+                case 8 ... 10: return lv_color_hex(0xff6600);
+                case 11: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }   
+################################################################
 
         - lvgl.indicator.update:
             id: uv_meter
@@ -67,6 +84,29 @@ text_sensor:
 #-------------------------------------------
 lvgl:
   pages:
+################################################################
+# Добавляем на weather UV
+    - id: !extend weather
+      widgets:
+        - button:
+            y: 60
+            x: 250
+            align: TOP_LEFT
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 100
+            height: 40
+            widgets:   
+              - label:
+                  id: display_UV
+                  text: -- 
+                  text_font: weather36
+                  text_color: 0x808080
+                  align: LEFT_MID
+            on_press:
+              lvgl.page.show: UV_page  
+################################################################  
+  
 # Вывод на экран 
     - id: UV_page
       #width: 100%

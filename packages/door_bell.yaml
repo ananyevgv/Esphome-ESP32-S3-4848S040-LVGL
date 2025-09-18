@@ -8,7 +8,7 @@
 #    vars:
 #      button_doorbell: binary_sensor.doorbell
 #      url_image: "http://192.168.1.10:8123/static/icons/favicon-192x192.png"
-#
+#      url_image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/PNG_transparency_demonstration_1.png/280px-PNG_transparency_demonstration_1.png"
 #############################################################################
 
 http_request:
@@ -25,6 +25,11 @@ online_image:
           id: doorbell_image_widget
           src: doorbell_image
       - lvgl.page.show: doorbell_page
+      - if:
+          condition: lvgl.is_paused
+          then:
+            - lvgl.resume:
+            - lvgl.widget.redraw:
       - light.turn_on: backlight
 
 binary_sensor:

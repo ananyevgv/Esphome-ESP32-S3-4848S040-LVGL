@@ -1,3 +1,16 @@
+#############################################################################
+#----Страничка IAQ-----------------------------------------------------------
+#############################################################################
+# Add yaml and copy file esphome/packages/
+#packages:
+#  iaq: !include
+#    file: packages/display/iaq.yaml
+#    vars:
+#      sensor_iaq: sensor.holl_clock_iaq
+# 
+#############################################################################
+
+
 #-------------------------------------------
 # IMAGE
 #-------------------------------------------
@@ -38,7 +51,37 @@ sensor:
                 case 351 ... 500: return id(iaq_class).publish_state("Черезвычайно загрязненный"); 
                 default: return id(iaq_class).publish_state("n/a");
               }
-    
+################################################################
+        - lvgl.label.update:
+            id: display_iaq
+            text: 
+              format: "$checkbox_marked %.0f ppm"
+              args: ["id(iaq).state"]
+            text_color: !lambda |-
+              uint16_t viaq = (id(iaq).state);
+              switch (viaq) {
+                case 0 ... 100: return lv_color_hex(0x00ff00);
+                case 101 ... 150: return lv_color_hex(0x99FF99);
+                case 151 ... 200: return lv_color_hex(0xe7c12c);
+                case 201 ... 250: return lv_color_hex(0xFFBB33);
+                case 251 ... 300: return lv_color_hex(0xff6600);
+                case 301 ... 500: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }
+        - lvgl.label.update:
+            id: display_iaq_c              
+            text_color: !lambda |-
+              uint16_t iaq_c = (id(iaq).state);
+              switch (iaq_c) {
+                case 0 ... 100: return lv_color_hex(0x00ff00);
+                case 101 ... 150: return lv_color_hex(0x99FF99);
+                case 151 ... 200: return lv_color_hex(0xe7c12c);
+                case 201 ... 250: return lv_color_hex(0xFFBB33);
+                case 251 ... 300: return lv_color_hex(0xff6600);
+                case 301 ... 500: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }         
+################################################################
 #-------------------------------------------
 # TEXT SENSOR
 #-------------------------------------------
@@ -47,15 +90,61 @@ text_sensor:
     id: iaq_class
     on_value:
       then:
-         - lvgl.label.update:
+        - lvgl.label.update:
             id: display_iaq_class
             text: !lambda |- 
               return x; 
+################################################################
+        - lvgl.label.update:
+            id: display_iaq_c
+            text: !lambda |- 
+              return x;
+################################################################
+
 #-------------------------------------------
 # LVGL
 #-------------------------------------------
 lvgl:
   pages:
+################################################################
+# Добавляем на weather IAQ
+    - id: !extend weather
+      widgets:
+# Качество воздуха           
+        - label:
+            align: LEFT_MID
+            id: display_iaq_c
+            text: Качество воздуха
+            text_font: roboto24
+            text_color: 0x808080
+            y: 100
+            x: 10
+        - line:
+            points:
+             - 0, 355
+             - 240, 355
+            line_width: 3
+            line_color: 0xffffff
+            line_rounded: false   
+        - button:
+            y: 130
+            x: 0
+            align: LEFT_MID
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 180
+            height: 40
+            widgets:  
+              - label:
+                  align: LEFT_MID
+                  id: display_iaq
+                  text: --- ppm
+                  text_font: weather24
+                  text_color: 0x808080
+            on_press:
+              lvgl.page.show: iaq_page     
+################################################################
+
 # Вывод на экран 
     - id: iaq_page
       #width: 100%
