@@ -24,7 +24,7 @@ kitchen-lighting.yaml указываем свои сенсоры, первона
 ```yaml
 packages:
 # Раставить страницы в желаемой очередности, weather  и barometr можно использовать 1 вариант
-
+ при добавлении пакета, на главную страницу добавляется отображение переменной
 #############################################################################
 #----Страничка погоды-----------------------------------------------------
 #############################################################################
@@ -33,23 +33,8 @@ packages:
   weather: !include 
     file: packages/weather.yaml # выбрать один из трех weather
     vars:
-      sensor_temperature: sensor.kitchen_t
-      sensor_humidity: sensor.kitchen_humidity
-      sensor_pressure: sensor.iaroslavskaia_pressure
-      sensor_co2: sensor.holl_co2
       sensor_weather: weather.iaroslavskaia
-      sensor_iaq: sensor.holl_iaq
-      sensor_iaq_c: sensor.holl_iaq_classification
-      sensor_voc: sensor.holl_voc
-      sensor_lux: sensor.holl_p
 
-      sensor_uv_index: sensor.iaroslavskaia_uv_index
-      sensor_geomagnetic: sensor.iaroslavskaia_geomagnetic_field
-      sensor_wind_speed: sensor.iaroslavskaia_wind_speed
-      sensor_birch: sensor.iaroslavskaia_birch_pollen_index
-      sensor_grass: sensor.iaroslavskaia_grass_pollen_index
-      sensor_ragweed: sensor.iaroslavskaia_ragweed_pollen_index
-      sensor_wind_bearing: sensor.iaroslavskaia_wind_bearing_2
 
   #weather: !include packages/weather_bme680.yaml # выбрать один из трех обязателен barometr_bme680_weather.yaml
 
