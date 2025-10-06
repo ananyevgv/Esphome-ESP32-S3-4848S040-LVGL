@@ -86,21 +86,21 @@ sensor:
               format: " %.0f %%"
               args: ["id(shutter_current_pos_0).state"]
         - lambda: |-
-              int pos = round(id(shutter_current_pos_0).state / 10) * 10;
-              switch (pos) {
-                case 0 ... 5:    return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e91d");
-                case 6 ... 15:   return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e93d");
-                case 16 ... 25:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e93e");
-                case 26 ... 35:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e93f");
-                case 36 ... 45:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e940");
-                case 46 ... 55:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e941");
-                case 56 ... 65:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e942");
-                case 66 ... 75:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e943");               
-                case 76 ... 85:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e944");
-                case 86 ... 95:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e945");
-                case 96 ... 100: return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e91e");
-                default: return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e91d");
-              }
+            int pos = round(id(shutter_current_pos_0).state / 10) * 10;
+            switch (pos) {
+              case 0 ... 5:    return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e91d");
+              case 6 ... 15:   return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e93d");
+              case 16 ... 25:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e93e");
+              case 26 ... 35:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e93f");
+              case 36 ... 45:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e940");
+              case 46 ... 55:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e941");
+              case 56 ... 65:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e93c");
+              case 66 ... 75:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e943");               
+              case 76 ... 85:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e944");
+              case 86 ... 95:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e942");
+              case 96 ... 100: return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e91e");
+              default: return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e91d");
+            }
 
   - platform: homeassistant
     id: shutter_current_pos_1
@@ -114,21 +114,21 @@ sensor:
               format: " %.0f %%"
               args: ["id(shutter_current_pos_1).state"]
         - lambda: |-
-              int pos = round(id(shutter_current_pos_1).state / 10) * 10;
-              switch (pos) {
-                case 0 ... 5:    return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e91d");
-                case 6 ... 15:   return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e93d");
-                case 16 ... 25:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e93e");
-                case 26 ... 35:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e93f");
-                case 36 ... 45:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e940");
-                case 46 ... 55:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e941");
-                case 56 ... 65:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e942");
-                case 66 ... 75:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e943");               
-                case 76 ... 85:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e944");
-                case 86 ... 95:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e945");
-                case 96 ... 100: return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e91e");
-                default: return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e91d");
-              }
+            int pos = round(id(shutter_current_pos_1).state / 10) * 10;
+            switch (pos) {
+              case 0 ... 5:    return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e91d");
+              case 6 ... 15:   return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e93d");
+              case 16 ... 25:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e93e");
+              case 26 ... 35:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e93f");
+              case 36 ... 45:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e940");
+              case 46 ... 55:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e941");
+              case 56 ... 65:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e93c");
+              case 66 ... 75:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e943");               
+              case 76 ... 85:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e944");
+              case 86 ... 95:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e942");
+              case 96 ... 100: return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e91e");
+              default: return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e91d");
+            }
 
 
 text_sensor:
