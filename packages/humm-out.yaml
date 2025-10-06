@@ -29,18 +29,18 @@ sensor:
       then:
         - lambda: |-
             uint8_t vhumm_out= (id(humm_out).state);
-              switch (vhumm_out) {
-                case 0 ... 29: return id(humm_out_class).publish_state("сухой");
-                case 30 ... 49: return id(humm_out_class).publish_state("почти сухой");
-                case 50 ... 54: return id(humm_out_class).publish_state("очень комфортный");
-                case 55 ... 59: return id(humm_out_class).publish_state("комфортный"); 
-                case 60 ... 64: return id(humm_out_class).publish_state("хороший");
-                case 65 ... 69: return id(humm_out_class).publish_state("не комфортный");
-                case 70 ... 74: return id(humm_out_class).publish_state("угнетающий");
-                case 75 ... 79: return id(humm_out_class).publish_state("влажный");
-                case 80 ... 100: return id(humm_out_class).publish_state("очень влажный");
-                default: return id(humm_out_class).publish_state("n/a");
-              }
+            switch (vhumm_out) {
+              case 0 ... 29: return id(humm_out_class).publish_state("сухой");
+              case 30 ... 49: return id(humm_out_class).publish_state("почти сухой");
+              case 50 ... 54: return id(humm_out_class).publish_state("очень комфортный");
+              case 55 ... 59: return id(humm_out_class).publish_state("комфортный"); 
+              case 60 ... 64: return id(humm_out_class).publish_state("хороший");
+              case 65 ... 69: return id(humm_out_class).publish_state("не комфортный");
+              case 70 ... 74: return id(humm_out_class).publish_state("угнетающий");
+              case 75 ... 79: return id(humm_out_class).publish_state("влажный");
+              case 80 ... 100: return id(humm_out_class).publish_state("очень влажный");
+              default: return id(humm_out_class).publish_state("n/a");
+            }
               
         - lvgl.label.update:
             id: humm_out_index_text

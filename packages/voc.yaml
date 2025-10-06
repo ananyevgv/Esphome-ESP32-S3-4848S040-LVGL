@@ -49,17 +49,17 @@ sensor:
               return x;
         - lambda: |-
             uint16_t vvoc= (id(voc).state);
-              switch (vvoc) {
-                case 0 ... 50: return id(voc_class).publish_state("отлично");
-                case 51 ... 100: return id(voc_class).publish_state("хорошо");
-                case 101 ... 150: return id(voc_class).publish_state("слегка загрязненный");
-                case 151 ... 200: return id(voc_class).publish_state("умеренно загрязненный");
-                case 201 ... 250: return id(voc_class).publish_state("слегка загрязненный");
-                case 251 ... 300: return id(voc_class).publish_state("загрязненный");
-                case 301 ... 350: return id(voc_class).publish_state("сильно загрязненный");
-                case 351 ... 500: return id(voc_class).publish_state("черезвычайно загрязненный"); 
-                default: return id(voc_class).publish_state("n/a");
-              }
+            switch (vvoc) {
+              case 0 ... 50: return id(voc_class).publish_state("отлично");
+              case 51 ... 100: return id(voc_class).publish_state("хорошо");
+              case 101 ... 150: return id(voc_class).publish_state("слегка загрязненный");
+              case 151 ... 200: return id(voc_class).publish_state("умеренно загрязненный");
+              case 201 ... 250: return id(voc_class).publish_state("слегка загрязненный");
+              case 251 ... 300: return id(voc_class).publish_state("загрязненный");
+              case 301 ... 350: return id(voc_class).publish_state("сильно загрязненный");
+              case 351 ... 500: return id(voc_class).publish_state("черезвычайно загрязненный"); 
+              default: return id(voc_class).publish_state("n/a");
+            }
 
 ################################################################
         - lvgl.label.update:

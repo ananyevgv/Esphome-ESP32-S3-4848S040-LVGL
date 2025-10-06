@@ -39,13 +39,13 @@ sensor:
               return x;
         - lambda: |-
             uint8_t vgrass= (id(ragweed_index).state);
-              switch (vgrass) {
-                case 0 ... 2: return id(ragweed_class).publish_state("Низкое содержание");
-                case 3: return id(ragweed_class).publish_state("Умеренное содержание");
-                case 4: return id(ragweed_class).publish_state("Высокое содержание");
-                case 5: return id(ragweed_class).publish_state("Очень высокое содержание");
-                default: return id(ragweed_class).publish_state("n/a");
-              }
+            switch (vgrass) {
+              case 0 ... 2: return id(ragweed_class).publish_state("Низкое содержание");
+              case 3: return id(ragweed_class).publish_state("Умеренное содержание");
+              case 4: return id(ragweed_class).publish_state("Высокое содержание");
+              case 5: return id(ragweed_class).publish_state("Очень высокое содержание");
+              default: return id(ragweed_class).publish_state("n/a");
+            }
 
 ################################################################              
         - lvgl.label.update:

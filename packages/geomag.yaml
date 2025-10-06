@@ -39,15 +39,15 @@ sensor:
               return x;
         - lambda: |-
             uint8_t vgeomag= (id(geomagnetic).state);
-              switch (vgeomag) {
-                case 0 ... 4: return id(geomag_class).publish_state("небольшие возмущения");
-                case 5: return id(geomag_class).publish_state("слабая буря");
-                case 6: return id(geomag_class).publish_state("умеренная буря");
-                case 7: return id(geomag_class).publish_state("сильная буря");
-                case 8: return id(geomag_class).publish_state("шторм");
-                case 9: return id(geomag_class).publish_state("экстремальный шторм");
-                default: return id(geomag_class).publish_state("n/a");
-              }
+            switch (vgeomag) {
+              case 0 ... 4: return id(geomag_class).publish_state("небольшие возмущения");
+              case 5: return id(geomag_class).publish_state("слабая буря");
+              case 6: return id(geomag_class).publish_state("умеренная буря");
+              case 7: return id(geomag_class).publish_state("сильная буря");
+              case 8: return id(geomag_class).publish_state("шторм");
+              case 9: return id(geomag_class).publish_state("экстремальный шторм");
+              default: return id(geomag_class).publish_state("n/a");
+            }
 
 ################################################################
         - lvgl.label.update:

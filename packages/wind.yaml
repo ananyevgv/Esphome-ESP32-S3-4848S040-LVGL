@@ -39,22 +39,22 @@ sensor:
               return x;
         - lambda: |-
             uint8_t vwind= (id(wind_sped).state);
-              switch (vwind) {
-                case 0: return id(wind_class).publish_state("Штиль"); 
-                case 1: return id(wind_class).publish_state("Тихий");
-                case 2 ... 3: return id(wind_class).publish_state("Лёгкий");
-                case 4 ... 5: return id(wind_class).publish_state("Слабый");
-                case 6 ... 7: return id(wind_class).publish_state("Умеренный");
-                case 8 ... 10: return id(wind_class).publish_state("Свежий");
-                case 11 ... 13: return id(wind_class).publish_state("Сильный");
-                case 14 ... 17: return id(wind_class).publish_state("Крепкий"); 
-                case 18 ... 20: return id(wind_class).publish_state("Очень крепкий");
-                case 21 ... 24: return id(wind_class).publish_state("Шторм");
-                case 25 ... 28: return id(wind_class).publish_state("Сильный шторм");
-                case 29 ... 32: return id(wind_class).publish_state("Жестокий шторм");
-                case 33 ... 100: return id(wind_class).publish_state("Ураган");
-                default: return id(wind_class).publish_state("n/a");
-              }
+            switch (vwind) {
+              case 0: return id(wind_class).publish_state("Штиль"); 
+              case 1: return id(wind_class).publish_state("Тихий");
+              case 2 ... 3: return id(wind_class).publish_state("Лёгкий");
+              case 4 ... 5: return id(wind_class).publish_state("Слабый");
+              case 6 ... 7: return id(wind_class).publish_state("Умеренный");
+              case 8 ... 10: return id(wind_class).publish_state("Свежий");
+              case 11 ... 13: return id(wind_class).publish_state("Сильный");
+              case 14 ... 17: return id(wind_class).publish_state("Крепкий"); 
+              case 18 ... 20: return id(wind_class).publish_state("Очень крепкий");
+              case 21 ... 24: return id(wind_class).publish_state("Шторм");
+              case 25 ... 28: return id(wind_class).publish_state("Сильный шторм");
+              case 29 ... 32: return id(wind_class).publish_state("Жестокий шторм");
+              case 33 ... 100: return id(wind_class).publish_state("Ураган");
+              default: return id(wind_class).publish_state("n/a");
+            }
 
 ################################################################
         - lvgl.label.update:
