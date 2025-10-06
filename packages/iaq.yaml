@@ -44,7 +44,7 @@ sensor:
               case 0 ... 50: return id(iaq_class).publish_state("Отлично");
               case 51 ... 100: return id(iaq_class).publish_state("Хорошо");
               case 101 ... 150: return id(iaq_class).publish_state("Слегка загрязненный");
-              сase 151 ... 200: return id(iaq_class).publish_state("Умеренно загрязненный");
+              case 151 ... 200: return id(iaq_class).publish_state("Умеренно загрязненный");
               case 201 ... 250: return id(iaq_class).publish_state("Слегка загрязненный");
               case 251 ... 300: return id(iaq_class).publish_state("Загрязненный");
               case 301 ... 350: return id(iaq_class).publish_state("Сильно загрязненный");
