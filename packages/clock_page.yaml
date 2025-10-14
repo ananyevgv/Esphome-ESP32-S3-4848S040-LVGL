@@ -139,8 +139,6 @@ lvgl:
                   text_color: 0x808080
             on_press:
               lvgl.page.show: clock_page  
-            on_press:
-              lvgl.page.show: clock_page  
 ################################################################  
   
     - id: clock_page
