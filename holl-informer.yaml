@@ -38,7 +38,8 @@ substitutions:
 #-------------------------------------------
 packages:
   wifi: !include packages/display/wifi-lvgl.yaml
-  
+ # web: !include included/web.yaml
+
   weather: !include 
     file: packages/display/weather.yaml # выбрать один из трех weather
     vars:
@@ -257,7 +258,33 @@ packages:
     vars:
       sensor_dishwasher_percent: sensor.siemens_dishwasher_program_progress
       sensor_dishwasher_time: sensor.siemens_dishwasher_remaining_program_time 
-
+      sensor_dishwasher_start_count: sensor.siemens_dishwasher_start_count
+      sensor_dishwasher_water_forecast: sensor.siemens_dishwasher_water_forecast
+      sensor_dishwasher_energy_forecast: sensor.siemens_dishwasher_energy_forecast
+      sensor_dishwasher_program_phase: sensor.siemens_dishwasher_program_phase
+      sensor_dishwasher_salt: sensor.siemens_dishwasher_salt
+      sensor_dishwasher_time_end: sensor.posuda_time_end
+      sensor_dishwasher_rinse_aid: sensor.siemens_dishwasher_rinse_aid
+        
+      binary_sensor_dishwasher_door: binary_sensor.siemens_dishwasher_door
+      binary_sensor_dishwasher_low_water_pressure: binary_sensor.siemens_dishwasher_low_water_pressure
+      binary_sensor_dishwasher_aquastop_occurred: binary_sensor.siemens_dishwasher_aquastop_occurred
+      
+      select_dishwasher_sound_level_signal: select.siemens_dishwasher_sound_level_signal
+      select_dishwasher_selected_program: select.siemens_dishwasher_selected_program
+      select_dishwasher_default_program: select.siemens_dishwasher_default_program
+      select_dishwasher_remote_control: select.siemens_dishwasher_remote_control
+        
+      switch_dishwasher_power: switch.siemens_dishwasher_power
+      switch_dishwasher_variospeedplus: switch.siemens_dishwasher_variospeedplus
+      switch_dishwasher_half_load: switch.siemens_dishwasher_half_load
+      switch_dishwasher_silence_on_demand: switch.siemens_dishwasher_silence_on_demand
+      switch_dishwasher_speed_on_demand: switch.siemens_dishwasher_speed_on_demand
+        
+      button_dishwasher_start: button.siemens_dishwasher_start
+      button_dishwasher_abort: button.siemens_dishwasher_abort
+      
+#############################################################################   
   barometr: !include 
     file: packages/display/barometr_page.yaml 
     vars:
@@ -328,12 +355,9 @@ packages:
       thermostat_entity_switch: holl_switch_thermostat
       thermostat_entity_sensor: sensor.holl_clock_temperature
 
-
+  clock: !include packages/display/clock_page.yaml
   settings: !include packages/display/settings.yaml
 
-#-------------------------------------------
-# ESPHOME PLATFORM SETTINGS
-#-------------------------------------------
 esphome:
   name: "${name}"
   comment: "${device_description}"
@@ -371,19 +395,17 @@ esp32:
       CONFIG_SPIRAM_FETCH_INSTRUCTIONS: y
       CONFIG_SPIRAM_RODATA: y
      # CONFIG_ESP32_S3_BOX_BOARD: "y"
-    #components:
-    #  - name: esp32_s3_box_3_board
-    #    source: github://jesserockz/esp32-s3-box-3-board@main
-     #   refresh: 0s
 #-------------------------------------------
 # Logger #32 356 байт
 #-------------------------------------------
 logger: 
-
+#  hardware_uart: UART0
+  
 i2c:
     sda: GPIO19
     scl: GPIO45
-
+    scan: true
+    
 spi:
     clk_pin: GPIO48
     mosi_pin: GPIO47
