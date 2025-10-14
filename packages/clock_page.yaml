@@ -116,29 +116,29 @@ lvgl:
     - id: !extend weather
       widgets:
         - button:
-            y: 100
+            y: 140
             x: 50
             align: TOP_LEFT
             bg_opa: TRANSP
             shadow_opa: TRANSP
             width: 200
-            height: 150
+            height: 110
             widgets:
             # Дата время
               - label:
-                  align: CENTER
+                  align: TOP_MID
                   id: display_time_weather
                   text: 88:88
                   text_font: SEG50
                   text_color: 0x808080
-# Добавить если нужна дата на основном экране                     
-#              - label:
-#                  align: CENTER
-#                  id: display_date_weather
-#                  text: __.__.__
-#                  text_font: roboto36
-#                  text_color: 0x808080
-#                  y: 50
+              - label:
+                  align: BOTTOM_MID
+                  id: display_date_weather
+                  text: " "
+                  text_font: roboto36
+                  text_color: 0x808080
+            on_press:
+              lvgl.page.show: clock_page  
             on_press:
               lvgl.page.show: clock_page  
 ################################################################  
