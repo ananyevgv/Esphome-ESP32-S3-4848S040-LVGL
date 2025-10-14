@@ -67,6 +67,7 @@ substitutions:
   play:             "\U000F040A" # play
   door:             "\U000F081B" # door-closed  
   water:            "\U000F1505" # water-check-outline
+  water_alert:      "\U000F1503" #water-alert-outline
   speedometer:      "\U000F04C5" # speedometer
   volume:           "\U000F0581" # volume-off
   half:             "\U000F1992" # fraction-one-half
@@ -104,6 +105,7 @@ font:
       $play,
       $door,
       $water,
+      $water_alert,
       $speedometer,
       $volume,
       $half,
@@ -444,7 +446,7 @@ lvgl:
             text_color: color_dark_gray
             text: "выключено"
             text_font: roboto24
-            y: -50
+            y: -35
             
         - label:
             id: label_dishwasher_percent
@@ -574,7 +576,7 @@ lvgl:
             align: TOP_RIGHT
             text_font: font_dishwasher
             text_color: 0xdce1e7
-            text: $water
+            text: $water_alert
             y: 320
             
 #####################################################################                      
