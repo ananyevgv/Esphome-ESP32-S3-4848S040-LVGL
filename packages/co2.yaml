@@ -194,14 +194,14 @@ lvgl:
             line_rounded: false
       
   
-         # Черный
+         # Белый
         - line:
             points:
               - 105, 585
               - 345, 345
             align: TOP_left
             line_width: 300
-            line_color: 0x000000
+            line_color: 0xFFFFFF
             line_rounded: false 
 # Шкала
         - meter:
@@ -296,7 +296,7 @@ lvgl:
             y: 50
         - label:
             text: $co2_icon
-            text_color: color_white
+            text_color: color_black
             text_font: co2_36
             align: BOTTOM_MID
             y: -40

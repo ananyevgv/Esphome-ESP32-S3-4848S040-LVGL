@@ -39,16 +39,16 @@ sensor:
             value: !lambda |- 
               return x;
         - lambda: |-
-            uint16_t viaq= (id(iaq).state);
+            uint16_t viaq = (id(iaq).state);
             switch (viaq) {
               case 0 ... 50: return id(iaq_class).publish_state("Отлично");
               case 51 ... 100: return id(iaq_class).publish_state("Хорошо");
-              case 101 ... 150: return id(iaq_class).publish_state("Слегка загрязненный");
-              case 151 ... 200: return id(iaq_class).publish_state("Умеренно загрязненный");
-              case 201 ... 250: return id(iaq_class).publish_state("Слегка загрязненный");
-              case 251 ... 300: return id(iaq_class).publish_state("Загрязненный");
-              case 301 ... 350: return id(iaq_class).publish_state("Сильно загрязненный");
-              case 351 ... 500: return id(iaq_class).publish_state("Черезвычайно загрязненный"); 
+              case 101 ... 150: return id(iaq_class).publish_state("Слегка загрязненн");
+              case 151 ... 200: return id(iaq_class).publish_state("Умеренно загрязненн");
+              case 201 ... 250: return id(iaq_class).publish_state("Слегка загрязненн");
+              case 251 ... 300: return id(iaq_class).publish_state("Загрязненн");
+              case 301 ... 350: return id(iaq_class).publish_state("Сильно загрязненн");
+              case 351 ... 500: return id(iaq_class).publish_state("Черезвычайно загрязненн"); 
               default: return id(iaq_class).publish_state("n/a");
             }
 ################################################################
@@ -196,14 +196,14 @@ lvgl:
             line_rounded: false
       
   
-         # Черный
+         # Белый
         - line:
             points:
               - 105, 585
               - 345, 345
             align: TOP_left
             line_width: 300
-            line_color: 0x000000
+            line_color: 0xFFFFFF
             line_rounded: false 
 # Шкала
         - meter:
@@ -293,11 +293,12 @@ lvgl:
             id: display_iaq_class
             text_color: color_white
             text_font: roboto36
+            text: " "
             align: TOP_MID 
             y: 50
         - label:
             text: IAQ
-            text_color: color_white
+            text_color: color_black
             text_font: weather36
             align: BOTTOM_MID
             y: -40

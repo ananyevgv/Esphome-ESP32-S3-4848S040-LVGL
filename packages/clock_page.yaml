@@ -1,0 +1,224 @@
+#############################################################################
+#----Страничка часов-----------------------------------------------------
+#############################################################################
+# Add yaml and copy file esphome/packages/
+#  clock: !include packages/display/clock_page.yaml
+# 
+#############################################################################
+
+#-------------------------------------------
+# FONT
+#-------------------------------------------
+font:
+  - file: "font/DSEG7ModernMini-Bold.ttf"
+    id: SEG50
+    glyphs: |-
+      : -0123456789
+    size: 50
+    bpp: 4  
+
+#-------------------------------------------
+# IMAGE
+#-------------------------------------------
+image:
+  - file: "picture/clok.jpg"
+    id: clok_image
+    resize: 450x450
+    type: RGB565 
+
+#-------------------------------------------
+# SCRIPT
+#------------------------------------------- 
+script:
+  - id: time_update_clock
+    then:
+      - lvgl.indicator.update:
+          id: minute_hand
+          value: !lambda |-
+            return id(sntp_time).now().minute;
+      - lvgl.indicator.update:
+          id: hour_hand
+          value: !lambda |-
+            auto now = id(sntp_time).now();
+            return std::fmod(now.hour, 12) * 60 + now.minute;
+      - lvgl.label.update:
+          id: date_label
+          text: !lambda |-
+            static const char * const mon_names[] = { "ЯНВ", "ФЕВ", "МАР", "АПР", "МАЯ", "ИЮН", "ИЮЛ", "АВГ", "СЕН", "ОКТ", "НОЯ", "ДЕК"};
+            static char date_buf[16];
+            auto now = id(sntp_time).now();
+            snprintf(date_buf, sizeof(date_buf), "%2d %s", now.day_of_month, mon_names[now.month-1]);
+            return date_buf;
+      - lvgl.label.update:
+          id: day_label
+          text: !lambda |-
+            static const char * const day_names[] = { "ВС","ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ"};
+            return day_names[id(sntp_time).now().day_of_week-1];
+            
+# Добавить если нужна дата на основном экране          
+#      - lvgl.label.update:
+#          id: display_date_weather
+#          text: !lambda |-
+#            static char time_buf[17];
+#            auto now = id(sntp_time).now();            
+#            snprintf(time_buf, sizeof(time_buf), "%02d.%02d.%02d", now.day_of_month, now.month, now.year-2000);
+#            return time_buf; 
+#          text_color: !lambda |-
+#            return lv_color_hex(0xFFFFFF);
+
+#-------------------------------------------
+# TIME
+#-------------------------------------------            
+time:
+  - platform: sntp
+    on_time_sync:
+      - script.execute: time_update_clock  
+    on_time:
+      - minutes: '*'
+        seconds: 0
+        then:
+          - script.execute: time_update_clock
+      - seconds: '*'
+        then:
+          - lvgl.indicator.update:
+              id: seconds_hand
+              value: !lambda |-
+                return id(sntp_time).now().second;
+          - lvgl.label.update: 
+              id: display_time_weather
+              text: !lambda |-
+                static char time_buf[17];
+                auto now = id(sntp_time).now();    
+                int sec = now.second;  
+                if (sec % 2)
+                  snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
+                else
+                  snprintf(time_buf, sizeof(time_buf), "%02d %02d", now.hour, now.minute);
+                return time_buf; 
+              text_color: !lambda |-
+                return lv_color_hex(0xFFFFFF);
+            
+#-------------------------------------------
+# LVGL
+#-------------------------------------------            
+lvgl:
+  style_definitions:
+    - id: date_style
+      text_font: roboto24
+      align: center
+      text_color: 0x333333
+      bg_opa: cover
+      radius: 4
+      pad_all: 2
+  pages: 
+################################################################
+# Добавляем на weather clock
+    - id: !extend weather
+      widgets:
+        - button:
+            y: 100
+            x: 50
+            align: TOP_LEFT
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 200
+            height: 150
+            widgets:
+            # Дата время
+              - label:
+                  align: CENTER
+                  id: display_time_weather
+                  text: 88:88
+                  text_font: SEG50
+                  text_color: 0x808080
+# Добавить если нужна дата на основном экране                     
+#              - label:
+#                  align: CENTER
+#                  id: display_date_weather
+#                  text: __.__.__
+#                  text_font: roboto36
+#                  text_color: 0x808080
+#                  y: 50
+            on_press:
+              lvgl.page.show: clock_page  
+################################################################  
+  
+    - id: clock_page
+   #   skip: true
+   #   layout: dict
+   #   flex_flow: COLUMN_WRAP
+      width: 100%
+      bg_color: 0x000000
+      bg_opa: cover
+      pad_all: 5 
+      widgets:
+        - obj: # Clock container
+            height: 450
+            width: 480
+            border_side: none
+            bg_color: 0x000000
+            widgets:
+              - image:
+                  align: CENTER
+                  src: clok_image
+                  id: im_clock
+                  radius: 20
+                  clip_corner: true
+
+              - label:
+                  styles: date_style
+                  id: day_label
+                  text: " "
+                  y: -40
+              - label:
+                  id: date_label
+                  text: " "
+                  styles: date_style
+                  y: +40   
+                  
+              - meter:
+                  height: 450
+                  width: 450
+                  align: center
+                  bg_opa: TRANSP
+                  text_color: 0xFFFFFF
+                  scales:
+                    - indicators:
+                        - line:
+                            id: seconds_hand
+                            width: 3
+                            color: 0xFF0000
+                            r_mod: -30
+                      rotation: 270
+                      angle_range: 360
+                      range_from: 0
+                      range_to: 60
+                      
+                    - indicators:
+                        - line:
+                            id: minute_hand
+                            width: 3
+                            color: 0xE0E0E0
+                            r_mod: -30
+                      rotation: 270
+                      angle_range: 360
+                      range_from: 0
+                      range_to: 60
+
+                    - indicators:
+                        - line:
+                            id: hour_hand
+                            width: 8
+                            color: 0xA0A0A0
+                            r_mod: -80
+                      angle_range: 360
+                      rotation: 270
+                      range_from: 0
+                      range_to: 720
+                      
+              - led:
+                  align: CENTER
+                  color: 0xFF0000
+                  width: 15
+                  height: 15
+                  

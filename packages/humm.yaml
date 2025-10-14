@@ -311,6 +311,7 @@ lvgl:
             id: display_humm_class
             text_color: color_white
             text_font: roboto36
+            text: " "
             align: TOP_MID 
             y: 50
         - label:

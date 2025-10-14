@@ -289,11 +289,13 @@ lvgl:
             id: display_wind_bearing
             text_color: color_white
             text_font: roboto36
+            text: " "
             align: TOP_MID  
         - label:
             id: display_wind_class
             text_color: color_white
             text_font: roboto36
+            text: " "
             align: TOP_MID 
             y: 50
         - label:

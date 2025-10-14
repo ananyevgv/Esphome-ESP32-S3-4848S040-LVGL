@@ -99,7 +99,7 @@ sensor:
               case 26 ... 35:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e93f");
               case 36 ... 45:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e940");
               case 46 ... 55:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e941");
-              case 56 ... 65:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e93c");
+              case 56 ... 65:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e93с");
               case 66 ... 75:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e943");               
               case 76 ... 85:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e944");
               case 86 ... 95:  return lv_label_set_text(id(shutter_widget_icon_0), "\U0000e942");
@@ -122,7 +122,7 @@ sensor:
               case 26 ... 35:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e93f");
               case 36 ... 45:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e940");
               case 46 ... 55:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e941");
-              case 56 ... 65:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e93c");
+              case 56 ... 65:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e93с");
               case 66 ... 75:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e943");               
               case 76 ... 85:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e944");
               case 86 ... 95:  return lv_label_set_text(id(shutter_widget_icon_1), "\U0000e942");
@@ -144,7 +144,7 @@ sensor:
               case 26 ... 35:  return lv_label_set_text(id(shutter_widget_icon_2), "\U0000e93f");
               case 36 ... 45:  return lv_label_set_text(id(shutter_widget_icon_2), "\U0000e940");
               case 46 ... 55:  return lv_label_set_text(id(shutter_widget_icon_2), "\U0000e941");
-              case 56 ... 65:  return lv_label_set_text(id(shutter_widget_icon_2), "\U0000e93c");
+              case 56 ... 65:  return lv_label_set_text(id(shutter_widget_icon_2), "\U0000e93с");
               case 66 ... 75:  return lv_label_set_text(id(shutter_widget_icon_2), "\U0000e943");               
               case 76 ... 85:  return lv_label_set_text(id(shutter_widget_icon_2), "\U0000e944");
               case 86 ... 95:  return lv_label_set_text(id(shutter_widget_icon_2), "\U0000e942");
@@ -167,7 +167,7 @@ sensor:
               case 26 ... 35:  return lv_label_set_text(id(shutter_widget_icon_3), "\U0000e93f");
               case 36 ... 45:  return lv_label_set_text(id(shutter_widget_icon_3), "\U0000e940");
               case 46 ... 55:  return lv_label_set_text(id(shutter_widget_icon_3), "\U0000e941");
-              case 56 ... 65:  return lv_label_set_text(id(shutter_widget_icon_3), "\U0000e93c");
+              case 56 ... 65:  return lv_label_set_text(id(shutter_widget_icon_3), "\U0000e93с");
               case 66 ... 75:  return lv_label_set_text(id(shutter_widget_icon_3), "\U0000e943");               
               case 76 ... 85:  return lv_label_set_text(id(shutter_widget_icon_3), "\U0000e944");
               case 86 ... 95:  return lv_label_set_text(id(shutter_widget_icon_3), "\U0000e942");

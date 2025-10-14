@@ -31,21 +31,21 @@ sensor:
               return x;
               
 ################################################################
-      - lvgl.label.update:
-          id: display_pressure
-          text: 
-            format: "$gauge %.0f mmHg"
-            args: ["id(barometr_pressure).state"]
-          text_color: !lambda |-
-            uint16_t vp = (id(barometr_pressure).state);
-            switch (vp) {
-              case 710 ... 730: return lv_color_hex(0xff0000);
-              case 731 ... 740: return lv_color_hex(0xf07c40);
-              case 741 ... 760: return lv_color_hex(0x00ff00);
-              case 761 ... 770: return lv_color_hex(0xf07c40);
-              case 771 ... 800: return lv_color_hex(0xff0000);
-              default: return lv_color_hex(0x333333);
-            }
+        - lvgl.label.update:
+            id: display_pressure
+            text: 
+              format: "$gauge %.0f mmHg"
+              args: ["id(barometr_pressure).state"]
+            text_color: !lambda |-
+              uint16_t vp = (id(barometr_pressure).state);
+              switch (vp) {
+                case 710 ... 730: return lv_color_hex(0xff0000);
+                case 731 ... 740: return lv_color_hex(0xf07c40);
+                case 741 ... 760: return lv_color_hex(0x00ff00);
+                case 761 ... 770: return lv_color_hex(0xf07c40);
+                case 771 ... 800: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }
 ################################################################
 
 #-------------------------------------------

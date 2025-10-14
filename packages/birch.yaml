@@ -114,67 +114,56 @@ lvgl:
       scrollbar_mode: "OFF"
       scrollable: false
       widgets:
-        - canvas: 
-            width: 480
-            height: 480
-            id: birch_fon
-            on_boot:
-            # Зеленый
-              - lvgl.canvas.draw_polygon:
-                  id: birch_fon
-                  points:
-                    - 240, 240
-                    - 0, 480
-                    - 0, 200
-                    - 240, 240
-                  bg_color: 0x00ff00
-            # Желтый      
-              - lvgl.canvas.draw_polygon:
-                  id: birch_fon
-                  points:
-                    - 240, 240
-                    - 0, 200
-                    - 0, 0
-                    - 120, 0  
-                    - 240, 240           
-                  bg_color: 0xe7c12c
-            # Оранжевый      
-              - lvgl.canvas.draw_polygon:
-                  id: birch_fon
-                  points:
-                    - 240, 240
-                    - 120, 0
-                    - 360, 0
-                    - 240, 240           
-                  bg_color: 0xffa500
-            # Красный      
-              - lvgl.canvas.draw_polygon:
-                  id: birch_fon
-                  points:
-                    - 240, 240
-                    - 360, 0
-                    - 480, 0   
-                    - 480, 200
-                    - 240, 240           
-                  bg_color: 0xF50F34   
+        # Зеленый
+        - line:
+            points:
+              - 170, 170
+              - -70, 410
+            line_width: 200
+            line_color: 0x00ff00
+            line_rounded: false 
+        # Желтый
+        - line:
+            points:
+              - 90, 220
+              - 120, 0
+            line_width: 250
+            line_color:  0xe7c12c
+            line_rounded: false  
+        # Оранжевый
+        - line:
+            points:
+              - 170, 110
+              - 480, -80
+            line_width: 300
+            line_color: 0xffa500
+            line_rounded: false 
+        # Красный
+        - line:
+            points:
+              - 330, 295
+              - 482, 0 #+5 -5
+            line_width: 220
+            line_color: 0xF50F34
+            line_rounded: false 
          # Фиолетовый
-              - lvgl.canvas.draw_polygon:
-                  id: birch_fon
-                  points:
-                    - 240, 240
-                    - 480, 200
-                    - 480, 480   
-                    - 240, 240           
-                  bg_color: 0xA63DC2  
+        - line:
+            points:
+              - 360, 220
+              - 390, 480
+            line_color: 0xA63DC2 
+            line_width: 240
+            line_rounded: false
          # Белый
-              - lvgl.canvas.draw_polygon:
-                  id: birch_fon
-                  points:
-                    - 240, 240
-                    - 480, 480
-                    - 0, 480   
-                    - 240, 240           
-                  bg_color: 0xffffff
+        - line:
+            points:
+              - 105, 585
+              - 345, 345
+            align: TOP_left
+            line_width: 300
+            line_color: 0xFFFFFF
+            line_rounded: false
+      
 # Шкала
         - meter:
             bg_opa: 0%
