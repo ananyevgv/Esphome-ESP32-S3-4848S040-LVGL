@@ -376,7 +376,7 @@ lvgl:
 
               - led:
                  align: CENTER
-                 color: color_white
+                 color: 0xffffff
                  width: 20
                  height: 20
                  
