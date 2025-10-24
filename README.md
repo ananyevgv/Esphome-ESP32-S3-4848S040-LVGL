@@ -95,7 +95,7 @@ packages:
 |  ![1](./img/birch.jpg) | ![2](./img/grass.jpg) | ![3](./img/ragweed.jpg) | ![4](./img/wind.jpg) | 
 |  ![1](./img/humm2.jpg) | ![2](./img/lg.jpg) | ![3](./img/kith.jpg) | ![4](./img/holl.jpg) | 
 |  ![1](./img/but4.jpg) | ![2](./img/but6.jpg) | ![3](./img/but12.jpg) | ![4](./img/but16.jpg) | 
-|  ![1](./img/sl-4g.jpg) | ![2](./img/sl-4v.jpg) | ![3](./img/shutter.jpg)| ![4](./img/shutter2.jpg) |
+|  ![1](./img/sl-4g.jpg) | ![2](./img/sl-4v.jpg) | ![3](./img/shutter.jpg)| ![4](./img/shutter2.png) |
 
 
 https://aliexpress.ru/item/1005006335587633.html
