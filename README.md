@@ -89,7 +89,7 @@ packages:
 
 |                                               |                                                 |                                                   |                                                 | 
 |-----------------------------------------------|-------------------------------------------------|---------------------------------------------------|-------------------------------------------------|
-|  ![1](./img/bme680.jpg) | ![2](./img/board.jpg) | ![3](./img/weather.png) | ![4](./img/weather_anime.jpg) | 
+|  ![1](./img/bme680.jpg) | ![2](./img/board.jpg) | ![3](./img/weather.jpg) | ![4](./img/weather_anime.jpg) | 
 |  ![1](./img/boiler.jpg) | ![2](./img/termostat.jpg) |  ![3](./img/bar.jpg) | ![4](./img/clock.jpg) | 
 | ![1](./img/dishwasher.jpg) | ![2](./img/shutter4.jpg) | ![3](./img/uv2.jpg) | ![4](./img/geomag2.jpg) | 
 |  ![1](./img/birch.jpg) | ![2](./img/grass.jpg) | ![3](./img/ragweed.jpg) | ![4](./img/wind.jpg) | 
