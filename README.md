@@ -12,7 +12,7 @@ https://aliexpress.ru/item/1005008214872438.html
 
  выбор сущности "light.toggle" "switch.toggle" "button.press"
 
-kitchen-lighting.yaml указываем свои сенсоры, первоначальную страницу, фон для страниц 
+holl-informer.yaml указываем свои сенсоры, первоначальную страницу, фон для страниц 
 
 создаем папку packages в esphome, копируем нужные пакеты в папку
 
@@ -21,7 +21,7 @@ kitchen-lighting.yaml указываем свои сенсоры, первона
 
 на главную страеицу сенсоры добавляются автоматически при добавлении пакета
 
-# смотри holl-informer.yaml
+# смотри holl-informer.yaml и packages.yaml
 
 ```yaml
 packages:
