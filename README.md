@@ -21,7 +21,7 @@ kitchen-lighting.yaml указываем свои сенсоры, первона
 
 на главную страеицу сенсоры добавляются автоматически при добавлении пакета
 
-# смотри packages.yaml
+# смотри holl-informer.yaml
 
 ```yaml
 packages:
