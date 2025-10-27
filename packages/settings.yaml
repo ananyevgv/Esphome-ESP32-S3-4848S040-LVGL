@@ -52,7 +52,15 @@ select:
             id: display_timeout_roller
             selected_index: !lambda |-  
               return i;
-
+              
+  - id: !extend  rotate
+    on_value:
+      then:
+        - lvgl.roller.update:
+            id: display_rotate
+            selected_index: !lambda |-  
+              return i;
+              
 #-------------------------------------------
 # LVGL
 #-------------------------------------------
