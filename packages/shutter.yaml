@@ -197,16 +197,6 @@ lvgl:
                         action: cover.stop_cover
                         data:
                           entity_id: "${shutter_0}" 
-                  on_swipe_up:
-                    - homeassistant.action:
-                        action: cover.open_cover
-                        data:
-                          entity_id: "${shutter_0}"                          
-                  on_swipe_down:         
-                    - homeassistant.action:
-                        action: cover.close_cover
-                        data:
-                          entity_id: "${shutter_0}"   
                           
             ########### UP ############# 
               - button:

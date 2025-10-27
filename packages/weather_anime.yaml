@@ -328,37 +328,6 @@ lvgl:
       scrollable: false
       bg_color: color_black
       widgets:
-        # Wi-Fi status
-        - label:
-            id: wifi_status
-            align: TOP_RIGHT
-            x: -5
-            y: 5
-            text: "${wifi_100}"
-            text_color: color_dark_gray
-            text_font: icons_24
-
-        # Home Assistant status
-        - label:
-            id: ha_status
-            align: TOP_RIGHT
-            x: -35
-            y: 5
-            text: "${ha}"
-            text_color: color_dark_gray
-            text_font: icons_24
-            
-        - label:
-            align: CENTER
-            id: display_weather_icon
-            text: $happyface
-            text_color: 0xFFFFFF
-            bg_opa: TRANSP
-            text_font: weather_icons
-            y: -160
-            x: -75
-            
-
 # Прогноз погоды
         - label:
             align: TOP_LEFT
@@ -373,24 +342,24 @@ lvgl:
         - animimg:
             id: weather_rainy
             hidden: true
-            x: 20
-            y: 70
+            x: 120
+            y: 20
             align: TOP_LEFT
             src: [ rainy0, rainy1, rainy2, rainy3, rainy4, rainy5, rainy6, rainy7, rainy8, rainy9, rainy10, rainy11]
             duration: 1200ms
         - animimg:
             id: weather_pouring
             hidden: true
-            x: 20
-            y: 70
+            x: 120
+            y: 20
             align: TOP_LEFT
             src: [ pouring0, pouring1, pouring2, pouring3, pouring4, pouring5, pouring6, pouring7, pouring8, pouring9, pouring10, pouring11 ]
             duration: 400ms
         - animimg:
             id: weather_lightning_rainy
             hidden: true
-            x: 20
-            y: 70
+            x: 120
+            y: 20
             align: TOP_LEFT
             src: [ lightning_rainy0, rainy1, lightning_rainy1, rainy3, rainy4, rainy5, rainy6, rainy7, rainy8, rainy9, rainy10, rainy11,
                     lightning_rainy2, rainy1, lightning_rainy3, rainy3, rainy4, rainy5, rainy6, rainy7, rainy8, rainy9, rainy10, rainy11
@@ -399,8 +368,8 @@ lvgl:
         - animimg:
             id: weather_snowy_rainy
             hidden: true
-            x: 20
-            y: 70
+            x: 120
+            y: 20
             align: TOP_LEFT
             src: [ snowy_rainy0, snowy_rainy1, snowy_rainy2, snowy_rainy3, snowy_rainy4, snowy_rainy5, snowy_rainy6, snowy_rainy7, snowy_rainy8,
                     snowy_rainy9, snowy_rainy10, snowy_rainy11
@@ -409,8 +378,8 @@ lvgl:
         - animimg:
             id: weather_snowy
             hidden: true
-            x: 20
-            y: 70
+            x: 120
+            y: 20
             align: TOP_LEFT
             src: [ snowy0, snowy1, snowy2, snowy3, snowy4, snowy5, snowy6, snowy7, snowy8, snowy9, snowy10, snowy11 ]
             duration: 1200ms
@@ -420,8 +389,8 @@ lvgl:
             pad_all: 0
             width: 100
             height: 100
-            x: 20
-            y: 70
+            x: 120
+            y: 20
             bg_opa: TRANSP
             shadow_opa: TRANSP
             widgets:
@@ -433,8 +402,8 @@ lvgl:
             pad_all: 0
             width: 100
             height: 100
-            x: 20
-            y: 70
+            x: 120
+            y: 20
             bg_opa: TRANSP
             shadow_opa: TRANSP
             widgets:
@@ -443,16 +412,16 @@ lvgl:
         - animimg:
             id: weather_hail
             hidden: true
-            x: 20
-            y: 70
+            x: 120
+            y: 20
             align: TOP_LEFT
             src: [ hail0, hail1, hail2, hail3, hail4, hail5, hail6, hail7, hail8, hail9, hail10, hail11 ]
             duration: 1200ms
         - animimg:
             id: weather_partlycloudy_sun
             hidden: true
-            x: 20
-            y: 70
+            x: 120
+            y: 20
             align: TOP_LEFT
             src: [ partlycloudy_sun0, partlycloudy_sun1, partlycloudy_sun2, partlycloudy_sun3, partlycloudy_sun4, partlycloudy_sun5, partlycloudy_sun6, 
                     partlycloudy_sun7, partlycloudy_sun6, partlycloudy_sun5, partlycloudy_sun4, partlycloudy_sun3, partlycloudy_sun2, partlycloudy_sun1 
@@ -461,8 +430,8 @@ lvgl:
         - animimg:
             id: weather_partlycloudy_moon
             hidden: true
-            x: 20
-            y: 70
+            x: 120
+            y: 20
             align: TOP_LEFT
             src: [ partlycloudy_moon0, partlycloudy_moon1, partlycloudy_moon2, partlycloudy_moon3, partlycloudy_moon4, partlycloudy_moon5, partlycloudy_moon6,
                     partlycloudy_moon7, partlycloudy_moon6, partlycloudy_moon5, partlycloudy_moon4, partlycloudy_moon3, partlycloudy_moon2, partlycloudy_moon1 
@@ -471,24 +440,24 @@ lvgl:
         - animimg:
             id: weather_windy
             hidden: true
-            x: 20
-            y: 70
+            x: 120
+            y: 20
             align: TOP_LEFT
             src: [ windy0, windy1, windy2, windy3, windy2, windy1 ]
             duration: 1000ms
         - animimg:
             id: weather_windy_variant
             hidden: true
-            x: 20
-            y: 70
+            x: 120
+            y: 20
             align: TOP_LEFT
             src: [ windy_variant0, windy_variant1, windy_variant2, windy_variant3, windy_variant2, windy_variant1 ]
             duration: 1000ms
         - animimg:
             id: weather_lightning
             hidden: true
-            x: 20
-            y: 70
+            x: 120
+            y: 20
             align: TOP_LEFT
             src: [ lightning0, lightning1, lightning1, lightning1, 
                     lightning0, lightning1, lightning1, lightning1, 
@@ -503,16 +472,16 @@ lvgl:
         - animimg:
             id: weather_fog
             hidden: true
-            x: 20
-            y: 70
+            x: 120
+            y: 20
             align: TOP_LEFT
             src: [ fog0, fog1, fog2, fog3, fog4, fog5, fog6, fog7, fog8, fog9, fog10, fog11, fog12, fog11, fog10, fog9, fog8, fog7, fog6, fog5, fog4, fog3, fog2, fog1 ]
             duration: 5000ms
         - animimg:
             id: weather_cloudy
             hidden: true
-            x: 20
-            y: 70
+            x: 120
+            y: 20
             align: TOP_LEFT
             src: [ cloudy0, cloudy1, cloudy2, cloudy3, cloudy2, cloudy1 ]
             duration: 600ms
@@ -670,53 +639,3 @@ lvgl:
                           animation: OUT_RIGHT
                           time: 300ms
                           
-        # Child protection placeholder
-        - button:
-            id: child_protection_placeholder
-            clickable: true
-            hidden: true
-            width: 480
-            height: 480
-            bg_opa: TRANSP
-            border_opa: TRANSP
-            shadow_opa: TRANSP
-            
-        # CHILD PROTECTION WIDGET
-        - button:
-            x: -30
-            y: 40
-            width: 70
-            height: 70
-            bg_opa: TRANSP
-            shadow_opa: TRANSP
-            align: TOP_RIGHT
-            widgets:
-              - label:
-                  id: child_protection_status
-                  align: CENTER
-                  text_font: icons_48
-                  text_color: color_gray
-                  text: "${lock_open}"
-            on_long_press:
-              then:
-                - if:
-                    condition:
-                      lambda: 'return id(child_protection) == false;'
-                    then:
-                      - lambda: |-
-                          id(child_protection) = !id(child_protection); 
-                      - lvgl.widget.show: child_protection_placeholder
-                      - lvgl.widget.hide: top_layer
-                      - lvgl.label.update:
-                          id: child_protection_status
-                          text: "${lock_outline}"
-                          text_color: color_green
-                    else:
-                      - lambda: |-
-                          id(child_protection) = !id(child_protection); 
-                      - lvgl.widget.hide: child_protection_placeholder
-                      - lvgl.widget.show: top_layer
-                      - lvgl.label.update:
-                          id: child_protection_status
-                          text: "${lock_open}"
-                          text_color: color_dark_gray

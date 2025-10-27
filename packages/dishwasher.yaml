@@ -90,8 +90,7 @@ image:
 font:
   - file: "font/DSEG7ModernMini-Bold.ttf"
     id: SEG24
-    glyphs: |-
-      :-0123456789
+    glyphs: ${number_characters}
     size: 24
     bpp: 4  
 
@@ -363,7 +362,7 @@ lvgl:
 # Добавляем на weather посудомойку
       widgets:
         - button:
-            y: 110
+            y: 60 #110
             x: -5
             align: TOP_RIGHT
             bg_opa: TRANSP
@@ -541,11 +540,11 @@ lvgl:
 
         - label:
             id: l_dishwasher_door
-            align: TOP_RIGHT
+            align: TOP_LEFT
             text_font: font_dishwasher
             text_color: color_gray
             text: $door
-            y: 20
+            y: 130 #20
             
         - label:
             id: l_dishwasher_salt

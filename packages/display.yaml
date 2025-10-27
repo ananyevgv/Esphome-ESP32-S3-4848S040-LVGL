@@ -1,0 +1,271 @@
+substitutions:
+  name: "test-informer"
+  device_description: "Выключатель test"
+  characters: " !#%'()+=,-_.:³°/μ0123456789АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧЩШЬЫЪЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZабвгдеёжзийклмнопрстуфхцчшщьыъэюяabcdefghijklmnopqrstuvwxyz"
+  number_characters: " :.-0123456789"
+
+esphome:
+  on_boot:
+    - light.turn_on: backlight
+
+#-------------------------------------------
+# SPI
+#-------------------------------------------  
+spi:
+    clk_pin: GPIO48
+    mosi_pin: GPIO47
+
+#-------------------------------------------
+# PSRAM
+#-------------------------------------------
+psram:
+  mode: octal
+  speed: 80MHz
+
+#-------------------------------------------
+# COLORS
+#-------------------------------------------          
+color:
+  - id: color_black
+    hex: 0d0d0d
+  - id: color_dark_gray
+    hex: 333333
+  - id: color_gray
+    hex: 666666
+  - id: color_white
+    hex: f2f0eb
+  - id: color_red
+    hex: ff0000
+  - id: color_crimson
+    hex: f5075c
+  - id: color_blue
+    hex: 2fc0ff
+  - id: color_yellow
+    hex: e7c12c
+  - id: color_amber
+    hex: f4a900
+  - id: color_mint
+    hex: 39d19c
+  - id: color_green
+    hex: 00ff00
+  - id: color_orange
+    hex: f07c40
+  - id: color_deep_orange
+    hex: ff6600
+  - id: color_violet
+    hex: 9670d6
+  - id: color_dark_blue
+    hex: 4867aa
+
+
+#-------------------------------------------
+# FONT
+#-------------------------------------------
+font:   
+  - file: "gfonts://Roboto"
+    id: roboto36
+    glyphs: ${characters}
+    size: 36
+    bpp: 4     
+
+  - file: "gfonts://Roboto"
+    id: roboto24
+    glyphs: ${characters}
+    size: 24
+    bpp: 4  
+
+  - file: "font/DSEG7ModernMini-Bold.ttf"
+    id: SEG36
+    glyphs: ${number_characters}
+ #     :.-0123456789
+    size: 36
+
+    bpp: 4  
+  - file: "gfonts://Roboto"
+    id: menu24
+    size: 24
+    bpp: 4
+    extras:
+      - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+        glyphs: [
+          "\U000F06A1",
+          "\U000F0141",
+          "\U000F0142"
+        ]
+#-------------------------------------------
+# switch
+#-------------------------------------------
+switch:
+  - platform: template
+    name: Antiburn
+    id: switch_antiburn
+    icon: mdi:television-shimmer
+    optimistic: true
+    entity_category: "config"
+    turn_on_action:
+      - if:
+          condition: lvgl.is_paused
+          then:
+            - lvgl.resume:
+            - lvgl.widget.redraw:
+            - delay: 1s
+      - lvgl.pause:
+          show_snow: true
+    turn_off_action:
+      - if:
+          condition: lvgl.is_paused
+          then:
+            - lvgl.resume:
+            - lvgl.widget.redraw:
+            - delay: 1s
+            - lvgl.pause:
+            
+#-------------------------------------------
+# Outputs
+#-------------------------------------------
+output:
+  - platform: ledc
+    pin: GPIO38
+    id: GPIO38
+    frequency: 150Hz
+
+#-------------------------------------------
+# LIGHTS
+# value: !lambda return (id(backlight).state)->brightness  *100; 
+#-------------------------------------------
+light:
+  - platform: monochromatic
+    output: GPIO38
+    name: Backlight
+    id: backlight
+    icon: mdi:television-ambient-light
+
+
+#-------------------------------------------
+# Buttons
+#-------------------------------------------
+button:
+  - platform: restart
+    name: "restart"
+    id: restart_button
+  - platform: template
+    name: "Next page"
+    on_press:
+      then:
+        lvgl.page.next:   
+  - platform: template
+    name: "Previous page"
+    on_press:
+      then:
+        lvgl.page.previous:      
+        
+#-------------------------------------------
+# GLOBALS
+#-------------------------------------------          
+globals:
+  - id: lv_timeout
+    type: float
+    restore_value: yes
+    initial_value: '30000'
+    
+#-------------------------------------------
+# SELECT
+#-------------------------------------------
+select:
+  - platform: template
+    name: "Rotate Screen"
+    id: rotate
+    entity_category: config
+    options:
+     - "0°"      
+     - "90°"
+     - "180°"
+     - "270°"
+    initial_option: "0°"
+    optimistic: true
+    icon: mdi:phone-rotate-landscape
+    on_value:
+      then:
+        - lambda: |-
+            switch(i) {
+              case 0:  id(my_display).set_rotation(DISPLAY_ROTATION_0_DEGREES); break;
+              case 1:  id(my_display).set_rotation(DISPLAY_ROTATION_90_DEGREES); break;
+              case 2:  id(my_display).set_rotation(DISPLAY_ROTATION_180_DEGREES); break;
+              case 3:  id(my_display).set_rotation(DISPLAY_ROTATION_270_DEGREES); break;
+            }
+        - lvgl.widget.redraw:
+        - lvgl.roller.update:
+            id: display_rotate
+            selected_index: !lambda |-  
+              return i;
+              
+#-------------------------------------------
+# TOUCHSCREEN
+#-------------------------------------------
+touchscreen:
+  platform: gt911
+  transform:
+    mirror_x: false
+    mirror_y: false
+  id: my_touchscreen
+  display: my_display
+  update_interval: 50ms
+  on_release:
+    then:
+      - if:
+          condition: lvgl.is_paused
+          then:
+            - lvgl.resume:
+            - lvgl.widget.redraw:
+      - light.turn_on: backlight
+
+#-------------------------------------------
+# DISPLAY
+#-------------------------------------------
+display:
+ # - platform: mipi_rgb
+ #   model: GUITION-4848S040
+ #   rotation: 180
+  #  id: my_display
+  - platform: st7701s
+    id: my_display
+    dimensions:
+      width: 480
+      height: 480
+    #    rotation: 270    #uncomment for placement with down-facing USB socket
+    spi_mode: MODE3
+    data_rate: 2MHz
+    color_order: RGB
+    invert_colors: False
+    cs_pin: 39
+    de_pin: 18
+    hsync_pin: 16
+    vsync_pin: 17
+    pclk_pin: 21
+    pclk_frequency: 12MHz
+    pclk_inverted: False
+    hsync_pulse_width: 8
+    hsync_front_porch: 10
+    hsync_back_porch: 20
+    vsync_pulse_width: 8
+    vsync_front_porch: 10
+    vsync_back_porch: 10
+    update_interval: never
+    auto_clear_enabled: False
+    init_sequence:
+      - 1
+      - [0xFF, 0x77, 0x01, 0x00, 0x00, 0x10] # CMD2_BKSEL_BK0
+      - [0xCD, 0x00] # disable MDT flag
+    data_pins:
+      red: [11, 12, 13, 14, 0]
+      green: [8, 20, 3, 46, 9, 10]
+      blue: [4, 5, 6, 7, 15]
+
+#-------------------------------------------   
+# LVGL
+#-------------------------------------------    
+lvgl:
+  displays:
+    -  my_display
+  touchscreens:
+    -  my_touchscreen

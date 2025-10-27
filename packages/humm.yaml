@@ -100,7 +100,7 @@ lvgl:
             align: LEFT_MID
             bg_opa: TRANSP
             shadow_opa: TRANSP
-            width: 180
+            width: 90
             height: 40
             widgets:  
               - label:

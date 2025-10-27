@@ -201,21 +201,6 @@ text_sensor:
               return lv_color_hex(0x333333);
             
 #-------------------------------------------
-# Binary sensor
-#-------------------------------------------
-binary_sensor:
-  - platform: template
-    name: bin_shutter_icon_0
-    on_press:
-      lvgl.widget.update:
-        id: shutter_widget_icon_0
-        text_color: 0xFFFF00
-    on_release:
-      lvgl.widget.update:
-        id: shutter_widget_icon_0
-        text_color: 0xB6B6B6            
-            
-#-------------------------------------------
 # LVGL
 #-------------------------------------------
 lvgl:
@@ -284,25 +269,12 @@ lvgl:
                         action: cover.toggle
                         data:
                           entity_id: "${shutter_0}" 
-                    - logger.log: "cover toggle"
                   on_long_press:
                     - homeassistant.action:
                         action: cover.stop_cover
                         data:
                           entity_id: "${shutter_0}" 
-                    - logger.log: "stop cover"
-                  on_swipe_top:
-                    - homeassistant.action:
-                        action: cover.open_cover
-                        data:
-                          entity_id: "${shutter_0}" 
-                    - logger.log: "open cover"
-                  on_swipe_bottom:         
-                    - homeassistant.action:
-                        action: cover.close_cover
-                        data:
-                          entity_id: "${shutter_0}"   
-                    - logger.log: "close cover"        
+
             ########### UP ############# 
               - button:
                   checkable: false
@@ -419,16 +391,7 @@ lvgl:
                         action: cover.stop_cover
                         data:
                           entity_id: "${shutter_1}" 
-                  on_swipe_up:
-                    - homeassistant.action:
-                        action: cover.open_cover
-                        data:
-                          entity_id: "${shutter_1}"                          
-                  on_swipe_down:         
-                    - homeassistant.action:
-                        action: cover.close_cover
-                        data:
-                          entity_id: "${shutter_1}"         
+    
                           
             ########### UP ############# 
               - button:

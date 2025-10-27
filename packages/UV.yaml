@@ -109,6 +109,7 @@ lvgl:
   
 # Вывод на экран 
     - id: UV_page
+
       #width: 100%
       bg_color: 0x000000
       #opa: cover

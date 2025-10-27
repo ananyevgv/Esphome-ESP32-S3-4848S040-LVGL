@@ -117,14 +117,22 @@ time:
   - id: !extend sntp_time
     on_time_sync:
       - script.execute: time_sync_barometr
-    on_time:
-      - hours: '*'
-        minutes: 50
-        seconds: 0
-        then:
-          - script.execute: time_update_barometr
+ #  on_time:
+ #     - hours: '*'
+  #      minutes: 50
+  #      seconds: 0
+  #      then:
+  #        - script.execute: time_update_barometr
         
 
+#-------------------------------------------
+# INTERVAL
+#-------------------------------------------
+interval:    
+  - interval: 1h
+    then:
+      - script.execute: time_update_barometr
+          
 #-------------------------------------------
 # LVGL
 #-------------------------------------------

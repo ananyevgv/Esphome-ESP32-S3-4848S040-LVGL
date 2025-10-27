@@ -75,8 +75,6 @@ substitutions:
   happyface:          "\U000F01F5"
   lan_disconnect:     "\U000F0319"
 
-
-
 #-------------------------------------------
 # FONT
 #-------------------------------------------
@@ -119,7 +117,7 @@ font:
           $windy,
           $windyvariant,    
           $happyface,
-          $lan_disconnect
+          $lan_disconnect,
         ]
         
 
@@ -224,7 +222,7 @@ sensor:
                 case 41 ... 50: return lv_color_hex(0xff0000);
                 default: return lv_color_hex(0x333333);
               }
-    
+#mdi:weather-snowy-rainy
 #-------------------------------------------
 # TEXT SENSOR
 #-------------------------------------------
@@ -240,6 +238,7 @@ text_sensor:
         - "LIGHTNINGRAINY -> $lightningrainy" 
         - "PARTLYLIGHTNING -> $partlylightning"
         - "PARTLYCLOUDY -> $partlycloudy"  
+        - "SNOWY-RAINY -> $snowyrainy"
         - "RAINY -> $rainy" 
         - "CLOUDY -> $cloudy" 
         - "SUNNY -> $sunny" 
@@ -284,6 +283,7 @@ text_sensor:
               else if (state == "$partlysnowyrainy") { return lv_color_hex(0xF8F8FF); }
               else if (state == "$pouring") { return lv_color_hex(0x4DE1FF); }
               else if (state == "$snowy") { return lv_color_hex(0xFFFFFF); }
+              else if (state == "$snowyrainy") { return lv_color_hex(0xFFFFFF); }
               else if (state == "$snowyheavy") { return lv_color_hex(0xFFFFFF); }
               else if (state == "$sunset") { return lv_color_hex(0xFFFFCC); }
               else if (state == "$tornado") { return lv_color_hex(0x0000B3); }
@@ -307,24 +307,6 @@ lvgl:
             align: CENTER
             src: $background_weather
         # Wi-Fi status
-        - label:
-            id: wifi_status
-            align: TOP_RIGHT
-            x: -5
-            y: 5
-            text: "${wifi_100}"
-            text_color: color_dark_gray
-            text_font: icons_24
-
-        # Home Assistant status
-        - label:
-            id: ha_status
-            align: TOP_RIGHT
-            x: -35
-            y: 5
-            text: "${ha}"
-            text_color: color_dark_gray
-            text_font: icons_24
             
         - label:
             align: CENTER
@@ -499,57 +481,7 @@ lvgl:
                           id: $botton_page5
                           animation: OUT_RIGHT
                           time: 300ms
-                          
-        # Child protection placeholder
-        - button:
-            id: child_protection_placeholder
-            clickable: true
-            hidden: true
-            width: 480
-            height: 480
-            bg_opa: TRANSP
-            border_opa: TRANSP
-            shadow_opa: TRANSP
-            
-        # CHILD PROTECTION WIDGET
-        - button:
-            x: -30
-            y: 40
-            width: 70
-            height: 70
-            bg_opa: TRANSP
-            shadow_opa: TRANSP
-            align: TOP_RIGHT
-            widgets:
-              - label:
-                  id: child_protection_status
-                  align: CENTER
-                  text_font: icons_48
-                  text_color: color_gray
-                  text: "${lock_open}"
-            on_long_press:
-              then:
-                - if:
-                    condition:
-                      lambda: 'return id(child_protection) == false;'
-                    then:
-                      - lambda: |-
-                          id(child_protection) = !id(child_protection); 
-                      - lvgl.widget.show: child_protection_placeholder
-                      - lvgl.widget.hide: top_layer
-                      - lvgl.label.update:
-                          id: child_protection_status
-                          text: "${lock_outline}"
-                          text_color: color_green
-                    else:
-                      - lambda: |-
-                          id(child_protection) = !id(child_protection); 
-                      - lvgl.widget.hide: child_protection_placeholder
-                      - lvgl.widget.show: top_layer
-                      - lvgl.label.update:
-                          id: child_protection_status
-                          text: "${lock_open}"
-                          text_color: color_dark_gray
+
 
                           
                         

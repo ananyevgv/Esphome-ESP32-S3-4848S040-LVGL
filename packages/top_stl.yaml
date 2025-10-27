@@ -1,0 +1,183 @@
+esphome:
+  on_boot:
+    - lvgl.widget.hide: boot_screen
+
+#-------------------------------------------
+# API
+#-------------------------------------------
+api:
+  on_client_connected:
+    - if:
+        condition:
+          lambda: 'return (0 == client_info.find("Home Assistant "));'
+        then:
+          - lvgl.label.update: 
+              id: ha_status
+              text_color: color_blue
+          
+  on_client_disconnected:
+    - if:
+        condition:
+          lambda: 'return (0 == client_info.find("Home Assistant "));'
+        then:
+          - lvgl.label.update: 
+              id: ha_status
+              text_color: color_dark_gray
+
+#-------------------------------------------   
+# LVGL
+#-------------------------------------------    
+lvgl:
+#############################################
+  style_definitions:
+    - id: style_line
+      line_color: 0x0000FF
+      line_width: 8
+      line_rounded: true
+
+    - id: header_footer
+      bg_color: 0x2F8CD8
+      bg_grad_color: 0x005782
+      bg_grad_dir: VER
+      bg_opa: cover
+      border_width: 0
+      radius: 0
+      pad_all: 0
+     # pad_row: 0
+     # pad_column: 0
+      border_color: 0x0077b3
+      text_color: 0xFFFFFF
+      width: 100%
+      height: 30
+#############################################
+  theme:
+    button:
+      text_font: menu24
+      scroll_on_focus: true
+      radius: 25
+      width: 110
+      height: 100
+      bg_color: 0x313131
+      text_color: 0xB6B6B6
+      checked:
+        bg_color: 0xCC5E14
+        text_color: 0xB6B6B6
+
+    buttonmatrix:
+      bg_opa: transp
+      border_color: 0x0077b3
+      border_width: 0
+      text_color: 0xFFFFFF
+      pad_all: 0
+      items: # set all your btnmatrix buttins to use your custom defined styles and font
+        bg_color: 0x2F8CD8
+        bg_grad_color: 0x005782
+        bg_grad_dir: VER
+        bg_opa: cover
+        border_color: 0x0077b3
+        border_width: 1
+        text_color: 0xFFFFFF
+        text_font: menu24
+        pressed:
+          bg_color: 0x006699
+          bg_grad_color: 0x00334d
+        checked:
+          bg_color: 0x1d5f96
+          bg_grad_color: 0x03324A
+          text_color: 0x005580
+
+    slider:
+      border_width: 1
+      border_opa: 30%
+      bg_color: 0x9c9c9c
+      bg_opa: 15%
+      indicator:
+        bg_color: 0x333333
+        bg_grad_color: 0x333333
+        bg_opa: COVER
+      knob:
+        bg_color: 0x444444
+        bg_grad_color: 0x444444
+        bg_opa: COVER
+        border_color: 0x444444
+        border_width: 1
+        text_color: 0xFFFFFF
+
+#############################################
+  top_layer:
+      widgets:
+        - obj:
+            id: boot_screen
+            x: 0
+            y: 0
+            width: 100%
+            height: 100%
+            bg_color: 0x000000
+            bg_opa: COVER
+            radius: 0
+            pad_all: 0
+            border_width: 0
+            widgets:
+              - image:
+                  align: CENTER
+                  src: $background_boot
+                  y: -40
+              - spinner:
+                  align: CENTER
+                  y: 95
+                  height: 50
+                  width: 50
+                  spin_time: 1s
+                  arc_length: 60deg
+                  arc_width: 8
+                  indicator:
+                    arc_color: 0x18bcf2
+                    arc_width: 8
+            on_press:
+              - lvgl.widget.hide: boot_screen
+
+        - buttonmatrix:
+            align: bottom_mid
+            styles: header_footer
+            pad_all: 0
+            outline_width: 0
+            id: top_layer
+            items:
+              styles: header_footer
+            rows:
+              - buttons:
+                - id: page_prev
+                  text: "\U000F0141"
+                  on_press:
+                    then:
+                      lvgl.page.previous:
+                - id: page_home
+                  text: "\U000F06A1"
+                  on_press:
+                    then:
+                      lvgl.page.show: $page_home
+                - id: page_next
+                  text: "\U000F0142"
+                  on_press:
+                    then:
+                      lvgl.page.next:   
+                      
+##################################
+        - label:
+            id: wifi_status
+            align: BOTTOM_RIGHT #TOP_RIGHT
+            x: -5
+            y: -5
+            text: "${wifi_100}"
+            text_color: color_dark_gray
+            text_font: icons_24
+        - label:
+            id: ha_status
+            align: BOTTOM_RIGHT #TOP_RIGHT
+            x: -30
+            y: -5
+            text: "${ha}"
+            text_color: color_dark_gray
+            text_font: icons_24
+
+ # page_wrap: true

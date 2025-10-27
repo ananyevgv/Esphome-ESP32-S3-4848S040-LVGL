@@ -334,25 +334,12 @@ lvgl:
                         action: cover.toggle
                         data:
                           entity_id: "${shutter_0}" 
-                    - logger.log: "cover toggle"
                   on_long_press:
                     - homeassistant.action:
                         action: cover.stop_cover
                         data:
                           entity_id: "${shutter_0}" 
-                    - logger.log: "stop cover"
-                  on_swipe_top:
-                    - homeassistant.action:
-                        action: cover.open_cover
-                        data:
-                          entity_id: "${shutter_0}" 
-                    - logger.log: "open cover"
-                  on_swipe_bottom:         
-                    - homeassistant.action:
-                        action: cover.close_cover
-                        data:
-                          entity_id: "${shutter_0}"   
-                    - logger.log: "close cover"
+
                             
 # on_swipe_up : Обнаружен жест прокрутки вверх
 # on_swipe_down : Обнаружен жест смахивания вниз
@@ -401,16 +388,7 @@ lvgl:
                         action: cover.stop_cover
                         data:
                           entity_id: "${shutter_1}" 
-                  on_swipe_up:
-                    - homeassistant.action:
-                        action: cover.open_cover
-                        data:
-                          entity_id: "${shutter_1}"                          
-                  on_swipe_down:         
-                    - homeassistant.action:
-                        action: cover.close_cover
-                        data:
-                          entity_id: "${shutter_1}"    
+  
 ####################################################################################################################
               - button:
                   checkable: false
