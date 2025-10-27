@@ -194,11 +194,7 @@ select:
               case 3:  id(my_display).set_rotation(DISPLAY_ROTATION_270_DEGREES); break;
             }
         - lvgl.widget.redraw:
-        - lvgl.roller.update:
-            id: display_rotate
-            selected_index: !lambda |-  
-              return i;
-              
+
 #-------------------------------------------
 # TOUCHSCREEN
 #-------------------------------------------
