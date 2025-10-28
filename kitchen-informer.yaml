@@ -1,0 +1,536 @@
+substitutions:
+# Указываем название устройства
+  name: "kitchen-informer"
+  last_name: boiler
+  device_description: "Выключатель кухня"
+  characters: " !#%'()+=,-_.:³°/μ0123456789АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZабвгдеёжзийклмнопрстуфхцчшщьыъэюяabcdefghijklmnopqrstuvwxyz"
+  number_characters: " :.-0123456789"
+
+  page_home: weather
+  background_boot: back6
+#-------------------------------------------
+# Packages
+#-------------------------------------------
+packages:
+  weather: !include 
+    file: packages/display/weather_anime.yaml # выбрать один из трех weather
+    vars:
+      background_weather: back6
+      sensor_weather: weather.iaroslavskaia
+# Добавляем кнопки страничек на weather
+  dis_butt: !include 
+    #file: packages/display/dis_butt_2.yaml 
+    #file: packages/display/dis_butt_3.yaml
+    #file: packages/display/dis_butt_4.yaml 
+    file: packages/display/dis_butt_6.yaml 
+    #file: packages/display/dis_butt_8.yaml 
+    vars:
+      botton_icon0: "󱠝" #countertop_outline
+      botton_page0: button8_page
+      collor_page0: color_crimson
+      
+      botton_icon1: "\U000F0FD0" #bed-queen
+      botton_page1: button10_page
+      collor_page1: color_blue
+
+      botton_icon2: "\U000F0454" # remote
+      botton_page2: lg_remoute
+      collor_page2: color_mint
+
+      botton_icon3: "\U000F0F54" # 
+      botton_page3: boiler_page
+      collor_page3: color_green
+      
+      botton_icon4: "\U000F0299" # 
+      botton_page4: button4_page
+      collor_page4: color_yellow
+
+      botton_icon5: "\U000F111C" #F08BB" 
+      botton_page5: shutter_page
+      collor_page5: color_orange
+#############################################################################
+#----Страничка 8 кнопок кухня-----------------------------------------------
+#############################################################################
+  button8: !include
+    file: packages/display/button-8.yaml
+    vars:
+      background_button8: back6
+    # Кнопки 0 ряд
+      button8_icon_0_0: "\U000F18DD" # ceiling_light_multiple
+      button8_entity_0_0: light.kitchen_n
+      button8_text_0_0: "Кухня низ"
+      button8_action_0_0: "light.toggle"
+      button8_checkable_0_0: "true"
+
+      button8_icon_0_1:  "\U000F18DE" # ceiling_light_multiple_outline
+      button8_entity_0_1: light.kitchen_v
+      button8_text_0_1: "Кухня верх"
+      button8_action_0_1: "light.toggle"
+      button8_checkable_0_1: "true"
+
+    # Кнопки 1 ряд
+      button8_icon_1_0: "\U000F1987" # light_flood_down
+      button8_entity_1_0: switch.wi_fi_smart_switch_switch_1
+      button8_action_1_0: "switch.toggle"
+      button8_checkable_1_0: "true"
+
+      button8_icon_1_1: "\U000F07F4" # television-classic
+      button8_entity_1_1: button.kitchen_clock_power_lg
+      button8_action_1_1: "button.press"
+      button8_checkable_1_1: "false"
+
+    # Кнопки 2 ряд
+      button8_icon_2_0: "\U000F12BA" # string_lights
+      button8_entity_2_0: light.kitchen_lighting_ch0
+      button8_action_2_0: "light.toggle"
+      button8_checkable_2_0: "true"
+
+      button8_icon_2_1: "\U000F1356" # television-ambient-light
+      button8_entity_2_1: light.kitchen_lighting_ch1
+      button8_action_2_1: "light.toggle"
+      button8_checkable_2_1: "true"
+
+      button8_icon_2_2: "\U000F0748" # wall-sconce-flat
+      button8_entity_2_2: light.kitchen_lighting_ch2
+      button8_action_2_2: "light.toggle"
+      button8_checkable_2_2: "true"
+
+      button8_icon_2_3: "\U000F091D" # wall-sconce-flat
+      button8_entity_2_3: light.kitchen_lighting_ch3
+      button8_action_2_3: "light.toggle"
+      button8_checkable_2_3: "true"
+
+#############################################################################
+#----Страничка 10 кнопок холл-----------------------------------------------
+#############################################################################
+  button10: !include 
+    file: packages/display/button-10.yaml
+    vars:
+      pref_id: holl
+      background_button10: back6
+    # Кнопки 0 ряд
+      button10_icon_0_0:  "\U000F0335" # lightbulb "\U000F18DD" # ceiling_light_multiple
+      button10_entity_0_0: light.holl_led_1
+      button10_text_0_0: "Холл 1л"
+      button10_action_0_0: "light.toggle"
+      button10_checkable_0_0: "true"
+
+      button10_icon_0_1: "\U000F1255" # lightbulb-multiple "\U000F18DE" # ceiling_light_multiple_outline
+      button10_entity_0_1: light.holl_led_2
+      button10_text_0_1: "Холл 2л"
+      button10_action_0_1: "light.toggle"
+      button10_checkable_0_1: "true"
+
+    # Кнопки 1 ряд
+      button10_icon_1_0: "\U000F1793" # chandelier
+      button10_entity_1_0: light.in_shower
+      button10_action_1_0: "light.toggle"
+      button10_checkable_1_0: "true"
+
+      button10_icon_1_1: "\U000F09A0" # shower
+      button10_entity_1_1: light.shower
+      button10_action_1_1: "light.toggle"
+      button10_checkable_1_1: "true"
+
+      button10_icon_1_2: "\U000F081A" # door
+      button10_entity_1_2: light.vihod
+      button10_action_1_2: "light.toggle"
+      button10_checkable_1_2: "true"
+
+      button10_icon_1_3: "\U000F1020" # coach_lamp
+      button10_entity_1_3: light.vhod
+      button10_action_1_3: "light.toggle"
+      button10_checkable_1_3: "true"
+
+    # Кнопки 2 ряд
+      button10_icon_2_0: "\U000F0820" # lightning-bolt-circle
+      button10_entity_2_0: light.laba
+      button10_action_2_0: "light.toggle"
+      button10_checkable_2_0: "true"
+
+      button10_icon_2_1: "\U000F11DC" # window-open-variant
+      button10_entity_2_1: light.garderob
+      button10_action_2_1: "light.toggle"
+      button10_checkable_2_1: "true"
+
+      button10_icon_2_2: "\U000F028F" # fridge-outline
+      button10_entity_2_2: light.kladovka
+      button10_action_2_2: "light.toggle"
+      button10_checkable_2_2: "true"
+
+      button10_icon_2_3: "\U000F08F3" # nas
+      button10_entity_2_3: light.server
+      button10_action_2_3: "light.toggle"
+      button10_checkable_2_3: "true"
+
+#############################################################################
+#----Страничка 4 кнопоки улица-----------------------------------------------
+#############################################################################
+  button4: !include
+    file: packages/display/button-4.yaml
+    vars:
+      background_button4: back6
+
+      button4_icon_0_0: "\U000F116A" # gate-open
+      button4_entity_0_0: switch.sonoff_1000fd870d_1
+      button4_text_0_0: "Ворота"
+      button4_action_0_0: "script.vorota"
+      button4_checkable_0_0: "false"
+
+      button4_icon_0_1: "\U000F1169" # gate-arrow-right
+      button4_entity_0_1: switch.sonoff_1000fd870d_2
+      button4_text_0_1: "Ворота 1/2"
+      button4_action_0_1: "script.vorota_1_2"
+      button4_checkable_0_1: "false"
+
+      button4_icon_1_0: "\U000F0299" # gate
+      button4_entity_1_0: switch.sonoff_1000fd870d_3
+      button4_text_1_0: "Закрыть"
+      button4_action_1_0: "script.vorota_close"
+      button4_checkable_1_0: "false"
+
+      button4_icon_1_1: "\U000F07AE" # cctv
+      button4_entity_1_1: light.cam
+      button4_text_1_1: "Камеры"
+      button4_action_1_1: "light.toggle"
+      button4_checkable_1_1: "true"
+
+#############################################################################
+#----Страничка управления двумя шторами--------------------------------------
+#############################################################################
+  shutter: !include
+    file: packages/display/shutter2.yaml
+    vars:
+      background_shutter: back6
+      shutter_0: "cover.holl_l_curtain"
+      shutter_1: "cover.holl_p_curtain"
+    
+  #boiler: !include packages/boiler.yaml
+  lg: !include 
+    file: packages/display/lg_light.yaml  
+    vars:
+      background_lg: back6
+      GPIO_IR: GPIO1
+      buttonLG_icon_0_0: "\U000F0425" # power
+      buttonLG_icon_0_1: "\U000F02FA" # input
+      buttonLG_icon_0_2: "\U000F06A1" # home_outline
+      buttonLG_icon_0_3: "\U000F0BAB" # menu_open
+
+      lg_code_0_0: "0x20DF10EF" # power on/off
+      lg_code_0_1: "0x20DFD02F" # input
+      lg_code_0_2: "0x20DF3EC1" # home
+      lg_code_0_3: "0x20DF42BD" # MyAPP
+    # 2-3 строка пульта  
+      buttonLG_icon_up: "\U000F0415" # plus
+      buttonLG_icon_dw: "\U000F0374" #  minus
+      lg_code_up_0: "0x20DF40BF" # VolUp
+      lg_code_dw_0: "0x20DFC03F" # VolDwn
+      lg_code_up_1: "0x20DF00FF" # CHlUp
+      lg_code_dw_1: "0x20DF807F"# CHDwn
+      
+      buttonLG_icon_1_0: "\U000F0360" # menu_up
+      buttonLG_icon_1_1: "\U000F035E" # menu_left
+      buttonLG_icon_1_2: "\U000F035D" # menu_down
+      buttonLG_icon_1_3: "\U000F035F" # menu_right
+      buttonLG_icon_1_4: "\U000F0133" # checkbox
+
+      lg_code_1_0: "0x20DF02FD" # UP
+      lg_code_1_1: "0x20DF827D" # Dwn
+      lg_code_1_2: "0x20DFE01F" # Left
+      lg_code_1_3: "0x20DF609F" # Right
+      lg_code_1_4: "0x20DF22DD" # OK
+    # Четвертая строчка пульта
+      buttonLG_icon_2_0: "\U000F040A" # play
+      buttonLG_icon_2_1: "\U000F03E4" # pause
+      buttonLG_icon_2_2: "\U000F04DB" # stop
+      buttonLG_icon_2_3: "\U000F044A" #  record
+
+      lg_code_2_0: "0x20DF0DF2" # play
+      lg_code_2_1: "0x20DF5DA2" # pause
+      lg_code_2_2: "0x20DF8D72" # stop
+      lg_code_2_3: "0x20DFBD42" #  record
+      
+ # clock: !include packages/clock_page.yaml
+
+#############################################################################
+#----Страничка посудомойки --------------------------------------------------
+#############################################################################
+  dishwasher: !include 
+    file: packages/display/dishwasher.yaml
+    vars:
+      sensor_dishwasher_percent: sensor.siemens_dishwasher_program_progress
+      sensor_dishwasher_time: sensor.siemens_dishwasher_remaining_program_time 
+      sensor_dishwasher_start_count: sensor.siemens_dishwasher_start_count
+      sensor_dishwasher_water_forecast: sensor.siemens_dishwasher_water_forecast
+      sensor_dishwasher_energy_forecast: sensor.siemens_dishwasher_energy_forecast
+      sensor_dishwasher_program_phase: sensor.siemens_dishwasher_program_phase
+      sensor_dishwasher_salt: sensor.siemens_dishwasher_salt
+      sensor_dishwasher_time_end: sensor.posuda_time_end
+      sensor_dishwasher_rinse_aid: sensor.siemens_dishwasher_rinse_aid
+        
+      binary_sensor_dishwasher_door: binary_sensor.siemens_dishwasher_door
+      binary_sensor_dishwasher_low_water_pressure: binary_sensor.siemens_dishwasher_low_water_pressure
+      binary_sensor_dishwasher_aquastop_occurred: binary_sensor.siemens_dishwasher_aquastop_occurred
+      
+      select_dishwasher_sound_level_signal: select.siemens_dishwasher_sound_level_signal
+      select_dishwasher_selected_program: select.siemens_dishwasher_selected_program
+      select_dishwasher_default_program: select.siemens_dishwasher_default_program
+      select_dishwasher_remote_control: select.siemens_dishwasher_remote_control
+        
+      switch_dishwasher_power: switch.siemens_dishwasher_power
+      switch_dishwasher_variospeedplus: switch.siemens_dishwasher_variospeedplus
+      switch_dishwasher_half_load: switch.siemens_dishwasher_half_load
+      switch_dishwasher_silence_on_demand: switch.siemens_dishwasher_silence_on_demand
+      switch_dishwasher_speed_on_demand: switch.siemens_dishwasher_speed_on_demand
+        
+      button_dishwasher_start: button.siemens_dishwasher_start
+      button_dishwasher_abort: button.siemens_dishwasher_abort
+      
+#############################################################################  
+
+  #barometr: !include packages/barometr.yaml # выбрать один из трех barometr
+  barometr: !include 
+    file: packages/display/barometr_page.yaml # выбрать один из трех barometr
+    vars:
+      sensor_temperature: sensor.kitchen_clock_temperature
+      sensor_pressure: sensor.holl_clock_pressure
+  #barometr: !include packages/display/barometr_bme680_page.yaml  # выбрать один из трех barometr
+  #barometr: !include packages/display/barometr_bme680_weather.yaml  # выбрать один из трех barometr  обязателен weather_bme680.yaml
+  humm-out: !include 
+    file: packages/display/humm-out.yaml
+    vars:
+      sensor_humidity_out: sensor.iaroslavskaia_humidity
+      
+  geomag: !include 
+    file: packages/display/geomag.yaml
+    vars:
+      sensor_geomagnetic: sensor.iaroslavskaia_geomagnetic_field
+  #geomag: !include packages/geomag-page.yaml # Фоновый рисунок
+
+  UV: !include 
+    file: packages/display/UV.yaml
+    vars:
+      sensor_uv_index: sensor.iaroslavskaia_uv_index
+  #UV: !include packages/UV-page.yaml # Фоновый рисунок
+
+  wind: !include 
+    file: packages/display/wind.yaml 
+    vars:
+      sensor_wind_speed: sensor.iaroslavskaia_wind_speed
+      sensor_wind_bearing: sensor.iaroslavskaia_wind_bearing_2
+
+  iaq: !include
+    file: packages/display/iaq.yaml
+    vars:
+      sensor_iaq: sensor.holl_clock_iaq
+
+  co2: !include
+    file: packages/display/co2.yaml
+    vars:
+      sensor_co2: sensor.holl_clock_co2
+
+  voc: !include
+    file: packages/display/voc.yaml
+    vars:
+      sensor_voc: sensor.holl_clock_voc
+
+  birch: !include
+    file: packages/display/birch.yaml
+    vars:
+      sensor_birch: sensor.iaroslavskaia_birch_pollen_index
+
+  grass: !include 
+    file: packages/display/grass.yaml
+    vars:
+      sensor_grass: sensor.iaroslavskaia_grass_pollen_index
+
+  ragweed: !include 
+    file: packages/display/ragweed.yaml
+    vars:
+      sensor_ragweed: sensor.iaroslavskaia_ragweed_pollen_index
+
+  humm: !include 
+    file: packages/display/humm.yaml
+    vars:
+      sensor_humidity: sensor.kitchen_clock_humidity
+
+
+#############################################################################
+#----Котел-------------------------------------------------------------------
+#############################################################################
+  boiler: !include   
+    file: packages/display/boiler.yaml
+    vars:
+      background_boiler: boiler_image
+      boiler_entity_sensor: sensor.kitchen_clock_temperature
+    # Пламя
+      icons_boiler_f_0:     "\U000F0238"    # fire
+    # Ошибки  бинарные сенсоры
+      icons_boiler_a_0:     "\U000F0D70"    # face-agent
+      icons_boiler_a_1:     "\U000F0873"    # gauge-empty   
+      icons_boiler_a_2:     "\U000F11B3"    # water-boiler-alert
+      icons_boiler_a_3:     "\U000F0773"    # lock-reset 
+      icons_boiler_a_4:     "\U000F1A1B"    # gas-burner
+      icons_boiler_a_5:     "\U000F03C8"    # coolant-temperature
+      icons_boiler_a_6:     "\U000F189A"    # ccount-wrench
+      icons_boiler_a_7:     "\U000F1BE0"    # cloud-alert-outline
+    #  icons_boiler_a_8:    "\U000F1807"    # fire-circle
+    # Режимы работы
+      icons_boiler_0_0:     "\U000F0F54"    # home-thermometer
+      icons_boiler_0_1:     "\U000F0F92"    # water-boiler
+      icons_boiler_0_2:     "\U000F1B29"    # faucet
+      icons_boiler_0_3:     "\U000F0FA7"    # chart-bell-curve-cumulative
+    
+      icons_boiler_1_0:     "\U000F0E66"    # sprout
+      icons_boiler_1_1:     "\U000F033E"    # lock
+      icons_boiler_1_2:     "\U000F0266"    # format-color-fill faucet-variant
+      icons_boiler_1_3:     "\U000F0709"    # restart
+
+
+      boiler_entity_f_0: binary_sensor.baxi_flame
+      boiler_entity_a_0: binary_sensor.baxi_diagnostic
+      boiler_entity_a_1: binary_sensor.baxi_water_pressure_fault
+      boiler_entity_a_2: binary_sensor.baxi_fault
+      boiler_entity_a_3: binary_sensor.baxi_lockout_reset
+      boiler_entity_a_4: binary_sensor.baxi_gas_flame_fault
+      boiler_entity_a_5: binary_sensor.baxi_water_over_temperature_fault
+      boiler_entity_a_6: binary_sensor.baxi_service_request
+      boiler_entity_a_7: binary_sensor.baxi_air_pressure_fault
+    
+      number_boiler_0: number.pid_setpoint_temperature
+      number_boiler_1: number.baxi_ch_setpoint_temperature
+      number_boiler_2: number.baxi_dhw_setpoint_temperature
+      number_boiler_3: number.baxi_otc_setpoint
+
+      sensor_current_boiler_0: sensor.kitchen_t
+      sensor_current_boiler_1: sensor.baxi_boiler_temperature
+      sensor_current_boiler_2: sensor.baxi_dhw_temperature
+      sensor_current_boiler_3: sensor.baxi_OTC
+    
+      boiler_entity_0_0: switch.pid
+      boiler_entity_0_1: switch.baxi_ch_enabled
+      boiler_entity_0_2: switch.baxi_dhw_enabled
+      boiler_entity_0_3: switch.baxi_otc_active
+    
+      boiler_entity_1_0: switch.baxi_eco_enabled
+      boiler_entity_1_1: button.baxi_boiler_lock_out_reset
+      boiler_entity_1_2: button.baxi_ch_water_filling
+      boiler_entity_1_3: button.baxi_restart
+    
+      sensor_error: sensor.baxi_oshibka_kotla
+      sensor_modulation: sensor.baxi_modulation
+
+  vacuum: !include 
+    file: packages/display/vacuum_cleaner.yaml
+    vars:
+      background_vacuum: back6
+
+      vacuum_icon_0_0: "\U000F040A" #Play
+      vacuum_entity_0_0: xiaomi_miio.vacuum_remote_control_start
+      
+      vacuum_icon_0_1: "\U000F070D" #robot-vacuum
+      vacuum_entity_0_1: vacuum.robot_pylesos
+    
+      vacuum_icon_0_2: "\U000F04DB" #stop
+      vacuum_entity_0_2: xiaomi_miio.vacuum_remote_control_stop
+      
+    # Кнопки 1 ряд
+      vacuum_icon_1_0: "\U000F03E4" #pause
+      vacuum_entity_1_0: xiaomi_miio.vacuum_remote_control_pause
+    
+      vacuum_icon_1_1: "\U000F104D" #home-circle-outline
+      vacuum_entity_1_1: xiaomi_miio.vacuum_remote_control_xiaomi_goto
+      
+  clock: !include
+    file: packages/display/clock_page.yaml
+    vars:
+      display_date: "false"
+#############################################################################
+  wifi: !include packages/display/wifi.yaml
+ # web: !include included/web.yaml
+  disp:  !include packages/display/display.yaml
+  top:  !include packages/display/top_stl_blk.yaml
+  #top:  !include packages/display/top_stl.yaml
+  settings: !include packages/display/settings.yaml
+
+#-------------------------------------------
+# IMAGE
+#-------------------------------------------
+image:
+ # - file: "picture/clok.jpg"
+ #   id: clok_image
+ #   resize: 450x450
+ #   type: RGB565 
+ # - file: 'picture/ha_logo.png'
+ #   id: boot_logo
+ #   resize: 200x200
+ #   type: RGB565
+ #   use_transparency: true
+  - file: 'picture/back6.png'
+    id: back6
+    type: RGB565
+  #- file: 'picture/back7.png'
+  #  id: back7
+  #  type: RGB565
+
+##########################################################################################################################################
+#-------------------------------------------
+# ESP MCU SETTINGS for
+# Guition ESP32-S3-4848S040
+#-------------------------------------------
+esphome:
+  name: "${name}"
+  comment: "${device_description}"
+  platformio_options:
+    board_upload.maximum_size: 16777216
+    board_build.flash_mode: dio
+
+esp32:
+  board: esp32-s3-devkitc-1
+  variant: esp32s3
+  flash_size: 16MB
+  cpu_frequency: 240MHz
+  framework:
+    type: esp-idf
+    sdkconfig_options:
+      CONFIG_ESP32S3_DEFAULT_CPU_FREQ_240: "y"
+      CONFIG_SPIRAM_FETCH_INSTRUCTIONS: y
+      CONFIG_SPIRAM_RODATA: y
+
+#-------------------------------------------
+# I2C
+#-------------------------------------------
+i2c:
+  sda: GPIO19
+  scl:
+    number: 45
+    ignore_strapping_warning: true
+  scan: true
+
+#-------------------------------------------
+# switch
+#-------------------------------------------
+#switch:
+#  - platform: gpio
+#    id: relay_1
+#    pin: 40
+ # - platform: gpio
+ #   id: relay_2
+ #   pin: 2
+ # - platform: gpio
+ #   id: relay_3
+  #  pin: 1
+
+#-------------------------------------------
+# TIME
+#-------------------------------------------
+time:
+  - platform: sntp
+    id: sntp_time
+    timezone: UTC-3 #Europe/Moscow
+    servers: !secret sntp
+    on_time:
+      - minutes: 25
+        seconds: 0
+        then:
+          - switch.turn_on: switch_antiburn
