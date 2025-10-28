@@ -4,31 +4,6 @@ substitutions:
   characters: " !#%'()+=,-_.:³°/μ0123456789АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧЩШЬЫЪЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZабвгдеёжзийклмнопрстуфхцчшщьыъэюяabcdefghijklmnopqrstuvwxyz"
   number_characters: " :.-0123456789"
 
-# Icon page setting_page
-  botton_icon0: "\U000F0FD0" #bed-queen
-  botton_page0: button10_page
-  collor_page0: color_crimson
-  
-  botton_icon1: "󱠝" #countertop_outline
-  botton_page1: button8_page
-  collor_page1: color_blue
-
-  botton_icon2: "\U000F0454" # remote
-  botton_page2: lg_remoute
-  collor_page2: color_mint
-
-  botton_icon3: "\U000F0F54" # 
-  botton_page3: thermostat_page
-  collor_page3: color_green
-  
-  botton_icon4: "\U000F0299" # 
-  botton_page4: button4_page
-  collor_page4: color_yellow
-
-  botton_icon5: "\U000F111C" #F08BB" 
-  botton_page5: shutter_page
-  collor_page5: color_orange
-  
   page_home: weather
   background_boot: back6
 
@@ -42,7 +17,46 @@ packages:
     vars:
       background_weather: back6
       sensor_weather: weather.iaroslavskaia
+      
+# Добавляем кнопки страничек на weather
+  dis_butt: !include 
+    #file: packages/display/dis_butt_2.yaml 
+    #file: packages/display/dis_butt_3.yaml
+    #file: packages/display/dis_butt_4.yaml 
+    file: packages/display/dis_butt_6.yaml 
+    #file: packages/display/dis_butt_8.yaml 
+    vars:
+      botton_icon0: "\U000F0FD0" #bed-queen
+      botton_page0: button10_page
+      collor_page0: color_crimson
+      
+      botton_icon1: "󱠝" #countertop_outline
+      botton_page1: button8_page
+      collor_page1: color_blue
 
+      botton_icon2: "\U000F0454" # remote
+      botton_page2: lg_remoute
+      collor_page2: color_mint
+
+      botton_icon3: "\U000F0F54" # 
+      botton_page3: thermostat_page
+      collor_page3: color_green
+      
+      botton_icon4: "\U000F0299" # 
+      botton_page4: button4_page
+      collor_page4: color_yellow
+
+      botton_icon5: "\U000F111C" #F08BB" 
+      botton_page5: shutter_page
+      collor_page5: color_orange
+
+      botton_icon6: "\U000F0AAC" #F08BB" 
+      botton_page6: dishwasher_page
+      collor_page6: color_orange
+
+      botton_icon7: "\U000F0493" #F08BB" 
+      botton_page7: settings_page
+      collor_page7: color_orange
 #############################################################################
 #----Страничка 10 кнопок холл-----------------------------------------------
 #############################################################################
