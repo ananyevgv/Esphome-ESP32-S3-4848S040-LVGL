@@ -1,0 +1,124 @@
+#-------------------------------------------
+# Packages
+#-------------------------------------------
+#packages:
+#  dis_butt: !include 
+#    file: packages/display/dis_butt_3.yaml 
+#    vars:
+#      botton_icon0: "\U000F0FD0" #bed-queen
+#      botton_page0: button10_page
+#      collor_page0: color_crimson
+      
+#      botton_icon1: "󱠝" #countertop_outline
+#      botton_page1: button8_page
+#      collor_page1: color_blue
+
+#      botton_icon2: "\U000F0454" # remote
+#      botton_page2: lg_remoute
+#      collor_page2: color_mint
+
+
+#-------------------------------------------
+# FONT
+#-------------------------------------------
+font:
+  - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+    id: icons_48
+    size: 48
+    bpp: 4
+    glyphs: [
+      $botton_icon0,
+      $botton_icon1,
+      $botton_icon2
+    ]   
+#-------------------------------------------
+# LVGL
+#-------------------------------------------
+lvgl:
+  pages:
+################################################################
+# Добавляем на weather
+    - id: !extend weather
+      widgets:
+        - obj:
+            bg_opa: TRANSP
+            border_opa: TRANSP
+            width: 120 #110
+            height: 270
+            align: CENTER
+            x: 180 #70 
+            y: 80
+            layout:
+              pad_row: 20
+              pad_column: 20
+              type: GRID
+              grid_columns: [FR(1)]
+              grid_rows: [FR(1), FR(1), FR(1)]
+            widgets:
+              - button:
+                  bg_color: color_black
+                  shadow_color: $collor_page0
+                  shadow_spread: 2
+                  shadow_width: 25
+                  shadow_opa: 100%
+                  grid_cell_column_pos: 0
+                  grid_cell_row_pos: 0
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  widgets:
+                    - label:
+                        align: CENTER
+                        text_font: icons_48
+                        text_color: $collor_page0
+                        text: $botton_icon0
+                  on_press:
+                    then:
+                      - lvgl.page.show: 
+                          id: $botton_page0
+                          animation: OUT_RIGHT
+                          time: 300ms
+
+              - button:
+                  bg_color: color_black
+                  shadow_color: $collor_page1
+                  shadow_spread: 2
+                  shadow_width: 25
+                  shadow_opa: 100%
+                  grid_cell_column_pos: 0
+                  grid_cell_row_pos: 1
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  widgets:
+                    - label:
+                        align: CENTER
+                        text_font: icons_48
+                        text_color: $collor_page1
+                        text: $botton_icon1
+                  on_press:
+                    then:
+                      - lvgl.page.show: 
+                          id: $botton_page1
+                          animation: OUT_RIGHT
+                          time: 300ms
+              - button:
+                  bg_color: color_black
+                  shadow_color: $collor_page2
+                  shadow_spread: 2
+                  shadow_width: 25
+                  shadow_opa: 100%
+                  grid_cell_column_pos: 0
+                  grid_cell_row_pos: 2
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  widgets:
+                    - label:
+                        align: CENTER
+                        text_font: icons_48
+                        text_color: $collor_page2
+                        text: $botton_icon2
+                  on_press:
+                    then:
+                      - lvgl.page.show: 
+                          id: $botton_page2
+                          animation: OUT_RIGHT
+                          time: 300ms
