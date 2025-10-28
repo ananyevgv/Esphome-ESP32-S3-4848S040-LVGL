@@ -1,9 +1,3 @@
-substitutions:
-  name: "test-informer"
-  device_description: "Выключатель test"
-  characters: " !#%'()+=,-_.:³°/μ0123456789АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧЩШЬЫЪЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZабвгдеёжзийклмнопрстуфхцчшщьыъэюяabcdefghijklmnopqrstuvwxyz"
-  number_characters: " :.-0123456789"
-
 esphome:
   on_boot:
     - light.turn_on: backlight
