@@ -28,7 +28,8 @@ substitutions:
   botton_icon5: "\U000F111C" #F08BB" 
   botton_page5: shutter_page
   collor_page5: color_orange
-
+  
+  page_home: weather
   background_boot: back6
 
 #-------------------------------------------
@@ -356,7 +357,8 @@ packages:
     file: packages/display/clock_page.yaml
     vars:
       display_date: "true"
-  
+      
+
 #############################################################################
   wifi: !include packages/display/wifi.yaml
  # web: !include included/web.yaml
