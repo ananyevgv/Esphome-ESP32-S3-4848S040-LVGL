@@ -1,3 +1,27 @@
+substitutions:
+  ha:                 "\U0000e90b" # home assistant
+  wifi_25:            "\U0000e90e" # wifi signal from 25% to 1% F090E
+  wifi_50:            "\U0000e90f" # wifi signal from 50% to 25% F090F
+  wifi_75:            "\U0000e910" # wifi signal from 75% to 50% F0910
+  wifi_100:           "\U0000e911" # wifi signal from 100% to 75% or disable F0911
+
+#-------------------------------------------
+# FONT
+#-------------------------------------------
+font:
+  - file: "font/Icons.ttf"
+    id: icons_24
+    size: 24
+    bpp: 4
+    ignore_missing_glyphs: true
+    glyphs: [
+      $ha,
+      $wifi_25,
+      $wifi_50,
+      $wifi_75,
+      $wifi_100
+      ]
+
 esphome:
   on_boot:
     - lvgl.widget.hide: boot_screen

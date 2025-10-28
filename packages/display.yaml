@@ -246,7 +246,7 @@ display:
     vsync_pulse_width: 8
     vsync_front_porch: 10
     vsync_back_porch: 10
-    update_interval: never
+  #  update_interval: never
     auto_clear_enabled: False
     init_sequence:
       - 1

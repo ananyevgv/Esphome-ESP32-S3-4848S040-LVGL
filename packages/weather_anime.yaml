@@ -10,30 +10,11 @@ image: !include images.yaml
 #-------------------------------------------
 
 substitutions:
-  page_home: weather
-  setting:            "\U0000e900" # setting
-  term:               "\U0000e901" # термостат
-  camera:             "\U0000e903" # камеры
-  ha:                 "\U0000e90b" # home assistant
-  wifi_25:            "\U0000e90e" # wifi signal from 25% to 1% F090E
-  wifi_50:            "\U0000e90f" # wifi signal from 50% to 25% F090F
-  wifi_75:            "\U0000e910" # wifi signal from 75% to 50% F0910
-  wifi_100:           "\U0000e911" # wifi signal from 100% to 75% or disable F0911
-  humidity:           "\U0000e912" # humidity
-  co2:                "\U0000e913" # co2
-  tvoc:               "\U0000e914" # air quality
-  temperature:        "\U0000e915" # temperature
-  vacuum:             "\U0000e918" # пылесос
-  pressure:           "\U0000e9a6" # meter
-
   molecule_co2:       "\U000F07E4"
   gauge:              "\U000F029A"
   water_percent:      "\U000F058E"
   house_temp:         "\U000F0F55"
   temp:               "\U000F050F"
-  monitor_dashboard:  "\U000F0A07"
-  lock_open:          "\U000F0340"
-  lock_outline:       "\U000F0341"
   checkbox_marked:    "\U000F0134"
   molecule:           "\U000F0BAC"
   
@@ -42,87 +23,12 @@ substitutions:
   flower_pollen:      "\U000F1885"
   grass:              "\U000F1510"
   tree_outline:       "\U000F0E69"
-  
-  #weather icons
-  cloudy:             "\U000F0590"
-  cloudyalert:        "\U000F0F2F"
-  cloudyarrowright:   "\U000F0E6E"
-  fog:                "\U000F0591"
-  hail:               "\U000F0592"
-  hazy:               "\U000F0F30"
-  hurricane:          "\U000F0898"
-  lightning:          "\U000F0593"
-  lightningrainy:     "\U000F067E"
-  night:              "\U000F0594"
-  nightpartlycloudy:  "\U000F0F31"
-  partlycloudy:       "\U000F0595"
-  partlylightning:    "\U000F0F32"
-  partlyrainy:        "\U000F0F33"
-  partlysnowy:        "\U000F0F34"
-  partlysnowyrainy:   "\U000F0F35"
-  pouring:            "\U000F0596"
-  rainy:              "\U000F0597"
-  snowy:              "\U000F0598"
-  snowyheavy:         "\U000F0F36"
-  snowyrainy:         "\U000F067F"
-  sunny:              "\U000F0599"
-  sunnyalert:         "\U000F0F37"
-  sunnyoff:           "\U000F14E4"
-  sunset:             "\U000F059A"
-  sunsetdown:         "\U000F059B"
-  sunsetup:           "\U000F059C"
-  tornado:            "\U000F0F38"
   windy:              "\U000F059D"
-  windyvariant:       "\U000F059E"
-  happyface:          "\U000F01F5"
-  lan_disconnect:     "\U000F0319"
-
-
 
 #-------------------------------------------
 # FONT
 #-------------------------------------------
 font:
-  - file: "gfonts://Roboto"
-    id: weather_icons
-    size: 110
-    bpp: 4
-    extras:
-      - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
-        glyphs: [
-          $cloudy,
-          $cloudyalert,
-          $cloudyarrowright,
-          $fog,
-          $hail,
-          $hazy,
-          $hurricane,
-          $lightning,
-          $lightningrainy,
-          $night,
-          $nightpartlycloudy,
-          $partlycloudy,
-          $partlylightning,
-          $partlyrainy,
-          $partlysnowy,
-          $partlysnowyrainy,
-          $pouring,
-          $rainy,
-          $snowy,
-          $snowyheavy,
-          $snowyrainy,
-          $sunny,
-          $sunnyalert,
-          $sunnyoff,
-          $sunset,
-          $sunsetdown,
-          $sunsetup,
-          $tornado,
-          $windy,
-          $windyvariant,    
-          $happyface,
-          $lan_disconnect
-        ]
 
   - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
     id: icons_48
@@ -134,12 +40,9 @@ font:
       $botton_icon2,
       $botton_icon3,
       $botton_icon4,
-      $botton_icon5,
-      $monitor_dashboard,
-      $lock_open,
-      $lock_outline
+      $botton_icon5
     ]   
-
+    
   - file: "gfonts://Roboto"
     id: weather36
     size: 36
@@ -172,31 +75,7 @@ font:
           $tree_outline
           ]
           
-  - file: "font/Icons.ttf"
-    id: icons_24
-    size: 24
-    bpp: 4
-    ignore_missing_glyphs: true
-    glyphs: [
-      $ha,
-      $setting,
-      $term,
-      $camera,
-      $vacuum,
-      $wifi_25,
-      $wifi_50,
-      $wifi_75,
-      $wifi_100
-      ]
       
-#-------------------------------------------
-# GLOBAL
-#-------------------------------------------    
-globals:
-  - id: child_protection
-    type: bool
-    restore_value: true
-    initial_value: "false"    
 #-------------------------------------------
 # SENSOR
 #------------------------------------------- 

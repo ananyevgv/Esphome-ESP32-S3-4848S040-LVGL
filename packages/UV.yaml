@@ -9,7 +9,7 @@
 #      sensor_uv_index: sensor.iaroslavskaia_uv_index
 # 
 #############################################################################
-
+    
 #-------------------------------------------
 # IMAGE
 #-------------------------------------------
@@ -78,7 +78,6 @@ text_sensor:
             text: !lambda |- 
               return x;            
 
-
 #-------------------------------------------
 # LVGL
 #-------------------------------------------
@@ -100,7 +99,7 @@ lvgl:
               - label:
                   id: display_UV
                   text: -- 
-                  text_font: weather36
+                  text_font:  weather36
                   text_color: 0x808080
                   align: LEFT_MID
             on_press:
@@ -109,10 +108,7 @@ lvgl:
   
 # Вывод на экран 
     - id: UV_page
-
-      #width: 100%
       bg_color: 0x000000
-      #opa: cover
       scrollbar_mode: "OFF"
       scrollable: false
       widgets:

@@ -1,0 +1,126 @@
+#-------------------------------------------
+# Add yaml and copy file esphome/packages/display/
+#packages:
+#  bme680_bsec: !include 
+#    file: packages/sdisplay/bme680.yaml
+#    vars:
+#      id_bme680_t: bme680_t
+#      id_bme680_h: bme680_h
+#      id_bme680_p: bme680_p
+#      id_bme680_iaq: bme680_iaq
+#      id_bme680_co2: bme680_co2
+#      id_bme680_voc: bme680_voc
+#      model_bme: bme680
+#      address_bme680: 0x76 # 0x77
+#      t_offset: 0
+#-------------------------------------------
+#external_components:
+#  - source: github://pr#10564
+#    components: [esp32]
+#    refresh: 1h
+
+#-------------------------------------------
+# SENSOR BME68x BSEC2
+#-------------------------------------------
+bme68x_bsec2_i2c:
+  address: $address_bme680
+  model: ${model_bme}
+  operating_age: 28d
+  sample_rate: LP
+  supply_voltage: 3.3V
+  temperature_offset: ${t_offset}
+#-------------------------------------------
+# TEXT SENSOR
+#-------------------------------------------
+text_sensor:
+  - platform: bme68x_bsec2
+    iaq_accuracy:
+      name: "IAQ Accuracy"
+  - platform: template
+    name: "IAQ Classification"
+    icon: "mdi:checkbox-marked-circle-outline"
+    lambda: |-
+      uint16_t var = (id(bme680_iaq).state);
+      switch (var) {
+        case 0 ... 50: return std::string("Отлично");
+        case 51 ... 100: return std::string("Хорошо");
+        case 101 ... 150: return std::string("Слегка загрязненный");
+        case 151 ... 200: return std::string("Умеренно загрязненный");
+        case 201 ... 250: return std::string("Слегка загрязненный");
+        case 251 ... 300: return std::string("Загрязненный");
+        case 301 ... 350: return std::string("Сильно загрязненный");
+        case 351 ... 500: return std::string("Черезвычайно загрязненный"); 
+        default: return std::string("error");
+      }  
+    on_value:
+      - lambda: id(iaq_class).publish_state(x.c_str());
+#-------------------------------------------
+# SENSOR
+#-------------------------------------------
+sensor:
+  - platform: bme68x_bsec2
+    temperature:
+      name: "Temperature"
+      id: ${id_bme680_t}
+      filters:
+      - calibrate_linear:
+        - 0.0 -> 0.0
+        - 26.7 -> 24.7
+      - delta: 0.2
+      on_value:
+        - lambda: id(barometr_temperature).publish_state(x);
+    
+    pressure:
+      name: "Pressure"
+      id: ${id_bme680_p}
+      filters:
+      - delta: 1
+      on_value:
+        - lambda: id(barometr_pressure).publish_state(x);
+            
+    humidity:
+      name: "Humidity"
+      id: ${id_bme680_h}
+      filters:
+      - calibrate_linear:
+        - 0.0 -> 0.0
+        - 52 -> 54.7
+      - delta: 1
+      on_value:
+        - lambda: id(humm).publish_state(x);
+            
+    iaq:
+      name: "IAQ"
+      id: ${id_bme680_iaq}
+      filters:
+      - delta: 5
+      on_value:
+        - lambda: id(barometr_temperature).publish_state(x);
+            
+    iaq_accuracy:
+      name: " IAQ Accuracy"
+      filters:
+      - delta: 5
+    co2_equivalent:
+      name: "CO₂"
+      id: ${id_bme680_co2}
+      filters:
+      - delta: 10
+      on_value:
+        - lambda: id(co2).publish_state(x);
+            
+    breath_voc_equivalent:
+      name: "VOC"
+      id: ${id_bme680_voc}
+      filters:
+      - delta: 5
+      on_value:
+        - lambda: id(voc).publish_state(x);
+        
+  - platform: absolute_humidity
+    name: "Absolute Humidity"
+    temperature: ${id_bme680_t}
+    humidity: ${id_bme680_h}      
+    filters:
+    - delta: 0.5        
+        
