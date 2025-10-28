@@ -90,8 +90,8 @@ lvgl:
     - id: !extend weather
       widgets:  
         - button:
-            y: 100
-            x: 250
+            y: 20
+            x: 250 
             align: TOP_LEFT
             bg_opa: TRANSP
             shadow_opa: TRANSP

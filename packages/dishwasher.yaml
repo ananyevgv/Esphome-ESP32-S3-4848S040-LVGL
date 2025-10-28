@@ -362,7 +362,7 @@ lvgl:
 # Добавляем на weather посудомойку
       widgets:
         - button:
-            y: 60 #110
+            y: 40 #60
             x: -5
             align: TOP_RIGHT
             bg_opa: TRANSP
