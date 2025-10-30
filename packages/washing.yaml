@@ -10,6 +10,11 @@
 #      collor_on: 0x0000ff
 #      collor_err: 0xff0000
 
+substitutions:
+  icons_temperature: "\U000F0510" #  F03C8  mdi:coolant-temperature F10C3  mdi:thermometer-low
+  icons_spin:        "\U000F0464"  # F0453  mdi:reload F0D4E  mdi:axis-x-rotate-clockwise
+  icons_time:        "\U000F1AE1" #F051B mdi:timer-outline
+
 #-------------------------------------------
 # FONT
 #-------------------------------------------
@@ -19,6 +24,13 @@ font:
     glyphs: ${number_characters}
     size: 20
     bpp: 4  
+    extras:
+      - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+        glyphs: [
+          $icons_temperature,
+          $icons_spin,
+          $icons_time
+        ]  
     
   - file: "gfonts://Roboto"
     id: washing_font
@@ -217,6 +229,13 @@ script:
             - lvgl.label.update:
                 id: d_washing_temperature
                 text_color: $collor_off
+            - lvgl.label.update:
+                id: d_washing_program_state
+                text_color: $collor_off
+
+            - lvgl.arc.update:
+                id: arc_washing_percent
+                value: 0
 
   - id: off_collor_ms
     then:
@@ -317,6 +336,10 @@ script:
                 
 
 sensor:
+
+
+
+
 # сенсор выбранной программы
   - platform: homeassistant
     id: program
@@ -328,7 +351,7 @@ sensor:
       then:
         - script.execute: off_collor_cp
         - script.execute: on_collor_cp
-        
+      
 # сенсор температуры           
   - platform: homeassistant
     id: temperature
@@ -340,7 +363,7 @@ sensor:
       - lvgl.label.update:
           id: d_washing_temperature
           text: 
-            format: "%.0f"
+            format: "$icons_temperature %.0f"
             args: x  
           text_color: $collor_on 
           
@@ -355,24 +378,12 @@ sensor:
       - lvgl.label.update:
           id: d_washing_spin
           text: 
-            format: "%.0f"
+            format: "$icons_spin %.0f"
             args: x  
           text_color: $collor_on 
-     
-# сенсор оставшегося времени стирки атрибут
-  - platform: homeassistant
-    id: remaining_minutes
-    entity_id: sensor.washing_machine
-    attribute: remaining_minutes
-    filters:
-      - filter_out: nan
-    on_value:
-      - lvgl.label.update:
-          id: d_washing_time
-          text: 
-            format: "%03.0f"
-            args:  x 
-          text_color: $collor_on
+          
+
+
 
 # процент выполнения стирки ?????
   - platform: homeassistant
@@ -398,13 +409,27 @@ sensor:
     id: wash_cycle
     entity_id: $wash_cycle
     
+# сенсор оставшегося времени стирки атрибут
+  - platform: homeassistant
+    id: remaining_minutes
+    entity_id: sensor.washing_machine
+    attribute: remaining_minutes
+    unit_of_measurement: min
+    device_class: duration
+    filters:
+      - filter_out: nan
+    on_value:
+      - lvgl.label.update:
+          id: d_washing_time
+          text: 
+            format: "$icons_time %02.0f:%02.0f"
+            args:  ["trunc(id(remaining_minutes).state / 60)", "trunc(fmod(id(remaining_minutes).state , 60.0))"]  
+          text_color: $collor_on
+
 # сенсор оставшегося времени стирки
   - platform: homeassistant
     id: remaining_time
     entity_id: $remaining_time
-
-
-
 
 #-------------------------------------------
 # Binary sensor
@@ -475,11 +500,12 @@ text_sensor:
     on_value:
       then:
         - script.execute: off_collor_ps
-        - script.execute: on_collor_ps
         - lvgl.label.update:
             id: d_washing_program_state
             text: !lambda return x;
             text_color: $collor_on
+        - script.execute: on_collor_ps
+
 #-------------------------------------------
 # LVGL
 #-------------------------------------------
