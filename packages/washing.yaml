@@ -1,10 +1,14 @@
-substitutions:
-  remaining_time: sensor.washing_machine_remaining_time
-  washing_machine: sensor.washing_machine 
-  wash_cycle: sensor.wash_cycle_status
-  collor_off: 0xB6B6B6
-  collor_on: 0x0000ff
-  collor_err: 0xff0000
+#-------------------------------------------
+#packages:
+#  washing: !include 
+#    file: packages/display/washing.yaml 
+#    vars:
+#      remaining_time: sensor.washing_machine_remaining_time
+#      washing_machine: sensor.washing_machine 
+#      wash_cycle: sensor.wash_cycle_status
+#      collor_off: 0xB6B6B6
+#      collor_on: 0x0000ff
+#      collor_err: 0xff0000
 
 #-------------------------------------------
 # FONT
@@ -195,7 +199,25 @@ script:
             - lvgl.widget.update:
                 id: washing_ps_1
                 line_color: $collor_on   
-        
+            
+      - if:
+          condition:
+            lambda: 'return id(washing_program_state).state == "выкл";'
+          then:
+            - script.execute: off_collor_cp
+            - lvgl.widget.update:
+                id: washing_rc
+                line_color: $collor_off
+            - lvgl.label.update:
+                id: d_washing_time
+                text_color: $collor_off
+            - lvgl.label.update:
+                id: d_washing_spin
+                text_color: $collor_off
+            - lvgl.label.update:
+                id: d_washing_temperature
+                text_color: $collor_off
+
   - id: off_collor_ms
     then:
       - lvgl.widget.update:
@@ -384,28 +406,22 @@ sensor:
 
 
 
+#-------------------------------------------
+# Binary sensor
+#-------------------------------------------
 binary_sensor:
   - platform: homeassistant
-    id: remote_control_id
-    entity_id: sensor.washing_machine
+    id: remote_control
+    entity_id: $washing_machine
     attribute: remote_control
-    on_state:
-      then:
-        if:
-          condition:
-            lambda: "return id(remote_control_id).state;"
-          then:
-            - lvgl.widget.update:
-                id: line_washing_15
-                line_color: $collor_on
-          else:
-            - lvgl.widget.update:
-                id: line_washing_15
-                line_color: $collor_off
-
-
-
-
+    on_press:
+      lvgl.widget.update:
+          id: washing_rc
+          line_color: $collor_on
+    on_release:
+      lvgl.widget.update:
+          id: washing_rc
+          line_color: $collor_off
 
 
 #-------------------------------------------
@@ -614,7 +630,7 @@ lvgl:
             line_rounded: false   
             id: washing_ps_4
             
-# отображение удаленного управления    
+##################################  
         - line:
             points:
               - 140, 150
@@ -622,9 +638,10 @@ lvgl:
             line_width: 60
             line_color: $collor_off
             line_rounded: false   
-            id: washing_rc  # wi-fi
+            id: line_washing_15 # сет
             
-##################################          
+##################################     
+# отображение удаленного управления    
         - line:
             points:
               - 130, 70
@@ -632,7 +649,7 @@ lvgl:
             line_width: 60
             line_color: $collor_off
             line_rounded: false   
-            id: line_washing_15 # set
+            id: washing_rc #
  
         - line:
             points:
