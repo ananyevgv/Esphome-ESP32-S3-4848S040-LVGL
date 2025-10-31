@@ -9,6 +9,8 @@
 #      collor_off: 0xB6B6B6
 #      collor_on: 0x0000ff
 #      collor_err: 0xff0000
+#      disp_percent: 0 # 100 x
+
 
 substitutions:
   icons_temperature: "\U000F0510" #  F03C8  mdi:coolant-temperature F10C3  mdi:thermometer-low
@@ -331,15 +333,10 @@ script:
                 id: washing_ms_2
                 line_color: $collor_on
 
-
-
-                
-
+#-------------------------------------------
+# SENSOR
+#-------------------------------------------
 sensor:
-
-
-
-
 # сенсор выбранной программы
   - platform: homeassistant
     id: program
@@ -357,6 +354,9 @@ sensor:
     id: temperature
     entity_id: sensor.washing_machine
     attribute: temperature
+    unit_of_measurement: °C
+    state_class: measurement
+    device_class: temperature
     filters:
       - filter_out: nan
     on_value:
@@ -378,12 +378,10 @@ sensor:
       - lvgl.label.update:
           id: d_washing_spin
           text: 
-            format: "$icons_spin %.0f"
+            format: "$icons_spin%.0f"
             args: x  
           text_color: $collor_on 
           
-
-
 
 # процент выполнения стирки ?????
   - platform: homeassistant
@@ -396,7 +394,7 @@ sensor:
       - lvgl.arc.update:
           id: arc_washing_percent
           value: !lambda |- 
-            return x;   
+            return $disp_percent;  
             
 # сенсор  код программы ?     
   - platform: homeassistant
@@ -425,6 +423,12 @@ sensor:
             format: "$icons_time %02.0f:%02.0f"
             args:  ["trunc(id(remaining_minutes).state / 60)", "trunc(fmod(id(remaining_minutes).state , 60.0))"]  
           text_color: $collor_on
+      - lvgl.label.update:
+          id: display_washing_time
+          text: 
+            format: "%02.0f:%02.0f"
+            args:  ["trunc(id(remaining_minutes).state / 60)", "trunc(fmod(id(remaining_minutes).state , 60.0))"] 
+          text_color: white  
 
 # сенсор оставшегося времени стирки
   - platform: homeassistant
@@ -448,16 +452,10 @@ binary_sensor:
           id: washing_rc
           line_color: $collor_off
 
-
 #-------------------------------------------
 # TEXT_SENSOR
 #-------------------------------------------
 text_sensor:
-
-
-
-
-
 # состояние стиральной машины
   - platform: homeassistant
     id: washing_machine_state
@@ -511,7 +509,31 @@ text_sensor:
 #-------------------------------------------
 lvgl:
   pages:
-# Страничка стиралки
+    - id: !extend weather
+# Добавляем на weather стиралку
+      widgets:
+        - button:
+            y: 40 #60
+            x: -5
+            align: TOP_RIGHT
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+           # shadow_spread: 2
+           # shadow_width: 25
+           # shadow_opa: 100%
+           # shadow_color: color_blue
+            width: 120
+            height: 70
+            widgets:  
+              - label:
+                  align: CENTER
+                  id: display_washing_time
+                  text: 88:88
+                  text_font: SEG20
+                  text_color: 0x808080
+                  y: -5
+            on_press:
+              lvgl.page.show: washing_page
 
 # отображение статуса стиральной машины   
     - id: washing_page
