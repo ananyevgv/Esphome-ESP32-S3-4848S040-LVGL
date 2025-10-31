@@ -119,8 +119,8 @@ lvgl:
     - id: !extend weather
       widgets:
         - button:
-            y: 20 #100
-            x: 350 #250
+            y: 10 #100
+            x: 330 #250
             align: TOP_LEFT
             bg_opa: TRANSP
             shadow_opa: TRANSP
@@ -193,14 +193,14 @@ lvgl:
             line_width: 700
             line_color: 0x9412FD
             line_rounded: false 
-         # белый
+         # Белый
         - line:
             points:
-              - 105, 585
-              - 345, 345
+              - 120, 600
+              - 360, 360
             align: TOP_left
-            line_width: 300
-            line_color: 0xffffff
+            line_width: 340
+            line_color: 0xFFFFFF
             line_rounded: false 
 # Шкала
         - meter:

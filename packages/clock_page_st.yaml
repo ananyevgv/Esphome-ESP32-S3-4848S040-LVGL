@@ -1,0 +1,135 @@
+#############################################################################
+#----Страничка часов-----------------------------------------------------
+#############################################################################
+# Add yaml and copy file esphome/packages/
+#    file: packages/ujin/display/clock_page_st.yaml
+#    vars:
+#      display_date: "false" 
+#############################################################################
+
+    
+#-------------------------------------------
+# IMAGE
+#-------------------------------------------
+image:
+  - file: "picture/обрезка 480 без фона.png"
+    id: clok_image
+    resize: 420x420
+    type: RGB565 
+    transparency: alpha_channel
+
+  - file: "picture/ч.png"
+    id: ch_image
+    resize: 420x420
+    type: RGB565 
+    transparency: alpha_channel
+
+  - file: "picture/м.png"
+    id: min_image
+    resize: 420x420
+    type: RGB565 
+    transparency: alpha_channel
+
+
+  - file: "picture/сек.png"
+    id: sec_image
+    resize: 420x420
+    type: RGB565 
+    transparency: alpha_channel
+#-------------------------------------------
+# SCRIPT
+#------------------------------------------- 
+script:
+  - id: time_update_clock
+    then:
+
+      - lvgl.label.update:
+          id: date_label
+          text: !lambda |-
+            auto now = id(sntp_time).now();
+            static char date_buf[3];
+            snprintf(date_buf, sizeof(date_buf), "%2d", now.day_of_month);
+            return date_buf;
+
+
+#-------------------------------------------
+# TIME
+#-------------------------------------------
+time:
+  - platform: sntp
+    id: sntp_time
+    timezone: UTC-3 #Europe/Moscow
+    servers: 0.pool.ntp.org
+    on_time_sync:
+      - script.execute: time_update_clock  
+    on_time:
+      - minutes: '*'
+        seconds: 0
+        then:
+          - script.execute: time_update_clock
+      - seconds: '*'
+        then:
+          - lvgl.image.update:
+              id: min_clock
+              angle: !lambda |-
+                return (60*(id(sntp_time).now().minute) + (id(sntp_time).now().second));
+          - lvgl.image.update:
+              id: ch_clock
+              angle: !lambda |-
+                return ((300*(id(sntp_time).now().hour)) + (5*(id(sntp_time).now().minute)));                
+
+          - lvgl.image.update:
+              id: sec_clock
+              angle: !lambda |-
+                return 60 * id(sntp_time).now().second;
+            
+#-------------------------------------------
+# LVGL
+#-------------------------------------------            
+lvgl:
+
+  pages:
+    - id: clock_page
+      widgets:
+        - obj: # Clock container
+            height: 420
+            width: 420
+            border_side: none
+            bg_color: 0xffffff
+            scrollbar_mode: "OFF"
+            scrollable: false
+            radius: 0
+            x: 30
+            y: 30
+            widgets:
+
+
+            
+              - image:
+                  align: CENTER
+                  src: clok_image
+                  id: im_clock
+
+
+              - label:
+                  id: date_label
+                  text: " "
+                  styles: date_style
+                  x: +170            
+
+
+              - image:
+                  align: CENTER
+                  src: ch_image
+                  id: ch_clock
+
+              - image:
+                  align: CENTER
+                  src: min_image
+                  id: min_clock
+
+
+              - image:
+                  align: CENTER
+                  src: sec_image
+                  id: sec_clock

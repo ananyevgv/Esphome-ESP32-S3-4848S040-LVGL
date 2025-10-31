@@ -212,10 +212,10 @@ lvgl:
          # Белый
         - line:
             points:
-              - 105, 585
-              - 345, 345
+              - 120, 600
+              - 360, 360
             align: TOP_left
-            line_width: 300
+            line_width: 340
             line_color: 0xFFFFFF
             line_rounded: false 
 

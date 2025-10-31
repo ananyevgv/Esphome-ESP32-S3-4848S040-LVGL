@@ -93,18 +93,18 @@ lvgl:
       widgets:  
         - button:
             y: 80
-            x: 10
+            x: 0
             align: TOP_LEFT
             bg_opa: TRANSP
             shadow_opa: TRANSP
-            width: 90
+            width: 130 #90
             height: 40
             widgets:  
               - label:
                   align: LEFT_MID
                   id: display_hum
                   text:  --.- %
-                  text_font: roboto36
+                  text_font: roboto36 #24
                   text_color: 0x808080
             on_press:
               lvgl.page.show: humm_out_page  
@@ -209,10 +209,10 @@ lvgl:
          # Белый
         - line:
             points:
-              - 105, 585
-              - 345, 345
+              - 120, 600
+              - 360, 360
             align: TOP_left
-            line_width: 300
+            line_width: 340
             line_color: 0xFFFFFF
             line_rounded: false 
 
