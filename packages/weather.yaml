@@ -133,40 +133,11 @@ font:
           $tree_outline
           ]
           
-#-------------------------------------------
-# SENSOR
-#------------------------------------------- 
-sensor:
-  - platform: homeassistant
-    id: ha_weather_temp
-    entity_id: $sensor_weather
-    attribute: temperature
-    on_value:
-      then:
-        - lvgl.label.update:
-            id: display_temp
-            text: 
-              format: "%.0f °C"
-              args: ["round(id(ha_weather_temp).state)"]  
-            text_color: !lambda |-
-              int8_t out_var = (id(ha_weather_temp).state);
-              switch (out_var) {
-                case -50 ... -26: return lv_color_hex(0x9670d6);
-                case -25 ... -11: return lv_color_hex(0x4867aa);
-                case -10 ... 0: return lv_color_hex(0x2fc0ff);
-                case 1 ... 10: return lv_color_hex(0x00E6E6);
-                case 11 ... 20: return lv_color_hex(0x00ddb8);
-                case 21 ... 30: return lv_color_hex(0x00ff00);
-                case 31 ... 40: return lv_color_hex(0xe7c12c);
-                case 41 ... 50: return lv_color_hex(0xff0000);
-                default: return lv_color_hex(0x333333);
-              }
-#mdi:weather-snowy-rainy
+
 #-------------------------------------------
 # TEXT SENSOR
 #-------------------------------------------
 text_sensor:
-
   - platform: homeassistant
     id: ha_weather_cond
     entity_id: $sensor_weather
@@ -230,9 +201,6 @@ text_sensor:
               else if (state == "$hurricane") { return lv_color_hex(0x0000B3); }
               return lv_color_hex(0x333333);
 
-
-
-
 #-------------------------------------------
 # LVGL
 #-------------------------------------------
@@ -254,18 +222,3 @@ lvgl:
             text_font: weather_icons
             y: -160
             x: -75
-            
-# Прогноз погоды
-        - label:
-            align: TOP_LEFT
-            id: display_temp
-            text: -- °C
-            text_font: roboto36
-            text_color: 0x808080
-            y: 20
-            x: 20
-            
-
-
-                          
-                        

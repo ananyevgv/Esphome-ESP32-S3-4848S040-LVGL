@@ -1,0 +1,148 @@
+#############################################################################
+#----Страничка уличного термометра-------------------------------------------
+#############################################################################
+# Add yaml and copy file esphome/packages/
+#packages:
+#  thermometer: !include 
+#    file: packages/thermometer.yaml
+#    vars:
+#      sensor_thermometer: sensor.iaroslavskaia_thermometer
+# 
+#############################################################################
+    
+#-------------------------------------------
+# IMAGE
+#-------------------------------------------
+image:
+  - file: "picture/thermometer.png"
+    id: thermometer_image
+    resize: 450x450
+    type: RGB565 
+    transparency: alpha_channel 
+    
+  - file: "picture/thermometer_center.png"
+    id: thermometer_centr_image
+    resize: 100x100
+    type: RGB565 
+    transparency: alpha_channel 
+    
+#-------------------------------------------
+# SENSOR
+#------------------------------------------- 
+sensor:
+  - platform: homeassistant
+    id: ha_weather_temp
+    entity_id: $sensor_temp_outdor
+    on_value:
+      then:
+########################################################################
+        - lvgl.label.update:
+            id: display_temp
+            text: 
+              format: "%2.0f °C"
+              args: ["round(id(ha_weather_temp).state)"]  
+            text_color: !lambda |-
+              int8_t out_var = (id(ha_weather_temp).state);
+              switch (out_var) {
+                case -50 ... -26: return lv_color_hex(0x9670d6);
+                case -25 ... -11: return lv_color_hex(0x4867aa);
+                case -10 ... 0: return lv_color_hex(0x2fc0ff);
+                case 1 ... 10: return lv_color_hex(0x00E6E6);
+                case 11 ... 20: return lv_color_hex(0x00ddb8);
+                case 21 ... 30: return lv_color_hex(0x00ff00);
+                case 31 ... 40: return lv_color_hex(0xe7c12c);
+                case 41 ... 50: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }    
+########################################################################
+        - lvgl.label.update:
+            id:  display_thermometer
+            text: 
+              format: "%.0f °C"
+              args: ["round(id(ha_weather_temp).state)"]  
+            text_color: !lambda |-
+              int8_t out_var = (id(ha_weather_temp).state);
+              switch (out_var) {
+                case -50 ... -26: return lv_color_hex(0x9670d6);
+                case -25 ... -11: return lv_color_hex(0x4867aa);
+                case -10 ... 0: return lv_color_hex(0x2fc0ff);
+                case 1 ... 10: return lv_color_hex(0x00E6E6);
+                case 11 ... 20: return lv_color_hex(0x00ddb8);
+                case 21 ... 30: return lv_color_hex(0x00ff00);
+                case 31 ... 40: return lv_color_hex(0xe7c12c);
+                case 41 ... 50: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
+              }   
+              
+        - lvgl.indicator.update:
+            id: thermometer_meter
+            value: !lambda |- 
+              return x;
+#-------------------------------------------
+# LVGL
+#-------------------------------------------
+lvgl:
+  pages:
+################################################################
+# Добавляем на weather thermometer
+    - id: !extend weather
+      widgets:
+        - button:
+            align: TOP_LEFT
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 130 #90
+            height: 50
+            widgets:   
+              - label:
+                  align: TOP_LEFT
+                  id: display_temp
+                  text: -- °C
+                  text_font: roboto36
+                  text_color: 0x808080
+            on_press:
+              lvgl.page.show: thermometer_page
+################################################################  
+# Вывод на экран 
+    - id: thermometer_page
+      width: 450
+      height: 450
+      bg_color: 0xffffff
+      bg_opa: cover
+      scrollbar_mode: "OFF"
+      widgets:
+        - image:
+            align: CENTER
+            src: thermometer_image    
+ # Индикатор
+        - meter:
+            width: 300
+            height: 300
+            align: center
+            bg_opa: TRANSP
+            border_opa: TRANSP
+            scales:
+              - indicators:
+                  - line:
+                      id: thermometer_meter
+                      width: 4
+                      color: 0xFF0000
+                      r_mod: 15
+                      value: 0
+                angle_range: 296
+                rotation: 123
+                range_from: -50
+                range_to: 50
+                ticks: 
+                  count: 0
+        - label:
+            id: display_thermometer
+            text_font: roboto36
+            text: "--°C"
+            align: CENTER
+            y: 140 # -50
+            
+        - image:
+            align: CENTER
+            src: thermometer_centr_image
+                  
