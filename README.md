@@ -10,7 +10,9 @@ https://aliexpress.ru/item/1005008214872438.html
 [esphome-release-shield]: https://img.shields.io/static/v1?label=ESPHome&message=2025.10.4&color=green&logo=esphome
 [esphome-release]: https://GitHub.com/esphome/esphome/releases/
 
-# Базовы конфиг holl-informer.yaml 
+# Базовы конфиг 
+
+holl-informer.yaml 
 
 создаем папку packages в esphome, копируем нужные пакеты в папку
 
