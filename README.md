@@ -80,6 +80,12 @@ holl-informer.yaml
 # Веб морда при необходимости
     web: !include included/web.yaml
 
+# font
+
+https://github.com/Templarian/MaterialDesign-Webfont/tree/master/fonts
+
+https://github.com/keshikan/DSEG
+
 # TODO 
 
 BME680, rotation display, weather page, graph page, vacuum  page
