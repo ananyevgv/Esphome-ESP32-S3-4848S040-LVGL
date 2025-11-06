@@ -12,80 +12,59 @@ https://aliexpress.ru/item/1005008214872438.html
 
  выбор сущности "light.toggle" "switch.toggle" "button.press"
 
-holl-informer.yaml указываем свои сенсоры, первоначальную страницу, фон для страниц 
-
+Базовы конфиг holl-informer.yaml 
 создаем папку packages в esphome, копируем нужные пакеты в папку
+основная страница
+   weather_anime.yaml или weather.yaml
 
+выбираем количество кнопок
+    file: packages/display/dis_butt_x.yaml 
+указываем иконки и ид страниц
 
+добавляем необходимые сенсоры на основной экран + дополнительная страница сенсора
+    file:packages/display/dishwasher.yaml или washing.yaml
+    file: packages/display/barometr_page.yaml или file: packages/display/barometr.yaml 
+    file: packages/display/thermometer.yaml
+    file: packages/display/humm-out.yaml
+    file: packages/display/geomag.yaml
+    file: packages/display/UV.yaml
+    file: packages/display/wind.yaml 
+    file: packages/display/iaq.yaml
+    file: packages/display/co2.yaml
+    file: packages/display/voc.yaml
+    file: packages/display/birch.yaml
+    file: packages/display/grass.yaml
+    file: packages/display/ragweed.yaml
+    file: packages/display/humm.yaml
+    file: packages/display/thermostat.yaml или file: packages/display/boiler.yaml
+    file: packages/display/clock_page.yaml (указываем необходимость отображения даты)
 Раставиляем страницы в желаемой очередности 
-
 на главную страеицу сенсоры добавляются автоматически при добавлении пакета
 
-# смотри holl-informer.yaml и packages.yaml
+Добавляем прочие страницы
+    file: packages/display/button-x.yaml
+    file: packages/display/shutter-x.yaml
+    file: packages/display/slider-4x.yaml
+указываем свои сущьности, типы действия, первоначальную страницу, фон для страниц 
 
-```yaml
-packages:
-# Раставить страницы в желаемой очередности, weather  можно использовать 1 вариант
+Страница пульта ТВ
+    file: packages/display/lg_light.yaml 
+
+Основной слой, стиль блокировка экрана 
+  top:  !include packages/display/top_stl_blk.yaml  без блокировки top:  !include packages/display/top_stl.yam
+
+Обязательные пакеты    
+     wifi: !include packages/display/wifi.yaml
+     disp:  !include packages/display/display.yaml
+
+Страничка настроек (разворот экрана пока не работает)
+  settings: !include packages/display/settings.yaml 
+
+Веб морда при необходимости
+  web: !include included/web.yaml
 
 
-#############################################################################
-#----Страничка погоды-----------------------------------------------------
-#############################################################################
-# Раставить страницы в желаемой очередности, barometr можно использовать 1 вариант
-  #weather: !include packages/weather_anime.yaml # выбрать один из трех weather #jpg:3 689 528 байт без 2 603 377 байт
-  weather: !include 
-    file: packages/weather.yaml # выбрать один weather
-    vars:
-      sensor_weather: weather.iaroslavskaia
-
-#############################################################################
-#----Часы----------------------------------------------------------
-#############################################################################
-  clock: !include packages/clock_page.yaml
-  
-#############################################################################
-#----Страничка 4 кнопоки-----------------------------------------------------
-#############################################################################
-  button4: !include
-    file: packages/button-4.yaml
-    vars:
-      background_button4: back6
-      # !!!!!!! ИКОНКИ НЕ ДОЛЖНЫ повторятся !!!!!!!!!!
-      button4_icon_0_0: "\U000F18DE" # ceiling_light_multiple_outline
-      button4_icon_0_1: "󱊺" #string_lights
-      button4_icon_1_0: "󰯪" #alarm_light_on
-      button4_icon_1_1: "󱠝" #countertop_outline
-
-      button4_entity_0_0: light.holl_led_0
-      button4_entity_0_1: light.holl_led_1
-      button4_entity_1_0: light.holl_led_2
-      button4_entity_1_1: light.holl_led_3
-
-      button4_text_0_0: "Кухня низ"
-      button4_text_0_1: "Кухня верх"
-      button4_text_1_0: "Холл низ"
-      button4_text_1_1: "Холл верх"
-
-      button4_action_0_0: "light.toggle"  # "switch.toggle" "button.press"
-      button4_action_0_1: "light.toggle"  # "switch.toggle" "button.press"
-      button4_action_1_0: "light.toggle"  # "switch.toggle" "button.press"
-      button4_action_1_1: "light.toggle"  # "switch.toggle" "button.press"
-        
-      button4_checkable_0_0: "true" # light, switch. button"false"
-      button4_checkable_0_1: "true" # light, switch. button"false"
-      button4_checkable_1_0: "true" # light, switch. button"false"
-      button4_checkable_1_1: "true" # light, switch. button"false"
-
-#############################################################################
-#----Страничка управления двумя шторами-----------------------------------------------------
-#############################################################################
-  shutter: !include
-    file: packages/display/shutter2.yaml
-    vars:
-      background_shutter: back6
-      shutter_0: "cover.hall_window"
-      shutter_1: "cover.hall_window"
-```
+# примеры смотри holl-informer.yaml и packages.yaml
 
 |                                               |                                                 |                                                   |                                                 | 
 |-----------------------------------------------|-------------------------------------------------|---------------------------------------------------|-------------------------------------------------|
