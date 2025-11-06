@@ -58,7 +58,8 @@ https://aliexpress.ru/item/1005008214872438.html
 
     file: packages/display/lg_light.yaml 
 
-    указываем свои коды и иконки (при необходимости поменять в скрипте тип команд)
+указываем свои коды и иконки (при необходимости поменять в скрипте тип команд)
+
 # Основной слой, стиль блокировка экрана 
 
     top:  !include packages/display/top_stl_blk.yaml  без блокировки top:  !include packages/display/top_stl.yam
