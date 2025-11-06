@@ -44,6 +44,7 @@ https://aliexpress.ru/item/1005008214872438.html
 на главную страеицу сенсоры добавляются автоматически при добавлении пакета
 
 # Добавляем прочие страницы
+
     file: packages/display/button-x.yaml
     file: packages/display/shutter-x.yaml
     file: packages/display/slider-4x.yaml
@@ -51,9 +52,11 @@ https://aliexpress.ru/item/1005008214872438.html
 выбор сущности "light.toggle" "switch.toggle" "button.press"
 
 # Страница пульта ТВ
+
     file: packages/display/lg_light.yaml 
 
 # Основной слой, стиль блокировка экрана 
+
   top:  !include packages/display/top_stl_blk.yaml  без блокировки top:  !include packages/display/top_stl.yam
 
 # Обязательные пакеты    
@@ -61,6 +64,7 @@ https://aliexpress.ru/item/1005008214872438.html
      disp:  !include packages/display/display.yaml
 
 # Страничка настроек (разворот экрана пока не работает)
+
   settings: !include packages/display/settings.yaml 
 
 # Веб морда при необходимости
