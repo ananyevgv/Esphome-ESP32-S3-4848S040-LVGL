@@ -62,7 +62,7 @@ holl-informer.yaml
 
 указываем свои коды и иконки (при необходимости поменять в скрипте тип команд)
 
-# Основной слой, стиль блокировка экрана 
+# Основной слой, стиль, блокировка экрана 
 
     top:  !include packages/display/top_stl_blk.yaml  без блокировки top:  !include packages/display/top_stl.yam
 
