@@ -57,7 +57,7 @@ https://aliexpress.ru/item/1005008214872438.html
 
 # Основной слой, стиль блокировка экрана 
 
-  top:  !include packages/display/top_stl_blk.yaml  без блокировки top:  !include packages/display/top_stl.yam
+    top:  !include packages/display/top_stl_blk.yaml  без блокировки top:  !include packages/display/top_stl.yam
 
 # Обязательные пакеты    
      wifi: !include packages/display/wifi.yaml
@@ -65,10 +65,10 @@ https://aliexpress.ru/item/1005008214872438.html
 
 # Страничка настроек (разворот экрана пока не работает)
 
-  settings: !include packages/display/settings.yaml 
+    settings: !include packages/display/settings.yaml 
 
 # Веб морда при необходимости
-  web: !include included/web.yaml
+    web: !include included/web.yaml
 
 
 # примеры смотри holl-informer.yaml и packages.yaml
