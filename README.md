@@ -14,7 +14,8 @@ https://aliexpress.ru/item/1005008214872438.html
 
 создаем папку packages в esphome, копируем нужные пакеты в папку
 основная страница
-   weather_anime.yaml или weather.yaml
+
+    file:packages/display/weather_anime.yaml или weather.yaml
 
 # выбираем количество кнопок
 
