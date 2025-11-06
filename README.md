@@ -43,7 +43,9 @@ holl-informer.yaml
     file: packages/display/humm.yaml
     file: packages/display/thermostat.yaml или file: packages/display/boiler.yaml
     file: packages/display/clock_page.yaml (указываем необходимость отображения даты)
+    
     file: packages/display/door_bell.yaml (требует много ресурсов, при большом количестве страниц может не запустится)
+    Этот компонент требует достаточного объема оперативной памяти как для загрузки изображения, так и для хранения декодированного изображения.
     
 Раставляем страницы в желаемой последовательности
 на главную страницу сенсоры добавляются автоматически при добавлении пакета
