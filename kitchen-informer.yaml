@@ -296,6 +296,12 @@ packages:
       sensor_pressure: sensor.holl_clock_pressure
   #barometr: !include packages/display/barometr_bme680_page.yaml  # выбрать один из трех barometr
   #barometr: !include packages/display/barometr_bme680_weather.yaml  # выбрать один из трех barometr  обязателен weather_bme680.yaml
+
+  thermometer: !include 
+    file: packages/display/thermometer.yaml
+    vars:
+      sensor_temp_outdor: sensor.iaroslavskaia_temperature   
+      
   humm-out: !include 
     file: packages/display/humm-out.yaml
     vars:
@@ -452,7 +458,8 @@ packages:
   top:  !include packages/display/top_stl_blk.yaml
   #top:  !include packages/display/top_stl.yaml
   settings: !include packages/display/settings.yaml
-
+  
+  #graph: !include packages/display/graph.yaml
 #-------------------------------------------
 # IMAGE
 #-------------------------------------------

@@ -17,7 +17,7 @@ packages:
     vars:
       background_weather: back6
       sensor_weather: weather.iaroslavskaia
-      
+   
 # Добавляем кнопки страничек на weather
   dis_butt: !include 
     #file: packages/display/dis_butt_2.yaml 
@@ -49,7 +49,7 @@ packages:
       botton_icon5: "\U000F111C" #F08BB" 
       botton_page5: shutter_page
       collor_page5: color_orange
-
+      
       botton_icon6: "\U000F0AAC" #F08BB" 
       botton_page6: dishwasher_page
       collor_page6: color_orange
@@ -57,7 +57,8 @@ packages:
       botton_icon7: "\U000F0493" #F08BB" 
       botton_page7: settings_page
       collor_page7: color_orange
-#############################################################################
+####################################
+#########################################
 #----Страничка 10 кнопок холл-----------------------------------------------
 #############################################################################
   button10: !include 
@@ -303,6 +304,11 @@ packages:
       sensor_temperature: sensor.holl_clock_temperature
       sensor_pressure: sensor.holl_clock_pressure
 
+  thermometer: !include 
+    file: packages/display/thermometer.yaml
+    vars:
+      sensor_temp_outdor: sensor.iaroslavskaia_temperature    
+
   humm-out: !include 
     file: packages/display/humm-out.yaml
     vars:
@@ -424,21 +430,6 @@ esp32:
       CONFIG_ESP32S3_DEFAULT_CPU_FREQ_240: "y"
       CONFIG_SPIRAM_FETCH_INSTRUCTIONS: y
       CONFIG_SPIRAM_RODATA: y
-
-
-#-------------------------------------------
-# Logger
-#-------------------------------------------
-logger: 
-#  hardware_uart: UART0
-
-debug:
-sensor:
-  - platform: debug
-    free:
-      name: "Heap Free"
-    psram:
-      name: "Free PSRAM"
 
 #-------------------------------------------
 # I2C
