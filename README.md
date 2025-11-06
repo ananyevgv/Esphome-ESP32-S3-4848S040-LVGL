@@ -10,18 +10,19 @@ https://aliexpress.ru/item/1005008214872438.html
 [esphome-release-shield]: https://img.shields.io/static/v1?label=ESPHome&message=2025.10.4&color=green&logo=esphome
 [esphome-release]: https://GitHub.com/esphome/esphome/releases/
 
- выбор сущности "light.toggle" "switch.toggle" "button.press"
+# Базовы конфиг holl-informer.yaml 
 
-Базовы конфиг holl-informer.yaml 
 создаем папку packages в esphome, копируем нужные пакеты в папку
 основная страница
    weather_anime.yaml или weather.yaml
 
-выбираем количество кнопок
+# выбираем количество кнопок
+
     file: packages/display/dis_butt_x.yaml 
 указываем иконки и ид страниц
 
-добавляем необходимые сенсоры на основной экран + дополнительная страница сенсора
+# добавляем необходимые сенсоры на основной экран + дополнительная страница сенсора
+
     file:packages/display/dishwasher.yaml или washing.yaml
     file: packages/display/barometr_page.yaml или file: packages/display/barometr.yaml 
     file: packages/display/thermometer.yaml
@@ -38,29 +39,31 @@ https://aliexpress.ru/item/1005008214872438.html
     file: packages/display/humm.yaml
     file: packages/display/thermostat.yaml или file: packages/display/boiler.yaml
     file: packages/display/clock_page.yaml (указываем необходимость отображения даты)
+    
 Раставиляем страницы в желаемой очередности 
 на главную страеицу сенсоры добавляются автоматически при добавлении пакета
 
-Добавляем прочие страницы
+# Добавляем прочие страницы
     file: packages/display/button-x.yaml
     file: packages/display/shutter-x.yaml
     file: packages/display/slider-4x.yaml
 указываем свои сущьности, типы действия, первоначальную страницу, фон для страниц 
+выбор сущности "light.toggle" "switch.toggle" "button.press"
 
-Страница пульта ТВ
+# Страница пульта ТВ
     file: packages/display/lg_light.yaml 
 
-Основной слой, стиль блокировка экрана 
+# Основной слой, стиль блокировка экрана 
   top:  !include packages/display/top_stl_blk.yaml  без блокировки top:  !include packages/display/top_stl.yam
 
-Обязательные пакеты    
+# Обязательные пакеты    
      wifi: !include packages/display/wifi.yaml
      disp:  !include packages/display/display.yaml
 
-Страничка настроек (разворот экрана пока не работает)
+# Страничка настроек (разворот экрана пока не работает)
   settings: !include packages/display/settings.yaml 
 
-Веб морда при необходимости
+# Веб морда при необходимости
   web: !include included/web.yaml
 
 
