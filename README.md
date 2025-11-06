@@ -72,6 +72,9 @@ https://aliexpress.ru/item/1005008214872438.html
 # Веб морда при необходимости
     web: !include included/web.yaml
 
+# TODO 
+
+BME680, rotation display, weather page
 
 # примеры смотри holl-informer.yaml и packages.yaml
 
