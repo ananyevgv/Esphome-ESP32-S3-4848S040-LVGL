@@ -54,10 +54,11 @@ https://aliexpress.ru/item/1005008214872438.html
 указываем свои сущьности, типы действия, первоначальную страницу, фон для страниц 
 выбор сущности "light.toggle" "switch.toggle" "button.press"
 
-# Страница пульта ТВ
+# Страница пульта ТВ LG
 
     file: packages/display/lg_light.yaml 
 
+    указываем свои коды и иконки (при необходимости поменять в скрипте тип команд)
 # Основной слой, стиль блокировка экрана 
 
     top:  !include packages/display/top_stl_blk.yaml  без блокировки top:  !include packages/display/top_stl.yam
@@ -66,9 +67,11 @@ https://aliexpress.ru/item/1005008214872438.html
      wifi: !include packages/display/wifi.yaml
      disp:  !include packages/display/display.yaml
 
-# Страничка настроек (разворот экрана пока не работает)
+# Страничка настроек 
 
     settings: !include packages/display/settings.yaml 
+
+разворот экрана пока не работает
 
 # Веб морда при необходимости
     web: !include included/web.yaml
