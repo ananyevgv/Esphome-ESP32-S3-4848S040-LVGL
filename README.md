@@ -41,6 +41,7 @@ https://aliexpress.ru/item/1005008214872438.html
     file: packages/display/humm.yaml
     file: packages/display/thermostat.yaml или file: packages/display/boiler.yaml
     file: packages/display/clock_page.yaml (указываем необходимость отображения даты)
+    file: packages/display/door_bell.yaml (требует много ресурсов, при большом количестве страниц может не запустится)
     
 Раставиляем страницы в желаемой очередности 
 на главную страеицу сенсоры добавляются автоматически при добавлении пакета
@@ -74,7 +75,8 @@ https://aliexpress.ru/item/1005008214872438.html
 
 # TODO 
 
-BME680, rotation display, weather page
+BME680, rotation display, weather page, graph page, vacuum  page
+
 
 # примеры смотри holl-informer.yaml и packages.yaml
 
