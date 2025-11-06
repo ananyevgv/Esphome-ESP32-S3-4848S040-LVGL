@@ -1,1 +1,1 @@
-Картинки тут https://github.com/alaltitov/display/tree/main/src/weather
+Картинки тут https://github.com/yagithubuser/display/tree/main/src/weather
