@@ -13,7 +13,8 @@ https://aliexpress.ru/item/1005008214872438.html
 # Базовы конфиг holl-informer.yaml 
 
 создаем папку packages в esphome, копируем нужные пакеты в папку
-основная страница
+
+# основная страница
 
     file:packages/display/weather_anime.yaml или weather.yaml
 
