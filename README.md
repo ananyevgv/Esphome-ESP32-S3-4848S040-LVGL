@@ -84,9 +84,9 @@ holl-informer.yaml
 
 [MaterialDesign-Webfont](https://github.com/Templarian/MaterialDesign-Webfont/tree/master/fonts)
 
-[DSEG]((https://github.com/keshikan/DSEG/tree/master/src))
+[DSEG](https://github.com/keshikan/DSEG/tree/master/src)
 
-[icons](https://github.com/alaltitov/Guition-ESP32-S3-4848S040/blob/dev/src/assets/fonts/)
+[icons](https://github.com/alaltitov/Guition-ESP32-S3-4848S040/blob/dev/src/assets/fonts)
 
 # TODO 
 
