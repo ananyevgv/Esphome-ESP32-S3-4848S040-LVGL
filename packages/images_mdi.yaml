@@ -1,0 +1,103 @@
+# type: grayscale 
+# BINARY Only chroma_key transparency is available.
+
+- file: mdi:lan-disconnect #mdi:weather-sunny-off
+  type: binary
+  id: blank_icons
+  resize: 100x100
+#  color: 0xff0000
+  invert_alpha: true 
+  transparency: chroma_key
+  
+- file: mdi:weather-night
+  type: RGB565
+  id: clear_night_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: mdi:weather-cloudy #mdi:cloudy
+  type: RGB565
+  id: cloudy_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: mdi:weather-fog
+  type: RGB565
+  id: fog_icons
+  resize: 100x100
+  transparency: alpha_channel
+
+- file: mdi:weather-hail
+  type: RGB565
+  id: hail_icons
+  resize: 100x100
+  transparency: alpha_channel
+
+- file: mdi:weather-partly-cloudy
+  type: RGB565
+  id: partlycloudy_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: mdi:weather-pouring
+  type: RGB565
+  id: pouring_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: mdi:weather-snowy
+  type: RGB565
+  id: snowy_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: mdi:weather-snowy-rainy
+  type: RGB565
+  id: snowy_rainy_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: mdi:weather-sunny
+  type: RGB565
+  id: sunny_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: mdi:weather-lightning
+  type: RGB565
+  id: lightning_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: mdi:weather-rainy
+  type: RGB565
+  id: rainy_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: mdi:weather-lightning-rainy
+  type: RGB565
+  id: lightning_rainy_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: mdi:weather-windy
+  type: RGB565
+  id: windy_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: mdi:weather-windy-variant
+  type: RGB565
+  id: windy_variant_icons
+  resize: 100x100
+  transparency: alpha_channel
+
+- file:  mdi:weather-cloudy-alert
+  type: RGB565
+  id: exceptional_icons
+  resize: 100x100
+  transparency: alpha_channel
+
+    
+  

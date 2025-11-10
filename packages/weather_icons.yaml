@@ -1,0 +1,129 @@
+#-------------------------------------------
+#packages:
+#  weather: !include 
+#    file: packages/display/weather.yaml # выбрать один из трех weather
+#    vars:
+#      background_weather: back6
+#      sensor_weather: weather.iaroslavskaia
+#-------------------------------------------
+image: !include images_andr.yaml
+
+substitutions:
+  molecule_co2:       "\U000F07E4"
+  gauge:              "\U000F029A"
+  water_percent:      "\U000F058E"
+  house_temp:         "\U000F0F55"
+  temp:               "\U000F050F"
+  checkbox_marked:    "\U000F0134"
+  molecule:           "\U000F0BAC"
+  
+  sun_wireless:       "\U000F17FE"
+  earth:              "\U000F01E7"
+  flower_pollen:      "\U000F1885"
+  grass:              "\U000F1510"
+  tree_outline:       "\U000F0E69"
+  windy:              "\U000F059D"
+
+#-------------------------------------------
+# FONT
+#-------------------------------------------
+font:
+  - file: "gfonts://Roboto"
+    id: weather36
+    size: 36
+    bpp: 4
+    extras:
+      - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+        glyphs: [
+          $earth,
+          $windy,
+          $sun_wireless
+          ]
+
+  - file: "gfonts://Roboto"
+    id: weather24
+    size: 24
+    bpp: 4
+    extras:
+      - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+        glyphs: [
+          $molecule_co2,
+          $checkbox_marked,
+          $molecule,
+          $gauge,
+          $water_percent,
+          $house_temp,
+          $temp,
+          $flower_pollen,
+          $grass,
+          $windy,
+          $tree_outline
+          ]
+          
+
+#sun:
+#  latitude: 48.8584°
+#  longitude: 2.2945°
+#  on_sunrise:
+#    - lvgl.image.update:
+#        id: disp_icons
+#        src: sunny_icons
+#  on_sunset:
+#    - lvgl.image.update:
+#        id: disp_icons
+#        src: mon_icons
+mapping:
+  - id: weather_icon
+    from: string
+    to: image
+    entries:
+      clear-night: clear_night_icons
+      cloudy: cloudy_icons
+      exceptional: exceptional_icons
+      fog: fog_icons
+      hail: hail_icons
+      lightning: lightning_icons
+      lightning-rainy: lightning_rainy_icons
+      partlycloudy: partlycloudy_icons
+      pouring: pouring_icons
+      rainy: rainy_icons
+      snowy: snowy_icons
+      snowy-rainy: snowy_rainy_icons
+      sunny: sunny_icons
+      windy: windy_icons
+      windy-variant: windy_variant_icons
+      unknown: blank_icons
+      unavailable: blank_icons
+
+    
+#-------------------------------------------
+# TEXT SENSOR
+#-------------------------------------------
+text_sensor:
+  - platform: homeassistant
+    id: ha_weather_cond
+    entity_id: $sensor_weather
+    on_value:
+      then:
+        - lvgl.image.update:
+            id: disp_weather_icons
+            src: !lambda return id(weather_icon)[x];
+
+#-------------------------------------------
+# LVGL
+#-------------------------------------------
+lvgl:
+  pages:
+    - id: weather
+      scrollbar_mode: "OFF"
+      scrollable: false
+      widgets:
+        - image:
+            align: CENTER
+            src: $background_weather
+        - image:
+            align: CENTER
+            src: blank_icons
+            id: disp_weather_icons
+            y: -160
+            x: -75

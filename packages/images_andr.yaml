@@ -1,0 +1,95 @@
+- file: 'picture/weather/andr/na.png'
+  type: RGB565
+  id: blank_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: 'picture/weather/andr/clear_night.png'
+  type: RGB565
+  id: clear_night_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: 'picture/weather/andr/cloudy.png'
+  type: RGB565
+  id: cloudy_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: 'picture/weather/andr/fog.png'
+  type: RGB565
+  id: fog_icons
+  resize: 100x100
+  transparency: alpha_channel
+
+- file: 'picture/weather/andr/hail.png'
+  type: RGB565
+  id: hail_icons
+  resize: 100x100
+  transparency: alpha_channel
+#################
+- file: 'picture/weather/andr/partlycloudy.png'
+  type: RGB565
+  id: partlycloudy_icons
+  resize: 100x100
+  transparency: alpha_channel
+#################  
+- file: 'picture/weather/andr/pouring.png'
+  type: RGB565
+  id: pouring_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: 'picture/weather/andr/snowy.png'
+  type: RGB565
+  id: snowy_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: 'picture/weather/andr/snowy_rainy.png'
+  type: RGB565
+  id: snowy_rainy_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: 'picture/weather/andr/sunny.png'
+  type: RGB565
+  id: sunny_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: 'picture/weather/andr/lightning.png'
+  type: RGB565
+  id: lightning_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: 'picture/weather/andr/rainy.png'
+  type: RGB565
+  id: rainy_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: 'picture/weather/andr/lightning_rainy.png'
+  type: RGB565
+  id: lightning_rainy_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: 'picture/weather/andr/windy.png'
+  type: RGB565
+  id: windy_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: 'picture/weather/andr/windy_variant.png'
+  type: RGB565
+  id: windy_variant_icons
+  resize: 100x100
+  transparency: alpha_channel
+##########################
+- file: 'picture/weather/andr/blank.png'
+  type: RGB565
+  id: exceptional_icons
+  resize: 100x100
+  transparency: alpha_channel
