@@ -10,6 +10,10 @@ https://aliexpress.ru/item/1005008214872438.html
 [esphome-release-shield]: https://img.shields.io/static/v1?label=ESPHome&message=2025.10.4&color=green&logo=esphome
 [esphome-release]: https://GitHub.com/esphome/esphome/releases/
 
+# Обязательные пакеты    
+     wifi: !include packages/display/wifi.yaml
+     disp:  !include packages/display/display.yaml
+     
 # Базовый конфиг 
 
 holl-informer.yaml 
@@ -66,10 +70,6 @@ holl-informer.yaml
 # Основной слой, стиль, блокировка экрана 
 
     top:  !include packages/display/top_stl_blk.yaml  без блокировки top:  !include packages/display/top_stl.yam
-
-# Обязательные пакеты    
-     wifi: !include packages/display/wifi.yaml
-     disp:  !include packages/display/display.yaml
 
 # Страничка настроек 
 
