@@ -10,9 +10,7 @@ https://aliexpress.ru/item/1005008214872438.html
 [esphome-release-shield]: https://img.shields.io/static/v1?label=ESPHome&message=2025.10.4&color=green&logo=esphome
 [esphome-release]: https://GitHub.com/esphome/esphome/releases/
 
-# Обязательные пакеты    
-     wifi: !include packages/display/wifi.yaml
-     disp:  !include packages/display/display.yaml
+
      
 # Базовый конфиг 
 
@@ -20,17 +18,28 @@ holl-informer.yaml
 
 создаем папку packages в esphome, копируем нужные пакеты в папку , указываем первоначальную страницу, фон для страниц 
 
+# Добавляем пакеты (страницы)
+
+packages:
+
+# Обязательные пакеты    
+     wifi: !include packages/display/wifi.yaml
+     disp:  !include packages/display/display.yaml
+     
 # основная страница
-
+  weather: !include 
     file:packages/display/weather_anime.yaml или weather.yaml
-
+    vars:
+      background_weather: back6
+      sensor_weather: weather.iaroslavskaia
+      указываем свои сущности для каждого пакета (смотри примеры holl-informer.yaml)
 # выбираем количество кнопок
-
+  dis_butt_x: !include 
     file: packages/display/dis_butt_x.yaml 
-указываем иконки и id страниц
+указываем иконки и id страниц  (смотри примеры holl-informer.yaml)
 
 # добавляем необходимые сенсоры на основной экран + дополнительная страница сенсора
-
+  xxxx: !include 
     file:packages/display/dishwasher.yaml или washing.yaml
     file: packages/display/barometr_page.yaml или file: packages/display/barometr.yaml 
     file: packages/display/thermometer.yaml
@@ -50,22 +59,29 @@ holl-informer.yaml
     
     file: packages/display/door_bell.yaml (требует много ресурсов, при большом количестве страниц может не запустится)
     Этот компонент требует достаточного объема оперативной памяти как для загрузки изображения, так и для хранения декодированного изображения.
+
     
+    vars:
+      указываем свои сущности для каждого пакета (смотри примеры holl-informer.yaml)
+      
 Раставляем страницы в желаемой последовательности
 на главную страницу сенсоры добавляются автоматически при добавлении пакета
 
 # Добавляем прочие страницы
 
+  xxxx: !include 
     file: packages/display/button-x.yaml
     file: packages/display/shutter-x.yaml
     file: packages/display/slider-4x.yaml
-указываем свои сущности("light.toggle" "switch.toggle" "button.press), типы действия
 
+    vars:
+      указываем свои сущности для каждого пакета ("light.toggle" "switch.toggle" "button.press), типы действия (смотри примеры holl-informer.yaml)
+      
 # Страница пульта ТВ LG
-
+  lg: !include 
     file: packages/display/lg_light.yaml 
-
-указываем свои коды и иконки (при необходимости поменять в скрипте тип команд)
+    vars:
+      указываем свои коды (при необходимости поменять в скрипте тип команд) (смотри примеры holl-informer.yaml)
 
 # Основной слой, стиль, блокировка экрана 
 
