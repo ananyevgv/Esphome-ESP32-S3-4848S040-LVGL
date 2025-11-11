@@ -27,13 +27,14 @@ packages:
      disp:  !include packages/display/display.yaml
      
 # основная страница
-
+``` yaml
        weather: !include 
          file:packages/display/weather_anime.yaml или weather.yaml
          vars:
            background_weather: back6
            sensor_weather: weather.iaroslavskaia
-           указываем свои сущности для каждого пакета (смотри примеры holl-informer.yaml)
+```
+  указываем свои сущности для каждого пакета (смотри примеры holl-informer.yaml)
       
 # выбираем количество кнопок
 
