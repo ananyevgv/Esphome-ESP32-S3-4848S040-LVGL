@@ -24,27 +24,28 @@ packages:
 ``` 
 # Обязательные пакеты    
 ``` yaml
-     wifi: !include packages/display/wifi.yaml
-     disp:  !include packages/display/display.yaml
+   wifi: !include packages/display/wifi.yaml
+   disp:  !include packages/display/display.yaml
 ```    
 # основная страница
 ``` yaml
-       weather: !include 
-         file:packages/display/weather_anime.yaml или weather.yaml
-         vars:
-           background_weather: back6
-           sensor_weather: weather.iaroslavskaia
+  weather: !include 
+    file:packages/display/weather_anime.yaml или weather.yaml
+    vars:
+      background_weather: back6
+      sensor_weather: weather.iaroslavskaia
 ```
   указываем свои сущности для каждого пакета (смотри примеры holl-informer.yaml)
       
 # выбираем количество кнопок
-
+``` yaml
   dis_butt_x: !include 
     file: packages/display/dis_butt_x.yaml 
-    
+``` 
 указываем иконки и id страниц  (смотри примеры holl-informer.yaml)
 
 # добавляем необходимые сенсоры на основной экран + дополнительная страница сенсора
+``` yaml
   xxxx: !include 
     file:packages/display/dishwasher.yaml или washing.yaml
     file: packages/display/barometr_page.yaml или file: packages/display/barometr.yaml 
@@ -69,12 +70,12 @@ packages:
     
     vars:
       указываем свои сущности для каждого пакета (смотри примеры holl-informer.yaml)
-      
+``` 
 Раставляем страницы в желаемой последовательности
 на главную страницу сенсоры добавляются автоматически при добавлении пакета
 
 # Добавляем прочие страницы
-
+``` yaml
   xxxx: !include 
     file: packages/display/button-x.yaml
     file: packages/display/shutter-x.yaml
@@ -82,26 +83,28 @@ packages:
 
     vars:
       указываем свои сущности для каждого пакета ("light.toggle" "switch.toggle" "button.press), типы действия (смотри примеры holl-informer.yaml)
-      
+```  
 # Страница пульта ТВ LG
+``` yaml
   lg: !include 
     file: packages/display/lg_light.yaml 
     vars:
       указываем свои коды (при необходимости поменять в скрипте тип команд) (смотри примеры holl-informer.yaml)
-
+``` 
 # Основной слой, стиль, блокировка экрана 
-
+``` yaml
     top:  !include packages/display/top_stl_blk.yaml  без блокировки top:  !include packages/display/top_stl.yam
-
+``` 
 # Страничка настроек 
-
+``` yaml
     settings: !include packages/display/settings.yaml 
-
+``` 
 разворот экрана пока не работает
 
 # Веб морда при необходимости
+``` yaml
     web: !include included/web.yaml
-
+```
 # font
 
 [MaterialDesign-Webfont](https://github.com/Templarian/MaterialDesign-Webfont/tree/master/fonts)
