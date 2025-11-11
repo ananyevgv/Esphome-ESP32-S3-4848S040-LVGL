@@ -19,13 +19,14 @@ holl-informer.yaml
 создаем папку packages в esphome, копируем нужные пакеты в папку , указываем первоначальную страницу, фон для страниц 
 
 # Добавляем пакеты (страницы)
-
+``` yaml
 packages:
-
+``` 
 # Обязательные пакеты    
+``` yaml
      wifi: !include packages/display/wifi.yaml
      disp:  !include packages/display/display.yaml
-     
+```    
 # основная страница
 ``` yaml
        weather: !include 
