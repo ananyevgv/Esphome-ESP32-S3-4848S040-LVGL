@@ -118,7 +118,9 @@ packages:
 BME680, rotation display, weather page, graph page, vacuum  page
 
 
-# примеры смотри ![holl-informer.yaml](./holl-informer.yaml) и ![packages.yaml](./packages.yaml)
+# примеры смотри [holl-informer.yaml](./holl-informer.yaml) и [packages.yaml](./packages.yaml)
+
+
 
 |                                               |                                                 |                                                   |                                                 | 
 |-----------------------------------------------|-------------------------------------------------|---------------------------------------------------|-------------------------------------------------|
