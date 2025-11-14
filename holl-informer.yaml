@@ -8,16 +8,38 @@ substitutions:
   background_boot: back6
 
 #-------------------------------------------
+# IMAGE
+#-------------------------------------------
+image:
+ # - file: "picture/clok.jpg"
+ #   id: clok_image
+ #   resize: 450x450
+ #   type: RGB565 
+ # - file: 'picture/ha_logo.png'
+ #   id: boot_logo
+ #   resize: 200x200
+ #   type: RGB565
+ #   use_transparency: true
+  - file: 'picture/back6.png'
+    id: back6
+    type: RGB565
+  #- file: 'picture/back7.png'
+  #  id: back7
+  #  type: RGB565
+
+#-------------------------------------------
 # Packages
 #-------------------------------------------
 packages:
   weather: !include 
-    file: packages/display/weather_anime.yaml # выбрать один weather
-    #file: packages/display/weather.yaml # выбрать один weather
+    file: packages/display/weather_anime_gif.yaml # выбрать один weather (gif можно использовать любые другие)
+    #file: packages/display/weather_mdi_color.yaml #
+    #file: packages/display/weather_icons.yaml # в файле есть выбор 4 типов иконок (можно использовать любые другие)
+    #file: packages/display/weather_anime.yaml # выбрать один weather
     vars:
       background_weather: back6
       sensor_weather: weather.iaroslavskaia
-   
+      
 # Добавляем кнопки страничек на weather
   dis_butt: !include 
     #file: packages/display/dis_butt_2.yaml 
@@ -378,34 +400,13 @@ packages:
     vars:
       display_date: "true"
       
-
 #############################################################################
   wifi: !include packages/display/wifi.yaml
- # web: !include included/web.yaml
+  web: !include included/web.yaml
   disp:  !include packages/display/display.yaml
   top:  !include packages/display/top_stl_blk.yaml
   #top:  !include packages/display/top_stl.yaml
   settings: !include packages/display/settings.yaml
-
-#-------------------------------------------
-# IMAGE
-#-------------------------------------------
-image:
- # - file: "picture/clok.jpg"
- #   id: clok_image
- #   resize: 450x450
- #   type: RGB565 
- # - file: 'picture/ha_logo.png'
- #   id: boot_logo
- #   resize: 200x200
- #   type: RGB565
- #   use_transparency: true
-  - file: 'picture/back6.png'
-    id: back6
-    type: RGB565
-  #- file: 'picture/back7.png'
-  #  id: back7
-  #  type: RGB565
 
 ##########################################################################################################################################
 #-------------------------------------------
