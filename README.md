@@ -30,7 +30,10 @@ packages:
 # основная страница
 ``` yaml
   weather: !include 
-    file:packages/display/weather_anime.yaml или weather.yaml
+    file: packages/display/weather_anime_gif.yaml # выбрать один weather (gif можно использовать любые другие)
+    #file: packages/display/weather_mdi_color.yaml #
+    #file: packages/display/weather_icons.yaml # в файле есть выбор 4 типов иконок (можно использовать любые другие)
+    #file: packages/display/weather_anime.yaml # выбрать один weather
     vars:
       background_weather: back6
       sensor_weather: weather.iaroslavskaia
