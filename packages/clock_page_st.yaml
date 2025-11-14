@@ -7,42 +7,60 @@
 #      display_date: "false" 
 #############################################################################
 
+#-------------------------------------------
+# FONT
+#-------------------------------------------
+font:
+  - file: "font/DSEG7ModernMini-Bold.ttf"
+    id: SEG50
+    glyphs: ${number_characters}
+    size: 50
+    bpp: 4  
     
 #-------------------------------------------
 # IMAGE
 #-------------------------------------------
 image:
-  - file: "picture/обрезка 480 без фона.png"
+ # - file: "picture/clok.jpg"
+  - file: "picture/BigBen2.png"
     id: clok_image
-    resize: 420x420
+    resize: 450x450
     type: RGB565 
     transparency: alpha_channel
 
-  - file: "picture/ч.png"
+  - file: "picture/hour.png"
     id: ch_image
-    resize: 420x420
+    resize: 44x208
     type: RGB565 
     transparency: alpha_channel
 
-  - file: "picture/м.png"
+  - file: "picture/minute.png"
     id: min_image
-    resize: 420x420
+    resize: 32x316
     type: RGB565 
     transparency: alpha_channel
 
-
-  - file: "picture/сек.png"
+  - file: "picture/second.png"
     id: sec_image
-    resize: 420x420
+    resize: 20x408 
     type: RGB565 
     transparency: alpha_channel
+    
+#-------------------------------------------
+# GLOBAL 
+#-----------------------------------------
+globals:
+  - id: g_display_date 
+    type: bool
+    restore_value: no
+    initial_value: $display_date
+    
 #-------------------------------------------
 # SCRIPT
 #------------------------------------------- 
 script:
   - id: time_update_clock
     then:
-
       - lvgl.label.update:
           id: date_label
           text: !lambda |-
@@ -50,8 +68,21 @@ script:
             static char date_buf[3];
             snprintf(date_buf, sizeof(date_buf), "%2d", now.day_of_month);
             return date_buf;
-
-
+##################################################
+      - if: 
+          condition:
+            lambda: 'return id(g_display_date);'
+          then:
+            - lvgl.label.update:
+                id: display_date_weather
+                text: !lambda |-
+                  static char time_buf[17];
+                  auto now = id(sntp_time).now();            
+                  snprintf(time_buf, sizeof(time_buf), "%02d.%02d.%02d", now.day_of_month, now.month, now.year-2000);
+                  return time_buf; 
+                text_color: !lambda |-
+                  return lv_color_hex(0xFFFFFF);
+##################################################
 #-------------------------------------------
 # TIME
 #-------------------------------------------
@@ -77,46 +108,89 @@ time:
               id: ch_clock
               angle: !lambda |-
                 return ((300*(id(sntp_time).now().hour)) + (5*(id(sntp_time).now().minute)));                
-
           - lvgl.image.update:
               id: sec_clock
               angle: !lambda |-
                 return 60 * id(sntp_time).now().second;
-            
+##################################################
+          - lvgl.label.update: 
+              id: display_time_weather
+              text: !lambda |-
+                static char time_buf[17];
+                auto now = id(sntp_time).now();    
+                int sec = now.second;  
+                if (sec % 2)
+                  snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
+                else
+                  snprintf(time_buf, sizeof(time_buf), "%02d %02d", now.hour, now.minute);
+                return time_buf; 
+              text_color: !lambda |-
+                return lv_color_hex(0xFFFFFF);
+##################################################
 #-------------------------------------------
 # LVGL
 #-------------------------------------------            
 lvgl:
-
+  style_definitions:
+    - id: date_style
+      text_font: roboto24
+      align: center
+      text_color: 0x333333
+      bg_opa: cover
+      radius: 4
+      pad_all: 2
   pages:
+################################################################
+# Добавляем на weather clock
+    - id: !extend weather
+      widgets:
+        - button:
+            y: 140
+            x: 50
+            align: TOP_LEFT
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 200
+            height: 120
+            widgets:
+            # Дата время
+              - label:
+                  align: TOP_MID
+                  id: display_time_weather
+                  text: 88:88
+                  text_font: SEG50
+                  text_color: 0x808080
+              - label:
+                  align: BOTTOM_MID
+                  id: display_date_weather
+                  text: " "
+                  text_font: roboto36 #SEG36
+                  text_color: 0x808080
+            on_press:
+              lvgl.page.show: clock_page  
+################################################################  
     - id: clock_page
       widgets:
         - obj: # Clock container
-            height: 420
-            width: 420
+            height: 450
+            width: 450
             border_side: none
             bg_color: 0xffffff
             scrollbar_mode: "OFF"
             scrollable: false
             radius: 0
-            x: 30
-            y: 30
+            x: 15
             widgets:
-
-
-            
               - image:
                   align: CENTER
                   src: clok_image
                   id: im_clock
-
 
               - label:
                   id: date_label
                   text: " "
                   styles: date_style
                   x: +170            
-
 
               - image:
                   align: CENTER
@@ -127,8 +201,7 @@ lvgl:
                   align: CENTER
                   src: min_image
                   id: min_clock
-
-
+                  
               - image:
                   align: CENTER
                   src: sec_image
