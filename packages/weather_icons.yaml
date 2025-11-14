@@ -6,7 +6,16 @@
 #      background_weather: back6
 #      sensor_weather: weather.iaroslavskaia
 #-------------------------------------------
+
+#-------------------------------------------
+# IMAGE
+#-------------------------------------------
+# image: !include images_mdi.yaml
+# image: !include images_an.yaml
 image: !include images_andr.yaml
+#image: !include images_konfa.yaml
+#image: !include images_merlin.yaml
+
 
 substitutions:
   molecule_co2:       "\U000F07E4"
@@ -60,18 +69,9 @@ font:
           $tree_outline
           ]
           
-
-#sun:
-#  latitude: 48.8584°
-#  longitude: 2.2945°
-#  on_sunrise:
-#    - lvgl.image.update:
-#        id: disp_icons
-#        src: sunny_icons
-#  on_sunset:
-#    - lvgl.image.update:
-#        id: disp_icons
-#        src: mon_icons
+#-------------------------------------------
+# MAPPING
+#-------------------------------------------
 mapping:
   - id: weather_icon
     from: string
@@ -95,7 +95,6 @@ mapping:
       unknown: blank_icons
       unavailable: blank_icons
 
-    
 #-------------------------------------------
 # TEXT SENSOR
 #-------------------------------------------

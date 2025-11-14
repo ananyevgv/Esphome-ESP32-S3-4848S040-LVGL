@@ -1,0 +1,99 @@
+
+- file: 'picture/weather/an/na.png'
+  type: RGB565
+  id: blank_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: 'picture/weather/an/clear_night.png'
+  type: RGB565
+  id: clear_night_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: 'picture/weather/an/cloudy.png'
+  type: RGB565
+  id: cloudy_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: 'picture/weather/an/fog.png'
+  type: RGB565
+  id: fog_icons
+  resize: 100x100
+  transparency: alpha_channel
+
+- file: 'picture/weather/an/hail.png'
+  type: RGB565
+  id: hail_icons
+  resize: 100x100
+  transparency: alpha_channel
+#################
+- file: 'picture/weather/an/partlycloudy_sun.png'
+  type: RGB565
+  id: partlycloudy_icons
+  resize: 100x100
+  transparency: alpha_channel
+#################  
+- file: 'picture/weather/an/pouring.png'
+  type: RGB565
+  id: pouring_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: 'picture/weather/an/snowy.png'
+  type: RGB565
+  id: snowy_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: 'picture/weather/an/snowy_rainy.png'
+  type: RGB565
+  id: snowy_rainy_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: 'picture/weather/an/sunny.png'
+  type: RGB565
+  id: sunny_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: 'picture/weather/an/lightning.png'
+  type: RGB565
+  id: lightning_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: 'picture/weather/an/rainy.png'
+  type: RGB565
+  id: rainy_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: 'picture/weather/an/lightning_rainy.png'
+  type: RGB565
+  id: lightning_rainy_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: 'picture/weather/an/windy.png'
+  type: RGB565
+  id: windy_icons
+  resize: 100x100
+  transparency: alpha_channel
+  
+- file: 'picture/weather/an/windy_variant.png'
+  type: RGB565
+  id: windy_variant_icons
+  resize: 100x100
+  transparency: alpha_channel
+##########################
+- file: 'picture/weather/an/partlycloudy_moon.png'
+  type: RGB565
+  id: exceptional_icons
+  resize: 100x100
+  transparency: alpha_channel
+
+    
+  

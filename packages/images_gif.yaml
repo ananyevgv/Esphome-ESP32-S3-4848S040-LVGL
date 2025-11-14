@@ -1,0 +1,95 @@
+- file: 'picture/weather/gif/na.gif'
+  type: RGB565
+  id: blank_icons
+
+  transparency: alpha_channel
+  
+- file: 'picture/weather/gif/clear_night.gif'
+  type: RGB565
+  id: clear_night_icons
+
+  transparency: alpha_channel
+  
+- file: 'picture/weather/gif/cloudy.gif'
+  type: RGB565
+  id: cloudy_icons
+
+  transparency: alpha_channel
+  
+- file: 'picture/weather/gif/fog.gif'
+  type: RGB565
+  id: fog_icons
+
+  transparency: alpha_channel
+
+- file: 'picture/weather/gif/hail.gif'
+  type: RGB565
+  id: hail_icons
+
+  transparency: alpha_channel
+#################
+- file: 'picture/weather/gif/partlycloudy.gif'
+  type: RGB565
+  id: partlycloudy_icons
+
+  transparency: alpha_channel
+#################  
+- file: 'picture/weather/gif/pouring.gif'
+  type: RGB565
+  id: pouring_icons
+
+  transparency: alpha_channel
+  
+- file: 'picture/weather/gif/snowy.gif'
+  type: RGB565
+  id: snowy_icons
+
+  transparency: alpha_channel
+  
+- file: 'picture/weather/gif/snowy_rainy.gif'
+  type: RGB565
+  id: snowy_rainy_icons
+
+  transparency: alpha_channel
+  
+- file: 'picture/weather/gif/sunny.gif'
+  type: RGB565
+  id: sunny_icons
+
+  transparency: alpha_channel
+  
+- file: 'picture/weather/gif/lightning.gif'
+  type: RGB565
+  id: lightning_icons
+
+  transparency: alpha_channel
+  
+- file: 'picture/weather/gif/rainy.gif'
+  type: RGB565
+  id: rainy_icons
+
+  transparency: alpha_channel
+  
+- file: 'picture/weather/gif/lightning_rainy.gif'
+  type: RGB565
+  id: lightning_rainy_icons
+
+  transparency: alpha_channel
+  
+- file: 'picture/weather/gif/windy.gif'
+  type: RGB565
+  id: windy_icons
+
+  transparency: alpha_channel
+  
+- file: 'picture/weather/gif/windy_variant.gif'
+  type: RGB565
+  id: windy_variant_icons
+
+  transparency: alpha_channel
+##########################
+- file: 'picture/weather/gif/blank.gif'
+  type: RGB565
+  id: exceptional_icons
+
+  transparency: alpha_channel

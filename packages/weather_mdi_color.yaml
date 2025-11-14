@@ -1,0 +1,179 @@
+#-------------------------------------------
+#packages:
+#  weather: !include 
+#    file: packages/display/weather.yaml # выбрать один из трех weather
+#    vars:
+#      background_weather: back6
+#      sensor_weather: weather.iaroslavskaia
+#-------------------------------------------
+
+substitutions:
+  molecule_co2:       "\U000F07E4"
+  gauge:              "\U000F029A"
+  water_percent:      "\U000F058E"
+  house_temp:         "\U000F0F55"
+  temp:               "\U000F050F"
+  checkbox_marked:    "\U000F0134"
+  molecule:           "\U000F0BAC"
+  
+  sun_wireless:       "\U000F17FE"
+  earth:              "\U000F01E7"
+  flower_pollen:      "\U000F1885"
+  grass:              "\U000F1510"
+  tree_outline:       "\U000F0E69"
+  
+  #weather icons
+  night:              "\U000F0594"
+  cloudy:             "\U000F0590"
+  exceptional:        "\U000F0F2F"
+  fog:                "\U000F0591"
+  hail:               "\U000F0592"
+  lightning:          "\U000F0593"
+  lightningrainy:     "\U000F067E"
+  partlycloudy:       "\U000F0595"
+  pouring:            "\U000F0596"
+  rainy:              "\U000F0597"
+  snowy:              "\U000F0598"
+  sunny:              "\U000F0599"
+  snowyrainy:         "\U000F067F"
+  windy:              "\U000F059D"
+  windyvariant:       "\U000F059E"
+  
+  happyface:          "\U000F01F5"
+  lan_disconnect:     "\U000F0319"
+
+#-------------------------------------------
+# FONT
+#-------------------------------------------
+font:
+  - file: "gfonts://Roboto"
+    id: weather_icons
+    size: 110
+    bpp: 4
+    extras:
+      - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+        glyphs: [
+          $night,
+          $cloudy,
+          $exceptional,
+          $fog,
+          $hail,
+          $lightning,
+          $lightningrainy,
+          $partlycloudy,
+          $pouring,
+          $rainy,
+          $snowy,
+          $snowyrainy,
+          $sunny,
+          $windy,
+          $windyvariant,  
+          $lan_disconnect,
+          $happyface
+        ]
+        
+  - file: "gfonts://Roboto"
+    id: weather36
+    size: 36
+    bpp: 4
+    extras:
+      - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+        glyphs: [
+          $earth,
+          $windy,
+          $sun_wireless
+          ]
+
+  - file: "gfonts://Roboto"
+    id: weather24
+    size: 24
+    bpp: 4
+    extras:
+      - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+        glyphs: [
+          $molecule_co2,
+          $checkbox_marked,
+          $molecule,
+          $gauge,
+          $water_percent,
+          $house_temp,
+          $temp,
+          $flower_pollen,
+          $grass,
+          $windy,
+          $tree_outline
+          ]
+          
+
+#-------------------------------------------
+# TEXT SENSOR
+#-------------------------------------------
+text_sensor:
+  - platform: homeassistant
+    id: ha_weather_cond
+    entity_id: $sensor_weather
+    filters:
+      - to_upper
+      - substitute:
+        - "CLEAR-NIGHT -> $night" 
+        - "CLOUDY -> $cloudy" 
+        - "EXCEPTIONAL -> $exceptional"
+        - "FOG -> $fog" 
+        - "HAIL -> $hail" 
+        - "LIGHTNING-RAINY -> $lightningrainy" 
+        - "LIGHTNING -> $lightning" 
+        - "PARTLYCLOUDY -> $partlycloudy"
+        - "SNOWY-RAINY -> $snowyrainy"
+        - "POURING -> $pouring" 
+        - "RAINY -> $rainy" 
+        - "SNOWY -> $snowy" 
+        - "SUNNY -> $sunny" 
+        - "WINDY-VARIANT -> $windyvariant"  
+        - "WINDY -> $windy"
+        - "UNAVAILABLE -> $lan_disconnect" 
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: display_weather_icon
+            text: !lambda |- 
+              return x;
+            text_color: !lambda |-
+              std::string state = id(ha_weather_cond).state.c_str();
+              if (state == "$night") { return lv_color_hex(0xBFAFB2); }
+              else if (state == "$cloudy") { return lv_color_hex(0x2fc0fc); }
+              else if (state == "$exceptional") { return lv_color_hex(0xff0000); }
+              else if (state == "$fog") { return lv_color_hex(0xFFFFFF); }
+              else if (state == "$hail") { return lv_color_hex(0xB3FFFF); }
+              else if (state == "$lightningrainy") { return lv_color_hex(0xC44DFF); }
+              else if (state == "$lightning") { return lv_color_hex(0xFFCCFF); } 
+              else if (state == "$partlycloudy") { return lv_color_hex(0xF0F8FF); }  
+              else if (state == "$snowyrainy") { return lv_color_hex(0xFFFFFF); }
+              else if (state == "$pouring") { return lv_color_hex(0x4DE1FF); } 
+              else if (state == "$rainy") { return lv_color_hex(0xD3D3D3); }
+              else if (state == "$snowy") { return lv_color_hex(0xFFFFFF); }
+              else if (state == "$sunny") { return lv_color_hex(0xFFFF33); } 
+              else if (state == "$windy") { return lv_color_hex(0xB3FFFF); }
+              else if (state == "$windyvariant") { return lv_color_hex(0xB3FFFF); }
+              return lv_color_hex(0x333333);
+
+#-------------------------------------------
+# LVGL
+#-------------------------------------------
+lvgl:
+  pages:
+    - id: weather
+      scrollbar_mode: "OFF"
+      scrollable: false
+      widgets:
+        - image:
+            align: CENTER
+            src: $background_weather
+        - label:
+            align: CENTER
+            id: display_weather_icon
+            text: $happyface
+            text_color: 0xFFFFFF
+            bg_opa: TRANSP
+            text_font: weather_icons
+            y: -160
+            x: -75
