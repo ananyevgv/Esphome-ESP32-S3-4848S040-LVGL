@@ -1,0 +1,217 @@
+#############################################################################
+#----Страничка барометра-----------------------------------------------------
+#############################################################################
+# Add yaml and copy file esphome/packages/
+#  barometr: !include 
+#    file: packages/display/barometr_page.yaml 
+#    vars:
+#      sensor_temperature: sensor.holl_clock_temperature
+#      sensor_pressure: sensor.holl_clock_pressure
+# 
+#############################################################################
+
+#-------------------------------------------
+# IMAGE
+#-------------------------------------------
+image:
+  - file: "picture/barometr.jpg"
+    id: barometr_image
+    resize: 480x480
+    type: RGB565
+    
+  - file: "picture/barometr_st.png"
+    id: arrow_image
+    #resize: 44x208
+    type: RGB565 
+    transparency: alpha_channel
+    
+  - file: "picture/barometr_w_st.png"
+    id: arrow_w_image
+    #resize: 44x208
+    type: RGB565 
+    transparency: alpha_channel
+#-------------------------------------------
+# SENSOR
+#-------------------------------------------
+sensor:
+  - platform: homeassistant
+    id:  barometr_temperature
+    entity_id: $sensor_temperature
+    on_value:
+      - lvgl.indicator.update:
+          id: temperatura_hand
+          value: !lambda |- 
+            return x;
+  - platform: homeassistant
+    id:  barometr_pressure
+    entity_id: $sensor_pressure
+    on_value:
+      - lvgl.image.update:
+          id: arrow_barometr
+          angle: !lambda |-
+            return (-150 + (x-690)/2.5);     
+            
+################################################################
+      - lvgl.label.update:
+          id: display_pressure
+          text: 
+            format: "$gauge %.0f mmHg"
+            args: ["id(barometr_pressure).state"]
+          text_color: !lambda |-
+            uint16_t vp = (id(barometr_pressure).state);
+            switch (vp) {
+              case 710 ... 730: return lv_color_hex(0xff0000);
+              case 731 ... 740: return lv_color_hex(0xf07c40);
+              case 741 ... 760: return lv_color_hex(0x00ff00);
+              case 761 ... 770: return lv_color_hex(0xf07c40);
+              case 771 ... 800: return lv_color_hex(0xff0000);
+              default: return lv_color_hex(0x333333);
+            }
+################################################################
+
+  - platform: template # Pressure 1h
+    name: "${name} pressure old 1h"
+    id: pressure_1h
+    update_interval: never
+    device_class: pressure
+    disabled_by_default: true
+
+  - platform: template # Pressure 2h
+    name: "${name} pressure old 2h"
+    id: pressure_2h
+    update_interval: never
+    device_class: pressure
+    disabled_by_default: true
+
+  - platform: template # Pressure 3h
+    name: "${name} pressure old 3h"
+    id: pressure_3h
+    update_interval: never
+    device_class: pressure
+    disabled_by_default: true
+    on_value:
+      - lvgl.image.update:
+          id: arrow_w_barometr
+          angle: !lambda |-
+            return (-150 + (x-690)/2.5);  
+#-------------------------------------------
+# SCRIPT
+#-------------------------------------------
+script:
+  - id: time_sync_barometr
+    then:
+      - delay: 4s
+      - lambda: !lambda |-
+          id(pressure_3h).publish_state(id(barometr_pressure).state);
+          id(pressure_2h).publish_state(id(barometr_pressure).state);
+          id(pressure_1h).publish_state(id(barometr_pressure).state);
+        
+  - id: time_update_barometr
+    then:
+      lambda: !lambda |-
+        id(pressure_3h).publish_state(id(pressure_2h).state);
+        id(pressure_2h).publish_state(id(pressure_1h).state);
+        id(pressure_1h).publish_state(id(barometr_pressure).state);
+      
+#-------------------------------------------
+# TIME
+#-------------------------------------------
+time:
+  - id: !extend sntp_time
+    on_time_sync:
+      - script.execute: time_sync_barometr
+ #  on_time:
+ #     - hours: '*'
+  #      minutes: 50
+  #      seconds: 0
+  #      then:
+  #        - script.execute: time_update_barometr
+        
+
+#-------------------------------------------
+# INTERVAL
+#-------------------------------------------
+interval:    
+  - interval: 1h
+    then:
+      - script.execute: time_update_barometr
+          
+#-------------------------------------------
+# LVGL
+#-------------------------------------------
+lvgl:
+  pages:
+# Добавляем на weather barometr
+################################################################
+    - id: !extend weather
+      widgets:
+        - button:
+            y: 70
+            x: 30
+            align: LEFT_MID
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 180
+            height: 40
+            widgets:  
+              - label:
+                  align: LEFT_MID
+                  id: display_pressure
+                  text: --- mmHg
+                  text_font: weather24
+                  text_color: 0x808080
+            on_press:
+              lvgl.page.show: barometr_page
+################################################################               
+# Выводим на экран    
+    - id: barometr_page    
+      width: 100%
+      bg_color: 0x000000
+      bg_opa: cover
+      scrollbar_mode: "OFF"
+      widgets:
+        - image:
+            align: CENTER
+            src: barometr_image
+        - image:
+            align: CENTER
+            src: arrow_w_image
+            id: arrow_w_barometr
+            y: 5
+        - image:
+            align: CENTER
+            src: arrow_image
+            id: arrow_barometr
+            y: 5
+        - obj:
+            bg_opa: TRANSP
+            border_opa: TRANSP
+            width: 480
+            height: 480
+            align: CENTER
+            scrollbar_mode: "OFF"
+            scrollable: false
+            widgets:
+            #######################
+              - meter:
+                  border_side: none
+                  height: 100
+                  width: 100
+                  y: 180
+                  align: CENTER
+                  bg_opa: TRANSP
+                  text_color: 0xFFFFFF
+                  scales:
+                    - indicators:
+                        - line:
+                            id: temperatura_hand
+                            width: 3
+                            color: 0xFF0000 # red 0xE0E0E0 #white
+                            r_mod: 30
+                      rotation: 180
+                      angle_range: 180 # Угол между началом и концом
+                      range_from: -10 # Минимальное значение
+                      range_to: 50  # Максимальное значение
+                      ticks: 
+                        count: 0   
+                  
