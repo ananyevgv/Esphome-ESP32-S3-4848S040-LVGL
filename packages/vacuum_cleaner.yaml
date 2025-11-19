@@ -1,3 +1,8 @@
+#############################################################################
+#----Страничка vacuum -------------------------------------------------------
+#############################################################################
+# Add yaml and copy file esphome/packages/
+#packages:
 #  vacuum: !include 
 #    file: packages/display/vacuum_cleaner.yaml
 #    vars:
@@ -8,14 +13,15 @@
       
 #      dirty: sensor.robot_pylesos_sensor_dirty_left
 #      main_brush: sensor.robot_pylesos_main_brush_left
-#      filter: sensor.robot_pylesos_
+#      filter: sensor.robot_pylesos_filter_left
 #      side_brush: sensor.robot_pylesos_side_brush_left
       
 #      reset_side_brush:  button.robot_pylesos_reset_side_brush
 #      reset_dirty: button.robot_pylesos_reset_sensor_dirty
 #      reset_main_brush: button.robot_pylesos_reset_main_brush
 #      reset_filter: button.robot_pylesos_reset_filter
-
+#
+#############################################################################
 
 #########################
 #     #     #     #     #
@@ -37,7 +43,7 @@
 
 substitutions:
   vacuum_icons_map:           "\U000F034E"   # map-marker
-  vacuum_icons_start:          "\U000F040A"   # Play
+  vacuum_icons_start:         "\U000F040A"   # Play
   #vacuum_icons:               "\U000F070D"   # robot-vacuum
   vacuum_icons_stop:          "\U000F04DB"   # stop
   vacuum_icons_pause:         "\U000F03E4"  # pause
@@ -50,6 +56,9 @@ substitutions:
   vacuum_icons_main_brush:    "\U000F00E2"  # broom
   vacuum_icons_side_brush:    "\U000F00E3"  # brush
 
+#-------------------------------------------
+# FONT
+#-------------------------------------------
 font:
   - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
     id: vacuum_48
@@ -62,22 +71,17 @@ font:
       $vacuum_icons_pause,
       $vacuum_icons_clean_spot,
       $vacuum_icons_home,
-      $vacuum_icons_fan
-    ]      
-    
-  - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
-    id: vacuum_24
-    size: 24
-    bpp: 4
-    glyphs: [
+      $vacuum_icons_fan,
       $vacuum_icons_air_filter,
       $vacuum_icons_dirty,
       $vacuum_icons_main_brush,
       $vacuum_icons_side_brush
-
-  
-      ]   
+    ]      
+    
       
+#-------------------------------------------
+# IMAGE
+#-------------------------------------------   
 image:
   - file: "picture/vacuum.png"
     id: vacuum_image
@@ -91,6 +95,9 @@ image:
     resize: 50x50
     transparency: alpha_channel
     
+#-------------------------------------------
+# INTERVAL
+#-------------------------------------------
 interval:
   - interval: 0.1s
     then:
@@ -114,33 +121,41 @@ interval:
             - lvgl.widget.hide:
                 id: vacuum_docked
 
-
+#-------------------------------------------
+# SENSOR
+#-------------------------------------------
 sensor:
   - platform: homeassistant
     id: battery_level_sensor
     entity_id: "${vacuum_robot}"
     attribute: battery_level
+    filters:
+      - filter_out: nan
     on_value: 
       - lvgl.label.update:
           id: battery_level_label
           text: 
-            format: " %.0f%%"
+            format: "%.0f%%"
             args: ["x"]
             
   - platform: homeassistant
     id: sensor_cleaned_area_entity
     entity_id: "${cleaned_area_entity}"
+    filters:
+      - filter_out: nan
     on_value:      
       - lvgl.label.update:
           id: cleaned_area_entity_label
           text: 
-            format: " %.0f%%"
+            format: "%.0fm²"
             args: ["x"]
             
             
   - platform: homeassistant
     id: sensor_dirty
     entity_id: "${dirty}"
+    filters:
+      - filter_out: nan
     on_value: 
       - lvgl.label.update:
           id: dirty_label
@@ -151,6 +166,8 @@ sensor:
   - platform: homeassistant
     id: sensor_main_brush
     entity_id: "${main_brush}"
+    filters:
+      - filter_out: nan
     on_value: 
       - lvgl.label.update:
           id: main_brush_label
@@ -162,6 +179,8 @@ sensor:
   - platform: homeassistant
     id: sensor_filter
     entity_id: "${filter}"
+    filters:
+      - filter_out: nan
     on_value: 
       - lvgl.label.update:
           id: filter_label
@@ -172,6 +191,8 @@ sensor:
   - platform: homeassistant
     id: sensor_side_brush
     entity_id: "${side_brush}"
+    filters:
+      - filter_out: nan
     on_value: 
       - lvgl.label.update:
           id: side_brush_label
@@ -223,8 +244,6 @@ lvgl:
             width: 480
             height: 460
             align: TOP_LEFT
-            x: 0
-            y: 0
             layout:
               pad_row: 10
               pad_column: 10
@@ -245,7 +264,7 @@ lvgl:
                   bg_opa: 35%
                   widgets:
                     - label:
-                        text_font: vacuum_24
+                        text_font: vacuum_48
                         align: center
                         text: $vacuum_icons_side_brush
                         y: -20
@@ -273,7 +292,7 @@ lvgl:
                   bg_opa: 35%
                   widgets:
                     - label:
-                        text_font: vacuum_24
+                        text_font: vacuum_48
                         align: center
                         text: $vacuum_icons_dirty
                         y: -20
@@ -289,7 +308,6 @@ lvgl:
                         data:
                           entity_id: "${reset_dirty}"
                           
-
             # Сбросить основную щетку
               - button:
                   checkable: false
@@ -302,7 +320,7 @@ lvgl:
                   bg_opa: 35%
                   widgets:
                     - label:
-                        text_font: vacuum_24
+                        text_font: vacuum_48
                         align: center
                         text: $vacuum_icons_main_brush
                         y: -20
@@ -330,7 +348,7 @@ lvgl:
                   bg_opa: 35%
                   widgets:
                     - label:
-                        text_font: vacuum_24
+                        text_font: vacuum_48
                         align: center
                         text: $vacuum_icons_air_filter
                         y: -20
@@ -470,7 +488,8 @@ lvgl:
                         action: vacuum.locate
                         data:
                           entity_id: "${vacuum_robot}"                  
-                          
+
+            #Мощность       
               - obj:
                   bg_opa: TRANSP
                   shadow_opa: TRANSP
@@ -489,7 +508,6 @@ lvgl:
                         text: "${vacuum_icons_fan}"
                     - dropdown:
                         id: d_fan_speed
-                    #    width: 200
                         x: 50
                         align: LEFT_MID
                         bg_opa: TRANSP
@@ -505,10 +523,6 @@ lvgl:
                           - Auto
                         selected_index: 1
                         dropdown_list:
-                         # bg_opa: TRANSP
-                        #  shadow_opa: TRANSP
-                         # border_opa: TRANSP
-                         # border_width: 0
                           selected:
                             checked:
                               text_color: 0xFF0000
@@ -526,12 +540,10 @@ lvgl:
                                     case 4: return "Gentle"; break;              
                                     case 5: return "Auto"; break; 
                                     default: return "Standard";
-
                                   }
-          
+          #vacuum
               - button:
-                  checkable: true
-                  id: b_vacuum_0_1
+                  checkable: false
                   grid_cell_row_pos: 1 #Позиция ряд
                   grid_cell_column_pos: 1 #Позиция колонка
                   grid_cell_x_align: STRETCH
@@ -543,15 +555,15 @@ lvgl:
                     - label: 
                         id: battery_level_label
                         align: top_left
-                        text: "100%"
+                        #text: "100%"
                     - label: 
                         id: cleaned_area_entity_label
                         align: top_right
-                        text: "50m"  
+                       # text: "50m"  
                     - label: 
                         id: vacuum_state_label
                         align: bottom_mid
-                        text: "State"
+                      #  text: "State"
                     - image:
                         id: vacuum_brush_state_image
                         align: center
@@ -564,8 +576,8 @@ lvgl:
                         src: vacuum_image
                     - led:
                        align: top_mid
-                       bg_color: 0xffffff
-                       color: 0x00000
+                       color: 0xffffff
+                       bg_color: 0x00000
                        y: 5
                        width: 70
                        height: 25   
