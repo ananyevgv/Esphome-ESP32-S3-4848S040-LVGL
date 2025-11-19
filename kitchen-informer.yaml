@@ -37,8 +37,8 @@ packages:
       botton_page2: lg_remoute
       collor_page2: color_mint
 
-      botton_icon3: "\U000F0F54" # 
-      botton_page3: boiler_page
+      botton_icon3: "\U000F070D" #"\U000F0F54" # 
+      botton_page3: vacuum_page #thermostat_page
       collor_page3: color_green
       
       botton_icon4: "\U000F0299" # 
@@ -250,7 +250,26 @@ packages:
       lg_code_2_2: "0x20DF8D72" # stop
       lg_code_2_3: "0x20DFBD42" #  record
       
- # clock: !include packages/clock_page.yaml
+#############################################################################
+#----Страничка пылесоса--- --------------------------------------------------
+#############################################################################
+  vacuum: !include 
+    file: packages/display/vacuum_cleaner.yaml
+    vars:
+      background_vacuum: back6
+
+      vacuum_robot: vacuum.robot_pylesos
+      cleaned_area_entity: sensor.robot_pylesos_current_clean_area
+      
+      dirty: sensor.robot_pylesos_sensor_dirty_left
+      main_brush: sensor.robot_pylesos_main_brush_left
+      filter: sensor.robot_pylesos_filter_left
+      side_brush: sensor.robot_pylesos_side_brush_left
+      
+      reset_side_brush:  button.robot_pylesos_reset_side_brush
+      reset_dirty: button.robot_pylesos_reset_sensor_dirty
+      reset_main_brush: button.robot_pylesos_reset_main_brush
+      reset_filter: button.robot_pylesos_reset_filter
 
 #############################################################################
 #----Страничка посудомойки --------------------------------------------------
@@ -426,27 +445,7 @@ packages:
       sensor_error: sensor.baxi_oshibka_kotla
       sensor_modulation: sensor.baxi_modulation
 
-  vacuum: !include 
-    file: packages/display/vacuum_cleaner.yaml
-    vars:
-      background_vacuum: back6
-
-      vacuum_icon_0_0: "\U000F040A" #Play
-      vacuum_entity_0_0: xiaomi_miio.vacuum_remote_control_start
-      
-      vacuum_icon_0_1: "\U000F070D" #robot-vacuum
-      vacuum_entity_0_1: vacuum.robot_pylesos
-    
-      vacuum_icon_0_2: "\U000F04DB" #stop
-      vacuum_entity_0_2: xiaomi_miio.vacuum_remote_control_stop
-      
-    # Кнопки 1 ряд
-      vacuum_icon_1_0: "\U000F03E4" #pause
-      vacuum_entity_1_0: xiaomi_miio.vacuum_remote_control_pause
-    
-      vacuum_icon_1_1: "\U000F104D" #home-circle-outline
-      vacuum_entity_1_1: xiaomi_miio.vacuum_remote_control_xiaomi_goto
-      
+#############################################################################   
   clock: !include
     file: packages/display/clock_page.yaml
     vars:

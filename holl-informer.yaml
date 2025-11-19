@@ -60,8 +60,8 @@ packages:
       botton_page2: lg_remoute
       collor_page2: color_mint
 
-      botton_icon3: "\U000F0F54" # 
-      botton_page3: thermostat_page
+      botton_icon3: "\U000F070D" #"\U000F0F54" # 
+      botton_page3: vacuum_page #thermostat_page
       collor_page3: color_green
       
       botton_icon4: "\U000F0299" # 
@@ -284,6 +284,28 @@ packages:
       lg_code_2_2: "0x20DF8D72" # stop
       lg_code_2_3: "0x20DFBD42" #  record
 
+
+#############################################################################
+#----Страничка пылесоса--- --------------------------------------------------
+#############################################################################
+  vacuum: !include 
+    file: packages/display/vacuum_cleaner.yaml
+    vars:
+      background_vacuum: back6
+
+      vacuum_robot: vacuum.robot_pylesos
+      cleaned_area_entity: sensor.robot_pylesos_current_clean_area
+      
+      dirty: sensor.robot_pylesos_sensor_dirty_left
+      main_brush: sensor.robot_pylesos_main_brush_left
+      filter: sensor.robot_pylesos_filter_left
+      side_brush: sensor.robot_pylesos_side_brush_left
+      
+      reset_side_brush:  button.robot_pylesos_reset_side_brush
+      reset_dirty: button.robot_pylesos_reset_sensor_dirty
+      reset_main_brush: button.robot_pylesos_reset_main_brush
+      reset_filter: button.robot_pylesos_reset_filter
+      
 #############################################################################
 #----Страничка посудомойки --------------------------------------------------
 #############################################################################
@@ -320,7 +342,7 @@ packages:
       
 #############################################################################   
   barometr: !include 
-    file: packages/display/barometr_page.yaml 
+    file: packages/display/barometr_page_st.yaml 
     #file: packages/display/barometr.yaml 
     vars:
       sensor_temperature: sensor.holl_clock_temperature
@@ -407,7 +429,7 @@ packages:
   top:  !include packages/display/top_stl_blk.yaml
   #top:  !include packages/display/top_stl.yaml
   settings: !include packages/display/settings.yaml
-
+  
 ##########################################################################################################################################
 #-------------------------------------------
 # ESP MCU SETTINGS for
