@@ -118,7 +118,7 @@ packages:
 
 # TODO 
 
-BME680, rotation display, weather page, graph page, vacuum  page
+BME680, rotation display, weather page, graph page
 
 
 # примеры смотри [holl-informer.yaml](./holl-informer.yaml) и [kitchen-informer.yaml](./kitchen-informer.yaml)
