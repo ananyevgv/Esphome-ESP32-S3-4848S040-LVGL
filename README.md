@@ -134,7 +134,7 @@ BME680, rotation display, weather page, graph page
 |  ![1](./img/humm2.jpg) | ![2](./img/lg.jpg) | ![3](./img/kith.jpg) | ![4](./img/holl.jpg) | 
 |  ![1](./img/but4.jpg) | ![2](./img/but6.jpg) | ![3](./img/but12.jpg) | ![4](./img/but16.jpg) | 
 |  ![1](./img/sl-4g.jpg) | ![2](./img/sl-4v.jpg) | ![3](./img/shutter.jpg)| ![4](./img/shutter2.png) |
-
+|  ![1](./img/clock_st.jpg) | ![2](./img/barometr_st.jpg) | ![3](./img/vacuum.jpg)| 
 
 https://aliexpress.ru/item/1005006335587633.html
 
