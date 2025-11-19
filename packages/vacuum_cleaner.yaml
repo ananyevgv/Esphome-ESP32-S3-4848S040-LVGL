@@ -78,7 +78,13 @@ font:
       $vacuum_icons_side_brush
     ]      
     
-      
+  - file: "gfonts://Roboto"
+    id: vacuum_24
+    size: 24
+    bpp: 4 
+    glyphs: |-
+      %².0123456789 абвгдеёжзийклмнопрстуфхцчщьыъэюя
+
 #-------------------------------------------
 # IMAGE
 #-------------------------------------------   
@@ -103,7 +109,7 @@ interval:
     then:
       - if:
           condition:
-            lambda: 'return id(vacuum_state).state == "cleaning";'
+            lambda: 'return id(vacuum_state).state == "уборка";'
           then:
             - lvgl.image.update:
                 id: vacuum_brush_state_image
@@ -113,7 +119,7 @@ interval:
                   return (vacuum);    
       - if:
           condition:
-            lambda: 'return id(vacuum_state).state == "docked";'
+            lambda: 'return id(vacuum_state).state == "на базе";'
           then:
             - lvgl.widget.show:
                 id: vacuum_docked
@@ -147,7 +153,7 @@ sensor:
       - lvgl.label.update:
           id: cleaned_area_entity_label
           text: 
-            format: "%.0fm²"
+            format: "%.0fм²"
             args: ["x"]
             
             
@@ -160,7 +166,7 @@ sensor:
       - lvgl.label.update:
           id: dirty_label
           text: 
-            format: " %.0fh"
+            format: " %.0f ч"
             args: ["x/3600"]   
 
   - platform: homeassistant
@@ -172,7 +178,7 @@ sensor:
       - lvgl.label.update:
           id: main_brush_label
           text: 
-            format: " %.0fh"
+            format: " %.0f ч"
             args: ["x/3600"]   
             
   
@@ -185,7 +191,7 @@ sensor:
       - lvgl.label.update:
           id: filter_label
           text: 
-            format: " %.0fh"
+            format: " %.0f ч"
             args: ["x/3600"]   
             
   - platform: homeassistant
@@ -197,7 +203,7 @@ sensor:
       - lvgl.label.update:
           id: side_brush_label
           text: 
-            format: " %.0fh"
+            format: " %.0f ч"
             args: ["x/3600"]        
 
 
@@ -208,6 +214,14 @@ text_sensor:
   - platform: homeassistant
     entity_id: "${vacuum_robot}"
     id: vacuum_state
+    filters:
+      - substitute:
+        - "docked -> на базе" 
+        - "cleaning -> уборка" 
+        - "returning -> возврат на базу"
+        - "paused -> пауза" 
+        - "idle -> бездействие"
+        - "nan -> не в сети"
     on_value:
       then:
          - lvgl.label.update:
@@ -269,12 +283,12 @@ lvgl:
                         text: $vacuum_icons_side_brush
                         y: -20
                     - label:
-                     #   text_font: vacuum_48
                         align: center
-                        text: ""
+                        text: " "
+                        text_font: vacuum_24
                         y: 20
                         id: side_brush_label
-                  on_click:
+                  on_long_press:
                     - homeassistant.action:
                         action: button.press
                         data:
@@ -297,12 +311,12 @@ lvgl:
                         text: $vacuum_icons_dirty
                         y: -20
                     - label:
-                     #   text_font: vacuum_48
                         align: center
-                        text: ""
+                        text: " "
+                        text_font: vacuum_24
                         y: 20
                         id: dirty_label
-                  on_click:
+                  on_long_press:
                     - homeassistant.action:
                         action: button.press
                         data:
@@ -325,12 +339,12 @@ lvgl:
                         text: $vacuum_icons_main_brush
                         y: -20
                     - label:
-                     #   text_font: vacuum_48
                         align: center
-                        text: ""
+                        text: " "
+                        text_font: vacuum_24
                         y: 20
                         id: main_brush_label
-                  on_click:
+                  on_long_press:
                     - homeassistant.action:
                         action: button.press
                         data:
@@ -353,12 +367,12 @@ lvgl:
                         text: $vacuum_icons_air_filter
                         y: -20
                     - label:
-                     #   text_font: vacuum_48
                         align: center
-                        text: ""
+                        text: " "
+                        text_font: vacuum_24
                         y: 20
                         id: filter_label
-                  on_click:
+                  on_long_press:
                     - homeassistant.action:
                         action: button.press
                         data:
@@ -555,15 +569,18 @@ lvgl:
                     - label: 
                         id: battery_level_label
                         align: top_left
-                        #text: "100%"
+                        text: "%"  
+                        text_font: vacuum_24
                     - label: 
                         id: cleaned_area_entity_label
                         align: top_right
-                       # text: "50m"  
+                        text: "м²"  
+                        text_font: vacuum_24
                     - label: 
                         id: vacuum_state_label
                         align: bottom_mid
-                      #  text: "State"
+                        text: " "
+                        text_font: vacuum_24
                     - image:
                         id: vacuum_brush_state_image
                         align: center
