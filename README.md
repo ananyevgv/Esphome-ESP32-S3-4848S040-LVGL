@@ -127,14 +127,17 @@ BME680, rotation display, weather page, graph page
 
 |                                               |                                                 |                                                   |                                                 | 
 |-----------------------------------------------|-------------------------------------------------|---------------------------------------------------|-------------------------------------------------|
-|  ![1](./img/thermometer.jpg) | ![2](./img/weather.jpg) | ![3](./img/weather_anime.jpg) | ![4](./img/washing.jpg) |
-|  ![1](./img/boiler.jpg) | ![2](./img/termostat.jpg) |  ![3](./img/bar.jpg) | ![4](./img/clock.jpg) | 
-| ![1](./img/dishwasher.jpg) | ![2](./img/shutter4.jpg) | ![3](./img/uv2.jpg) | ![4](./img/geomag2.jpg) | 
-|  ![1](./img/birch.jpg) | ![2](./img/grass.jpg) | ![3](./img/ragweed.jpg) | ![4](./img/wind.jpg) | 
-|  ![1](./img/humm2.jpg) | ![2](./img/lg.jpg) | ![3](./img/kith.jpg) | ![4](./img/holl.jpg) | 
-|  ![1](./img/but4.jpg) | ![2](./img/but6.jpg) | ![3](./img/but12.jpg) | ![4](./img/but16.jpg) | 
-|  ![1](./img/sl-4g.jpg) | ![2](./img/sl-4v.jpg) | ![3](./img/shutter.jpg)| ![4](./img/shutter2.png) |
-|  ![1](./img/clock_st.jpg) | ![2](./img/barometr_st.jpg) | ![3](./img/vacuum.jpg)| 
+| ![1](./img/weather.jpg) | ![2](./img/weather_anime.jpg) |
+| ![1](./img/but4.jpg) | ![2](./img/but6.jpg) | ![3](./img/but12.jpg) | ![4](./img/but16.jpg) | 
+| ![1](./img/kith.jpg) | ![2](./img/holl.jpg) | ![3](./img/sl-4g.jpg) | ![4](./img/sl-4v.jpg) |
+| ![1](./img/shutter.jpg)| ![2](./img/shutter2.png) |![3](./img/shutter4.jpg) | ![4](./img/vacuum.jpg) | 
+| ![1](./img/bar.jpg) | ![2](./img/clock.jpg) | ![3](./img/clock_st.jpg) | ![4](./img/barometr_st.jpg) | 
+| ![1](./img/washing.jpg) | ![2](./img/dishwasher.jpg) | ![3](./img/boiler.jpg) | ![4](./img/termostat.jpg) |
+| ![1](./img/wind.jpg) | ![2](./img/geomag2.jpg) |  ![3](./img/uv2.jpg) | ![4](./img/thermometer.jpg) | 
+| ![1](./img/humm2.jpg) | ![2](./img/grass.jpg) | ![3](./img/ragweed.jpg) | ![4](./img/birch.jpg) | 
+| ![1](./img/lg.jpg) 
+
+
 
 https://aliexpress.ru/item/1005006335587633.html
 
