@@ -115,7 +115,7 @@ interval:
                 id: vacuum_brush_state_image
                 angle: !lambda |-
                   static int vacuum = 0;
-                  vacuum=vacuum+30;
+                  vacuum=vacuum+100;
                   return (vacuum);    
       - if:
           condition:
