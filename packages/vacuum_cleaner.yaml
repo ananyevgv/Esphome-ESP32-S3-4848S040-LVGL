@@ -102,6 +102,14 @@ image:
     transparency: alpha_channel
     
 #-------------------------------------------
+# GLOBALS
+#-------------------------------------------            
+globals:
+  - id: vacuum_speed
+    type: int
+    restore_value: no
+    initial_value: '100' 
+#-------------------------------------------
 # INTERVAL
 #-------------------------------------------
 interval:
@@ -115,7 +123,7 @@ interval:
                 id: vacuum_brush_state_image
                 angle: !lambda |-
                   static int vacuum = 0;
-                  vacuum=vacuum+100;
+                  vacuum=vacuum+id(vacuum_speed);
                   return (vacuum);    
       - if:
           condition:
@@ -222,6 +230,7 @@ text_sensor:
         - "paused -> пауза" 
         - "idle -> бездействие"
         - "nan -> не в сети"
+        - "unavailable -> не в сети"
     on_value:
       then:
          - lvgl.label.update:
@@ -238,6 +247,37 @@ text_sensor:
           id: d_fan_speed
           selected_text:  !lambda |- 
             return x; 
+      - if:
+          condition:
+            lambda: 'return id(fan_speed).state == "Silent";'
+          then:
+            lambda: 'return id(vacuum_speed)=70;'
+      - if:
+          condition:
+            lambda: 'return id(fan_speed).state == "Standard";'
+          then:
+            lambda: 'return id(vacuum_speed)=150;'
+      - if:
+          condition:
+            lambda: 'return id(fan_speed).state == "Medium";'
+          then:
+            lambda: 'return id(vacuum_speed)=200;'
+      - if:
+          condition:
+            lambda: 'return id(fan_speed).state == "Turbo";'
+          then:
+            lambda: 'return id(vacuum_speed)=255;'
+      - if:
+          condition:
+            lambda: 'return id(fan_speed).state == "Gentle";'
+          then:
+            lambda: 'return id(vacuum_speed)=100;'
+      - if:
+          condition:
+            lambda: 'return id(fan_speed).state == "Auto";'
+          then:
+            lambda: 'return id(vacuum_speed)=50;'
+
 
 #-------------------------------------------
 # LVGL
