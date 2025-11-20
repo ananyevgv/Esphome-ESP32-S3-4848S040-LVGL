@@ -22,27 +22,28 @@ font:
 #-------------------------------------------
 image:
  # - file: "picture/clok.jpg"
-  - file: "picture/BigBen2.png"
+ # - file: "picture/BigBen2.png"
+  - file: "picture/clock/kremlin/watch.png"
     id: clok_image
     resize: 450x450
     type: RGB565 
     transparency: alpha_channel
 
-  - file: "picture/hour.png"
+  - file: "picture/clock/kremlin/hour.png"
     id: ch_image
-    resize: 44x208
+   # resize: 44x208
     type: RGB565 
     transparency: alpha_channel
 
-  - file: "picture/minute.png"
+  - file: "picture/clock/kremlin/minute.png"
     id: min_image
-    resize: 32x316
+   # resize: 32x316
     type: RGB565 
     transparency: alpha_channel
 
-  - file: "picture/second.png"
+  - file: "picture/clock/kremlin/second.png"
     id: sec_image
-    resize: 20x408 
+   # resize: 32x350
     type: RGB565 
     transparency: alpha_channel
     
@@ -87,10 +88,8 @@ script:
 # TIME
 #-------------------------------------------
 time:
-  - platform: sntp
-    id: sntp_time
-    timezone: UTC-3 #Europe/Moscow
-    servers: 0.pool.ntp.org
+#  - platform: sntp
+  - id: !extend sntp_time
     on_time_sync:
       - script.execute: time_update_clock  
     on_time:
@@ -171,11 +170,16 @@ lvgl:
 ################################################################  
     - id: clock_page
       widgets:
+        - obj: 
+            height: 480
+            width: 480
+            border_side: none
+            bg_color: 0x884535
         - obj: # Clock container
             height: 450
             width: 450
             border_side: none
-            bg_color: 0xffffff
+            bg_color: 0x884535
             scrollbar_mode: "OFF"
             scrollable: false
             radius: 0
@@ -190,19 +194,20 @@ lvgl:
                   id: date_label
                   text: " "
                   styles: date_style
-                  x: +170            
+                  x: 100            
 
               - image:
                   align: CENTER
                   src: ch_image
                   id: ch_clock
-
-              - image:
-                  align: CENTER
-                  src: min_image
-                  id: min_clock
                   
               - image:
                   align: CENTER
                   src: sec_image
                   id: sec_clock
+                  
+              - image:
+                  align: CENTER
+                  src: min_image
+                  id: min_clock
+                  
