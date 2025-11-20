@@ -251,32 +251,44 @@ text_sensor:
           condition:
             lambda: 'return id(fan_speed).state == "Silent";'
           then:
-            lambda: 'return id(vacuum_speed)=70;'
+            - globals.set:
+                id: vacuum_speed
+                value: '70'
       - if:
           condition:
             lambda: 'return id(fan_speed).state == "Standard";'
           then:
-            lambda: 'return id(vacuum_speed)=150;'
+            - globals.set:
+                id: vacuum_speed
+                value: '150'
       - if:
           condition:
             lambda: 'return id(fan_speed).state == "Medium";'
           then:
-            lambda: 'return id(vacuum_speed)=200;'
+            - globals.set:
+                id: vacuum_speed
+                value: '200'
       - if:
           condition:
             lambda: 'return id(fan_speed).state == "Turbo";'
           then:
-            lambda: 'return id(vacuum_speed)=255;'
+            - globals.set:
+                id: vacuum_speed
+                value: '255'
       - if:
           condition:
             lambda: 'return id(fan_speed).state == "Gentle";'
           then:
-            lambda: 'return id(vacuum_speed)=100;'
+            - globals.set:
+                id: vacuum_speed
+                value: '100'
       - if:
           condition:
             lambda: 'return id(fan_speed).state == "Auto";'
           then:
-            lambda: 'return id(vacuum_speed)=50;'
+            - globals.set:
+                id: vacuum_speed
+                value: '50'
 
 
 #-------------------------------------------
