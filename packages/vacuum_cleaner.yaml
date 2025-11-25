@@ -113,27 +113,64 @@ globals:
 # INTERVAL
 #-------------------------------------------
 interval:
-  - interval: 0.1s
+  - interval: 0.2s
     then:
-      - if:
-          condition:
-            lambda: 'return id(vacuum_state).state == "уборка";'
-          then:
-            - lvgl.image.update:
-                id: vacuum_brush_state_image
-                angle: !lambda |-
-                  static int vacuum = 0;
-                  vacuum=vacuum+id(vacuum_speed);
-                  return (vacuum);    
-      - if:
-          condition:
-            lambda: 'return id(vacuum_state).state == "на базе";'
-          then:
-            - lvgl.widget.show:
-                id: vacuum_docked
-          else:
-            - lvgl.widget.hide:
-                id: vacuum_docked
+    - if:
+        condition:
+          lvgl.page.is_showing: vacuum_page
+        then:
+          - if:
+              condition:
+                lambda: 'return id(vacuum_state).state == "уборка";'
+              then:
+                - lvgl.image.update:
+                    id: vacuum_state_image
+                    y: 0
+                - lvgl.image.update:
+                    id: vacuum_brush_state_image
+                    angle: !lambda |-
+                      static int vacuum = 0;
+                      vacuum=vacuum+id(vacuum_speed);
+                      return (vacuum);    
+          - if:
+              condition:
+                lambda: 'return id(vacuum_state).state == "на базе";'
+              then:
+                - lvgl.widget.show:
+                    id: vacuum_docked
+                - lvgl.image.update:
+                    id: vacuum_state_image
+                    y: 0
+                - lvgl.widget.hide:
+                    id: vacuum_brush_state_image
+              else:
+                - lvgl.widget.hide:
+                    id: vacuum_docked
+
+          - if:
+              condition:
+                lambda: 'return id(vacuum_state).state == "ошибка";'
+              then:
+                - lvgl.widget.hide:
+                    id: vacuum_brush_state_image
+              else:
+                - lvgl.widget.show:
+                    id: vacuum_brush_state_image
+          - if:
+              condition:
+                lambda: 'return id(vacuum_state).state == "возврат на базу";'
+              then:
+                - lvgl.image.update:
+                    id: vacuum_state_image
+                    y: !lambda |-
+                      static int8_t vac = 0;
+                      vac=vac-10;
+                      //if (vac==-50) 
+                      //  vac=0;
+                      return (vac);  
+                - lvgl.widget.hide:
+                    id: vacuum_brush_state_image
+
 
 #-------------------------------------------
 # SENSOR
@@ -229,6 +266,7 @@ text_sensor:
         - "returning -> возврат на базу"
         - "paused -> пауза" 
         - "idle -> бездействие"
+        - "error -> ошибка"
         - "nan -> не в сети"
         - "unavailable -> не в сети"
     on_value:
