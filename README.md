@@ -135,7 +135,7 @@ BME680, rotation display, weather page, graph page
 | ![1](./img/washing.jpg) | ![2](./img/dishwasher.jpg) | ![3](./img/boiler.jpg) | ![4](./img/termostat.jpg) |
 | ![1](./img/wind.jpg) | ![2](./img/geomag2.jpg) |  ![3](./img/uv2.jpg) | ![4](./img/thermometer.jpg) | 
 | ![1](./img/humm2.jpg) | ![2](./img/grass.jpg) | ![3](./img/ragweed.jpg) | ![4](./img/birch.jpg) | 
-| ![1](./img/lg.jpg) 
+| ![1](./img/lg.jpg) | ![2](./img/ups.jpg) |
 
 
 
