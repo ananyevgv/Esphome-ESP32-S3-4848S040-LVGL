@@ -1,0 +1,677 @@
+#############################################################################
+#----Страничка UPS-----------------------------------------------------------
+#############################################################################
+# Add yaml and copy file esphome/packages/display/
+#packages:
+#  ups:  !include 
+#    file: packages/display/ups.yaml
+#    vars:
+#      ups_name: sensor.basement_apc_model_name
+      
+#      ups_input_voltage: sensor.basement_apc_grid_voltage
+#      ups_input_frequency: sensor.basement_apc_grid_frequency
+#      ups_on_line: binary_sensor.basement_apc_on_line 
+      
+#      ups_output_voltage: sensor.basement_apc_ac_output_voltage
+#      ups_output_percent: sensor.basement_apc_ac_output_load
+#      ups_output_overloaded: binary_sensor.basement_apc_output_overloaded  
+      
+#      ups_battery_voltage: sensor.basement_apc_battery_voltage
+#      ups_battery_percent: sensor.basement_apc_state_of_charge
+#      ups_battery_temperature: sensor.basement_apc_internal_temperature
+      
+#      ups_battery_on: binary_sensor.basement_apc_on_battery  
+#      ups_battery_low: binary_sensor.basement_apc_battery_low  
+#      ups_battery_replace: binary_sensor.basement_apc_replace_battery
+# 
+#############################################################################
+
+substitutions:
+  akb:                 "\U0000e928" 
+  akb_20:              "\U0000e929" 
+  akb_40:              "\U0000e92A" 
+  akb_60:              "\U0000e92B" 
+  akb_80:              "\U0000e92C" 
+  akb_100:             "\U0000e92D"
+  
+  tower_export:        "\U000F192C" # mdi:transmission-tower-export
+  tower_off:           "\U000F19DD" # mdi:transmission-tower-off
+  power_alert:         "\U000F1C8C" # mdi:generator-stationary
+  car_battery:         "\U000F010C" #  mdi:car-battery
+  battery_alert:       "\U000F10CD" #  mdi:battery-alert-variant-outline
+  battery_remove:      "\U000F17E9" #  mdi:battery-remove-outline
+
+#-------------------------------------------
+# FONT
+#-------------------------------------------
+font:
+  - file: "font/icons.ttf"
+    id: UPS_200
+    size: 200
+    bpp: 4
+    ignore_missing_glyphs: true
+    glyphs: [
+      $akb
+      $akb_20,
+      $akb_40,
+      $akb_60,
+      $akb_80,
+      $akb_100
+      ]
+
+  - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+    id: UPS_48
+    size: 48
+    bpp: 4
+    glyphs: [
+      $car_battery,
+      $battery_alert,
+      $battery_remove,
+      $tower_export,
+      $tower_off,
+      $power_alert
+    ]   
+
+#-------------------------------------------
+# INTERVAL
+#------------------------------------------- 
+interval:
+  - interval: 1s
+    then:
+    - if:
+        condition:
+          binary_sensor.is_on: battery_replace
+        then:
+          - lvgl.label.update:
+              id: label_battery
+              text_color: 0xFF0000
+          - delay: 0.5s
+          - lvgl.label.update:
+              id: label_battery
+              text_color: 0xFFFFFF
+              
+#-------------------------------------------
+# SENSOR
+#-------------------------------------------    
+sensor:
+  - platform: homeassistant
+    entity_id: $ups_input_voltage
+    id: input_voltage
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: label_input_voltage
+            text: 
+              format: " %.0f V"
+              args: ["x"]
+            text_color: !lambda |-
+              uint8_t var_iv = (id(input_voltage).state);
+              switch (var_iv) {
+                case 181 ... 207: return lv_color_hex(0xFF0000);
+                case 208 ... 214: return lv_color_hex(0xffa500);
+                case 215 ... 219: return lv_color_hex(0xffff00);
+                case 220 ... 241: return lv_color_hex(0x00FF00);
+                case 242 ... 246: return lv_color_hex(0xffff00);
+                case 247 ... 253: return lv_color_hex(0xffa500);
+                case 254 ... 255: return lv_color_hex(0xFF0000);
+                default: return lv_color_hex(0x8b0000);
+              }   
+        - lvgl.bar.update:
+            id: bar_input_voltage
+            value: !lambda return x-180;
+            
+  - platform: homeassistant
+    entity_id: $ups_input_frequency
+    id: input_frequency
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: label_input_frequency
+            text: 
+              format: " %.0f Hz"
+              args: ["x"]
+            
+  - platform: homeassistant
+    entity_id: $ups_output_voltage
+    id: output_voltage
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: label_output_voltage
+            text: 
+              format: " %.0f V"
+              args: ["x"]
+            text_color: !lambda |-
+              uint8_t var_ov = (id(output_voltage).state);
+              switch (var_ov) {
+                case 181 ... 207: return lv_color_hex(0xFF0000);
+                case 208 ... 214: return lv_color_hex(0xffa500);
+                case 215 ... 219: return lv_color_hex(0xffff00);
+                case 220 ... 241: return lv_color_hex(0x00FF00);
+                case 242 ... 246: return lv_color_hex(0xffff00);
+                case 247 ... 253: return lv_color_hex(0xffa500);
+                case 254 ... 255: return lv_color_hex(0xFF0000);
+                default: return lv_color_hex(0x8b0000);
+              }  
+  - platform: homeassistant
+    entity_id: $ups_output_percent
+    id: output_percent
+    on_value:
+      then:
+        - lvgl.label.update:
+            id:  label_output_percent
+            text: 
+              format: " %.0f%%"
+              args: ["x"]   
+            text_color: !lambda |-
+              uint8_t var_op = (id(output_percent).state);
+              switch (var_op) {
+                case 0 ... 50: return lv_color_hex(0x00FF00);
+                case 51 ... 75: return lv_color_hex(0xffff00);
+                case 76 ... 100: return lv_color_hex(0xff0000);
+              }  
+        - lvgl.bar.update:
+            id: bar_output_percent
+            value: !lambda return x;   
+            
+  - platform: homeassistant
+    entity_id: $ups_battery_voltage
+    id: battery_voltage
+    on_value:
+      then:
+        - lvgl.label.update:
+            id:  label_battery_voltage
+            text: 
+              format: " %.0f V"
+              args: ["x"]   
+            text_color: !lambda |-
+              uint8_t var_op = (id(battery_voltage).state);
+              switch (var_op) {
+                case 0 ... 41: return lv_color_hex(0xFF0000);
+                case 42 ... 57: return lv_color_hex(0x00ff00);
+                case 58 ... 100: return lv_color_hex(0xff0000);
+              }  
+  - platform: homeassistant
+    entity_id: $ups_battery_percent
+    id: battery_percent
+    on_value:
+      then:
+        - lvgl.label.update:
+            id:  label_battery_percent
+            text: 
+              format: " %.0f%%"
+              args: ["x"]   
+        - lambda: |-
+              uint8_t percent = (id(battery_percent).state);
+              switch (percent) {
+                case 0 ... 19: 
+                  lv_obj_set_style_text_color(id(label_battery_percent_i), lv_color_hex(0xff0000), 0);
+                  lv_obj_set_style_text_color(id(label_battery_percent), lv_color_hex(0xff0000), 0);
+                  lv_label_set_text(id(label_battery_percent_i), "\U0000e929");
+                  break;
+                case 20 ... 39: 
+                  lv_obj_set_style_text_color(id(label_battery_percent_i), lv_color_hex(0xff0000), 0);
+                  lv_obj_set_style_text_color(id(label_battery_percent), lv_color_hex(0xff0000), 0);
+                  lv_label_set_text(id(label_battery_percent_i), "\U0000e92A");
+                  break;
+                case 40 ... 59: 
+                  lv_obj_set_style_text_color(id(label_battery_percent_i), lv_color_hex(0xe7c12c), 0);
+                  lv_obj_set_style_text_color(id(label_battery_percent), lv_color_hex(0xe7c12c), 0);
+                  lv_label_set_text(id(label_battery_percent_i), "\U0000e92B");
+                  break;
+                case 60 ... 79: 
+                  lv_obj_set_style_text_color(id(label_battery_percent_i), lv_color_hex(0x99FF99), 0);
+                  lv_obj_set_style_text_color(id(label_battery_percent), lv_color_hex(0x99FF99), 0);
+                  lv_label_set_text(id(label_battery_percent_i), "\U0000e92C");
+                  break;
+                case 80 ... 100: 
+                  lv_obj_set_style_text_color(id(label_battery_percent_i), lv_color_hex(0x00ff00), 0);
+                  lv_obj_set_style_text_color(id(label_battery_percent), lv_color_hex(0x00ff00), 0);
+                  lv_label_set_text(id(label_battery_percent_i), "\U0000e92D");
+                  break;
+              }   
+              
+              
+  - platform: homeassistant
+    entity_id: $ups_battery_temperature
+    id: battery_temperature
+    on_value:
+      then:
+        - lvgl.label.update:
+            id:  label_battery_temperature
+            text: 
+              format: " %.0f °C"
+              args: ["x"]   
+            text_color: !lambda |-
+              uint8_t var_bt = (id(battery_temperature).state);
+              switch (var_bt) {
+                case 0 ... 10: return lv_color_hex(0x0000FF);
+                case 11 ... 40: return lv_color_hex(0x00FF00);
+                case 41 ... 100: return lv_color_hex(0xFF0000);
+                default: return lv_color_hex(0x333333);
+              }   
+              
+              
+#-------------------------------------------
+# Binary sensor
+#-------------------------------------------
+binary_sensor:
+  - platform: homeassistant
+    entity_id: $ups_on_line
+    id: on_line
+    trigger_on_initial_state: true
+    on_press:
+      lvgl.label.update:
+        id: label_input
+        text: $tower_export
+        text_color: 0x00FF00
+    on_release:
+      lvgl.label.update:
+        id: label_input
+        text: $tower_off
+        text_color: 0xFF0000
+
+  - platform: homeassistant
+    entity_id: $ups_output_overloaded
+    id: output_overloaded
+    trigger_on_initial_state: true
+    on_press:
+      lvgl.label.update:
+        id: label_output
+        text: $power_alert
+        text_color: 0xFF0000
+    on_release:
+      lvgl.label.update:
+        id: label_output
+        text: $power_alert
+        text_color: 0x222021
+
+  - platform: homeassistant
+    entity_id: $ups_battery_on
+    id: battery_on
+    trigger_on_initial_state: true
+    on_state:
+      lvgl.widget.update:
+        id: button_battery
+        state:
+          checked: !lambda return x;
+    on_press:
+      lvgl.label.update:
+        id: label_battery_on
+        text: $car_battery
+        text_color: 0x00FF00
+    on_release:
+      lvgl.label.update:
+        id: label_battery_on
+        text: $car_battery
+        text_color: 0x222021
+    
+  - platform: homeassistant
+    entity_id: $ups_battery_low
+    id: battery_low
+    trigger_on_initial_state: true
+    on_press:
+      lvgl.label.update:
+        id: label_battery_low
+        text: $battery_alert
+        text_color: 0xFF0000
+    on_release:
+      lvgl.label.update:
+        id: label_battery_low
+        text: $battery_alert
+        text_color: 0x222021
+    
+  - platform: homeassistant
+    entity_id: $ups_battery_replace
+    id: battery_replace
+    trigger_on_initial_state: true
+    on_press:
+      - lvgl.label.update:
+          id: label_battery_replace
+          text: $battery_remove  
+          text_color: 0xFF0000
+      - lvgl.label.update:
+          id: label_battery
+          text_color: 0xFF0000
+    on_release:
+      - lvgl.label.update:
+          id: label_battery_replace
+          text: $battery_remove  
+          text_color: 0x222021
+      - lvgl.label.update:
+          id: label_battery
+          text_color: 0xFFFFFF
+          
+#-------------------------------------------
+# TEXT SENSOR
+#-------------------------------------------
+text_sensor:      
+  - platform: homeassistant
+    entity_id: $ups_name
+    id: ups_name
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: label_name
+            text: !lambda return x;    
+            text_color: 0xB6B6B6
+#-------------------------------------------
+# LVGL
+#-------------------------------------------
+lvgl:
+  gradients:
+    - id: color_voltage
+      direction: ver
+      dither: none
+      stops:
+        - color: 0x8b0000
+          position: 0 # 180 
+        - color: 0xFF0000
+          position: 7 #92 # 207 27/0.75*2.5
+        - color: 0xffa500
+          position: 34 # 115 # 214 34/0.75*2.5
+        - color: 0xffff00
+          position: 48 #133 # 219 39/0.75*2.5
+          
+        - color: 0x00FF00
+          position: 85 #170 # 230 50/0.75*2.5
+          
+        - color: 0xffff00
+          position: 122 #207 # 241 61/0.75*2.5
+        - color: 0xffa500
+          position: 140 # 246 65/0.75*2.5
+        - color: 0xFF0000
+          position:  163 # 253 73/0.75*2.5
+        - color: 0x8b0000
+          position: 255 # 255 75/0.75*2.5
+        
+    - id: color_power
+      direction: ver
+      dither: none
+      stops:
+        - color: 0xff0000
+          position: 0 
+
+        - color: 0xffff00
+          position: 127 
+      
+        - color: 0x00ff00
+          position: 255 
+          
+  pages:
+    - id: apc_page
+      #width: 100%
+      bg_color: 0x000000
+      #opa: cover
+      scrollbar_mode: "OFF"
+      scrollable: false
+      widgets:      
+       - obj:
+            bg_opa: TRANSP
+            border_opa: TRANSP
+            width: 480
+            height: 460
+            align: TOP_LEFT
+            x: 0
+            y: 0
+            layout:
+              pad_row: 20
+              pad_column: 20
+              type: GRID
+              grid_columns: [FR(1), FR(1), FR(1), FR(1), FR(1), FR(1), FR(1), FR(1)]
+              grid_rows: [FR(1), FR(1), FR(1), FR(1), FR(1), FR(1), FR(1), FR(1)]
+            widgets:
+##################################################################
+# Вход UPS
+              - button:
+                  checkable: false
+                  grid_cell_row_pos: 0 #Позиция ряд
+                  grid_cell_column_pos: 0 #Позиция колонка
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  grid_cell_row_span: 1 #Занять ячеек в ряде
+                  grid_cell_column_span: 2 #Занять ячеек в колонке
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        align: center
+                        text: "V"
+                        id: label_input_voltage
+                        
+              - button:
+                  checkable: false
+                  grid_cell_row_pos: 1 #Позиция ряд
+                  grid_cell_column_pos: 0 #Позиция колонка
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  grid_cell_row_span: 1 #Занять ячеек в ряде
+                  grid_cell_column_span: 2 #Занять ячеек в колонке
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        align: center
+                        text: "Hz"
+                        id: label_input_frequency
+
+              - bar:
+                  id: bar_input_voltage
+                  grid_cell_row_pos: 2  #Позиция ряд
+                  grid_cell_column_pos: 0  #Позиция колонка
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  grid_cell_row_span: 6 #Занять ячеек в ряде
+                  grid_cell_column_span: 1 #Занять ячеек в колонке
+                  pad_all: 0
+                  min_value: 0
+                  max_value: 75
+                  radius: 5px
+               #   transform_angle: 180
+                  indicator:
+                    radius: 0px
+                    bg_grad: color_voltage
+
+
+##################################################################        
+# Состояние UPS
+              - label:
+                  id: label_input
+                  grid_cell_row_pos: 0 #Позиция ряд
+                  grid_cell_column_pos: 2 #Позиция колонка
+                  grid_cell_x_align: CENTER
+                  grid_cell_y_align: CENTER
+                  grid_cell_row_span: 2 #Занять ячеек в ряде
+                  grid_cell_column_span: 2 #Занять ячеек в колонке
+                  text_font: UPS_48
+                  text: $tower_export
+
+              - label:
+                  id: label_output
+                  grid_cell_row_pos: 0 #Позиция ряд
+                  grid_cell_column_pos: 4 #Позиция колонка
+                  grid_cell_x_align: CENTER
+                  grid_cell_y_align: CENTER
+                  grid_cell_row_span: 2 #Занять ячеек в ряде
+                  grid_cell_column_span: 2 #Занять ячеек в колонке
+                  text: $power_alert
+                  text_font: UPS_48
+
+
+##################################################################  
+              - label:
+                  id: label_name
+                  grid_cell_row_pos: 2 #Позиция ряд
+                  grid_cell_column_pos: 1 #Позиция колонка
+                  grid_cell_x_align: CENTER
+                  grid_cell_y_align: CENTER
+                  grid_cell_row_span: 1 #Занять ячеек в ряде
+                  grid_cell_column_span: 6 #Занять ячеек в колонке
+                  text_font: montserrat_24
+                  text: " "
+                        
+##################################################################        
+# Состояние АКБ
+              - label:
+                  id: label_battery_on
+                  grid_cell_row_pos: 3 #Позиция ряд
+                  grid_cell_column_pos: 1 #Позиция колонка
+                  grid_cell_x_align: CENTER
+                  grid_cell_y_align: CENTER
+                  grid_cell_row_span: 1 #Занять ячеек в ряде
+                  grid_cell_column_span: 2 #Занять ячеек в колонке
+                  text: $car_battery
+                  text_font: UPS_48
+
+
+              - label:
+                  id: label_battery_low
+                  grid_cell_row_pos: 3 #Позиция ряд
+                  grid_cell_column_pos: 3 #Позиция колонка
+                  grid_cell_x_align: CENTER
+                  grid_cell_y_align: CENTER
+                  grid_cell_row_span: 1 #Занять ячеек в ряде
+                  grid_cell_column_span: 2 #Занять ячеек в колонке
+                  text: $battery_alert
+                  text_font: UPS_48
+
+
+              - label:
+                  id: label_battery_replace
+                  grid_cell_row_pos: 3 #Позиция ряд
+                  grid_cell_column_pos: 5 #Позиция колонка
+                  grid_cell_x_align: CENTER
+                  grid_cell_y_align: CENTER
+                  grid_cell_row_span: 1 #Занять ячеек в ряде
+                  grid_cell_column_span: 2 #Занять ячеек в колонке
+                  text: $battery_remove                
+                  text_font: UPS_48
+
+                    
+              - button:
+                  id: button_battery
+                  checkable: false
+                  grid_cell_row_pos: 4 #Позиция ряд
+                  grid_cell_column_pos: 1 #Позиция колонка
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  grid_cell_row_span: 3 #Занять ячеек в ряде
+                  grid_cell_column_span: 6 #Занять ячеек в колонке
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        id: label_battery
+                        align: RIGHT_MID
+                        text_font: UPS_200
+                        text: $akb
+                        transform_angle: 90
+                        x: 150
+                        
+                    - label:
+                        id: label_battery_percent_i
+                        align: RIGHT_MID
+                        text_font: UPS_200
+                        text: $akb_20
+                        transform_angle: 90
+                        x: 150
+                        text_color: 0x000000
+                        
+              - button:
+                  checkable: false      
+                  grid_cell_row_pos: 7 #Позиция ряд
+                  grid_cell_column_pos: 1 #Позиция колонка
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  grid_cell_row_span: 1 #Занять ячеек в ряде
+                  grid_cell_column_span: 2 #Занять ячеек в колонке
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        id: label_battery_voltage
+                        align: center
+                        text: "V"
+
+              - button:
+                  checkable: false
+                  grid_cell_row_pos: 7 #Позиция ряд
+                  grid_cell_column_pos: 3 #Позиция колонка
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  grid_cell_row_span: 1 #Занять ячеек в ряде
+                  grid_cell_column_span: 2 #Занять ячеек в колонке
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        id: label_battery_percent
+                        align: center
+                        text: "%"
+                          
+              - button:
+                  checkable: false
+                  grid_cell_row_pos: 7 #Позиция ряд
+                  grid_cell_column_pos: 5 #Позиция колонка
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  grid_cell_row_span: 1 #Занять ячеек в ряде
+                  grid_cell_column_span: 2 #Занять ячеек в колонке
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        id: label_battery_temperature
+                        align: center
+                        text: "°C"
+
+ 
+##################################################################        
+# Выход UPC
+              - button:
+                  checkable: false
+                  grid_cell_row_pos: 0 #Позиция ряд
+                  grid_cell_column_pos: 6 #Позиция колонка
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  grid_cell_row_span: 1 #Занять ячеек в ряде
+                  grid_cell_column_span: 2 #Занять ячеек в колонке
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        id: label_output_voltage
+                        align: center
+                        text: "V"
+                        
+              - button:
+                  checkable: false
+                  grid_cell_row_pos: 1 #Позиция ряд
+                  grid_cell_column_pos: 6 #Позиция колонка
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  grid_cell_row_span: 1 #Занять ячеек в ряде
+                  grid_cell_column_span: 2 #Занять ячеек в колонке
+                  bg_opa: 35%
+                  widgets:
+                    - label:
+                        id: label_output_percent
+                        align: center
+                        text: "%"
+                        
+              - bar:
+                  id: bar_output_percent
+                  grid_cell_row_pos: 2
+                  grid_cell_column_pos: 7
+                  grid_cell_x_align: STRETCH
+                  grid_cell_y_align: STRETCH
+                  grid_cell_row_span: 6 #Занять ячеек в ряде
+                  grid_cell_column_span: 1 #Занять ячеек в колонке
+                  align: top_right
+                  pad_all: 0
+                  min_value: 0
+                  max_value: 100
+                  radius: 2px
+                  indicator:
+                    radius: 0px
+                    bg_grad: color_power
+                    bg_grad_dir: VER
+                    
+
+
+
+            
+            
