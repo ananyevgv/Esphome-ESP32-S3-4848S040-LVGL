@@ -9,7 +9,9 @@
 #      sensor_pressure: sensor.holl_clock_pressure
 # 
 #############################################################################
-
+api:
+  on_client_connected:
+    - script.execute: time_sync_barometr
 #-------------------------------------------
 # IMAGE
 #-------------------------------------------
@@ -113,10 +115,10 @@ script:
 #-------------------------------------------
 # TIME
 #-------------------------------------------
-time:
-  - id: !extend sntp_time
-    on_time_sync:
-      - script.execute: time_sync_barometr
+#time:
+#  - id: !extend sntp_time
+#    on_time_sync:
+#      - script.execute: time_sync_barometr
  #  on_time:
  #     - hours: '*'
   #      minutes: 50
@@ -186,6 +188,7 @@ lvgl:
                   width: 480
                   align: CENTER
                   bg_opa: TRANSP
+                  border_opa: TRANSP
                   text_color: 0xFFFFFF
                   scales:
                     - indicators:
@@ -198,8 +201,8 @@ lvgl:
                       angle_range: 300 # Угол между началом и концом
                       range_from: 690 #920 # Минимальное значение 920
                       range_to: 810 #1080  # Максимальное значение 1080
-                      ticks: 
-                        count: 0 
+                    #  ticks: 
+                    #    count: 0 
                         
                     - indicators:
                         - line:
@@ -211,8 +214,8 @@ lvgl:
                       angle_range: 300 # Угол между началом и концом
                       range_from: 690 # Минимальное значение
                       range_to: 810    
-                      ticks: 
-                        count: 0
+                   #   ticks: 
+                    #    count: 0
 
                     - indicators:
                         - line:
@@ -224,8 +227,8 @@ lvgl:
                       angle_range: 300 # Угол между началом и концом
                       range_from: 690 # Минимальное значение
                       range_to: 810  # Максимальное значение
-                      ticks: 
-                        count: 0 
+                  #    ticks: 
+                   #     count: 0
 
                     - indicators:
                         - line:
@@ -237,8 +240,8 @@ lvgl:
                       angle_range: 300 # Угол между началом и концом
                       range_from: 690 # Минимальное значение
                       range_to: 810 
-                      ticks: 
-                        count: 0
+                   #   ticks: 
+                   #     count: 0
       
               - meter:
                   border_side: none
@@ -259,8 +262,8 @@ lvgl:
                       angle_range: 180 # Угол между началом и концом
                       range_from: -10 # Минимальное значение
                       range_to: 50  # Максимальное значение
-                      ticks: 
-                        count: 0 
+                 #     ticks: 
+                  #      count: 0
 
               - led:
                   align: CENTER

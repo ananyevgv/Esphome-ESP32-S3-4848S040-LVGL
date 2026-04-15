@@ -96,21 +96,29 @@ time:
       - minutes: '*'
         seconds: 0
         then:
-          - script.execute: time_update_clock
+          - if:
+              condition:
+                lvgl.page.is_showing: weather
+              then:
+                - script.execute: time_update_clock
       - seconds: '*'
         then:
-          - lvgl.image.update:
-              id: min_clock
-              angle: !lambda |-
-                return (60*(id(sntp_time).now().minute) + (id(sntp_time).now().second));
-          - lvgl.image.update:
-              id: ch_clock
-              angle: !lambda |-
-                return ((300*(id(sntp_time).now().hour)) + (5*(id(sntp_time).now().minute)));                
-          - lvgl.image.update:
-              id: sec_clock
-              angle: !lambda |-
-                return 60 * id(sntp_time).now().second;
+          - if:
+              condition:
+                lvgl.page.is_showing: clock_page
+              then:
+                - lvgl.image.update:
+                    id: min_clock
+                    angle: !lambda |-
+                      return (60*(id(sntp_time).now().minute) + (id(sntp_time).now().second));
+                - lvgl.image.update:
+                    id: ch_clock
+                    angle: !lambda |-
+                      return ((300*(id(sntp_time).now().hour)) + (5*(id(sntp_time).now().minute)));                
+                - lvgl.image.update:
+                    id: sec_clock
+                    angle: !lambda |-
+                      return 60 * id(sntp_time).now().second;
 ##################################################
           - lvgl.label.update: 
               id: display_time_weather

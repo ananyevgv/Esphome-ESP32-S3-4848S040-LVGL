@@ -47,9 +47,9 @@ sensor:
     entity_id: $sensor_pressure
     on_value:
       - lvgl.image.update:
-          id: arrow_barometr
-          angle: !lambda |-
-            return 10*(-140 +(x-695)*2.545);
+          id: arrow_barometr #220
+          angle: !lambda |- 
+            return 10*(-140 +(x-695)*2.545);     
             
 ################################################################
       - lvgl.label.update:
@@ -91,9 +91,9 @@ sensor:
     disabled_by_default: true
     on_value:
       - lvgl.image.update:
-          id: arrow_w_barometr
+          id: arrow_w_barometr #140
           angle: !lambda |-
-            return 10*(-140 +(x-695)*2.545);
+            return 10*(-140 +(x-695)*2.545);    
 #-------------------------------------------
 # SCRIPT
 #-------------------------------------------
@@ -212,6 +212,6 @@ lvgl:
                       angle_range: 180 # Угол между началом и концом
                       range_from: -10 # Минимальное значение
                       range_to: 50  # Максимальное значение
-                      ticks: 
-                        count: 0   
+                    #  ticks: 
+                    #    count: 0   
                   

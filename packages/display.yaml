@@ -8,8 +8,12 @@ esphome:
 # SPI
 #-------------------------------------------  
 spi:
-    clk_pin: GPIO48
-    mosi_pin: GPIO47
+  clk_pin: 
+    number: GPIO48
+  #  allow_other_uses: true 
+  mosi_pin: 
+    number: GPIO47
+   # allow_other_uses: true 
 
 #-------------------------------------------
 # PSRAM
@@ -141,9 +145,6 @@ light:
 # Buttons
 #-------------------------------------------
 button:
-  - platform: restart
-    name: "restart"
-    id: restart_button
   - platform: template
     name: "Next page"
     on_press:
@@ -173,22 +174,24 @@ select:
     id: rotate
     entity_category: config
     options:
-     - "0°"      
-     - "90°"
-     - "180°"
-     - "270°"
-    initial_option: "0°"
+     - "0"      
+     - "90"
+     - "180"
+     - "270"
+    initial_option: "90"
     optimistic: true
     icon: mdi:phone-rotate-landscape
     on_value:
       then:
-        - lambda: |-
-            switch(i) {
-              case 0:  id(my_display).set_rotation(DISPLAY_ROTATION_0_DEGREES); break;
-              case 1:  id(my_display).set_rotation(DISPLAY_ROTATION_90_DEGREES); break;
-              case 2:  id(my_display).set_rotation(DISPLAY_ROTATION_180_DEGREES); break;
-              case 3:  id(my_display).set_rotation(DISPLAY_ROTATION_270_DEGREES); break;
-            }
+        - lvgl.display.set_rotation: 90 #!lambda return (s);
+      
+   #     - lambda: |-
+    #        switch(i) {
+   #           case 0:  id(my_display).set_rotation(DISPLAY_ROTATION_0_DEGREES); break;
+    #          case 1:  id(my_display).set_rotation(DISPLAY_ROTATION_90_DEGREES); break;
+     #         case 2:  id(my_display).set_rotation(DISPLAY_ROTATION_180_DEGREES); break;
+     #         case 3:  id(my_display).set_rotation(DISPLAY_ROTATION_270_DEGREES); break;
+    #        }
         - lvgl.widget.redraw:
 
 #-------------------------------------------
@@ -221,6 +224,7 @@ display:
   #  id: my_display
   - platform: st7701s
     id: my_display
+  #  rotation: 90
     dimensions:
       width: 480
       height: 480
@@ -261,3 +265,4 @@ lvgl:
     -  my_display
   touchscreens:
     -  my_touchscreen
+  rotation: 90
