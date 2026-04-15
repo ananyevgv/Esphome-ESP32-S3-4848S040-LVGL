@@ -178,20 +178,40 @@ select:
      - "90"
      - "180"
      - "270"
-    initial_option: "90"
+    initial_option: "0"
     optimistic: true
     icon: mdi:phone-rotate-landscape
     on_value:
       then:
-        - lvgl.display.set_rotation: 90 #!lambda return (s);
-      
-   #     - lambda: |-
-    #        switch(i) {
-   #           case 0:  id(my_display).set_rotation(DISPLAY_ROTATION_0_DEGREES); break;
-    #          case 1:  id(my_display).set_rotation(DISPLAY_ROTATION_90_DEGREES); break;
-     #         case 2:  id(my_display).set_rotation(DISPLAY_ROTATION_180_DEGREES); break;
-     #         case 3:  id(my_display).set_rotation(DISPLAY_ROTATION_270_DEGREES); break;
-    #        }
+      then:
+        - if:
+            condition:
+              select.is:
+                id: rotate
+                options: [0°]
+            then:
+              - lvgl.display.set_rotation: 0
+        - if:
+            condition:
+              select.is:
+                id: rotate
+                options: [90°]
+            then:
+              - lvgl.display.set_rotation: 90
+        - if:
+            condition:
+              select.is:
+                id: rotate
+                options: [180°]
+            then:
+              - lvgl.display.set_rotation: 180
+        - if:
+            condition:
+              select.is:
+                id: rotate
+                options: [270°]
+            then:
+              - lvgl.display.set_rotation: 270
         - lvgl.widget.redraw:
 
 #-------------------------------------------
@@ -265,4 +285,4 @@ lvgl:
     -  my_display
   touchscreens:
     -  my_touchscreen
-  rotation: 90
+  rotation: 0
