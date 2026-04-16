@@ -214,7 +214,7 @@ select:
 touchscreen:
   platform: gt911
   transform:
-    mirror_x: false
+    mirror_x: true
     mirror_y: true
     swap_xy: false
   id: my_touchscreen
