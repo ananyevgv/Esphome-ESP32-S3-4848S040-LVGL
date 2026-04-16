@@ -203,7 +203,7 @@ lvgl:
                       id: ragweed_meter
                       width: 4
                       color: 0xFF0000
-                      r_mod: -15
+                      length: -15
                       value: 0
                 angle_range: 270
                 rotation: 135

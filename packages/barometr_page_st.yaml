@@ -48,7 +48,7 @@ sensor:
     on_value:
       - lvgl.image.update:
           id: arrow_barometr #220
-          angle: !lambda |- 
+          rotation: !lambda |- 
             return 10*(-140 +(x-695)*2.545);     
             
 ################################################################
@@ -92,7 +92,7 @@ sensor:
     on_value:
       - lvgl.image.update:
           id: arrow_w_barometr #140
-          angle: !lambda |-
+          rotation: !lambda |-
             return 10*(-140 +(x-695)*2.545);    
 #-------------------------------------------
 # SCRIPT

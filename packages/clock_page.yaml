@@ -204,7 +204,7 @@ lvgl:
                             id: hour_hand
                             width: 8
                             color: 0x808080
-                            r_mod: -80
+                            length: -80
                       angle_range: 360
                       rotation: 270
                       range_from: 0
@@ -216,7 +216,7 @@ lvgl:
                             id: hour_hand_b
                             width: 8
                             color: 0x808080
-                            r_mod: -180
+                            length: -180
                       angle_range: 360
                       rotation: 90
                       range_from: 0
@@ -228,7 +228,7 @@ lvgl:
                             id: minute_hand
                             width: 4
                             color: 0xB0B0B0
-                            r_mod: -45
+                            length: -45
                       rotation: 270
                       angle_range: 360
                       range_from: 0
@@ -240,7 +240,7 @@ lvgl:
                             id: minute_hand_b
                             width: 4
                             color: 0xB0B0B0
-                            r_mod: -180
+                            length: -180
                       rotation: 90
                       angle_range: 360
                       range_from: 0
@@ -252,7 +252,7 @@ lvgl:
                             id: seconds_hand
                             width: 2
                             color: 0xFF0000
-                            r_mod: -30
+                            length: -30
                       rotation: 270
                       angle_range: 360
                       range_from: 0
@@ -264,7 +264,7 @@ lvgl:
                             id: seconds_hand_b
                             width: 2
                             color: 0xFF0000
-                            r_mod: -180
+                            length: -180
                       rotation: 90
                       angle_range: 360
                       range_from: 0

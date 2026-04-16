@@ -331,12 +331,12 @@ text_sensor:
     filters:
     #  - to_upper
       - substitute:
-        - "PreRinse -> Замачивание" 
-        - "MainWash -> Основная мойка" 
-        - "FinalRinse -> Ополаскивание"
-        - "Drying -> Сушка" 
+        - "prerinse -> Замачивание" 
+        - "mainwash -> Основная мойка" 
+        - "finalrinse -> Ополаскивание"
+        - "drying -> Сушка" 
         - "unavailable -> ВЫКЛ"
-        - "None -> "
+        - "none -> "
         
     on_value:
       then:
@@ -436,6 +436,7 @@ lvgl:
             end_angle: 360
             rotation: 90
             value: 100
+            adjustable: false 
           #  arc_opa: TRANSP
           #  arc_color: 0x43739e
 

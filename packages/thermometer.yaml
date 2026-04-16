@@ -33,6 +33,7 @@ sensor:
   - platform: homeassistant
     id: ha_weather_temp
     entity_id: $sensor_temp_outdor
+    accuracy_decimals: 0
     on_value:
       then:
 ########################################################################
@@ -40,7 +41,7 @@ sensor:
             id: display_temp
             text: 
               format: "%2.0f °C"
-              args: ["round(id(ha_weather_temp).state)"]  
+              args: ["int(id(ha_weather_temp).state)"]  
             text_color: !lambda |-
               int8_t out_var = (id(ha_weather_temp).state);
               switch (out_var) {
@@ -59,7 +60,7 @@ sensor:
             id:  display_thermometer
             text: 
               format: "%.0f °C"
-              args: ["round(id(ha_weather_temp).state)"]  
+              args: ["round (id(ha_weather_temp).state)"]  
             text_color: !lambda |-
               int8_t out_var = (id(ha_weather_temp).state);
               switch (out_var) {
@@ -91,7 +92,7 @@ lvgl:
             align: TOP_LEFT
             bg_opa: TRANSP
             shadow_opa: TRANSP
-            width: 130 #90
+            width: 100 #90
             height: 50
             widgets:   
               - label:
@@ -133,8 +134,8 @@ lvgl:
                 rotation: 123
                 range_from: -50
                 range_to: 50
-                ticks: 
-                  count: 0
+             #   ticks: 
+             #     count: 0
         - label:
             id: display_thermometer
             text_font: roboto36

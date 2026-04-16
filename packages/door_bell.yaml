@@ -16,10 +16,11 @@ http_request:
 online_image:
   - url: $url_image
     id: doorbell_image
-    format: PNG
-    transparency: alpha_channel
+    format: bmp
+   # transparency: alpha_channel
     type: RGB565
     resize: 480x480
+    buffer_size: 5000
     on_download_finished:
       - lvgl.image.update:
           id: doorbell_image_widget
@@ -56,4 +57,12 @@ lvgl:
             align: CENTER
             src: doorbell_image
             id: doorbell_image_widget
+        - button:
+            align: TOP_LEFT
+            bg_opa: TRANSP
+            shadow_opa: TRANSP
+            width: 450
+            height: 450
+            on_press:
+              - component.update: doorbell_image
    

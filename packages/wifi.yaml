@@ -42,10 +42,13 @@ sensor:
     entity_category: "diagnostic"
     
   # WI-FI Signal
-  - platform: wifi_signal
+  - platform: copy # Reports the WiFi signal strength in %
+    source_id: wifi_signal_db
     id: wifi_signal_percent
-    update_interval: 30s
+    name: "WiFi Percent"
     filters:
       - lambda: return min(max(2 * (x + 100.0), 0.0), 100.0);
     unit_of_measurement: "%"
+    entity_category: "diagnostic"
+    icon: mdi:wifi
    

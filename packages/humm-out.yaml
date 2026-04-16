@@ -56,7 +56,7 @@ sensor:
         - lvgl.label.update:
             id: display_hum
             text: 
-              format: "%.0f %%"
+              format: "%.0f%%"
               args: ["id(humm_out).state"]  
             text_color: !lambda |-
               uint8_t hum_var = (id(humm_out).state);
@@ -92,12 +92,12 @@ lvgl:
     - id: !extend weather
       widgets:  
         - button:
-            y: 80
+            y: 85
             x: 0
             align: TOP_LEFT
             bg_opa: TRANSP
             shadow_opa: TRANSP
-            width: 130 #90
+            width: 100 #90
             height: 40
             widgets:  
               - label:
@@ -256,7 +256,7 @@ lvgl:
                       id: humm_out_meter
                       width: 4
                       color: 0xFF0000
-                      r_mod: -15
+                      length: -15
                       value: 0
                 angle_range: 270
                 rotation: 135

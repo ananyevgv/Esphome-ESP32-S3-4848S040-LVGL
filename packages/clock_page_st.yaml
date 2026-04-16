@@ -109,15 +109,15 @@ time:
               then:
                 - lvgl.image.update:
                     id: min_clock
-                    angle: !lambda |-
+                    rotation: !lambda |-
                       return (60*(id(sntp_time).now().minute) + (id(sntp_time).now().second));
                 - lvgl.image.update:
                     id: ch_clock
-                    angle: !lambda |-
+                    rotation: !lambda |-
                       return ((300*(id(sntp_time).now().hour)) + (5*(id(sntp_time).now().minute)));                
                 - lvgl.image.update:
                     id: sec_clock
-                    angle: !lambda |-
+                    rotation: !lambda |-
                       return 60 * id(sntp_time).now().second;
 ##################################################
           - lvgl.label.update: 

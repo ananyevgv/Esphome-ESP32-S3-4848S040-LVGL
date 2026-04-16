@@ -65,153 +65,157 @@ font:
 interval:
   - interval: 500ms
     then:
-      - if: 
-          condition:
-            lambda: return id(ha_weather_cond).state == "clear-night";
-          then:
-            - animation.next_frame: clear_night_icons
-            - lvgl.image.update:
-                id: disp_weather_icons
-                src: clear_night_icons
-                
-      - if: 
-          condition:
-            lambda: return id(ha_weather_cond).state == "cloudy";
-          then:
-            - animation.next_frame: cloudy_icons
-            - lvgl.image.update:
-                id: disp_weather_icons
-                src: cloudy_icons
-                
-      - if: 
-          condition:
-            lambda: return id(ha_weather_cond).state == "exceptional";
-          then:
-            - animation.next_frame: exceptional_icons
-            - lvgl.image.update:
-                id: disp_weather_icons
-                src: exceptional_icons
-      - if: 
-          condition:
-            lambda: return id(ha_weather_cond).state == "fog";
-          then:
-            - animation.next_frame: fog_icons
-            - lvgl.image.update:
-                id: disp_weather_icons
-                src: fog_icons
-       
-      - if: 
-          condition:
-            lambda: return id(ha_weather_cond).state == "hail";
-          then:
-            - animation.next_frame: hail_icons
-            - lvgl.image.update:
-                id: disp_weather_icons
-                src: hail_icons   
-      - if: 
-          condition:
-            lambda: return id(ha_weather_cond).state == "lightning";
-          then:
-            - animation.next_frame: lightning_icons
-            - lvgl.image.update:
-                id: disp_weather_icons
-                src: lightning_icons
-                
-      - if: 
-          condition:
-            lambda: return id(ha_weather_cond).state == "lightning-rainy";
-          then:
-            - animation.next_frame: lightning_rainy_icons
-            - lvgl.image.update:
-                id: disp_weather_icons
-                src: lightning_rainy_icons        
-                
-      - if: 
-          condition:
-            lambda: return id(ha_weather_cond).state == "partlycloudy";
-          then:
-            - animation.next_frame: partlycloudy_icons
-            - lvgl.image.update:
-                id: disp_weather_icons
-                src: partlycloudy_icons
-                
-      - if: 
-          condition:
-            lambda: return id(ha_weather_cond).state == "pouring";
-          then:
-            - animation.next_frame: pouring_icons
-            - lvgl.image.update:
-                id: disp_weather_icons
-                src: pouring_icons
-
-      - if: 
-          condition:
-            lambda: return id(ha_weather_cond).state == "rainy";
-          then:
-            - animation.next_frame: rainy_icons
-            - lvgl.image.update:
-                id: disp_weather_icons
-                src: rainy_icons
-
-      - if: 
-          condition:
-            lambda: return id(ha_weather_cond).state == "snowy";
-          then:
-            - animation.next_frame: snowy_icons
-            - lvgl.image.update:
-                id: disp_weather_icons
-                src: snowy_icons
-                
-      - if: 
-          condition:
-            lambda: return id(ha_weather_cond).state == "snowy-rainy";
-          then:
-            - animation.next_frame: snowy_rainy_icons
-            - lvgl.image.update:
-                id: disp_weather_icons
-                src: snowy_rainy_icons
-                
-      - if: 
-          condition:
-            lambda: return id(ha_weather_cond).state == "sunny";
-          then:
-            - animation.next_frame: sunny_icons
-            - lvgl.image.update:
-                id: disp_weather_icons
-                src: sunny_icons 
-
-      - if: 
-          condition:
-            lambda: return id(ha_weather_cond).state == "windy";
-          then:
-            - animation.next_frame: windy_icons
-            - lvgl.image.update:
-                id: disp_weather_icons
-                src:  windy_icons
-                
-      - if: 
-          condition:
-            lambda: return id(ha_weather_cond).state == "windy-variant";
-          then:
-            - animation.next_frame: windy_variant_icons
-            - lvgl.image.update:
-                id: disp_weather_icons
-                src:  windy_variant_icons
-
-      - if: 
-          condition:
-            lambda: return id(ha_weather_cond).state == "unknown";
-          then:
-            - lvgl.image.update:
-                id: disp_weather_icons
-                src:  blank_icons
-      - if: 
-          condition:
-            lambda: return id(ha_weather_cond).state == "unavailable";
-          then:
-            - lvgl.image.update:
-                id: disp_weather_icons
-                src:  blank_icons
+    - if:
+        condition:
+          lvgl.page.is_showing: weather
+        then:
+          - if: 
+              condition:
+                lambda: return id(ha_weather_cond).state == "clear-night";
+              then:
+                - animation.next_frame: clear_night_icons
+                - lvgl.image.update:
+                    id: disp_weather_icons
+                    src: clear_night_icons
+                    
+          - if: 
+              condition:
+                lambda: return id(ha_weather_cond).state == "cloudy";
+              then:
+                - animation.next_frame: cloudy_icons
+                - lvgl.image.update:
+                    id: disp_weather_icons
+                    src: cloudy_icons
+                    
+          - if: 
+              condition:
+                lambda: return id(ha_weather_cond).state == "exceptional";
+              then:
+                - animation.next_frame: exceptional_icons
+                - lvgl.image.update:
+                    id: disp_weather_icons
+                    src: exceptional_icons
+          - if: 
+              condition:
+                lambda: return id(ha_weather_cond).state == "fog";
+              then:
+                - animation.next_frame: fog_icons
+                - lvgl.image.update:
+                    id: disp_weather_icons
+                    src: fog_icons
+           
+          - if: 
+              condition:
+                lambda: return id(ha_weather_cond).state == "hail";
+              then:
+                - animation.next_frame: hail_icons
+                - lvgl.image.update:
+                    id: disp_weather_icons
+                    src: hail_icons   
+          - if: 
+              condition:
+                lambda: return id(ha_weather_cond).state == "lightning";
+              then:
+                - animation.next_frame: lightning_icons
+                - lvgl.image.update:
+                    id: disp_weather_icons
+                    src: lightning_icons
+                    
+          - if: 
+              condition:
+                lambda: return id(ha_weather_cond).state == "lightning-rainy";
+              then:
+                - animation.next_frame: lightning_rainy_icons
+                - lvgl.image.update:
+                    id: disp_weather_icons
+                    src: lightning_rainy_icons        
+                    
+          - if: 
+              condition:
+                lambda: return id(ha_weather_cond).state == "partlycloudy";
+              then:
+                - animation.next_frame: partlycloudy_icons
+                - lvgl.image.update:
+                    id: disp_weather_icons
+                    src: partlycloudy_icons
+                    
+          - if: 
+              condition:
+                lambda: return id(ha_weather_cond).state == "pouring";
+              then:
+                - animation.next_frame: pouring_icons
+                - lvgl.image.update:
+                    id: disp_weather_icons
+                    src: pouring_icons
+    
+          - if: 
+              condition:
+                lambda: return id(ha_weather_cond).state == "rainy";
+              then:
+                - animation.next_frame: rainy_icons
+                - lvgl.image.update:
+                    id: disp_weather_icons
+                    src: rainy_icons
+    
+          - if: 
+              condition:
+                lambda: return id(ha_weather_cond).state == "snowy";
+              then:
+                - animation.next_frame: snowy_icons
+                - lvgl.image.update:
+                    id: disp_weather_icons
+                    src: snowy_icons
+                    
+          - if: 
+              condition:
+                lambda: return id(ha_weather_cond).state == "snowy-rainy";
+              then:
+                - animation.next_frame: snowy_rainy_icons
+                - lvgl.image.update:
+                    id: disp_weather_icons
+                    src: snowy_rainy_icons
+                    
+          - if: 
+              condition:
+                lambda: return id(ha_weather_cond).state == "sunny";
+              then:
+                - animation.next_frame: sunny_icons
+                - lvgl.image.update:
+                    id: disp_weather_icons
+                    src: sunny_icons 
+    
+          - if: 
+              condition:
+                lambda: return id(ha_weather_cond).state == "windy";
+              then:
+                - animation.next_frame: windy_icons
+                - lvgl.image.update:
+                    id: disp_weather_icons
+                    src:  windy_icons
+                    
+          - if: 
+              condition:
+                lambda: return id(ha_weather_cond).state == "windy-variant";
+              then:
+                - animation.next_frame: windy_variant_icons
+                - lvgl.image.update:
+                    id: disp_weather_icons
+                    src:  windy_variant_icons
+    
+          - if: 
+              condition:
+                lambda: return id(ha_weather_cond).state == "unknown";
+              then:
+                - lvgl.image.update:
+                    id: disp_weather_icons
+                    src:  blank_icons
+          - if: 
+              condition:
+                lambda: return id(ha_weather_cond).state == "unavailable";
+              then:
+                - lvgl.image.update:
+                    id: disp_weather_icons
+                    src:  blank_icons
     
 #-------------------------------------------
 # TEXT SENSOR

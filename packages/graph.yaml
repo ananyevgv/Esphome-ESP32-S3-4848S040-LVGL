@@ -1,0 +1,175 @@
+globals:
+  - id: mass_sensor
+    type: float[49] #uint8_t
+ #   restore_value: yes
+    
+graph:
+  # Show bare-minimum auto-ranged graph
+  - id: temperature_graph
+    sensor: bme680_t
+    duration: 1 min
+    width: 151
+    height: 51 
+    
+#float esphome::graph::HistoryData::get_value ( int idx ) const
+#-------------------------------------------
+# INTERVAL
+#-------------------------------------------
+interval:    
+  - interval: 10 s #1min
+    then:
+      - lambda: |-
+          for (int i = 0; i < 49; i++) {
+            id(mass_sensor)[i] = id(mass_sensor)[i+1];
+          }
+          id(mass_sensor)[48] = id(bme680_t).state*10;
+          
+      - lvgl.line.update:
+          id: graphik
+          points:
+            - x: 0
+              y: !lambda return   360 - id(mass_sensor)[0];
+            - x: 10
+              y: !lambda return   360 - id(mass_sensor)[1];
+            - x: 20
+              y: !lambda return   360 - id(mass_sensor)[2];
+            - x: 30
+              y: !lambda return   360 - id(mass_sensor)[3];
+            - x: 40
+              y: !lambda return   360 - id(mass_sensor)[4];
+            - x: 50
+              y: !lambda return   360 - id(mass_sensor)[5];
+            - x: 60
+              y: !lambda return   360 - id(mass_sensor)[6];
+            - x: 70
+              y: !lambda return   360 - id(mass_sensor)[7];
+            - x: 80
+              y: !lambda return   360 - id(mass_sensor)[8];
+            - x: 90
+              y: !lambda return   360 - id(mass_sensor)[9];
+          
+            - x: 100
+              y: !lambda return   360 - id(mass_sensor)[10];
+            - x: 110
+              y: !lambda return   360 - id(mass_sensor)[11];
+            - x: 360
+              y: !lambda return   360 - id(mass_sensor)[12];
+            - x: 130
+              y: !lambda return   360 - id(mass_sensor)[13];
+            - x: 140
+              y: !lambda return   360 - id(mass_sensor)[14];
+            - x: 150
+              y: !lambda return   360 - id(mass_sensor)[15];
+            - x: 160
+              y: !lambda return   360 - id(mass_sensor)[16];
+            - x: 170
+              y: !lambda return   360 - id(mass_sensor)[17];
+            - x: 180
+              y: !lambda return   360 - id(mass_sensor)[18];
+            - x: 190
+              y: !lambda return   360 - id(mass_sensor)[19];
+
+
+            - x: 100
+              y: !lambda return   360 - id(mass_sensor)[10];
+            - x: 110
+              y: !lambda return   360 - id(mass_sensor)[11];
+            - x: 360
+              y: !lambda return   360 - id(mass_sensor)[12];
+            - x: 130
+              y: !lambda return   360 - id(mass_sensor)[13];
+            - x: 140
+              y: !lambda return   360 - id(mass_sensor)[14];
+            - x: 150
+              y: !lambda return   360 - id(mass_sensor)[15];
+            - x: 160
+              y: !lambda return   360 - id(mass_sensor)[16];
+            - x: 170
+              y: !lambda return   360 - id(mass_sensor)[17];
+            - x: 180
+              y: !lambda return   360 - id(mass_sensor)[18];
+            - x: 190
+              y: !lambda return   360 - id(mass_sensor)[19]; 
+
+            - x: 200
+              y: !lambda return   360 - id(mass_sensor)[20];
+            - x: 210
+              y: !lambda return   360 - id(mass_sensor)[21];
+            - x: 220
+              y: !lambda return   360 - id(mass_sensor)[22];
+            - x: 230
+              y: !lambda return   360 - id(mass_sensor)[23];
+            - x:   360
+              y: !lambda return   360 - id(mass_sensor)[24];
+            - x: 250
+              y: !lambda return   360 - id(mass_sensor)[25];
+            - x: 260
+              y: !lambda return   360 - id(mass_sensor)[26];
+            - x: 270
+              y: !lambda return   360 - id(mass_sensor)[27];
+            - x: 280
+              y: !lambda return   360 - id(mass_sensor)[28];
+            - x: 290
+              y: !lambda return   360 - id(mass_sensor)[29];
+              
+            - x: 300
+              y: !lambda return   360 - id(mass_sensor)[30];
+            - x: 310
+              y: !lambda return   360 - id(mass_sensor)[31];
+            - x: 320
+              y: !lambda return   360 - id(mass_sensor)[32];
+            - x: 330
+              y: !lambda return   360 - id(mass_sensor)[33];
+            - x: 340
+              y: !lambda return   360 - id(mass_sensor)[34];
+            - x: 350
+              y: !lambda return   360 - id(mass_sensor)[35];
+            - x: 360
+              y: !lambda return   360 - id(mass_sensor)[36];
+            - x: 370
+              y: !lambda return   360 - id(mass_sensor)[37];
+            - x: 380
+              y: !lambda return   360 - id(mass_sensor)[38];
+            - x: 390
+              y: !lambda return   360 - id(mass_sensor)[39];
+              
+            - x: 400
+              y: !lambda return   360 - id(mass_sensor)[40];
+            - x: 410
+              y: !lambda return   360 - id(mass_sensor)[41];
+            - x: 420
+              y: !lambda return   360 - id(mass_sensor)[42];
+            - x: 430
+              y: !lambda return   360 - id(mass_sensor)[43];
+            - x: 440
+              y: !lambda return   360 - id(mass_sensor)[44];
+            - x: 450
+              y: !lambda return   360 - id(mass_sensor)[45];
+            - x: 460
+              y: !lambda return   360 - id(mass_sensor)[46];
+            - x: 470
+              y: !lambda return   360 - id(mass_sensor)[47];
+            - x: 480
+              y: !lambda return   360 - id(mass_sensor)[48];            
+         
+        
+
+#-------------------------------------------
+# LVGL
+#-------------------------------------------
+lvgl:
+  pages:
+# Вывод на экран 
+    - id: graph_page
+      bg_color: 0x000000
+      scrollbar_mode: "OFF"
+      scrollable: false
+      widgets:
+        # Зеленый
+        - line:
+            points:
+              - 0, 0
+            line_width: 1
+            line_color: 0x00ff00
+            line_rounded: false 
+            id: graphik

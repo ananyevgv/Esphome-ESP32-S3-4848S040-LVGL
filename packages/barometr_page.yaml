@@ -196,7 +196,7 @@ lvgl:
                             id: barometr_hand_3h
                             width: 3
                             color: 0xE0E0E0 #white
-                            r_mod: -15
+                            length: -15
                       rotation: 120
                       angle_range: 300 # Угол между началом и концом
                       range_from: 690 #920 # Минимальное значение 920
@@ -209,7 +209,7 @@ lvgl:
                             id: barometr_hand_3hz
                             width: 7
                             color: 0xE0E0E0 #white
-                            r_mod: -150
+                            length: -150
                       rotation: 300
                       angle_range: 300 # Угол между началом и концом
                       range_from: 690 # Минимальное значение
@@ -222,7 +222,7 @@ lvgl:
                             id: barometr_hand
                             width: 3
                             color: 0xFF0000 # red 0xE0E0E0 #white
-                            r_mod: -15
+                            length: -15
                       rotation: 120
                       angle_range: 300 # Угол между началом и концом
                       range_from: 690 # Минимальное значение
@@ -235,7 +235,7 @@ lvgl:
                             id: barometr_hand_z
                             width: 7
                             color: 0xFF0000 # red 0xE0E0E0 #white
-                            r_mod: -150
+                            length: -150
                       rotation: 300
                       angle_range: 300 # Угол между началом и концом
                       range_from: 690 # Минимальное значение
@@ -257,7 +257,7 @@ lvgl:
                             id: temperatura_hand
                             width: 3
                             color: 0xFF0000 # red 0xE0E0E0 #white
-                            r_mod: 30
+                            length: 70
                       rotation: 180
                       angle_range: 180 # Угол между началом и концом
                       range_from: -10 # Минимальное значение

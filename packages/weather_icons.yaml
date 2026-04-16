@@ -126,3 +126,5 @@ lvgl:
             id: disp_weather_icons
             y: -160
             x: -75
+
+

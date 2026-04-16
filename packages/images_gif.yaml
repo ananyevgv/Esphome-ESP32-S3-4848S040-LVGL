@@ -1,7 +1,7 @@
 - file: 'picture/weather/gif/na.gif'
   type: RGB565
   id: blank_icons
-
+ # byte_order: little_endian
   transparency: alpha_channel
   
 - file: 'picture/weather/gif/clear_night.gif'
@@ -43,7 +43,7 @@
 - file: 'picture/weather/gif/snowy.gif'
   type: RGB565
   id: snowy_icons
-
+ # byte_order: little_endian
   transparency: alpha_channel
   
 - file: 'picture/weather/gif/snowy_rainy.gif'
@@ -91,5 +91,5 @@
 - file: 'picture/weather/gif/blank.gif'
   type: RGB565
   id: exceptional_icons
-
+ # byte_order: little_endian
   transparency: alpha_channel

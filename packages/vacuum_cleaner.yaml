@@ -123,12 +123,12 @@ interval:
               condition:
                 lambda: 'return id(vacuum_state).state == "уборка";'
               then:
-                - lvgl.image.update:
-                    id: vacuum_state_image
-                    y: 0
+          #      - lvgl.image.update:
+          #          id: vacuum_state_image
+           #         y: 0
                 - lvgl.image.update:
                     id: vacuum_brush_state_image
-                    angle: !lambda |-
+                    rotation: !lambda |-
                       static int vacuum = 0;
                       vacuum=vacuum+id(vacuum_speed);
                       return (vacuum);    
@@ -138,9 +138,9 @@ interval:
               then:
                 - lvgl.widget.show:
                     id: vacuum_docked
-                - lvgl.image.update:
-                    id: vacuum_state_image
-                    y: 0
+          #      - lvgl.image.update:
+          #          id: vacuum_state_image
+           #         y: 0
                 - lvgl.widget.hide:
                     id: vacuum_brush_state_image
               else:
@@ -170,8 +170,10 @@ interval:
                       return (vac);  
                 - lvgl.widget.hide:
                     id: vacuum_brush_state_image
-
-
+              else:
+                - lvgl.image.update:
+                    id: vacuum_state_image
+                    y: 0
 #-------------------------------------------
 # SENSOR
 #-------------------------------------------

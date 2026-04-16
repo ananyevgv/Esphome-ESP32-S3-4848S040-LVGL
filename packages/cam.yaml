@@ -1,0 +1,56 @@
+substitutions:
+
+
+http_request:
+
+#-------------------------------------------
+# ONLINE IMAGE
+#-------------------------------------------
+online_image:
+  - url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/PNG_transparency_demonstration_1.png/280px-PNG_transparency_demonstration_1.png"
+    format:          PNG
+    id:              img_vacuum_snap_on
+    type:            RGB565
+    on_download_finished:
+      - logger.log:  "Download vacuumimage finished"
+     # - component.update: my_display
+      - lvgl.image.update:
+          id: vvv
+          src: img_vacuum_snap_on
+      - lvgl.page.show: page_3
+      - light.turn_on: backlight
+    on_error:
+      - logger.log:  "Not download vacuumimage"
+button:  
+  - platform: template
+    name: image
+    on_press:
+      - component.update: img_vacuum_snap_on
+
+#-------------------------------------------
+# LVGL
+#-------------------------------------------
+lvgl:
+  pages:
+    #-------------------------------------------
+    # PAGE 3 - VACUUM
+    #-------------------------------------------      
+    - id: page_3
+      width: 100%
+      bg_color: 0x000000
+      bg_opa: cover
+      scrollbar_mode: "OFF"
+      widgets:
+        - image:
+            align: CENTER
+            src: img_vacuum_snap_on
+            id: vvv
+        - obj:
+            bg_opa: TRANSP
+            border_opa: TRANSP
+            width: 480
+            height: 480
+            align: CENTER
+            scrollbar_mode: "OFF"
+            scrollable: false     
+            
