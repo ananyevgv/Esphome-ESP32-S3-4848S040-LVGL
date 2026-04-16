@@ -19,7 +19,7 @@ spi:
 # PSRAM
 #-------------------------------------------
 psram:
-  mode: octal
+  mode:  octal
   speed: 80MHz
 
 #-------------------------------------------
@@ -287,6 +287,7 @@ display:
 # LVGL
 #-------------------------------------------    
 lvgl:
+  buffer_size: $buffer_lvgl
   displays:
     -  my_display
   touchscreens:

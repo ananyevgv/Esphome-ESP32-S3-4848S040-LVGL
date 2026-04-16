@@ -140,9 +140,6 @@ light:
 # Buttons
 #-------------------------------------------
 button:
-  - platform: restart
-    name: "restart"
-    id: restart_button
   - platform: template
     name: "Next page"
     on_press:
@@ -181,13 +178,34 @@ select:
     icon: mdi:phone-rotate-landscape
     on_value:
       then:
-        - lambda: |-
-            switch(i) {
-              case 0:  id(my_display).set_rotation(DISPLAY_ROTATION_0_DEGREES); break;
-              case 1:  id(my_display).set_rotation(DISPLAY_ROTATION_90_DEGREES); break;
-              case 2:  id(my_display).set_rotation(DISPLAY_ROTATION_180_DEGREES); break;
-              case 3:  id(my_display).set_rotation(DISPLAY_ROTATION_270_DEGREES); break;
-            }
+        - if:
+            condition:
+              select.is:
+                id: rotate
+                options: [0°]
+            then:
+              - lvgl.display.set_rotation: 0
+        - if:
+            condition:
+              select.is:
+                id: rotate
+                options: [90°]
+            then:
+              - lvgl.display.set_rotation: 90
+        - if:
+            condition:
+              select.is:
+                id: rotate
+                options: [180°]
+            then:
+              - lvgl.display.set_rotation: 180
+        - if:
+            condition:
+              select.is:
+                id: rotate
+                options: [270°]
+            then:
+              - lvgl.display.set_rotation: 270
         - lvgl.widget.redraw:
 
 #-------------------------------------------
@@ -197,7 +215,7 @@ touchscreen:
   platform: gt911
   transform:
     mirror_x: false
-    mirror_y: false
+    mirror_y: true
     swap_xy: false
   id: my_touchscreen
   display: my_display
@@ -218,7 +236,6 @@ display:
   - platform: mipi_rgb
     model: GUITION-4848S040
     id: my_display
-    rotation: 180°
    # spi_mode: MODE3
     update_interval: never
    # pclk_frequency: 12MHz
@@ -228,6 +245,7 @@ display:
 # LVGL
 #-------------------------------------------    
 lvgl:
+  buffer_size: $buffer_lvgl
   displays:
     -  my_display
   touchscreens:
