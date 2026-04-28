@@ -83,13 +83,76 @@ sensor:
     update_interval: never
     device_class: pressure
     disabled_by_default: true
+    
+  - platform: template # Pressure 4h
+    name: "${name} pressure old 4h"
+    id: pressure_4h
+    update_interval: never
+    device_class: pressure
+    disabled_by_default: true
+
+  - platform: template # Pressure 5h
+    name: "${name} pressure old 5h"
+    id: pressure_5h
+    update_interval: never
+    device_class: pressure
+    disabled_by_default: true
+
+  - platform: template # Pressure 6h
+    name: "${name} pressure old 6h"
+    id: pressure_6h
+    update_interval: never
+    device_class: pressure
+    disabled_by_default: true
+    
+  - platform: template # Pressure 7h
+    name: "${name} pressure old 7h"
+    id: pressure_7h
+    update_interval: never
+    device_class: pressure
+    disabled_by_default: true
+
+  - platform: template # Pressure 8h
+    name: "${name} pressure old 8h"
+    id: pressure_8h
+    update_interval: never
+    device_class: pressure
+    disabled_by_default: true
+
+  - platform: template # Pressure 9h
+    name: "${name} pressure old 9h"
+    id: pressure_9h
+    update_interval: never
+    device_class: pressure
+    disabled_by_default: true
+
+  - platform: template # Pressure 10h
+    name: "${name} pressure old 10h"
+    id: pressure_10h
+    update_interval: never
+    device_class: pressure
+    disabled_by_default: true
+    
+  - platform: template # Pressure 11h
+    name: "${name} pressure old 11h"
+    id: pressure_11h
+    update_interval: never
+    device_class: pressure
+    disabled_by_default: true
+    
+  - platform: template # Pressure 12h
+    name: "${name} pressure old 12h"
+    id: pressure_12h
+    update_interval: never
+    device_class: pressure
+    disabled_by_default: true
     on_value:
       - lvgl.indicator.update:
-          id: barometr_hand_3h
+          id: barometr_hand_12h
           value: !lambda |- 
             return x;
       - lvgl.indicator.update:
-          id: barometr_hand_3hz
+          id: barometr_hand_12hz
           value: !lambda |- 
             return x;
 
@@ -101,6 +164,15 @@ script:
     then:
       - delay: 4s
       - lambda: !lambda |-
+          id(pressure_12h).publish_state(id(barometr_pressure).state);
+          id(pressure_11h).publish_state(id(barometr_pressure).state);
+          id(pressure_10h).publish_state(id(barometr_pressure).state);  
+          id(pressure_9h).publish_state(id(barometr_pressure).state);
+          id(pressure_8h).publish_state(id(barometr_pressure).state);
+          id(pressure_7h).publish_state(id(barometr_pressure).state);
+          id(pressure_6h).publish_state(id(barometr_pressure).state);
+          id(pressure_5h).publish_state(id(barometr_pressure).state);
+          id(pressure_4h).publish_state(id(barometr_pressure).state);
           id(pressure_3h).publish_state(id(barometr_pressure).state);
           id(pressure_2h).publish_state(id(barometr_pressure).state);
           id(pressure_1h).publish_state(id(barometr_pressure).state);
@@ -108,6 +180,15 @@ script:
   - id: time_update_barometr
     then:
       lambda: !lambda |-
+        id(pressure_12h).publish_state(id(pressure_11h).state);
+        id(pressure_11h).publish_state(id(pressure_10h).state);
+        id(pressure_10h).publish_state(id(pressure_9h).state);
+        id(pressure_9h).publish_state(id(pressure_8h).state);
+        id(pressure_8h).publish_state(id(pressure_7h).state);
+        id(pressure_7h).publish_state(id(pressure_6h).state);
+        id(pressure_6h).publish_state(id(pressure_5h).state);
+        id(pressure_5h).publish_state(id(pressure_4h).state);
+        id(pressure_4h).publish_state(id(pressure_3h).state);
         id(pressure_3h).publish_state(id(pressure_2h).state);
         id(pressure_2h).publish_state(id(pressure_1h).state);
         id(pressure_1h).publish_state(id(barometr_pressure).state);
@@ -193,7 +274,7 @@ lvgl:
                   scales:
                     - indicators:
                         - line:
-                            id: barometr_hand_3h
+                            id: barometr_hand_12h
                             width: 3
                             color: 0xE0E0E0 #white
                             length: -15
@@ -206,7 +287,7 @@ lvgl:
                         
                     - indicators:
                         - line:
-                            id: barometr_hand_3hz
+                            id: barometr_hand_12hz
                             width: 7
                             color: 0xE0E0E0 #white
                             length: -150
