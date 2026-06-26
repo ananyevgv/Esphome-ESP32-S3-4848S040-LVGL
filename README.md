@@ -125,16 +125,15 @@ BME680, rotation display, weather page, graph page
 
 |                                               |                                                 |                                                   |                                                 | 
 |-----------------------------------------------|-------------------------------------------------|---------------------------------------------------|-------------------------------------------------|
-| ![1](./img/weather.jpg) | ![2](./img/weather_anime.jpg) |
-| ![1](./img/but4.jpg) | ![2](./img/but6.jpg) | ![3](./img/but12.jpg) | ![4](./img/but16.jpg) | 
-| ![1](./img/kith.jpg) | ![2](./img/holl.jpg) | ![3](./img/sl-4g.jpg) | ![4](./img/sl-4v.jpg) |
-| ![1](./img/shutter.jpg)| ![2](./img/shutter2.png) |![3](./img/shutter4.jpg) | ![4](./img/vacuum.jpg) | 
-| ![1](./img/bar.jpg) | ![2](./img/clock.jpg) | ![3](./img/clock_st.jpg) | ![4](./img/barometr_st.jpg) | 
-| ![1](./img/washing.jpg) | ![2](./img/dishwasher.jpg) | ![3](./img/boiler.jpg) | ![4](./img/termostat.jpg) |
-| ![1](./img/wind.jpg) | ![2](./img/geomag2.jpg) |  ![3](./img/uv2.jpg) | ![4](./img/thermometer.jpg) | 
-| ![1](./img/humm2.jpg) | ![2](./img/grass.jpg) | ![3](./img/ragweed.jpg) | ![4](./img/birch.jpg) | 
-| ![1](./img/lg.jpg) | ![2](./img/ups.jpg) |
-
+| <img src="./img/weather.jpg" width="200"> | <img src="./img/weather_anime.jpg" width="200"> |
+| <img src="./img/but4.jpg" width="200"> | <img src="./img/but6.jpg" width="200"> | <img src="./img/but12.jpg" width="200"> | <img src="./img/but16.jpg" width="200"> |
+| <img src="./img/kith.jpg" width="200"> | <img src="./img/holl.jpg" width="200"> | <img src="./img/sl-4g.jpg" width="200"> | <img src="./img/sl-4v.jpg" width="200"> |
+| <img src="./img/shutter.jpg" width="200"> | <img src="./img/shutter2.png" width="200"> | <img src="./img/shutter4.jpg" width="200"> | <img src="./img/vacuum.jpg" width="200"> |
+| <img src="./img/bar.jpg" width="200"> | <img src="./img/clock.jpg" width="200"> | <img src="./img/clock_st.jpg" width="200"> | <img src="./img/barometr_st.jpg" width="200"> |
+| <img src="./img/washing.jpg" width="200"> | <img src="./img/dishwasher.jpg" width="200"> | <img src="./img/boiler.jpg" width="200"> | <img src="./img/termostat.jpg" width="200"> |
+| <img src="./img/wind.jpg" width="200"> | <img src="./img/geomag2.jpg" width="200"> | <img src="./img/uv2.jpg" width="200"> | <img src="./img/thermometer.jpg" width="200"> |
+| <img src="./img/humm2.jpg" width="200"> | <img src="./img/grass.jpg" width="200"> | <img src="./img/ragweed.jpg" width="200"> | <img src="./img/birch.jpg" width="200"> |
+| <img src="./img/lg.jpg" width="200"> | <img src="./img/ups.jpg" width="200"> |
 
 
 https://aliexpress.ru/item/1005006335587633.html
