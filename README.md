@@ -133,7 +133,7 @@ BME680, rotation display, weather page, graph page
 | <img src="./img/washing.jpg" width="200"> | <img src="./img/dishwasher.jpg" width="200"> | <img src="./img/boiler.jpg" width="200"> | <img src="./img/termostat.jpg" width="200"> |
 | <img src="./img/wind.jpg" width="200"> | <img src="./img/geomag2.jpg" width="200"> | <img src="./img/uv2.jpg" width="200"> | <img src="./img/thermometer.jpg" width="200"> |
 | <img src="./img/humm2.jpg" width="200"> | <img src="./img/grass.jpg" width="200"> | <img src="./img/ragweed.jpg" width="200"> | <img src="./img/birch.jpg" width="200"> |
-| <img src="./img/lg.jpg" width="200"> | <img src="./img/ups.jpg" width="200"> |
+| <img src="./img/lg.jpg" width="200"> | <img src="./img/ups.jpg" width="200"> | <img src="./img/counter-e.jpg" width="200"> |
 
 
 https://aliexpress.ru/item/1005006335587633.html
