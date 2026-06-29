@@ -1,0 +1,672 @@
+# Для интеграции Pulse Counter Manager
+# Версия: 1.0
+# https://github.com/NagibinA/Pulse-Counter-Manager
+#-------------------------------------------
+# 
+# ПОДКЛЮЧЕНИЕ ПАКЕТА:
+# ------------------------------------------
+# packages:
+#   electricity_meter: !include packages/electricity_meter.yaml
+#
+#-------------------------------------------
+
+substitutions:
+  icons_impulse:    "\U000F0B3C"  # mdi:pulse
+  icons_cost:       "\U000F0B0B"  # mdi:currency-rub
+  
+  # Цвета как в стиральной машине
+  collor_off: 0xB6B6B6
+  collor_on2: 0x000000      # Черный для текста
+  collor_err: 0xff0000     # Красный для ошибки
+  collor_impulse: 0xff0000 # Красный для импульсов
+  collor_segment: 0x000000 # ЧЕРНЫЙ для сегментов
+
+  # Имена сенсоров (из вашей интеграции)
+  sensor_total: sensor.koridor_elektroenergiia_vsego
+  sensor_day: sensor.koridor_elektroenergiia_energiia_dnevnaia
+  sensor_night: sensor.koridor_elektroenergiia_energiia_nochnaia
+  sensor_impulse: sensor.koridor_elektroenergiia_polucheno_impulsov
+  sensor_cost: sensor.koridor_elektroenergiia_stoimost_elektrichestva_za_mesiats
+  sensor_total_month: sensor.koridor_elektroenergiia_energiia_vsego_za_mesiats
+  sensor_day_month: sensor.koridor_elektroenergiia_energiia_dnevnaia_za_mesiats
+  sensor_night_month: sensor.koridor_elektroenergiia_energiia_nochnaia_za_mesiats
+  
+#-------------------------------------------
+# GLOBALS (глобальные переменные)
+#-------------------------------------------
+globals:
+  - id: segment_index
+    type: int
+    restore_value: no
+    initial_value: '0'
+  
+  - id: current_delay_ms
+    type: int
+    restore_value: no
+    initial_value: '500'
+  
+  - id: time_counter
+    type: int
+    restore_value: no
+    initial_value: '0'
+  
+  - id: led_timer
+    type: int
+    restore_value: no
+    initial_value: '0'
+  
+  - id: led_state
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+  
+  - id: flash_duration
+    type: int
+    restore_value: no
+    initial_value: '500'
+
+#-------------------------------------------
+# FONT (шрифты для отображения)
+#-------------------------------------------
+font:
+  # Основной шрифт для цифр
+  - file: "font/DSEG7ModernMini-Bold.ttf"
+    id: SEG20_ENERGY
+    glyphs: ${number_characters}
+    size: 20
+    bpp: 4  
+  
+  # Шрифт для подписей T1T2, T1, T2 (другой шрифт)
+  - file: "gfonts://Roboto"
+    id: label_font
+    size: 20
+    bpp: 4
+    glyphs: ${characters}
+    
+  - file: "gfonts://Roboto"
+    id: electricity_font
+    size: 14
+    bpp: 4
+    glyphs: ${characters}
+    
+#-------------------------------------------
+# IMAGE (изображение счетчика)
+#-------------------------------------------
+image:
+  - file: "picture/electricity_meter.png"
+    id: image_electricity
+    resize: 450x450
+    type: RGB565
+    transparency: alpha_channel
+
+#-------------------------------------------
+# INTERVAL (фиксированный интервал 100 мс)
+#-------------------------------------------
+interval:
+  - interval: 100ms
+    then:
+      # Обновляем счетчик времени для сегментов
+      - globals.set:
+          id: time_counter
+          value: !lambda 'return id(time_counter) + 100;'
+      
+      # --- LED С ФИКСИРОВАННОЙ ДЛИТЕЛЬНОСТЬЮ ВСПЫШКИ 500 мс ---
+      - if:
+          condition:
+            lambda: 'return id(impulse_sensor).has_state() && id(impulse_sensor).state > 0;'
+          then:
+            - lambda: |-
+                int impulses = id(impulse_sensor).state;
+                if (impulses > 60) impulses = 60;
+                if (impulses < 1) impulses = 1;
+                
+                int period_ms = 60000 / impulses;
+                int flash_ms = 500;
+                if (period_ms < flash_ms) flash_ms = period_ms;
+                
+                id(led_timer) += 100;
+                
+                if (id(led_timer) >= period_ms) {
+                  id(led_timer) = 0;
+                  id(led_state) = true;
+                }
+                
+                if (id(led_state) && id(led_timer) >= flash_ms) {
+                  id(led_state) = false;
+                }
+            
+            - if:
+                condition:
+                  lambda: 'return id(led_state);'
+                then:
+                  - lvgl.widget.update:
+                      id: impulse_led
+                      bg_color: $collor_impulse
+                else:
+                  - lvgl.widget.update:
+                      id: impulse_led
+                      bg_color: $collor_off
+          else:
+            - lvgl.widget.update:
+                id: impulse_led
+                bg_color: $collor_off
+            - globals.set:
+                id: led_timer
+                value: '0'
+            - globals.set:
+                id: led_state
+                value: 'false'
+      
+      # --- ЛОГИКА СЕГМЕНТОВ ---
+      - if:
+          condition:
+            lambda: 'return id(impulse_sensor).has_state() && id(impulse_sensor).state > 0;'
+          then:
+            - if:
+                condition:
+                  lambda: 'return id(time_counter) >= id(current_delay_ms);'
+                then:
+                  - globals.set:
+                      id: time_counter
+                      value: '0'
+                  - if:
+                      condition:
+                        lambda: 'return id(segment_index) == 0;'
+                      then:
+                        - lvgl.arc.update:
+                            id: segment_1
+                            value: 33
+                        - lvgl.arc.update:
+                            id: segment_2
+                            value: 0
+                        - lvgl.arc.update:
+                            id: segment_3
+                            value: 0
+                        - globals.set:
+                            id: segment_index
+                            value: '1'
+                      else:
+                        - if:
+                            condition:
+                              lambda: 'return id(segment_index) == 1;'
+                            then:
+                              - lvgl.arc.update:
+                                  id: segment_1
+                                  value: 0
+                              - lvgl.arc.update:
+                                  id: segment_2
+                                  value: 33
+                              - lvgl.arc.update:
+                                  id: segment_3
+                                  value: 0
+                              - globals.set:
+                                  id: segment_index
+                                  value: '2'
+                            else:
+                              - if:
+                                  condition:
+                                    lambda: 'return id(segment_index) == 2;'
+                                  then:
+                                    - lvgl.arc.update:
+                                        id: segment_1
+                                        value: 0
+                                    - lvgl.arc.update:
+                                        id: segment_2
+                                        value: 0
+                                    - lvgl.arc.update:
+                                        id: segment_3
+                                        value: 33
+                                    - globals.set:
+                                        id: segment_index
+                                        value: '0'
+          else:
+            - lvgl.arc.update:
+                id: segment_1
+                value: 0
+            - lvgl.arc.update:
+                id: segment_2
+                value: 0
+            - lvgl.arc.update:
+                id: segment_3
+                value: 0
+            - globals.set:
+                id: time_counter
+                value: '0'
+
+#-------------------------------------------
+# SCRIPTS (скрипты для циклического переключения)
+#-------------------------------------------
+script:
+  - id: cycle_display
+    then:
+      - while:
+          condition:
+            lambda: 'return true;'
+          then:
+            # Показать T1T2
+            - lvgl.label.update:
+                id: d_energy_label_t1t2
+                hidden: false
+            - lvgl.label.update:
+                id: d_energy_label_t1
+                hidden: true
+            - lvgl.label.update:
+                id: d_energy_label_t2
+                hidden: true
+            - lvgl.label.update:
+                id: d_energy_value
+                text: !lambda |-
+                  if (id(total_sensor).has_state()) {
+                    char buffer[16];
+                    snprintf(buffer, sizeof(buffer), "%06.0f", id(total_sensor).state);
+                    return std::string(buffer);
+                  }
+                  return "000000";
+                text_color: $collor_on2
+            - delay: 2s
+            
+            # Показать T1
+            - lvgl.label.update:
+                id: d_energy_label_t1t2
+                hidden: true
+            - lvgl.label.update:
+                id: d_energy_label_t1
+                hidden: false
+            - lvgl.label.update:
+                id: d_energy_label_t2
+                hidden: true
+            - lvgl.label.update:
+                id: d_energy_value
+                text: !lambda |-
+                  if (id(day_sensor).has_state()) {
+                    char buffer[16];
+                    snprintf(buffer, sizeof(buffer), "%06.0f", id(day_sensor).state);
+                    return std::string(buffer);
+                  }
+                  return "000000";
+                text_color: $collor_on2
+            - delay: 2s
+            
+            # Показать T2
+            - lvgl.label.update:
+                id: d_energy_label_t1t2
+                hidden: true
+            - lvgl.label.update:
+                id: d_energy_label_t1
+                hidden: true
+            - lvgl.label.update:
+                id: d_energy_label_t2
+                hidden: false
+            - lvgl.label.update:
+                id: d_energy_value
+                text: !lambda |-
+                  if (id(night_sensor).has_state()) {
+                    char buffer[16];
+                    snprintf(buffer, sizeof(buffer), "%06.0f", id(night_sensor).state);
+                    return std::string(buffer);
+                  }
+                  return "000000";
+                text_color: $collor_on2
+            - delay: 2s
+
+#-------------------------------------------
+# SENSORS (подключение сенсоров)
+#-------------------------------------------
+sensor:
+  - platform: homeassistant
+    id: total_sensor
+    entity_id: ${sensor_total}
+    unit_of_measurement: "кВт·ч"
+    filters:
+      - filter_out: nan
+  
+  - platform: homeassistant
+    id: day_sensor
+    entity_id: ${sensor_day}
+    unit_of_measurement: "кВт·ч"
+    filters:
+      - filter_out: nan
+  
+  - platform: homeassistant
+    id: night_sensor
+    entity_id: ${sensor_night}
+    unit_of_measurement: "кВт·ч"
+    filters:
+      - filter_out: nan
+
+  # --- МЕСЯЧНЫЕ ПОКАЗАНИЯ ---
+  - platform: homeassistant
+    id: total_sensor_month
+    entity_id: ${sensor_total_month}
+    unit_of_measurement: "кВт·ч"
+    filters:
+      - filter_out: nan
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: d_energy_total_month
+            text: !lambda |-
+              char buffer[16];
+              snprintf(buffer, sizeof(buffer), "%.0f", x);
+              return std::string(buffer);
+            text_color: $collor_on2
+  
+  - platform: homeassistant
+    id: day_sensor_month
+    entity_id: ${sensor_day_month}
+    unit_of_measurement: "кВт·ч"
+    filters:
+      - filter_out: nan
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: d_energy_day_month
+            text: !lambda |-
+              char buffer[16];
+              snprintf(buffer, sizeof(buffer), "%.0f", x);
+              return std::string(buffer);
+            text_color: $collor_on2
+  
+  - platform: homeassistant
+    id: night_sensor_month
+    entity_id: ${sensor_night_month}
+    unit_of_measurement: "кВт·ч"
+    filters:
+      - filter_out: nan
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: d_energy_night_month
+            text: !lambda |-
+              char buffer[16];
+              snprintf(buffer, sizeof(buffer), "%.0f", x);
+              return std::string(buffer);
+            text_color: $collor_on2
+
+  # --- ИМПУЛЬСЫ И МОЩНОСТЬ ---
+  - platform: homeassistant
+    id: impulse_sensor
+    entity_id: ${sensor_impulse}
+    unit_of_measurement: "имп/мин"
+    filters:
+      - filter_out: nan
+    on_value:
+      then:
+        - globals.set:
+            id: current_delay_ms
+            value: !lambda |-
+              if (x > 0) {
+                int delay_ms = 60000 / x / 3;
+                if (delay_ms < 10) delay_ms = 10;
+                return delay_ms;
+              }
+              return 500;
+        
+        - lvgl.label.update:
+            id: d_impulse_value
+            text: !lambda |-
+              char buffer[32];
+              snprintf(buffer, sizeof(buffer), "%.0f имп/мин", x);
+              return std::string(buffer);
+            text_color: $collor_on2
+        
+        - lvgl.label.update:
+            id: d_power_value
+            text: !lambda |-
+              if (x > 0) {
+                float power = x * 60 / 1000.0;
+                char buffer[16];
+                snprintf(buffer, sizeof(buffer), "%.3f кВт", power);
+                return std::string(buffer);
+              }
+              return "0.000 кВт";
+            text_color: $collor_on2
+
+  # --- СТОИМОСТЬ ---
+  - platform: homeassistant
+    id: cost_sensor
+    entity_id: ${sensor_cost}
+    unit_of_measurement: "руб"
+    filters:
+      - filter_out: nan
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: d_cost_value
+            text: !lambda |-
+              char buffer[16];
+              snprintf(buffer, sizeof(buffer), "%.2f руб.", x);
+              return std::string(buffer);
+            text_color: $collor_on2
+
+#-------------------------------------------
+# LVGL (интерфейс)
+#-------------------------------------------
+lvgl:
+  pages:
+    - id: electricity_page
+      bg_color: 0x000000
+      scrollbar_mode: "OFF"
+      scrollable: false
+      widgets:
+        - image:
+            align: CENTER
+            y: 0
+            src: image_electricity
+        
+        # --- ОСНОВНОЙ КОНТЕЙНЕР С ПОКАЗАНИЯМИ ---
+        - obj:
+            bg_color: 0x000000
+            bg_opa: 0
+            border_width: 0
+            border_side: NONE
+            width: 134
+            height: 85
+            x: 90
+            y: 168
+            scrollable: false
+            widgets:
+              - arc:
+                  id: segment_1
+                  width: 20
+                  height: 20
+                  x: 8
+                  y: -10
+                  arc_width: 2
+                  min_value: 0
+                  max_value: 33
+                  start_angle: 0
+                  end_angle: 120
+                  rotation: 90
+                  value: 0
+                  arc_color: 0x888888
+                  arc_opa: 0
+                  indicator:
+                    arc_width: 2
+                    arc_color: $collor_segment
+              
+              - arc:
+                  id: segment_2
+                  width: 20
+                  height: 20
+                  x: 8
+                  y: -10
+                  arc_width: 2
+                  min_value: 0
+                  max_value: 33
+                  start_angle: 120
+                  end_angle: 240
+                  rotation: 90
+                  value: 0
+                  arc_color: 0x888888
+                  arc_opa: 0
+                  indicator:
+                    arc_width: 2
+                    arc_color: $collor_segment
+              
+              - arc:
+                  id: segment_3
+                  width: 20
+                  height: 20
+                  x: 8
+                  y: -10
+                  arc_width: 2
+                  min_value: 0
+                  max_value: 33
+                  start_angle: 240
+                  end_angle: 360
+                  rotation: 90
+                  value: 0
+                  arc_color: 0x888888
+                  arc_opa: 0
+                  indicator:
+                    arc_width: 2
+                    arc_color: $collor_segment
+              
+              # Значение (цифры)
+              - label:
+                  id: d_energy_value
+                  x: 8
+                  y: 13
+                  text: "000000"
+                  text_font: SEG20_ENERGY
+                  text_color: $collor_on2
+                  bg_opa: 0
+                  border_width: 0
+              
+              # Подпись T1T2
+              - label:
+                  id: d_energy_label_t1t2
+                  x: 8
+                  y: 38
+                  text: "T1T2"
+                  text_font: label_font
+                  text_color: $collor_on2
+                  bg_opa: 0
+                  border_width: 0
+                  hidden: false
+              
+              # Подпись T1
+              - label:
+                  id: d_energy_label_t1
+                  x: 8
+                  y: 38
+                  text: "T1"
+                  text_font: label_font
+                  text_color: $collor_on2
+                  bg_opa: 0
+                  border_width: 0
+                  hidden: true
+              
+              # Подпись T2
+              - label:
+                  id: d_energy_label_t2
+                  x: 31
+                  y: 38
+                  text: "T2"
+                  text_font: label_font
+                  text_color: $collor_on2
+                  bg_opa: 0
+                  border_width: 0
+                  hidden: true
+        
+        # --- LED ИНДИКАТОР ---
+        - obj:
+            id: impulse_led
+            bg_color: $collor_off
+            border_width: 0
+            border_side: NONE
+            width: 15
+            height: 15
+            x: 186
+            y: 276
+            radius: 8
+            scrollable: false
+            shadow_width: 0
+            pad_all: 0
+        
+        # --- ИМПУЛЬСЫ ---
+        - label:
+            id: d_impulse_value
+            x: 184
+            y: 305
+            text: "0 имп/мин"
+            text_font: electricity_font
+            text_color: $collor_on2
+            bg_opa: 0
+            border_width: 0
+        
+        # --- МГНОВЕННАЯ МОЩНОСТЬ ---
+        - label:
+            id: d_power_value
+            x: 270
+            y: 235
+            text: "0.000 кВт"
+            text_font: electricity_font
+            text_color: $collor_on2
+            bg_opa: 0
+            border_width: 0
+        
+        # --- СТОИМОСТЬ ---
+        - label:
+            id: d_cost_value
+            x: 100
+            y: 100
+            text: "0.00 руб."
+            text_font: label_font
+            text_color: $collor_on2
+            bg_opa: 0
+            border_width: 0
+
+        # --- МЕСЯЧНОЕ ПОТРЕБЛЕНИЕ (TOTAL) ---
+        - label:
+            id: d_energy_total_month
+            x: 245
+            y: 100
+            text: "0"
+            text_font: label_font
+            text_color: $collor_on2
+            bg_opa: 0
+            border_width: 0
+        
+        - label:
+            id: d_energy_month_label
+            x: 280
+            y: 100
+            text: "кВт/мес"
+            text_font: label_font
+            text_color: $collor_on2
+            bg_opa: 0
+            border_width: 0
+        
+        # --- МЕСЯЧНОЕ ПОТРЕБЛЕНИЕ T1 (скрыто по умолчанию) ---
+        - label:
+            id: d_energy_day_month
+            x: 200
+            y: 120
+            text: "0"
+            text_font: SEG20_ENERGY
+            text_color: $collor_on2
+            bg_opa: 0
+            border_width: 0
+            hidden: true
+        
+        # --- МЕСЯЧНОЕ ПОТРЕБЛЕНИЕ T2 (скрыто по умолчанию) ---
+        - label:
+            id: d_energy_night_month
+            x: 200
+            y: 140
+            text: "0"
+            text_font: SEG20_ENERGY
+            text_color: $collor_on2
+            bg_opa: 0
+            border_width: 0
+            hidden: true
+
+#-------------------------------------------
+# AUTOMATIONS
+#-------------------------------------------
+esphome:
+  on_boot:
+    then:
+      - script.execute: cycle_display
