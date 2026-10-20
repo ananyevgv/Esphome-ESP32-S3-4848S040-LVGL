@@ -169,10 +169,11 @@ sensor:
                 case 0 ... 50: return lv_color_hex(0x00FF00);
                 case 51 ... 75: return lv_color_hex(0xffff00);
                 case 76 ... 100: return lv_color_hex(0xff0000);
-              }  
+                default: return lv_color_hex(0x333333);
+              }
         - lvgl.bar.update:
             id: bar_output_percent
-            value: !lambda return x;   
+            value:  !lambda return x;   
             
   - platform: homeassistant
     entity_id: $ups_battery_voltage
@@ -185,11 +186,12 @@ sensor:
               format: " %.0f V"
               args: ["x"]   
             text_color: !lambda |-
-              uint8_t var_op = (id(battery_voltage).state);
-              switch (var_op) {
+              uint8_t var_bv = (id(battery_voltage).state);
+              switch (var_bv) {
                 case 0 ... 41: return lv_color_hex(0xFF0000);
                 case 42 ... 57: return lv_color_hex(0x00ff00);
                 case 58 ... 100: return lv_color_hex(0xff0000);
+                default: return lv_color_hex(0x333333);
               }  
   - platform: homeassistant
     entity_id: $ups_battery_percent

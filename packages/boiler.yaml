@@ -81,7 +81,8 @@
 #       #       #       #       #
 #################################
 image:
-  - file: "picture/baxi.jpg"
+  - platform: file
+    file: picture/baxi.jpg
     id: boiler_image
     resize: 480x480
     type: RGB565 

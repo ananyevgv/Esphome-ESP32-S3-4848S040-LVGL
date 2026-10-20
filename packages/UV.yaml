@@ -14,11 +14,12 @@
 # IMAGE
 #-------------------------------------------
 image:
-  - file: "picture/sun-UV.png"
+  - platform: file
+    file: picture/sun-UV.png
     id: sun_uv
     resize: 80x80
-    type: RGB565 
-    transparency: alpha_channel 
+    type: RGB565
+    transparency: alpha_channel
 #-------------------------------------------
 # SENSOR
 #-------------------------------------------    

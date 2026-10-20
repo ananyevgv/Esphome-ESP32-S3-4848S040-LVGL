@@ -21,10 +21,11 @@ font:
 # IMAGE
 #-------------------------------------------
 image:
-  - file: "picture/clok.jpg"
+  - platform: file
+    file: picture/clok.jpg
     id: clok_image
     resize: 450x450
-    type: RGB565 
+    type: RGB565
 
 #-------------------------------------------
 # GLOBAL 

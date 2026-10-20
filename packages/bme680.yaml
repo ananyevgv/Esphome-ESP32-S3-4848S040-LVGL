@@ -2,7 +2,7 @@
 # Add yaml and copy file esphome/packages/display/
 #packages:
 #  bme680_bsec: !include 
-#    file: packages/sdisplay/bme680.yaml
+#    file: packages/display/bme680.yaml
 #    vars:
 #      id_bme680_t: bme680_t
 #      id_bme680_h: bme680_h
@@ -14,10 +14,7 @@
 #      address_bme680: 0x76 # 0x77
 #      t_offset: 0
 #-------------------------------------------
-external_components:
-  - source: github://pr#10564
-    components: [esp32]
-    refresh: 1h
+
 
 #-------------------------------------------
 # SENSOR BME68x BSEC2

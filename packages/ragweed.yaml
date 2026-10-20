@@ -12,10 +12,11 @@
 # IMAGE
 #-------------------------------------------
 image:
-  - file: "picture/ragweed.png"
+  - platform: file
+    file: picture/ragweed.png
     id: ragweed_img
     resize: 60x60
-    type: RGB565 
+    type: RGB565
 #-------------------------------------------
 # SENSOR
 #-------------------------------------------    

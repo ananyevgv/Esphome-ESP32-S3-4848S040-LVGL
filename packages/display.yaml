@@ -169,17 +169,11 @@ globals:
 # SELECT
 #-------------------------------------------
 select:
-  - platform: template
+  - platform: lvgl
+    widget: display_rotate
     name: "Rotate Screen"
     id: rotate
     entity_category: config
-    options:
-     - "0°"      
-     - "90°"
-     - "180°"
-     - "270°"
-    initial_option: "0°"
-    optimistic: true
     icon: mdi:phone-rotate-landscape
     on_value:
       then:

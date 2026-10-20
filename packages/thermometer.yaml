@@ -14,17 +14,18 @@
 # IMAGE
 #-------------------------------------------
 image:
-  - file: "picture/thermometer.png"
+  - platform: file
+    file: picture/thermometer.png
     id: thermometer_image
     resize: 450x450
-    type: RGB565 
-    transparency: alpha_channel 
-    
-  - file: "picture/thermometer_center.png"
+    type: RGB565
+    transparency: alpha_channel
+  - platform: file
+    file: picture/thermometer_center.png
     id: thermometer_centr_image
     resize: 100x100
-    type: RGB565 
-    transparency: alpha_channel 
+    type: RGB565
+    transparency: alpha_channel
     
 #-------------------------------------------
 # SENSOR
@@ -41,7 +42,7 @@ sensor:
             id: display_temp
             text: 
               format: "%2.0f °C"
-              args: ["int(id(ha_weather_temp).state)"]  
+              args: ["(id(ha_weather_temp).state)"]  
             text_color: !lambda |-
               int8_t out_var = (id(ha_weather_temp).state);
               switch (out_var) {

@@ -14,10 +14,12 @@
 # IMAGE
 #-------------------------------------------
 image:
-  - file: "picture/humm_Logo3.jpg"
+  - platform: file
+    file: picture/humm_Logo3.jpg
     id: humm_out_image
     resize: 60x60
-    type: RGB565 
+    type: RGB565
+
 #-------------------------------------------
 # SENSOR
 #-------------------------------------------    

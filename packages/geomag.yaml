@@ -13,10 +13,11 @@
 # IMAGE
 #-------------------------------------------
 image:
-  - file: "picture/magnet.png"
+  - platform: file
+    file: picture/magnet.png
     id: magnit
     resize: 65x65
-    type: RGB565 
+    type: RGB565
     transparency: alpha_channel
 #-------------------------------------------
 # SENSOR

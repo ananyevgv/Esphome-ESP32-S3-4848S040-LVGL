@@ -79,10 +79,11 @@ substitutions:
 # IMAGE
 #-------------------------------------------
 image:
-  - file: "picture/siemens1.jpg"
+  - platform: file
+    file: picture/siemens1.jpg
     id: image_dishwasher
     resize: 480x480
-    type: RGB565 
+    type: RGB565
     
 #-------------------------------------------
 # FONT

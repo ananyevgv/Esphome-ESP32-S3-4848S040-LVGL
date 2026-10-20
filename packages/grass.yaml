@@ -11,10 +11,11 @@
 # IMAGE
 #-------------------------------------------
 image:
-  - file: "picture/grass.jpg"
+  - platform: file
+    file: picture/grass.jpg
     id: grass_img
     resize: 60x60
-    type: RGB565 
+    type: RGB565
 #-------------------------------------------
 # SENSOR
 #-------------------------------------------    

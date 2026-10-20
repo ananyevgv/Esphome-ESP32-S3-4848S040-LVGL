@@ -1,0 +1,156 @@
+#############################################################################
+#----Страничка с пыльцой березы----------------------------------------------
+#############################################################################
+# Add yaml and copy file esphome/packages/
+#packages:
+#  gaz: !include
+#    file: packages/gaz-counter.yaml
+#    vars:
+#      sensor_pokazaniia: sensor.schetchik_gaza_sgbd_4_0_0003133_pokazaniia
+#      sensor_temperatura: sensor.schetchik_gaza_sgbd_4_0_0003133_temperatura
+#      sensor_batareia: sensor.schetchik_gaza_sgbd_4_0_0003133_batareia
+#      sensor_signal: sensor.schetchik_gaza_sgbd_4_0_0003133_signal
+#      sensor_data_poverki: sensor.schetchik_ne_vybirat_rl_g_iampol_ukraina_g25_g4_g6_no2144944_meter
+
+font:
+  - file: 'font/materialdesignicons-webfont.ttf' # http://materialdesignicons.com/cdn/7.4.47/ 
+    id: icons_gaz_18
+    size: 18
+    bpp: 4
+    glyphs: [
+      "\U000F12A3", #icon: mdi:battery-high
+      "\U000F046B" #icon: mdi:rss
+    ]  
+
+#-------------------------------------------
+# IMAGE
+#-------------------------------------------
+image:
+  - file: "picture/sgb-40.png"
+    id: gaz_img
+    resize: 450x450
+    type: RGB565 
+#-------------------------------------------
+# SENSOR
+#-------------------------------------------    
+sensor:
+  - platform: homeassistant
+    id: pokazaniia
+    entity_id: $sensor_pokazaniia
+    filters:
+      - filter_out: nan
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: pokazaniia_text
+            text: 
+              format: " %.0f"
+              args: ["id(pokazaniia).state"]
+  - platform: homeassistant
+    id: batareia
+    entity_id: $sensor_batareia
+    filters:
+      - filter_out: nan
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: batareia_text
+            text: 
+              format: " %.0f %%"
+              args: ["id(batareia).state"]
+
+  - platform: homeassistant
+    id: signal_dBm
+    entity_id: $sensor_signal
+    filters:
+      - filter_out: nan
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: signal_text
+            text: 
+              format: " %.0f dBm"
+              args: ["id(signal_dBm).state"]
+              
+  - platform: homeassistant
+    id: data_poverki
+    entity_id: $sensor_data_poverki
+    attribute: Дата очередной поверки
+    filters:
+      - filter_out: nan
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: data_poverki_text
+            text: 
+              format: " %.0f dBm"
+              args: ["id(data_poverki).state"]          
+              
+################################################################
+         
+ 
+#-------------------------------------------
+# LVGL
+#-------------------------------------------
+lvgl:
+  pages:
+# Вывод на экран 
+    - id: gaz_page
+      #width: 100%
+      bg_color: 0x000000
+      #opa: cover
+      scrollbar_mode: "OFF"
+      scrollable: false
+      widgets:
+        - image:
+            align: CENTER
+            src: gaz_img
+            bg_color: 0xFFFFFF
+            bg_image_opa: 100% 
+        - label:
+            id: pokazaniia_text
+            text: "0000"
+            text_color: color_violet
+            text_font: SEG36
+            align: CENTER
+            y: 15
+
+        - label:
+            id: batareia_text
+            text: "100 %"
+            text_color: color_violet
+            text_font: montserrat_18
+            align: TOP_MID
+            y: 150
+            x: -65
+        - label:
+            text: "\U000F12A3"
+            text_color: color_violet
+            text_font: icons_gaz_18
+            align: TOP_MID
+            y: 150
+            x: -105
+            
+        - label:
+            id: signal_text
+            text: "100 dBm"
+            text_color: color_violet
+            text_font: montserrat_18
+            align: TOP_MID
+            y: 150
+            x: 75
+        - label:
+            text: "\U000F046B"
+            text_color: color_violet
+            text_font: icons_gaz_18
+            align: TOP_MID
+            y: 150
+            x: 35
+            
+        - label:
+            id: data_poverki_text
+            text: "24.06.2026"
+            text_color: color_violet
+            text_font: montserrat_18
+            align: CENTER
+            y: 5

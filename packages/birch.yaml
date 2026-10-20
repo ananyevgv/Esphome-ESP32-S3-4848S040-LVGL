@@ -13,10 +13,11 @@
 # IMAGE
 #-------------------------------------------
 image:
-  - file: "picture/birch.jpg"
+  - platform: file
+    file: picture/birch.jpg
     id: birch_img
     resize: 60x60
-    type: RGB565 
+    type: RGB565
 #-------------------------------------------
 # SENSOR
 #-------------------------------------------    

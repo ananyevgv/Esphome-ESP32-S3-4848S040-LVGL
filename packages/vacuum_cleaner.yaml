@@ -89,13 +89,15 @@ font:
 # IMAGE
 #-------------------------------------------   
 image:
-  - file: "picture/vacuum.png"
+  - platform: file
+    file: picture/vacuum.png
     id: vacuum_image
     type: rgb565
     resize: 160x160
     transparency: alpha_channel
     
-  - file: "picture/vacuum_brush.png"
+  - platform: file
+    file: picture/vacuum_brush.png
     id: vacuum_brush_image
     type: rgb565
     resize: 50x50

@@ -19,21 +19,11 @@ esphome:
 # SELECT
 #-------------------------------------------
 select:
-  - platform: template
+  - platform: lvgl
+    widget: display_timeout_roller
     name: "Screen timeout"
     id: timeout
     entity_category: config
-    options:
-     - "30c"    
-     - "45c"   
-     - "60c"
-     - "90c"
-     - "120c"
-     - "180c"
-     - "300c"
-     - "600c"
-    initial_option: "30c"
-    optimistic: true
     icon: mdi:archive-clock-outline
     on_value:
       then:
@@ -48,19 +38,7 @@ select:
               case 6: id(lv_timeout) = (300000); break;
               case 7: id(lv_timeout) = (600000); break;
             }
-        - lvgl.roller.update:
-            id: display_timeout_roller
-            selected_index: !lambda |-  
-              return i;
-              
-  - id: !extend  rotate
-    on_value:
-      then:
-        - lvgl.roller.update:
-            id: display_rotate
-            selected_index: !lambda |-  
-              return i;
-              
+            
 #-------------------------------------------
 # LVGL
 #-------------------------------------------
@@ -165,12 +143,14 @@ lvgl:
                   - "300c"
                   - "600c"
                 visible_row_count: 2
-                on_value:
-                  then:
-                    - select.set_index:
-                        id: timeout
-                        index: !lambda |-  
-                          return x;
+                #selected_index: !lambda return id(timeout);
+               # on_value:
+                #  then:
+                 #   - select.set_index:
+                 #       id: timeout
+                  #      index: !lambda |-  
+                   #       return (size_t) x;
+                 #         return x;
 
 ########################################################################################                              
                               
@@ -204,17 +184,12 @@ lvgl:
                   text_color: color_amber
                       #selected_index: !lambda return id(display_timeout_global);
                 options:
-                  - "0"      
-                  - "90"
-                  - "180"
-                  - "270"
+                  - "0°"      
+                  - "90°"
+                  - "180°"
+                  - "270°"
                 visible_row_count: 2
-                on_value:
-                  then:
-                    - select.set_index:
-                        id: rotate
-                        index: !lambda |-  
-                          return x;
+ 
 
 ########################################################################################    
   

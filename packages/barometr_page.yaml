@@ -16,7 +16,8 @@ api:
 # IMAGE
 #-------------------------------------------
 image:
-  - file: "picture/barometr.jpg"
+  - platform: file
+    file: picture/barometr.jpg
     id: barometr_image
     resize: 480x480
     type: RGB565
