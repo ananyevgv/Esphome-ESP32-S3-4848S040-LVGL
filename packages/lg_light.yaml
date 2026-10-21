@@ -95,6 +95,14 @@ script:
           call.set_send_times(2);
           call.perform();
  
+button:
+  - platform: template
+    id: Dummy_LG
+    on_press:
+      - remote_transmitter.transmit_lg:
+          data: 0x12345678
+          nbits: 28
+          
 lvgl:
   pages:
 # Вывод на экран пульта TV LG
